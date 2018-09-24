@@ -1,0 +1,36 @@
+= EKS - Setup Kubernetes cluster
+:toc:
+:icons:
+:linkattrs:
+:imagesdir: ../../resources/images
+
+
+This section walks you through the creation of a Kubernetes development environment. We will use the CLI built as an open source tool under the collaboration of Amazon and Weaveworks. eksctl is written in Go and uses CloudFormation.
+
+== Create EKS Cluster
+=== Install eksctl
+
+To download and install the latest release, run the following
+
+    $ curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    $ sudo mv /tmp/eksctl /usr/local/bin
+
+macOS users can use Homebrew to install the samples
+
+    $ brew install weaveworks/tap/eksctl
+
+https://eksctl.io/ has latest and updated information about eksctl.
+
+Note : Ensure that AWS credentials are configured in your environment using ~/.aws/credentials file or environment variables.
+
+=== Create the cluster
+
+EKS cluster can be created with a single command in minutes.
+
+    $ eksctl create cluster
+
+image::./eksctl-create-cluster.png[]
+
+In the above example[on macOS], an EKS cluster is created in us-west-2 with 2 nodes. IAM role that is used to allow the master control plane connect to EKS is created and then the base Amazon VPC architecture before creating the master control plane. Once the control plane is active, a node group is created and the ConfigMap is deployed to allow nodes to join the cluster. link:https://kubernetes.io/docs/reference/kubectl/overview[kubectl] can be used to run any commands against the cluster created above and kubeconfig file is already configured to enable the same.
+
+image::./kubectl-get-nodes.png[]
