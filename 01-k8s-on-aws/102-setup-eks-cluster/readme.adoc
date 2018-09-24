@@ -28,9 +28,26 @@ Note : Ensure that AWS credentials are configured in your environment using ~/.a
 EKS cluster can be created with a single command in minutes.
 
     $ eksctl create cluster
-
-image::./eksctl-create-cluster.png[]
+    2018-09-24T18:13:43-04:00 [ℹ]  setting availability zones to [us-west-2b us-west-2a us-west-2c]
+    2018-09-24T18:13:43-04:00 [ℹ]  using "ami-08cab282f9979fc7a" for nodes
+    2018-09-24T18:13:43-04:00 [ℹ]  creating EKS cluster "floral-badger-1537827223" in "us-west-2" region
+    2018-09-24T18:13:43-04:00 [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial nodegroup
+    2018-09-24T18:13:43-04:00 [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --name=floral-badger-1537827223'
+    2018-09-24T18:13:43-04:00 [ℹ]  creating cluster stack "eksctl-floral-badger-1537827223-cluster"
+    2018-09-24T18:24:36-04:00 [ℹ]  creating nodegroup stack "eksctl-floral-badger-1537827223-nodegroup-0"
+    2018-09-24T18:28:11-04:00 [✔]  all EKS cluster resource for "floral-badger-1537827223" had been created
+    2018-09-24T18:28:11-04:00 [✔]  saved kubeconfig as "/Users/eks-user/.kube/config"
+    2018-09-24T18:28:16-04:00 [ℹ]  the cluster has 0 nodes
+    2018-09-24T18:28:16-04:00 [ℹ]  waiting for at least 2 nodes to become ready
+    2018-09-24T18:28:46-04:00 [ℹ]  the cluster has 2 nodes
+    2018-09-24T18:28:46-04:00 [ℹ]  node "ip-192-168-112-104.us-west-2.compute.internal" is ready
+    2018-09-24T18:28:46-04:00 [ℹ]  node "ip-192-168-161-97.us-west-2.compute.internal" is ready
+    2018-09-24T18:28:48-04:00 [ℹ]  kubectl command should work with "/Users/eks-user/.kube/config", try 'kubectl get nodes'
+    2018-09-24T18:28:48-04:00 [✔]  EKS cluster "floral-badger-1537827223" in "us-west-2" region is ready
 
 In the above example[on macOS], an EKS cluster is created in us-west-2 with 2 nodes. IAM role that is used to allow the master control plane connect to EKS is created and then the base Amazon VPC architecture before creating the master control plane. Once the control plane is active, a node group is created and the ConfigMap is deployed to allow nodes to join the cluster. link:https://kubernetes.io/docs/reference/kubectl/overview[kubectl] can be used to run any commands against the cluster created above and kubeconfig file is already configured to enable the same.
 
-image::./kubectl-get-nodes.png[]
+    $ kubectl get nodes
+    NAME                                            STATUS    ROLES     AGE       VERSION
+    ip-192-168-112-104.us-west-2.compute.internal   Ready     <none>    51m       v1.10.3
+    ip-192-168-161-97.us-west-2.compute.internal    Ready     <none>    51m       v1.10.3
