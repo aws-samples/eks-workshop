@@ -1,0 +1,64 @@
+baseURL = "https://eksworkshop.com/"
+languageCode = "en-us"
+defaultContentLanguage = "en"
+title = "Amazon EKS Workshop"
+theme = "learn"
+uglyurls = false
+googleAnalytics = "UA-44634850-4"
+sectionPagesMenu = "main"
+pygmentsCodeFences = false
+pygmentsCodeFencesGuessSyntax = false
+pygmentsStyle = "monokai"
+
+
+[blackfriday]
+hrefTargetBlank = true
+
+[params]
+themeVariant = "mine"
+showVisitedLinks = false
+author = "Brent Langston"
+description = "Amazon EKS Workshop"
+disableSearch = false
+disableAssetsBusting = false
+disableLanguageSwitchingButton = true
+disableShortcutsTitle=true
+disableInlineCopyToClipBoard = true
+
+#
+
+[menu]
+  [[menu.main]]
+    identifier = "Prerequisites"
+    name = "This is the Mu track"
+    title = "Workshop using Mu"
+    url = "/mu/"
+    weight = -110
+
+[[menu.shortcuts]]
+name = "<i class='fab fa-twitter fa-lg'></i> @brentContained"
+identifier = "ol"
+url = "https://twitter.com/intent/user?screen_name=brentContained"
+weight = 1
+
+[[menu.shortcuts]]
+name = "<i class='fab fa-twitter fa-lg'></i> @omarlari"
+identifier = "bl"
+url = "https://twitter.com/intent/user?screen_name=omarlari"
+weight = 2
+
+[[menu.shortcuts]]
+name = "<i class='fab fa-twitter fa-lg'></i> @MandusMomberg"
+identifier = "mm"
+url = "https://twitter.com/intent/user?screen_name=MandusMomberg"
+weight = 3
+
+[[menu.shortcuts]]
+name = "<i class='fab fa-twitter fa-lg'></i> @christopherhein"
+identifier = "ch"
+url = "https://twitter.com/intent/user?screen_name=christopherhein"
+weight = 4
+
+[outputs]
+home = [ "HTML", "JSON"]
+page = [ "HTML" ]
