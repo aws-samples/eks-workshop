@@ -24,8 +24,11 @@ From wherever you checkout repos:
 #### Clone the theme submodule:
 `cd eksworkshop`
 
-`git submodule init`
+`git submodule init` ;
 `git submodule update`
+
+#### Install Node.js and npm:
+You can follow instructions from npm website: https://www.npmjs.com/get-npm
 
 #### Install node packages:
 `npm install`

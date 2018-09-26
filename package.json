@@ -15,7 +15,7 @@
 		"drafts": "hugo server -w -v -DF --disableFastRender --enableGitInfo --bind=0.0.0.0",
 		"server": "hugo server -w -v --enableGitInfo --bind=0.0.0.0",
 		"build": "hugo -v",
-                "test": "docker run -v $PWD/public/:/public 18fgsa/html-proofer /public --empty-alt-ignore --allow-hash-href",
+		"test": "docker run -v $PWD/public/:/public 18fgsa/html-proofer /public --empty-alt-ignore --allow-hash-href",
 		"deploy": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete",
 		"deploycontent": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete --cache-control \"max-age=3600, public\" --exclude \"*\" --include \"*.html\" --include \"*.xml\"",
 		"deployothers": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete --cache-control \"max-age=86400, public\" --exclude \"*.html\" --exclude \"*.xml\""
