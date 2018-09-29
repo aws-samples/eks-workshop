@@ -2,7 +2,7 @@
 title: "Using Tigera Secure Cloud Edition"
 chapter: true
 weight: 61
-draft: true
+draft: false
 ---
 
 # Securing your cluster with [Tigera Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce)
