@@ -38,6 +38,7 @@ between the frontend and the nodejs services is now being allowed, but the traff
 from the frontend to the crystal microservice is still being blocked.  Let's fix that.
 
 ```
+cat <<EoF > ~/environment/ecsdemo-crystal-policy.yaml
 apiVersion: projectcalico.org/v3
 kind: NetworkPolicy
 metadata:
@@ -54,7 +55,11 @@ spec:
     destination:
       ports:
       - 3000
+EoF
 ```
 
-Use the same file create and kubectl apply steps that we used above to apply this
-new policy, and now you will see that all the frontend to backend traffic is now being allowed, again.
+Use kubectl to apply the new policy, and now you will see that all the frontend
+to backend traffic is now being allowed again.
+```
+$ kubectl apply -f ~/environment/ecsdemo-crystal-policy.yaml
+```
