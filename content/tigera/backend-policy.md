@@ -3,9 +3,11 @@ title: "Policy Enabling the Backends"
 weight: 210
 ---
 
-Now, let's create a policy that allows the _ecsdemo-frontend_ microservice to communicate with the _ecsdemo-nodejs_ microservice. That policy will look something like this:
+Now, let's create a policy that allows the _ecsdemo-frontend_ microservice to
+communicate with the _ecsdemo-nodejs_ microservice: 
 
 ```
+cat <<EoF > ~/environment/ecsdemo-nodejs-policy.yaml
 apiVersion: projectcalico.org/v3
 kind: NetworkPolicy
 metadata:
@@ -22,12 +24,13 @@ spec:
     destination:
       ports:
       - 3000
+EoF
 ```
 
-Let's create that policy in a file, called _ecsdemo-nodejs-policy.yaml_ and then load it into Kubernetes using kubectl.
+We can load it into Kubernetes using kubectl:
 
 ```
-$ kubectl apply -f ecsdemo-nodejs-policy.yaml
+$ kubectl apply -f ~/environment/ecsdemo-nodejs-policy.yaml
 ```
 
 Once you've done that, again, look at the flow logs and you will see that traffic between the frontend and the nodejs services is now being allowed, but the traffic from the frontend to the crystal microservice is still being blocked.  Let's fix that.

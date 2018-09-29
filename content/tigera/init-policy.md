@@ -8,16 +8,18 @@ Now that we've seen that all the traffic is being allowed in the cluster, let's 
 The YAML fragment that defines such a policy can be seen below
 
 ```
+cat <<EoF > ~/environment/default-deny.yaml
 kind: NetworkPolicy
 apiVersion: projectcalico.org/v3
 metadata:
   name: default-deny
 spec:
   selector:
+EoF
 ```
 
 Now create a file called _default-deny.yaml_ with the above contents and install it in your cluster using kubectl.
 
 ```
-$ kubectl apply -f default-deny.yaml
+$ kubectl apply -f ~/environment/default-deny.yaml
 ```

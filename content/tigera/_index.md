@@ -7,4 +7,5 @@ draft: false
 
 # Securing your cluster with [Tigera Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce)
 
-In this module, we will use Tigera's [Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce) to secure the communications within your cluster.
+In this module, we will use Tigera's [Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce)
+to secure the communications within your cluster.
