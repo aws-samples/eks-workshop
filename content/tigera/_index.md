@@ -1,7 +1,7 @@
 +++
 title = "Using Tigera Secure Cloud Edition"
 chapter = true
-weight = 60
+weight = 70
 +++
 
 # Securing your cluster with [Tigera Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce)
