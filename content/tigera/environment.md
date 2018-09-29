@@ -2,23 +2,18 @@
 title: "Preparing the environment"
 weight: 20
 ---
-{{% notice tip %}}
-There are some prerequisites that are necessary for Tigera Secure Cloud Edition to function.
+#### There are some prerequisites that are necessary for Tigera Secure Cloud Edition to function.
 Your workshop Kubernetes cluster already meets the following specifications:
 
 * Exists in a single VPC.
 * Has the Kubernetes AWS cloud provider enabled.
 * Networking provider is Amazon VPC Networking
 
-{{% /notice %}}
-{{% notice tip %}}
-Your Cloud9 workspace already meets the software requirements as well:
+#### Your Cloud9 workspace already meets the software requirements as well:
 
 * kubectl: configured to access the cluster.
 * AWS Command Line Interface (CLI): The following commands are known to work well with AWS CLI 1.15.40
 * jq
-
-{{% /notice %}}
 
 Now let's set some environment variables to use in our commands: If you used
 _eksctl_ to install your cluster, then the following commands should set up
