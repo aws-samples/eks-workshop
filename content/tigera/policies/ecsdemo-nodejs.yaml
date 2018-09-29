@@ -1,0 +1,16 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: ecsdemo-nodejs
+spec:
+  selector: app == 'ecsdemo-nodejs'
+  types:
+  - Ingress
+  ingress:
+  - action: Allow
+    protocol: TCP
+    source:
+      selector: app == 'ecsdemo-frontend'
+    destination:
+      ports:
+      - 3000
