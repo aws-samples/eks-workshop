@@ -1,0 +1,16 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: ecsdemo-crystal
+spec:
+  selector: app == 'ecsdemo-crystal'
+  types:
+  - Ingress
+  ingress:
+  - action: Allow
+    protocol: TCP
+    source:
+      selector: app == 'ecsdemo-frontend'
+    destination:
+      ports:
+      - 3000
