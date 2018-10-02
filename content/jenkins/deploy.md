@@ -10,7 +10,7 @@ do this we'll just use the `helm` cli with a couple flags.
 
 {{% notice info %}}
 In a production system you should be using a `values.yaml` file so that you can
-manage the drift as you need to updates releases
+manage the drift as you need to update releases
 {{% /notice %}}
 
 #### Install Jenkins
@@ -23,14 +23,14 @@ The output of this command will give you some additional information such as the
 `admin` password and the way to get the host name of the ELB that was
 provisioned.
 
-Let's give this sometime to come provision and while we do let's watch for pods
+Let's give this some time to provision and while we do let's watch for pods
 to boot.
 
 ```
 kubectl get pods -w
 ```
 
-You should see either the pods in `init`, `pending` or `running` state.
+You should see the pods in `init`, `pending` or `running` state.
 
 Once this changes to `running` we can get the `load balancer` address.
 
