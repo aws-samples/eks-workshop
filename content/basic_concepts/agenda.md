@@ -2,7 +2,7 @@
 title: "Agenda"
 date: 2018-10-03T10:14:02-07:00
 draft: true
-weight: 160
+weight: 10
 ---
 
 * Kubernetes Basics
