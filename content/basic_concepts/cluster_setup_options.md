@@ -1,5 +1,5 @@
 ---
-title: "Self-managed Cluster Setup"
+title: "Kubernetes Cluster Setup"
 date: 2018-10-03T10:21:11-07:00
 draft: true
 weight: 120

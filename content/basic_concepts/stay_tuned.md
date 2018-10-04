@@ -6,3 +6,5 @@ weight: 130
 ---
 
 Stay tuned to find out for yourself as we continue the journey with EKS in the next module!
+
+Always ask questions!  Feel free to ask them in person during this workshop, or any time on the official Kubernetes Slack channel accessible via http://slack.k8s.io/.
