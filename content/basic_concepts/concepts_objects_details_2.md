@@ -1,10 +1,9 @@
 ---
-title: "Kubernetes Objects Detail (1/2)"
+title: "K8s Objects Detail (2/2)"
 date: 2018-10-03T10:15:55-07:00
 draft: true
 weight: 70
 ---
-
 
 ### ReplicaSet
 * Ensures a defined number of pods are always running

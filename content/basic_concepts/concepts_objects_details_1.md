@@ -1,5 +1,5 @@
 ---
-title: "Kubernetes Objects Detail (1/2)"
+title: "K8s Objects Detail (1/2)"
 date: 2018-10-03T10:15:55-07:00
 draft: true
 weight: 60
