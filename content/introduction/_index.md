@@ -1,11 +1,24 @@
 ---
 title: "Introduction"
-chapter: true
 weight: 5
+chapter: true
+draft: true
 ---
 
-# Welcome!
+# Introduction to Kubernetes
 
-![EKS](/images/eks-product-page.png)
+A walkthrough of basic Kubernetes concepts.
 
-This workshop is designed to educate engineers that might not be familiar with Amazon EKS, Kubernetes, and possibly even Docker container workflow.
+![Title Image](/images/introduction/eks-product-page.png)
+
+Welcome to the Amazon EKS Workshop!
+
+The intent of this workshop is to educate users about the features of Amazon EKS.
+
+Background in EKS, Kubernetes, Docker, and container workflows are not required, but they are recommended.
+
+This chapter will introduce you to the basic workings of Kubernetes, laying the foundation for the hands-on portion of the workshop.
+
+Specifically, we will walk you through the following topics:
+
+{{% children showhidden="false" %}}

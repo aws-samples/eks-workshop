@@ -5,7 +5,7 @@ draft: true
 weight: 110
 ---
 
-<img src=/images/basic_concepts/architecture_worker_compact.png width=250>
+<img src=/images/introduction/architecture_worker_compact.png width=250>
 
 * Made up of worker nodes
 

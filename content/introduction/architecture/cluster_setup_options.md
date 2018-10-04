@@ -14,4 +14,4 @@ In addition to the managed AWS EKS solution, there are many tools available to h
 
 Alongside these open source solutions, there are also many commercial options available -- but out of all of them, which one makes it the easiest to deploy, manage, and scale containerized applications using Kubernetes on AWS?
 
-<img src=/images/basic_concepts/Deck_QuestionMark.png width=175>
+<img src=/images/introduction/Deck_QuestionMark.png width=175>

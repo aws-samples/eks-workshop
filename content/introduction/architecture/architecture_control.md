@@ -5,7 +5,7 @@ draft: true
 weight: 100
 ---
 
-<img src=/images/basic_concepts/architecture_control.png width=350>
+<img src=/images/introduction/architecture_control.png width=350>
 
 * One or More API Servers: Entry point for REST / kubectl
 

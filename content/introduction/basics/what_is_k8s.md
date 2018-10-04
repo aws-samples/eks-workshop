@@ -5,4 +5,4 @@ draft: true
 weight: 30
 ---
 
-![K8s summary image](/images/basic_concepts/what_is_k8s_new.png)
+![K8s summary image](/images/introduction/what_is_k8s_new.png)
