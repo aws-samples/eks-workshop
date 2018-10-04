@@ -24,6 +24,7 @@ disableAssetsBusting = false
 disableLanguageSwitchingButton = true
 disableShortcutsTitle=true
 disableInlineCopyToClipBoard = true
+ghrepo = "https://github.com/aws-samples/eks-workshop/"
 
 #
 
