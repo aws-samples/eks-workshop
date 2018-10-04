@@ -1,5 +1,5 @@
 ---
-title: "K8s Objects"
+title: "K8s Objects Overview"
 date: 2018-10-03T10:15:55-07:00
 draft: true
 weight: 50
