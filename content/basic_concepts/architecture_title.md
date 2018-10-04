@@ -7,7 +7,7 @@ weight: 80
 
 In this section, we'll cover the following topics:
 
-* Kubernetes Architectural Overview
-* Control Plane Detail
-* Data Plane Detail
-* Tools for setting up a self-managed k8s cluster
+* [Architectural Overview](../architecture_control_and_data_overview)
+* [Control Plane Detail](../architecture_control)
+* [Data Plane Detail](../architecture_worker)
+* [Kubernetes Cluster Setup](../cluster_setup_options)
