@@ -1,0 +1,8 @@
+---
+title: "Amazon EKS!"
+date: 2018-10-03T10:23:24-07:00
+draft: true
+weight: 130
+---
+
+Stay tuned to find out for yourself as we continue the journey with EKS in the next module!

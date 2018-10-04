@@ -10,3 +10,4 @@ In this section, we'll cover the following topics:
 * Kubernetes Architectural Overview
 * Control Plane Detail
 * Data Plane Detail
+* Tools for setting up a self-managed k8s cluster
