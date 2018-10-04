@@ -7,6 +7,5 @@ weight: 20
 
 In this section, we'll cover the following topics:
 
-* [What is Kubernetes?](../what_is_k8s)
-* [Kubernetes Nodes](../concepts_nodes)
-* [Kubernetes Objects](../concepts_objects)
+{{% children showhidden="false" %}}
+
