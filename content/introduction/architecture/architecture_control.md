@@ -5,7 +5,7 @@ draft: true
 weight: 100
 ---
 
-<img src=/images/introduction/architecture_control.png width=350>
+![k8s control plane](/images/introduction/architecture_control.png)
 
 * One or More API Servers: Entry point for REST / kubectl
 
