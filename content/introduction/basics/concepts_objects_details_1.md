@@ -5,12 +5,12 @@ draft: true
 weight: 60
 ---
 
-### Pod
+### [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/)
 * A thin wrapper around a container
 
-### DaemonSet
+### [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
 
 * Implements a single instance of a pod on a worker node
 
-### Deployment
+### [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 * Details how to roll out (or roll back) across versions of your application

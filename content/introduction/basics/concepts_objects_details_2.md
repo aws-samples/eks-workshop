@@ -5,14 +5,14 @@ draft: true
 weight: 70
 ---
 
-### ReplicaSet
+### [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
 * Ensures a defined number of pods are always running
 
-### Job
+### [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/)
 * Ensures a pod properly runs to completion
 
-### Service
+### [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 * Maps a fixed IP address to a logical group of pods
 
-### Label
+### [Label](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
 * Key/Value pairs used for association and filtering
