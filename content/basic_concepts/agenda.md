@@ -7,6 +7,6 @@ weight: 10
 
 This Basic Concepts chapter will introduce you to the following topics:
 
-* Kubernetes Basics
-* Kubernetes Architecture
-* Kubernetes Cluster Setup
+* [Kubernetes Basics](../basic_title)
+* [Kubernetes Architecture](../architecture_title)
+* [Kubernetes Cluster Setup](../cluster_setup_options)
