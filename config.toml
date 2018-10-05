@@ -9,6 +9,7 @@ sectionPagesMenu = "main"
 pygmentsCodeFences = false
 pygmentsCodeFencesGuessSyntax = false
 pygmentsStyle = "monokai"
+relativeURLs = true
 
 
 [blackfriday]
