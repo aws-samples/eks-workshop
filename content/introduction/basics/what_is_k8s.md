@@ -6,3 +6,9 @@ weight: 30
 ---
 
 ![K8s summary image](/images/introduction/what_is_k8s_new.png)
+
+* Builds on over a decade of experience and best practices
+* Utilizes declarative configuration and automation
+* Draws upon a large ecosystem of tools, services, support
+
+More information on what Kubernetes is all about can be found on the [official Kubernetes website](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/). 
