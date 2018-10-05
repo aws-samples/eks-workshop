@@ -1,7 +1,7 @@
 ---
 title: "Data Plane Detail"
 date: 2018-10-03T10:18:27-07:00
-draft: true
+draft: false
 weight: 110
 ---
 

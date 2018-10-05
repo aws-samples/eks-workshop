@@ -2,7 +2,7 @@
 title: "Introduction"
 weight: 5
 chapter: true
-draft: true
+draft: false
 ---
 
 # Introduction to Kubernetes
