@@ -1,4 +1,3 @@
-baseURL = "https://eksworkshop.com/"
 languageCode = "en-us"
 defaultContentLanguage = "en"
 title = "Amazon EKS Workshop"
