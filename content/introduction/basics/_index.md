@@ -1,12 +1,11 @@
 ---
 title: "Kubernetes (k8s) Basics"
 date: 2018-10-03T10:14:32-07:00
-draft: true
+draft: false
 weight: 20
 ---
 
 In this section, we'll cover the following topics:
 
-* [What is Kubernetes?](../what_is_k8s)
-* [Kubernetes Nodes](../concepts_nodes)
-* [Kubernetes Objects](../concepts_objects)
+{{% children showhidden="false" %}}
+
