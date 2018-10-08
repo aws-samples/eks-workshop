@@ -20,31 +20,13 @@ internet((internet))
         end
       end
     end
-    subgraph worker2
-      kubelet2(kubelet)
-      kube-proxy2(kube-proxy)
-      subgraph docker2
-        subgraph podC
-          containerC[container]
-        end
-        subgraph podD
-          containerD[container]
-        end
-      end
-    end
 
   internet-->kube-proxy1
-  internet-->kube-proxy2
   api-->kubelet1
-  api-->kubelet2
   kubelet1-->containerA
   kubelet1-->containerB
-  kubelet2-->containerC
-  kubelet2-->containerD
   kube-proxy1-->containerA
   kube-proxy1-->containerB
-  kube-proxy2-->containerC
-  kube-proxy2-->containerD
 
   classDef green fill:#9f6,stroke:#333,stroke-width:4px;
   classDef orange fill:#f96,stroke:#333,stroke-width:4px;
