@@ -32,19 +32,25 @@ disableInlineCopyToClipBoard = true
     weight = -110
 
 [[menu.shortcuts]]
-name = "<i class='fab fa-github'></i> Github Project"
-url = "https://github.com/aws-samples/eks-workshop"
+name = "<i class='fas fa-bookmark'></i> More Resources"
+url = "/more_resources"
 weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-bookmark'></i> More Resources"
-url = "/more_resources"
+name = "<i class='fas fa-users'></i> Authors"
+url = "/authors"
 weight = 20
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-bullhorn'></i> Authors"
-url = "/authors"
+name = "<i class='fab fa-github'></i> Github Project"
+url = "https://github.com/aws-samples/eks-workshop"
 weight = 30
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-envelope'></i> Have questions?"
+url = "mailto:eksworkshop@amazon.com"
+weight = 40
+
 
 [outputs]
 home = [ "HTML", "JSON"]
