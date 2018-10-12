@@ -5,11 +5,7 @@ theme = "learn"
 uglyurls = false
 googleAnalytics = "UA-44634850-4"
 sectionPagesMenu = "main"
-pygmentsCodeFences = false
-pygmentsCodeFencesGuessSyntax = false
-pygmentsStyle = "monokai"
 relativeURLs = true
-
 
 [blackfriday]
 hrefTargetBlank = true
@@ -22,7 +18,7 @@ description = "Amazon EKS Workshop"
 disableSearch = false
 disableAssetsBusting = false
 disableLanguageSwitchingButton = true
-disableShortcutsTitle=true
+disableShortcutsTitle=false
 disableInlineCopyToClipBoard = true
 
 #
@@ -36,28 +32,19 @@ disableInlineCopyToClipBoard = true
     weight = -110
 
 [[menu.shortcuts]]
-name = "<i class='fab fa-twitter fa-lg'></i> @brentContained"
-identifier = "ol"
-url = "https://twitter.com/intent/user?screen_name=brentContained"
-weight = 1
+name = "<i class='fab fa-github'></i> Github Project"
+url = "https://github.com/aws-samples/eks-workshop"
+weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fab fa-twitter fa-lg'></i> @omarlari"
-identifier = "bl"
-url = "https://twitter.com/intent/user?screen_name=omarlari"
-weight = 2
+name = "<i class='fas fa-bookmark'></i> More Resources"
+url = "/more_resources"
+weight = 20
 
 [[menu.shortcuts]]
-name = "<i class='fab fa-twitter fa-lg'></i> @MandusMomberg"
-identifier = "mm"
-url = "https://twitter.com/intent/user?screen_name=MandusMomberg"
-weight = 3
-
-[[menu.shortcuts]]
-name = "<i class='fab fa-twitter fa-lg'></i> @christopherhein"
-identifier = "ch"
-url = "https://twitter.com/intent/user?screen_name=christopherhein"
-weight = 4
+name = "<i class='fas fa-bullhorn'></i> Authors"
+url = "/authors"
+weight = 30
 
 [outputs]
 home = [ "HTML", "JSON"]
