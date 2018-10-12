@@ -24,6 +24,8 @@ disableAssetsBusting = false
 disableLanguageSwitchingButton = true
 disableShortcutsTitle=true
 disableInlineCopyToClipBoard = true
+template_bucket = "eksworkshop.com"
+branch = "master"
 
 #
 
