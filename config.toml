@@ -15,7 +15,7 @@ pygmentsStyle = "monokai"
 hrefTargetBlank = true
 
 [params]
-editURL = "https://github.com/aws-samples/eks-workshop/edit/master/exampleSite/content/"
+editURL = "https://github.com/aws-samples/eks-workshop/edit/master/content/"
 themeVariant = "mine"
 showVisitedLinks = false
 author = "Brent Langston"
