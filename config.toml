@@ -15,6 +15,7 @@ relativeURLs = true
 hrefTargetBlank = true
 
 [params]
+editURL = "https://github.com/aws-samples/eks-workshop/edit/master/content/"
 themeVariant = "mine"
 showVisitedLinks = false
 author = "Brent Langston"
@@ -24,6 +25,7 @@ disableAssetsBusting = false
 disableLanguageSwitchingButton = true
 disableShortcutsTitle=true
 disableInlineCopyToClipBoard = true
+ghrepo = "https://github.com/aws-samples/eks-workshop/"
 
 #
 
