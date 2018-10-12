@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^5.3.1",
 		"hugo-cli": "0.7.0",
-		"hugo-lunr": "0.0.4"
+		"hugo-lunr": "0.0.4",
+		"mermaid": "^8.0.0-rc.8"
 	}
 }
