@@ -1,0 +1,5 @@
+codebuild-deploy.sh      @brentley @aws-samples/k8s-content-admins
+config.toml              @brentley @aws-samples/k8s-content-admins
+package-lock.json        @brentley @aws-samples/k8s-content-admins
+package.json             @brentley @aws-samples/k8s-content-admins
+
