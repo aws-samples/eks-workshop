@@ -23,6 +23,7 @@ disableShortcutsTitle=false
 disableInlineCopyToClipBoard = true
 ghrepo = "https://github.com/aws-samples/eks-workshop/"
 branch = "master"
+template_bucket = "eksworkshop.com"
 
 #
 
