@@ -1,5 +1,5 @@
 ---
-title: "Example of using CF Templates"
+title: "Example of using CloudFormation Templates"
 ---
 
 
