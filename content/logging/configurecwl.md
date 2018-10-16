@@ -54,5 +54,5 @@ Select `@timestamp` from the dropdown list and select `Create index pattern`
 
 Click on `Dashboard` and explore your logs
 
-![Kibana Dashboard](/images/kibana_dashboard.png)
+![Kibana Dashboard](/images/logging_kibana_dashboard.png)
 
