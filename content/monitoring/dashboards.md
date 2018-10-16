@@ -13,10 +13,11 @@ You will notice that 'Install Grafana' & 'create your first data source' are alr
 
 Click '+' button on left panel and select 'Import'
 
-Enter **3131** dashboard id under Grafana.com Dashboard & click 'Load'
+Enter **3131** dashboard id under Grafana.com Dashboard & click 'Load'.
 
 Leave the defaults, select 'Prometheus' as the endpoint, click 'Import'
 
+This will show monitoring dashboard for all cluster nodes
 
 ![grafana-all-nodes](/images/grafana-all-nodes.png)
 
