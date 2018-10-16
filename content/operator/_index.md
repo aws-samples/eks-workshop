@@ -2,7 +2,6 @@
 title: "Deploy the AWS Service Operator"
 chapter: true
 weight: 66
-draft: true
 ---
 
 # Deploy the AWS Service Operator

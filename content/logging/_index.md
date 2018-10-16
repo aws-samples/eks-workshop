@@ -2,7 +2,6 @@
 title: "Logging with ElasticSearch, Fluentd, and Kibana (EFK)"
 chapter: true
 weight: 64
-draft: true
 ---
 
 # Implement Logging with EFK 
