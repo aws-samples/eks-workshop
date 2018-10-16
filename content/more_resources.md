@@ -1,6 +1,6 @@
 ---
 title: "More Resources"
-weight: 99
+disableToc: true
 ---
 
 Discover more AWS resources for building and running your application on AWS:
