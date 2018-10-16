@@ -2,6 +2,7 @@
 
 set -vex
 [ -n "${PRIMARY_BUCKET}" ] || exit 1
+[ -n "${TEMPLATE_BUCKET}" ] || exit 1
 [ -n "${CODEBUILD_GIT_CLEAN_BRANCH}" ] || exit 1
 [ -n "${CLOUDFRONT}" ] || exit 1
 
