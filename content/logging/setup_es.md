@@ -2,7 +2,6 @@
 title: "Provision an ElasticSearch Cluster"
 date: 2018-08-07T08:30:11-07:00
 weight: 20
-draft: true
 ---
 
 This example creates a two instance Amazon Elasticsearch cluster named kubernetes-logs. This cluster is created in the same region as the Kubernetes cluster and CloudWatch log group. 

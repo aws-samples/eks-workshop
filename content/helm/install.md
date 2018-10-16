@@ -2,7 +2,6 @@
 title: "Install Helm CLI"
 date: 2018-08-07T08:30:11-07:00
 weight: 5
-draft: true
 ---
 
 Before we can get started configuring `helm` we'll need to first install the

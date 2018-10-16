@@ -2,7 +2,6 @@
 title: "Configure CloudWatch Logs and Kibana"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
-draft: true
 ---
 ### Configure CloudWatch Logs Subscription
 
