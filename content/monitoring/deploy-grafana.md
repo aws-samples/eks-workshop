@@ -2,7 +2,7 @@
 title: "Deploy Grafana"
 date: 2018-10-14T20:54:13-04:00
 weight: 15
-draft: true
+draft: false
 ---
 
 #### Download Grafana

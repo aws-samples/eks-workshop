@@ -2,7 +2,7 @@
 title: "Dashboards"
 date: 2018-10-14T21:03:43-04:00
 weight: 20
-draft: true
+draft: false
 ---
 
 #### Create Dashboards

@@ -2,7 +2,7 @@
 title: "Deploy Prometheus"
 date: 2018-10-14T20:33:02-04:00
 weight: 10
-draft: true
+draft: false
 ---
 
 #### Download Prometheus

@@ -3,7 +3,7 @@ title: "Monitoring using Prometheus and Grafana"
 date: 2018-10-14T09:27:46-04:00
 weight: 66
 chapter: true
-draft: true
+draft: false
 ---
 
 # Monitoring using Prometheus and Grafana
