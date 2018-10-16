@@ -14,4 +14,4 @@ In this Chapter, we will deploy a common Kubernetes logging pattern which consis
 
 3. `Kibana` lets you visualize your Elasticsearch data.
 
-Together, Fluentd, Elasticsearch and Kibana is also known as “EFK stack”. Fluentd will forward logs from the individual instances in the cluster to a centralized logging backend (Cloudwatch Logs) where they are combined for higher-level reporting using ElasticSearch and Kibana.
+Together, Fluentd, Elasticsearch and Kibana is also known as “EFK stack”. Fluentd will forward logs from the individual instances in the cluster to a centralized logging backend (CloudWatch Logs) where they are combined for higher-level reporting using ElasticSearch and Kibana.
