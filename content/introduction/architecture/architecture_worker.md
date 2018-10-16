@@ -5,7 +5,36 @@ draft: false
 weight: 110
 ---
 
-![k8s control plane](/images/introduction/architecture_worker_compact.png)
+{{<mermaid>}}
+graph TB
+internet((internet))
+    subgraph worker1
+      kubelet1(kubelet)
+      kube-proxy1(kube-proxy)
+      subgraph docker1
+        subgraph podA
+          containerA[container]
+        end
+        subgraph podB
+          containerB[container]
+        end
+      end
+    end
+
+  internet-->kube-proxy1
+  api-->kubelet1
+  kubelet1-->containerA
+  kubelet1-->containerB
+  kube-proxy1-->containerA
+  kube-proxy1-->containerB
+
+  classDef green fill:#9f6,stroke:#333,stroke-width:4px;
+  classDef orange fill:#f96,stroke:#333,stroke-width:4px;
+  classDef blue fill:#6495ed,stroke:#333,stroke-width:4px;
+  class api blue;
+  class internet green;
+  class kubectl orange;
+{{< /mermaid >}}
 
 * Made up of worker nodes
 

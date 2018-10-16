@@ -5,7 +5,29 @@ draft: false
 weight: 100
 ---
 
-![k8s control plane](/images/introduction/architecture_control.png)
+{{<mermaid>}}
+graph TB
+kubectl{kubectl}
+  subgraph ControlPlane
+    api(API Server)
+    controller(Controller Manager)
+    scheduler(Scheduler)
+    etcd(etcd)
+  end
+
+  kubectl-->api
+  controller-->api
+  scheduler-->api
+  api-->kubelet
+  api-->etcd
+
+  classDef green fill:#9f6,stroke:#333,stroke-width:4px;
+  classDef orange fill:#f96,stroke:#333,stroke-width:4px;
+  classDef blue fill:#6495ed,stroke:#333,stroke-width:4px;
+  class api blue;
+  class internet green;
+  class kubectl orange;
+{{< /mermaid >}}
 
 * One or More API Servers: Entry point for REST / kubectl
 
