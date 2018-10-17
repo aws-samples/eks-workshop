@@ -95,7 +95,7 @@ aws iam get-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Work
 ### Deploy the Cluster Autoscaler
 
 ```
-kubectl apply -f ~/environment/cluster-autoscaler/cluster-autoscaler.yml
+kubectl apply -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 ```
 
 Watch the logs
