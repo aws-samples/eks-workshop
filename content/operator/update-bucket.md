@@ -2,7 +2,6 @@
 title: "Update Assets To Use Backend"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
-draft: true
 ---
 
 Now we will deploy the dynamic assets with the URL from the Service Endpoint.

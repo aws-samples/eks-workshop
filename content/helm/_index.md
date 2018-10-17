@@ -2,7 +2,6 @@
 title: "Deploying Helm"
 chapter: true
 weight: 63
-draft: true
 ---
 
 # Deploy Helm
