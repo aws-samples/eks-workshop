@@ -3,167 +3,6 @@ title: "Configure Cluster Autoscaler (CA)"
 date: 2018-08-07T08:30:11-07:00
 weight: 30
 ---
-
-### Configure the Cluster Autoscaler
-Copy the following text and paste into your Cloud9 Terminal
-
-```
-mkdir ~/environment/cluster-autoscaler
-cat <<EoF> ~/environment/cluster-autoscaler/ca_example.yaml
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    k8s-addon: cluster-autoscaler.addons.k8s.io
-    k8s-app: cluster-autoscaler
-  name: cluster-autoscaler
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRole
-metadata:
-  name: cluster-autoscaler
-  labels:
-    k8s-addon: cluster-autoscaler.addons.k8s.io
-    k8s-app: cluster-autoscaler
-rules:
-- apiGroups: [""]
-  resources: ["events","endpoints"]
-  verbs: ["create", "patch"]
-- apiGroups: [""]
-  resources: ["pods/eviction"]
-  verbs: ["create"]
-- apiGroups: [""]
-  resources: ["pods/status"]
-  verbs: ["update"]
-- apiGroups: [""]
-  resources: ["endpoints"]
-  resourceNames: ["cluster-autoscaler"]
-  verbs: ["get","update"]
-- apiGroups: [""]
-  resources: ["nodes"]
-  verbs: ["watch","list","get","update"]
-- apiGroups: [""]
-  resources: ["pods","services","replicationcontrollers","persistentvolumeclaims","persistentvolumes"]
-  verbs: ["watch","list","get"]
-- apiGroups: ["extensions"]
-  resources: ["replicasets","daemonsets"]
-  verbs: ["watch","list","get"]
-- apiGroups: ["policy"]
-  resources: ["poddisruptionbudgets"]
-  verbs: ["watch","list"]
-- apiGroups: ["apps"]
-  resources: ["statefulsets"]
-  verbs: ["watch","list","get"]
-- apiGroups: ["storage.k8s.io"]
-  resources: ["storageclasses"]
-  verbs: ["watch","list","get"]
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: Role
-metadata:
-  name: cluster-autoscaler
-  namespace: kube-system
-  labels:
-    k8s-addon: cluster-autoscaler.addons.k8s.io
-    k8s-app: cluster-autoscaler
-rules:
-- apiGroups: [""]
-  resources: ["configmaps"]
-  verbs: ["create"]
-- apiGroups: [""]
-  resources: ["configmaps"]
-  resourceNames: ["cluster-autoscaler-status"]
-  verbs: ["delete","get","update"]
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: cluster-autoscaler
-  labels:
-    k8s-addon: cluster-autoscaler.addons.k8s.io
-    k8s-app: cluster-autoscaler
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-autoscaler
-subjects:
-  - kind: ServiceAccount
-    name: cluster-autoscaler
-    namespace: kube-system
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: RoleBinding
-metadata:
-  name: cluster-autoscaler
-  namespace: kube-system
-  labels:
-    k8s-addon: cluster-autoscaler.addons.k8s.io
-    k8s-app: cluster-autoscaler
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: cluster-autoscaler
-subjects:
-  - kind: ServiceAccount
-    name: cluster-autoscaler
-    namespace: kube-system
-
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: cluster-autoscaler
-  namespace: kube-system
-  labels:
-    app: cluster-autoscaler
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: cluster-autoscaler
-  template:
-    metadata:
-      labels:
-        app: cluster-autoscaler
-    spec:
-      serviceAccountName: cluster-autoscaler
-      containers:
-        - image: k8s.gcr.io/cluster-autoscaler:v1.2.2
-          name: cluster-autoscaler
-          resources:
-            limits:
-              cpu: 100m
-              memory: 300Mi
-            requests:
-              cpu: 100m
-              memory: 300Mi
-          command:
-            - ./cluster-autoscaler
-            - --v=4
-            - --stderrthreshold=info
-            - --cloud-provider=aws
-            - --skip-nodes-with-local-storage=false
-            - --nodes=2:8:<AUTOSCALING GROUP NAME>
-          env:
-            - name: AWS_REGION
-              value: us-west-2
-          volumeMounts:
-            - name: ssl-certs
-              mountPath: /etc/ssl/certs/ca-certificates.crt
-              readOnly: true
-          imagePullPolicy: "Always"
-      volumes:
-        - name: ssl-certs
-          hostPath:
-            path: "/etc/ssl/certs/ca-bundle.crt"
----
-EoF
-```
 Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It enables users to choose from four different options of deployment:
 
 * **One Auto Scaling group** - This is what we will use
@@ -171,9 +10,19 @@ Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It ena
 * Auto-Discovery
 * Master Node setup
 
-### Configure the ASG
+### Configure the Cluster Autoscaler (CA)
+We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal. 
 
-Collect the name of the Auto Scaling Group (ASG) containing your worker nodes. You can find it in the console by following this [link](https://us-west-2.console.aws.amazon.com/ec2/autoscaling/home?region=us-west-2#AutoScalingGroups:view=details;filter=eksctl)
+```
+mkdir ~/environment/cluster-autoscaler
+cd ~/environment/cluster-autoscaler
+wget https://eksworkshop.com/onug/scaling/deploy_ca.files/cluster_autoscaler.yml
+```
+
+### Configure the ASG
+We will need to provide the name of the Autoscaling Group that we want CA to manipulate. Collect the name of the Auto Scaling Group (ASG) containing your worker nodes. Record the name somewhere. We will us this later in the manifest file.
+
+You can find it in the console by following this [link](https://us-west-2.console.aws.amazon.com/ec2/autoscaling/home?region=us-west-2#AutoScalingGroups:view=details;filter=eksctl).
 
 ![ASG](/images/scaling-asg.png)
 
@@ -246,7 +95,7 @@ aws iam get-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Work
 ### Deploy the Cluster Autoscaler
 
 ```
-kubectl apply -f ~/environment/cluster-autoscaler/ca_example.yaml
+kubectl apply -f ~/environment/cluster-autoscaler/cluster-autoscaler.yml
 ```
 
 Watch the logs
@@ -256,6 +105,7 @@ kubectl logs -f deployment/cluster-autoscaler -n kube-system
 
 #### We are now ready to scale our cluster
 
+{{%attachments title="Related files" pattern=".yml"/%}}
 
 
 
