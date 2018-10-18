@@ -50,7 +50,7 @@ kubectl apply -f ~/environment/dynamic-hydrate.yaml
 ```
 
 Now let's reload the S3 Bucket webite, if you lost it you can find it via the
-`.outputs` on the `s3bucket` resource.
+*.outputs* on the *s3bucket* resource.
 
 ```
 kubectl get s3 -o jsonpath="{.items[0].output.websiteURL} " # the space is intentional

@@ -6,7 +6,7 @@ draft: true
 ---
 
 To deploy the AWS Service Operator you'll first need to configure the nodes
-instance policy. Being pre-release this requires `AdministratorAccess`. This
+instance policy. Being pre-release this requires *AdministratorAccess*. This
 will be changed overtime to reflect it's true needs.
 
 ```

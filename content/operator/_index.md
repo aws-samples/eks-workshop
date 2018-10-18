@@ -12,6 +12,6 @@ provision AWS resources such as S3 buckets, DynamoDB tables, SNS Topics, SQS
 Queues and ECR Repositories directly from the Kubernetes CLI `kubectl`.
 
 {{% notice info %}}
-Pre-release preview of a project being built to help make using Kubernetes and
+This is an early stage open source project being built to help make using Kubernetes and
 AWS together easier to manage and keep in sync.
 {{% /notice %}}

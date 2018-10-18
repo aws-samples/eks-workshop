@@ -12,7 +12,7 @@ export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 
 ```
 
-Copy and paste this manifest so that we can `kubectl apply` it.
+Copy and paste this manifest so that we can *kubectl apply* it.
 
 ```
 cat <<EoF > ~/environment/aws-operator.yaml

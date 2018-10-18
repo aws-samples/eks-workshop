@@ -8,7 +8,7 @@ draft: true
 With the AWS Service Operator running we can make a manifest for our S3
 bucket and hydrate some assets.
 
-Copy and paste this manifest so that we can `kubectl apply` it.
+Copy and paste this manifest so that we can *kubectl apply* it.
 
 ```
 ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
@@ -54,16 +54,16 @@ spec:
 EoF
 ```
 
-This pair of resources creates an `S3Bucket` in the top setting `versioning:
-false` `PublicRead` on the `accessControl` and enabling the static website with
+This pair of resources creates an *S3Bucket* in the top setting *versioning:
+false* *PublicRead* on the *accessControl* and enabling the static website with
 some setting.  The bottom is a Kubernetes job that uses a demo image, this image
-has 1 static `html` page in it and the `aws` cli to upload the file to the
-`s3://$(S3_BUCKET)` which comes from a `configMapKeyRef`.
+has 1 static *html* page in it and the *aws* cli to upload the file to the
+*s3://$(S3_BUCKET)* which comes from a *configMapKeyRef*.
 
 
 {{% notice info %}}
-We didn't set the `ConfigMap` values, these values come from a `ConfigMap` that
-is generated when the `S3Bucket` is create from the above manifest.
+We didn't set the *ConfigMap* values, these values come from a *ConfigMap* that
+is generated when the *S3Bucket* is create from the above manifest.
 {{% /notice %}}
 
 Then we can and apply the config:

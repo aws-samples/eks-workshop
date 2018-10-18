@@ -5,10 +5,10 @@ weight: 30
 draft: true
 ---
 
-For the backend app we're going to deploy a `Go` webserver that connects into a
+For the backend app we're going to deploy a *Go* webserver that connects into a
 DynamoDB table for persistance. We will create a new manifst file and apply it.
 
-Copy and paste this manifest so that we can `kubectl apply` it.
+Copy and paste this manifest so that we can *kubectl apply* it.
 
 ```
 cat <<EoF > ~/environment/dynamo-app.yaml
@@ -82,18 +82,18 @@ We can kubectl apply this manifest:
 kubectl apply -f ~/environment/dynamo-app.yaml
 ```
 
-While this starts to deploy let's open up a `watch` on the pod to see it waiting
+While this starts to deploy let's open up a *watch* on the pod to see it waiting
 patiently for the table to come online and for the AWS Service Operator to
-create the `ConfigMap`.
+create the *ConfigMap*.
 
 ```
 kubectl get pods -w
 ```
 
-Look for `CreateContainerConfigError`. Which after 30 seconds should update to a
-`Running` status after the Table is created and the `ConfigMap` is written.
+Look for *CreateContainerConfigError*. Which after 30 seconds should update to a
+*Running* status after the Table is created and the *ConfigMap* is written.
 
-To see what this deployed we can get the **EXTERNAL-IP** from the `service.`
+To see what this deployed we can get the **EXTERNAL-IP** from the *service.*
 
 ```
 export ELB_ENDPOINT=http://$(kubectl get svc frontend --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
