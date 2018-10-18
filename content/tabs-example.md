@@ -1,5 +1,5 @@
 ---
-title: CRI installation
+title: tabs example
 ---
 
 {{< tabs name="tab_with_code" >}}
