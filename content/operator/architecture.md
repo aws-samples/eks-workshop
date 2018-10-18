@@ -2,7 +2,6 @@
 title: "What We'll Be Making"
 date: 2018-08-07T08:30:11-07:00
 weight: 1
-draft: true
 ---
 
 We're going to deploy a simple multi-tier microservice application. This will

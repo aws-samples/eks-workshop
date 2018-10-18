@@ -2,7 +2,6 @@
 title: "Create Bucket & Hydrate with Assets"
 date: 2018-08-07T08:30:11-07:00
 weight: 20
-draft: true
 ---
 
 With the AWS Service Operator running we can make a manifest for our S3
