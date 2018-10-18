@@ -1,16 +1,14 @@
 ---
 title: "Configure Storage Class"
-date: 2018-08-07T08:30:11-07:00
 weight: 10
-draft: true
 ---
 
-Before we can deploy our `Jenkins` instance we need to go and configure a
+Before we can deploy our *Jenkins* instance we need to go and configure a
 default storage class for our cluster. Storage Classes tell Kubernetes how they
 should configure the Persistent Volumes that will be used with the cluster.
 
-In our example we're going to setup `gp2` or general purpose EBS as our backing
-`pvc`'s
+In our example we're going to setup *gp2* or general purpose EBS as our backing
+*pvc*'s
 
 First we need to create a new storage manifest:
 ```
