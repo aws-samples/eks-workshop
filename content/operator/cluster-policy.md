@@ -2,6 +2,7 @@
 title: "Configure Instance Role Policy"
 date: 2018-08-07T08:30:11-07:00
 weight: 5
+draft: true
 ---
 
 To deploy the AWS Service Operator you'll first need to configure the nodes

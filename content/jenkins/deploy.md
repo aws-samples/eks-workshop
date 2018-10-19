@@ -2,6 +2,7 @@
 title: "Deploy Jenkins"
 date: 2018-08-07T08:30:11-07:00
 weight: 20
+draft: true
 ---
 
 With our Storage Class configured we then need to create our `jenkins` setup. To

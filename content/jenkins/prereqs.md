@@ -2,6 +2,7 @@
 title: "Configure Storage Class"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
+draft: true
 ---
 
 Before we can deploy our `Jenkins` instance we need to go and configure a
