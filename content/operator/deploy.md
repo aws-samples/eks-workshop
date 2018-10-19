@@ -2,6 +2,7 @@
 title: "Deploy the AWS Service Operator"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
+draft: true
 ---
 
 Before we build our manifest, we need to gather our account number and region to use in the
