@@ -2,7 +2,7 @@
 title: "CodePipeline Setup"
 date: 2018-10-087T08:30:11-07:00
 weight: 14
-draft: true
+draft: false
 ---
 
 Now we are going to create the AWS CodePipeline using [AWS CloudFormation](https://aws.amazon.com/cloudformation/).
