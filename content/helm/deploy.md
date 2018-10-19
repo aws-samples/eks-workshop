@@ -33,7 +33,7 @@ subjects:
 EoF
 ```
 
-Lastly apply the config:
+Next apply the config:
 ```
 kubectl apply -f ~/environment/rbac.yaml
 ```
