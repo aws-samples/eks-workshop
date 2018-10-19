@@ -69,32 +69,9 @@ View the cluster-autoscaler logs
 ```
 kubectl logs -f deployment/cluster-autoscaler -n kube-system
 ```
+You will notice Cluster Autoscaler events similar to below
+![CA Scale Up events](/images/scaling-asg-up2.png)
 
 Check the AWS Management Console to confirm that the Auto Scaling groups are scaling up to meet demand. This may take a few minutes. You can also follow along with the pod deployment from the command line. You should see the pods transition from pending to running as nodes are scaled up.
 
 ![Scale Up](/images/scaling-asg-up.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

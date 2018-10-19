@@ -14,22 +14,20 @@ helm install stable/metrics-server \
     --namespace metrics
 ```
 ### Configure Security Groups
-We need to enable HTTPS traffic on port 443 from the EKS Cluster control plane to the Worker Nodes. Browse to the [EC2 Security Groups](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#SecurityGroups:search=eksctl;sort=tag:Name)
+We need to make sure Outbound port 443 from EKS Cluster Control Plane is open to Worker nodes Security Group (SG). Similarly, there needs to be an Inbound rule on Worker nodes SG being open from Control Plane SG. You can go their directly using [EC2 Security Groups link](https://console.aws.amazon.com/ec2/v2/home?#SecurityGroups:tag:Name=eksworkshop*;sort=groupId)
 
 ![EC2 Security Groups](/images/scaling-ec2-sg.png)
-You should see 2 security groups with names beginning with `eksctl-eks-workshop`. One is assigned to the Worker Node Group and one for the Control Plane
+You should see 2 security groups with names beginning with `eksctl-eksworkshop`. One is for the Control Plane (has ControlPlaneSecurityGroup in the name) and the other is for Worker Nodes. If you don't see any security groups, make sure you are in the right region
 
-Check the box next to the Security group for the Control Plane and then click on `Actions` and `Edit outbound rules`
-
-![Outbound Rules](/images/scaling-cp-outbound.png)
-
-Create a new rule for HTTP (TCP/443) in the destination field, make sure `Custom` is selected. Type *eksctl* and you should be able to select the group containing *nodegroup* from the autocomplete results. Click `Save`
+Check the box next to the Security group for the Control Plane and check its Outbound rules.
 
 ![Outbound HTTPS](/images/scaling-cp-https.png)
 
+If you don't have port 443 Outbound rule to Worker nodes, create a new rule with fields HTTPS (TCP/443) and enter `Custom` in the destination field. Type *eksctl* and select the group containing *nodegroup* from the autocomplete results. Click `Save`
+
 Repeat the process to create an inbound rule on the Worker Node group. Check the box next to the Security group for the Node Group and then click on `Actions` and `Edit inbound rules`
 
-Create a new rule for HTTP (TCP/443) in the destination field, make sure `Custom` is selected. Type *eksctl* and you should be able to select the group containing *ControlPlane* from the autocomplete results. Click `Save`
+Create a new rule with fields HTTPS (TCP/443) and enter `Custom` in the destination field. Type *eksctl* and select the group containing *ControlPlane* from the autocomplete results. Click `Save`
 
 ### Confirm the Metrics API is available.
 
@@ -49,9 +47,3 @@ status:
 ```
 
 #### We are now ready to scale a deployed application
-
-
-
-
-
-

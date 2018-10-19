@@ -11,7 +11,7 @@ Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It ena
 * Master Node setup
 
 ### Configure the Cluster Autoscaler (CA)
-We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal. 
+We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal.
 
 ```
 mkdir ~/environment/cluster-autoscaler
@@ -22,7 +22,7 @@ wget https://eksworkshop.com/onug/scaling/deploy_ca.files/cluster_autoscaler.yml
 ### Configure the ASG
 We will need to provide the name of the Autoscaling Group that we want CA to manipulate. Collect the name of the Auto Scaling Group (ASG) containing your worker nodes. Record the name somewhere. We will us this later in the manifest file.
 
-You can find it in the console by following this [link](https://us-west-2.console.aws.amazon.com/ec2/autoscaling/home?region=us-west-2#AutoScalingGroups:view=details;filter=eksctl).
+You can find it in the console by following this [link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:id=eksctl-eksworkshop-eksctl-nodegroup-0-NodeGroup-SQG8QDVSR73G;view=details;filter=eksworkshop).
 
 ![ASG](/images/scaling-asg.png)
 
@@ -39,22 +39,25 @@ Click `Save`
 
 ### Configure the Cluster Autoscaler
 
-Using the file browser on the left, open cluster-autoscaler/ca-example.yaml.
+Using the file browser on the left, open cluster-autoscaler.yml
 
-Replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step and **Save** the file.
+Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, update AWS_REGION value to reflect the region you are using and **Save** the file.
 
 ```
- command:
-            - ./cluster-autoscaler
-            - --v=4
-            - --stderrthreshold=info
-            - --cloud-provider=aws
-            - --skip-nodes-with-local-storage=false
-            - --nodes=2:8:<AUTOSCALING GROUP NAME>
+command:
+  - ./cluster-autoscaler
+  - --v=4
+  - --stderrthreshold=info
+  - --cloud-provider=aws
+  - --skip-nodes-with-local-storage=false
+  - --nodes=2:8:eksctl-eksworkshop-eksctl-nodegroup-0-NodeGroup-SQG8QDVSR73G
+env:
+  - name: AWS_REGION
+    value: us-east-1
 ```
 This command contains all of the configuration for the Cluster Autoscaler. The primary config is the `--nodes` flag. This specifies the minimum nodes **(2)**, max nodes **(8)** and **ASG Name**.
 
-Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, like other management pods. Those management pods would prevent the cluster from scaling down. We are overriding this default behavior by passing in the `–-skip-nodes-with-system-pods=false flag`
+Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods. Those management pods would prevent the cluster from scaling down. We are overriding this default behavior by passing in the `–-skip-nodes-with-system-pods=false flag`
 
 ### Create an IAM Policy
 We need to configure an inline policy and add it to the EC2 instance profile of the worker nodes
@@ -106,8 +109,3 @@ kubectl logs -f deployment/cluster-autoscaler -n kube-system
 #### We are now ready to scale our cluster
 
 {{%attachments title="Related files" pattern=".yml"/%}}
-
-
-
-
-

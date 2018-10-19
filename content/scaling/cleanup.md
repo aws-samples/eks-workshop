@@ -5,7 +5,7 @@ weight: 50
 ---
 
 ```
-kubectl delete -f ~/environment/cluster-autoscaler/ca_example.yaml
+kubectl delete -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 kubectl delete -f ~/environment/cluster-autoscaler/nginx.yaml
 rm -rf ~/environment/cluster-autoscaler
 aws iam delete-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker
