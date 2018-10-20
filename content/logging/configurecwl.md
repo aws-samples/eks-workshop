@@ -3,6 +3,10 @@ title: "Configure CloudWatch Logs and Kibana"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
 ---
+{{% notice warning %}}
+All AWS console URLs default to us-west-2. On the console, select the region that is configured as default for CLI in prerequisites module.
+{{% /notice %}}
+
 ### Configure CloudWatch Logs Subscription
 
 CloudWatch Logs can be delivered to other services such as Amazon Elasticsearch for custom processing. This can be achieved by subscribing to a real-time feed of log events. A subscription filter defines the filter pattern to use for filtering which log events gets delivered to Elasticsearch, as well as information about where to send matching log events to.
@@ -13,12 +17,35 @@ Original instructions for this are available at:
 
 http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_ES_Stream.html
 
+Create Lambda Basic Execution Role
+
+```
+cat <<EoF > ~/environment/iam_policy/lambda.json
+{
+   "Version": "2012-10-17",
+   "Statement": [
+   {
+     "Effect": "Allow",
+     "Principal": {
+        "Service": "lambda.amazonaws.com"
+     },
+   "Action": "sts:AssumeRole"
+   }
+ ]
+}
+EoF
+
+aws iam create-role --role-name lambda_basic_execution --assume-role-policy-document file://~/environment/iam_policy/lambda.json
+
+aws iam attach-role-policy --role-name lambda_basic_execution --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+```
+
 Go to the [CloudWatch Logs console](https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#logs:)
 
 Select the log group `/eks/eksworkshop-eksctl/containers`. Click on `Actions` and select `Stream to Amazon ElasticSearch Service`.
 ![Stream to ElasticSearch](/images/logging_cwl_es.png)
 
-Select the ElasticSearch Cluster `kubernetes-logs` and IAM role `lambda_basic_execution` 
+Select the ElasticSearch Cluster `kubernetes-logs` and IAM role `lambda_basic_execution`
 
 ![Subscribing to logs](/images/logging-cloudwatch-es-subscribe-iam.png)
 
@@ -52,7 +79,6 @@ Select `@timestamp` from the dropdown list and select `Create index pattern`
 
 ![Kibana Summary](/images/logging_kibana.png)
 
-Click on `Dashboard` and explore your logs
+Click on `Discover` and explore your logs
 
 ![Kibana Dashboard](/images/logging_kibana_dashboard.png)
-
