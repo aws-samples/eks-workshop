@@ -5,7 +5,7 @@ weight: 15
 draft: false
 ---
 
-#### Download Grafana and update configuration
+#### Download Grafana
 
 ```
 curl -o grafana-values.yaml https://raw.githubusercontent.com/helm/charts/master/stable/grafana/values.yaml
@@ -28,35 +28,22 @@ datasources:
      isDefault: true
 ```
 
-Now let's expose Grafana dashboard using AWS ELB service. Search for **service:**, and update the value of **type: ClusterIP** to **type: LoadBalancer**
-
 #### Deploy grafana
 
 ```
-helm install -f grafana-values.yaml stable/grafana --name grafana --namespace grafana
+helm install -f grafana.yaml stable/grafana --name grafana --namespace grafana
 ```
-Run the command to check if Grafana is running properly
+
+#### Check if both prometheus and grafana pods are running
 ```
+kubectl get all -n prometheus
+
 kubectl get all -n grafana
 ```
-You should see similar results. They should all be Ready and Available
+You can access Grafana URL using these commands
 
 ```
-NAME                          READY     STATUS    RESTARTS   AGE
-pod/grafana-b9697f8b5-t9w4j   1/1       Running   0          2m
+export POD_NAME=$(kubectl get pods --namespace grafana -l "app=grafana" -o jsonpath="{.items[0].metadata.name}")
 
-NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-service/grafana   ClusterIP   10.100.49.172   <none>        80/TCP    2m
-
-NAME                      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/grafana   1         1         1            1           2m
-
-NAME                                DESIRED   CURRENT   READY     AGE
-replicaset.apps/grafana-b9697f8b5   1         1         1         2m
-```
-
-You can get Grafana ELB URL using this command. Copy & Paste the value into browser to access Grafana web UI
-
-```
-kubectl get svc -n grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname'}
+kubectl --namespace grafana port-forward $POD_NAME 3000
 ```
