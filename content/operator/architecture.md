@@ -10,4 +10,4 @@ use an S3 Bucket to serve static assets from, a Kubernetes Job to hydrate the
 bucket with assets and then a backend application which reads and writes from
 DynamoDB.
 
-![Arctecture Diagram](/images/aws-operator-demo.png)
+![Architecture Diagram](/images/aws-operator-demo.png)
