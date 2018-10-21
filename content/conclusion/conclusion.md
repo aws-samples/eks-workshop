@@ -10,3 +10,5 @@ We have:
 - Built EKS using a community contributed terraform module
 - Built EKS using the recommended steps from AWS
 - Deployed the Kubernetes Dashboard
+
+      {{% surveymonkey %}}
