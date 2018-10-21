@@ -2,7 +2,7 @@
 title: "GitHub Access Token"
 date: 2018-10-087T08:30:11-07:00
 weight: 13
-draft: true
+draft: false
 ---
 
 In order for CodePipeline to receive callbacks from GitHub, we need to generate a personal access token.
