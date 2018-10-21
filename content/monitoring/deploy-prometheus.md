@@ -100,6 +100,6 @@ replicaset.apps/prometheus-pushgateway-d5fdc4f5b           1         1         1
 replicaset.apps/prometheus-server-6d665b876                1         1         1         1m
 
 ```
-You can access Prometheus server URL by going to any one of your Worker node IP address and specify port **:30900/targets** (for ex, http://52.12.161.128:30900/targets). Remember to open port **30900** in your Worker nodes Security Group. In the web UI, you can see all the targets and metrics being monitored by Prometheus
+You can access Prometheus server URL by going to any one of your Worker node IP address and specify port **:30900/targets** (for ex, 52.12.161.128:30900/targets. Remember to open port **30900** in your Worker nodes Security Group. In the web UI, you can see all the targets and metrics being monitored by Prometheus
 
 ![prometheus-targets](/images/prometheus-targets.png)
