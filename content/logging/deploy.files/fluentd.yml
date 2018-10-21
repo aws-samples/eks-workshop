@@ -45,7 +45,6 @@ data:
     <match fluent.**>
       @type null
     </match>
-
   containers.conf: |
     <source>
       @type tail
@@ -71,7 +70,7 @@ data:
         @type record_transformer
         @id filter_containers_stream_transformer
         <record>
-          stream_name ${hostname}
+          stream_name ${tag_parts[3]}
         </record>
       </filter>
 
@@ -91,7 +90,6 @@ data:
         </buffer>
       </match>
     </label>
-
   systemd.conf: |
     <source>
       @type systemd
@@ -143,7 +141,7 @@ data:
         @type record_transformer
         @id filter_systemd_stream_transformer
         <record>
-          stream_name ${hostname}
+          stream_name ${tag}-${record["hostname"]}
         </record>
       </filter>
 

@@ -2,7 +2,7 @@
 title: "Modify aws-auth ConfigMap"
 date: 2018-10-087T08:30:11-07:00
 weight: 11
-draft: true
+draft: false
 ---
 
 Now that we have the IAM role created, we are going to add the role to the [aws-auth ConfigMap](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)

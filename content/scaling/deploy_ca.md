@@ -57,7 +57,7 @@ env:
 ```
 This command contains all of the configuration for the Cluster Autoscaler. The primary config is the `--nodes` flag. This specifies the minimum nodes **(2)**, max nodes **(8)** and **ASG Name**.
 
-Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods. Those management pods would prevent the cluster from scaling down. We are overriding this default behavior by passing in the `–-skip-nodes-with-system-pods=false flag`
+Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods.
 
 ### Create an IAM Policy
 We need to configure an inline policy and add it to the EC2 instance profile of the worker nodes
