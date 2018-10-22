@@ -16,7 +16,7 @@ We have provided a manifest file to deploy the CA. Copy the commands below into 
 ```
 mkdir ~/environment/cluster-autoscaler
 cd ~/environment/cluster-autoscaler
-wget https://eksworkshop.com/onug/scaling/deploy_ca.files/cluster_autoscaler.yml
+wget https://eksworkshop.com/scaling/deploy_ca.files/cluster_autoscaler.yml
 ```
 
 ### Configure the ASG
