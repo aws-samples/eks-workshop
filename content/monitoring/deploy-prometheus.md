@@ -10,8 +10,9 @@ draft: false
 ```
 curl -o prometheus-values.yaml https://raw.githubusercontent.com/helm/charts/master/stable/prometheus/values.yaml
 ```
+Open the prometheus-values.yaml you downloaded by double clicking on the file name on the left panel.
 
-Search for **# storageClass: "-"**, uncomment and change the value to **"prometheus"**. You will do this twice, under both **`server`** & **`alertmanager`** manifests
+Search for **# storageClass: "-"** in the prometheus-values.yaml, uncomment and change the value to **"prometheus"**. You will do this twice, under both **`server`** & **`alertmanager`** manifests
 
 The manifests will look like below
 
