@@ -12,4 +12,3 @@ We have:
 - Deployed a centralized logging infrastructure
 - Configured Automatic scaling of our pods and worker nodes
 
-      {{% surveymonkey %}}
