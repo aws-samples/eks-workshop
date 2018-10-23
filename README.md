@@ -39,6 +39,7 @@ or
 `npm run drafts` to see stubbed in draft pages.
 
 `npm run build` will build your content locally and output to `./public/`
+
 `npm run test` will test the built content for bad links
 
 #### View Hugo locally:
