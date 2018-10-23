@@ -44,6 +44,18 @@ Once you are on the detail page for the specific CodePipeline, you can see the s
 If you click on the "details" link in the build/deploy stage, you can see the output from the CodeBuild process.
 {{% /notice %}}
 
+To review the status of the deployment, you can run:
+
+```
+kubectl describe deployment hello-k8s
+```
+
+For the status of the service, run the following command:
+
+```
+kubectl describe service hello-k8s
+```
+
 Once the service is built and delivered, run the following command to get the Elastic Load Balancer (ELB) endpoint and open it in a browser.
 
 ```
