@@ -6,7 +6,7 @@ weight: 60
 ---
 
 ### [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/)
-* A thin wrapper around a container
+* A thin wrapper around one or more containers
 
 ### [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
 
