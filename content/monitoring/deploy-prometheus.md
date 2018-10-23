@@ -37,7 +37,7 @@ The manifests will look like below
     storageClass: "prometheus"
 ```
 
-Search for **## List of IP addresses at which the Prometheus server service is available**, add **nodeport: 30900** and change the type to **NodePort** as indicated below. Because Prometheus is exposed as ClusterIP by default, the web UI cannot be reached outside of Kubernetes. The reason we are adding NodePort here is for viewing the web UI from worker node IP address. This configuration is not recommended in Production and there are better ways to secure it. You can read more about exposing Prometheus web UI in this [link](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/exposing-prometheus-and-alertmanager.md)
+Search for **## List of IP addresses at which the Prometheus server service is available**, add **nodePort: 30900** and change the type to **NodePort** as indicated below. Because Prometheus is exposed as ClusterIP by default, the web UI cannot be reached outside of Kubernetes. The reason we are adding NodePort here is for viewing the web UI from worker node IP address. This configuration is not recommended in Production and there are better ways to secure it. You can read more about exposing Prometheus web UI in this [link](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/exposing-prometheus-and-alertmanager.md)
 
 ```
 ## List of IP addresses at which the Prometheus server service is available
