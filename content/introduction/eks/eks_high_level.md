@@ -6,4 +6,6 @@ weight: 150
 ---
 
 
+#### Kubectl describes the desired state to the EKS api, and EKS ensures the workers are running the desired state.
+
 ![EKS High Level](/images/introduction/eks-high-level.svg)
