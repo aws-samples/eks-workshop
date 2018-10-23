@@ -6,6 +6,6 @@ weight: 150
 ---
 
 
-#### Kubectl describes the desired state to the EKS api, and EKS ensures the workers are running the desired state.
+Once your EKS cluster is ready, you get an API endpoint and you'd [use Kubectl, community developed tool to interact with your cluster.](https://kubernetes.io/docs/reference/kubectl/kubectl/)
 
 ![EKS High Level](/images/introduction/eks-high-level.svg)
