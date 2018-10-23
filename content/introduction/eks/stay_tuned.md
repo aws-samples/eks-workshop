@@ -2,7 +2,7 @@
 title: "Amazon EKS!"
 date: 2018-10-03T10:23:24-07:00
 draft: false
-weight: 160
+weight: 170
 ---
 
 Stay tuned as we continue the journey with EKS in the next module!
