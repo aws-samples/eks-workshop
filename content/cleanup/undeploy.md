@@ -24,3 +24,7 @@ kubectl delete -f kubernetes/deployment.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 
 ```
+
+{{% notice warning %}}
+Please wait 5 minutes for the ELB to fully delete before moving to the next step.
+{{% /notice %}}
