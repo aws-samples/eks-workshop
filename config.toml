@@ -18,7 +18,7 @@ author = "Brent Langston"
 description = "Amazon EKS Workshop"
 disableSearch = false
 disableAssetsBusting = false
-disableLanguageSwitchingButton = true
+disableLanguageSwitchingButton = false
 disableShortcutsTitle=false
 disableInlineCopyToClipBoard = true
 ghrepo = "https://github.com/aws-samples/eks-workshop/"
@@ -56,6 +56,17 @@ url = "mailto:eksworkshop@amazon.com"
 weight = 40
 
 
+[languages]
+  [languages.en]
+    contentDir = "content/en"
+    languageName = "English"
+    weight = 1
+  [languages.pt]
+    contentDir = "content/pt"
+    languageName = "Portugues"
+    weight = 2
+
 [outputs]
 home = [ "HTML", "JSON"]
 page = [ "HTML" ]
+
