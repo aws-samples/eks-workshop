@@ -5,6 +5,8 @@ weight: 30
 ---
 Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It enables users to choose from four different options of deployment:
 
+### TODO: Show how the ASG settings would look like for EC2 Spot Note: Also write a blurb of how provisioning timeout could be used to make sure if capacity does not exist in one pool, it timesout and gets from other.
+
 * **One Auto Scaling group** - This is what we will use
 * Multiple Auto Scaling groups
 * Auto-Discovery

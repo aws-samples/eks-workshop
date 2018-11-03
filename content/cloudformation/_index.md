@@ -2,13 +2,12 @@
 title: "Launch using CloudFormation"
 chapter: true
 weight: 40
-draft: true
+draft: false
 ---
 
 # Launch Using CloudFormation
 
-AWS Officially provides several resources for building EKS and supporting
+AWS  provides several resources for building EKS and supporting
 infrastructure.
 
-In this Chapter, we will take a look at the official CloudFormation method
-of Launching EKS.
+In this Chapter, we will take a look at the official CloudFormation method of Launching EKS.

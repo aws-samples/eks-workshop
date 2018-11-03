@@ -2,6 +2,7 @@
 title: "Prerequisites"
 date: 2018-08-07T13:31:55-07:00
 weight: 10
+draft: true
 ---
 
 For this module, we need to download the [eksctl](https://eksctl.io/) binary:

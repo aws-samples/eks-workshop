@@ -2,6 +2,7 @@
 title: "Launch EKS"
 date: 2018-08-07T13:34:24-07:00
 weight: 20
+draft: true
 ---
 
 To create a basic EKS cluster, run:
