@@ -2,6 +2,8 @@
 title: "Configure CloudWatch Logs and Kibana"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
+draft: true
+
 ---
 {{% notice warning %}}
 All AWS console URLs default to us-west-2. On the console, select the region that is configured as default for CLI in prerequisites module.

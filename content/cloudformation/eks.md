@@ -28,7 +28,7 @@ echo SUBNET_IDS=${SUBNET_IDS}
 
 Now we can create the EKS cluster:
 ```
-aws eks create-cluster --name eksworkshop-cluster --role-arn "${SERVICE_ROLE}" --resources-vpc-config subnetIds="${SUBNET_IDS}",securityGroupIds="${SECURITY_GROUP}"
+aws eks create-cluster --name eksworkshop --role-arn "${SERVICE_ROLE}" --resources-vpc-config subnetIds="${SUBNET_IDS}",securityGroupIds="${SECURITY_GROUP}"
 ```
 {{% notice info %}}
 Cluster provisioning usually takes less than 10 minutes.
@@ -36,7 +36,7 @@ Cluster provisioning usually takes less than 10 minutes.
 
 You can query the status of your cluster with the following command:
 ```
-aws eks describe-cluster --name "eksworkshop-cluster" --query cluster.status --output text
+aws eks describe-cluster --name "eksworkshop" --query cluster.status --output text
 ```
 
 When your cluster status is **ACTIVE** you can proceed.

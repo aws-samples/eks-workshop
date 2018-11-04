@@ -2,7 +2,7 @@
 title: "Prereqs"
 date: 2018-10-14T19:56:14-04:00
 weight: 5
-draft: false
+draft: true
 ---
 
 #### Is `helm` installed?

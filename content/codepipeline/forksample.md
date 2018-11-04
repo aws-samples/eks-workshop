@@ -2,7 +2,7 @@
 title: "Fork Sample Repository"
 date: 2018-10-087T08:30:11-07:00
 weight: 12
-draft: false
+draft: true
 ---
 
 We are now going to [fork](https://help.github.com/articles/fork-a-repo/) the sample Kubernetes service

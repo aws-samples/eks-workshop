@@ -2,6 +2,7 @@
 title: "Configure IAM Policy for Worker Nodes"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
+draft: true
 ---
 
 We will be deploying Fluentd as a DaemonSet, or one pod per worker node. The fluentd log daemon will collect logs and forward to CloudWatch Logs. This will require the nodes to have permissions to send logs and create log groups and log streams. This can be accomplished with an IAM user, IAM role, or by using a tool like `Kube2IAM`.
