@@ -63,6 +63,7 @@ Check out this [**link**](https://aws.amazon.com/blogs/opensource/improvements-e
 ```
 {{%/expand%}}
 
+You can leave the rest of the default parameters as is and continue through the remaining CloudFormation screens. Check the box next to **I acknowledge that AWS CloudFormation might create IAM resources** and click **Create** 
 
 The creation of the workers will take about 3 minutes. This is a script that will let you know when the CloudFormation stack is complete:
 

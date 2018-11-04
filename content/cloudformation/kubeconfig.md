@@ -31,7 +31,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
 
 {{%expand "Still Stuck?" %}}
 ```
-aws eks update-kubeconfig --name *cluster_name*
+aws eks update-kubeconfig --name eksworkshop
 ```
 {{% /expand%}}
 

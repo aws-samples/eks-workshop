@@ -2,6 +2,7 @@
 title: "Create a Workspace"
 chapter: false
 weight: 10
+draft: false
 ---
 
 {{% notice warning %}}
@@ -10,20 +11,18 @@ not the root account user. Please ensure you are logged in as an IAM user, not t
 account user.
 {{% /notice %}}
 
-<!---
+
 {{% notice info %}}
-This workshop was designed to run in the **Oregon (us-west-2)** region. **Please don't
-run in any other region.** Future versions of this workshop will expand region availability,
-and this message will be removed.
+This workshop was designed to run in the **Dublin Ireland (eu-west-1)** region for re:Invent.
 {{% /notice %}}
--->
+
 
 {{% notice tip %}}
 Ad blockers, javascript disablers, and tracking blockers should be disabled for
-the cloud9 domain, or connecting to the workspace might be impacted.
+the cloud9 domain, or connecting to the workspace might be impacted. Some users have also reported compatibility issues with Safari. **Please use Chrome or Firefox**
 {{% /notice %}}
 
-- Create a [Cloud9 Environment](https://us-west-2.console.aws.amazon.com/cloud9/home?region=us-west-2)
+- Create a [Cloud9 Environment](https://eu-west-1.console.aws.amazon.com/cloud9/home?region=eu-west-1)
   - select **Create environment**
 - Name it **eksworkshop**, and take all other defaults
 - When it comes up, customize the environment by closing the **welcome tab**

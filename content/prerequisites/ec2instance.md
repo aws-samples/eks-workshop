@@ -5,6 +5,11 @@ weight: 26
 ---
 
 1. Follow [this deep link to find your Cloud9 EC2 instance](https://console.aws.amazon.com/ec2/v2/home?#Instances:tag:Name=aws-cloud9-eksworkshop*;sort=desc:launchTime)
+
+{{% notice info %}}
+Confirm you are in the **Dublin Ireland (eu-west-1)** region if you are participating at re:Invent.
+{{% /notice %}}
+
 1. Select the instance, then choose **Actions / Instance Settings / Attach/Replace IAM Role**
 ![c9instancerole](/images/c9instancerole.png)
 1. Choose **eksworkshop-admin** from the **IAM Role** drop down, and select **Apply**

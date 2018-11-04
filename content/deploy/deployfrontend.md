@@ -3,7 +3,6 @@ title: "Deploy Frontend Service"
 date: 2018-09-18T17:40:09-05:00
 weight: 30
 ---
-
 Let’s bring up the Ruby Frontend!
 
 Copy/Paste the following commands into your Cloud9 workspace:

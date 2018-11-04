@@ -12,18 +12,18 @@ mkdir ~/environment/configmap
 cd ~/environment/configmap
 wget https://eksworkshop.com/spot/cloudformation/configmap.files/aws-cm-auth.yml
 ```
-We need to substitute our instance role ARN into the template. Open the file in your Cloud9 editor.
+We need to substitute our instance role ARN into the template. 
 
-Find the RoleArn and replace `<ARN of instance role (not instance profile)>` with the actual Role ARN from your worker nodes.
+1. Open the file in your Cloud9 editor
 
-Save the file and apply the manifest in your terminal.
+2. Find the section for RoleArn in the file and replace `<ARN of instance role (not instance profile)>` with the actual Role ARN from your worker nodes. 
+{{% expand "Need help finding the Role ARN?" %}}
+Search the [IAM Console](https://console.aws.amazon.com/iam/home?#/roles) for a role containing **nodegroup**
+{{% /expand %}}
 
+3. Save the file and apply the manifest in your terminal
 ```
 kubectl apply -f ~/environment/configmap/aws-cm-auth.yml
 ```
 
-Confirm your can see your worker nodes
-```
-kubectl get nodes
-```
-
+{{%attachments title="Related files" pattern=".yml"/%}}

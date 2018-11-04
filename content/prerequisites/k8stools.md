@@ -30,13 +30,13 @@ go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authen
 sudo mv ~/go/bin/aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
 ```
 
-#### Verify the binaries
+#### Verify the binaries are correctly installed
 ```
 kubectl version --short --client
 aws-iam-authenticator help
 ```
 
-#### Install JQ
+#### Install [JQ - a JSON Processor](https://stedolan.github.io/jq/manual/)
 ```
 sudo yum -y install jq
 ```

@@ -2,6 +2,7 @@
 title: "Create a SSH key"
 chapter: false
 weight: 21
+draft: true
 ---
 
 ```
