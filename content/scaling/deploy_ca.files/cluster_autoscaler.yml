@@ -135,10 +135,12 @@ spec:
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
-            - --nodes=2:8:<AUTOSCALING GROUP NAME>
+            - --nodes=2:8:<ON DEMAND AUTOSCALING GROUP NAME>
+            - --nodes=2:8:<SPOT 1 AUTOSCALING GROUP NAME>
+            - --nodes=2:8:<SPOT 2 AUTOSCALING GROUP NAME>
           env:
             - name: AWS_REGION
-              value: us-west-2
+              value: <AWS_REGION>
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt
