@@ -1,7 +1,7 @@
 ---
-title: "Emulate EC2 Spot instance interruption"
+title: "Simulate an EC2 Spot Interruption"
 chapter: true
-weight: 41
+weight: 30
 draft: false
 ---
 
@@ -9,7 +9,7 @@ draft: false
 
 # Setup 
 
-# Emulate an interruption 
+# Simulate an interruption 
 
 ###TODO: Work on details here
 
