@@ -5,7 +5,7 @@ weight: 30
 ---
 Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It enables users to choose from four different options of deployment:
 
-#### Note: Also write a blurb of how provisioning timeout could be used to make sure if capacity does not exist in one pool, it times out and gets from on-demand.
+
 
 * One Auto Scaling group
 * **Multiple Auto Scaling groups** - This is what we will use
@@ -54,6 +54,7 @@ command:
   - --stderrthreshold=info
   - --cloud-provider=aws
   - --skip-nodes-with-local-storage=false
+  - --expander=most-pods
   - --nodes=2:8:eksworkshop-nodegroup-0-OnDemandNodeLaunchConfig-<YOUR_VALUE>
   - --nodes=2:8:eksworkshop-nodegroup-0-SpotNode1LaunchConfig-<YOUR_VALUE>
   - --nodes=2:8:eksworkshop-nodegroup-0-SpotNode2LaunchConfig-<YOUR_VALUE>

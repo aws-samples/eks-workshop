@@ -1,0 +1,63 @@
+---
+title: "Deploy EC2 Spot worker using Spot Fleet API"
+weight: 10
+draft: false
+---
+
+We will simulate a spot interruption by triggering the Spot API to scale down a group of instance. This is not possible with the EC2 Autoscaling groups that we have been using thus far. We will by creating a new [**Spot Fleet**](https://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-fleet.html) request and add these workers to our cluster. We will deploy pods to these nodes and then remove capacity from the fleet triggering a notification.  
+
+Spot interruption notifications are reported in the following ways:
+
+
+ * In the EC2 instance, using the [EC2 metadata service](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
+ * In the AWS account, using [CloudWatch Events](https://aws.amazon.com/about-aws/whats-new/2018/01/amazon-ec2-spot-two-minute-warning-is-now-available-via-amazon-cloudwatch-events/)
+
+
+Login to [**AWS EC2 Console**](https://console.aws.amazon.com/ec2)
+
+In the left hand menu bar, choose **Spot Requests**
+
+<Screenshot>
+
+Click on **Request Spot Instances** button
+
+<Screenshot>
+
+Leave the default choice of `Request`, and leave `Total target capacity` to **1**. (Later, we'll reduce this to **0** to cause Spot Fleet to send an interruption to EC2 instance)
+
+<Screenshot>
+
+Change the instance type to a `t2.micro`
+
+Choose the `VPC` for the EKS Workshop
+
+Update the `Instance tags` to reflect below values. These instance tags ensure that when the EC2 instances are launched by SpotFleet API, they are discoverable and join the EKS cluster control plane endpoint for the cluster you created earlier.
+
+![Instance tags](/images/InstanceTags.png)
+
+Wait for few minutes (about 8-10). Check from command line if you are able to see these newly added EC2 instances as part of cluster launched by SpotFleet API by using command below
+
+```
+kubectl get nodes 
+```
+{{% notice info %}}
+If you don't see your nodes joining the cluster, make sure the instances have the correct Public IP address, security group for worker nodes, and the IAM Role attached along with tags as mentioned above. Only then will they able to join the cluster. Compare to existing worker nodes if you have doubts.
+{{% /notice %}}
+
+Now let's scale up the app we used previously with Cluster Autoscaler and watch the pods getting placed on newly added EC2 Instance using SpotFleet API.
+```
+kubectl scale --replicas=5 deployment/nginx-to-scaleout
+```
+
+If you change the settings of all of the EC2 Spot instances ASGs, you can watch this interruption and reassignment very easily with a low-number of replicas. You can do this by setting one of your SpotNodeGroups ASG desired and min values to **1** and the rest to zero.
+
+This will prepare your environment with only 1 EC2 Spot instance launched via ASG/Launch Configuration API, and the other one with SpotFleet API.
+
+Check if the pods are placed
+```
+kubectl get pods -o wide --sort-by='.status.hostIP'
+```
+
+![PodsOnSpotNodes](/images/podsonspot.png)
+
+#### Now we are ready to create an interruption

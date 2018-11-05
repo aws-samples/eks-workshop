@@ -1,7 +1,6 @@
 ---
-title: "Emulate interruption"
-chapter: true
-weight: 3
+title: "Simulate interruption"
+weight: 30
 draft: false
 ---
 
@@ -30,9 +29,9 @@ kubectl get nodes  -o wide --show-labels
 
 8. You will notice that the number of replicas 3 (if you followed our instructions earlier) are still running, AND that they are just on different nodes
 
-![Greeter pods on remaining nodes](images/remainingspotpods.PNG) 
+![Greeter pods on remaining nodes](images/remainingspotpods.png) 
 
-9. This means that below steps have occured 
+9. This means that below steps have occurred 
 
 a. spot interrupt handler (running as daemon set) detected the interruption on EC2 instance launched by SpotFleet API.<br>
 b. It issued kubectl drain API command. <br>

@@ -75,3 +75,9 @@ You will notice Cluster Autoscaler events similar to below
 Check the AWS Management Console to confirm that the Auto Scaling groups are scaling up to meet demand. This may take a few minutes. You can also follow along with the pod deployment from the command line. You should see the pods transition from pending to running as nodes are scaled up.
 
 ![Scale Up](/images/scaling-asg-up.png)
+
+### Scale back down
+
+```
+kubectl scale --replicas=1 deployment/nginx-to-scaleout
+```

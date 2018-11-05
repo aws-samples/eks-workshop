@@ -17,3 +17,10 @@ We can watch the progress by looking at the deployment status:
 ```
 kubectl get deployment ecsdemo-frontend
 ```
+
+We can check all pods (including the frontend) deployed on Spot Instances with this command:
+```
+ for n in $(kubectl get nodes -l lifecycle=Ec2Spot --no-headers | cut -d " " -f1); do kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; done
+```
+
+

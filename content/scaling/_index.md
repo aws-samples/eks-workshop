@@ -1,7 +1,7 @@
 ---
 title: "Autoscaling our Applications and Clusters"
 chapter: true
-weight: 65
+weight: 57
 ---
 
 # Implement AutoScaling with HPA and CA
