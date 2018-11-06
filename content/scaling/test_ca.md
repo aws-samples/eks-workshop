@@ -39,9 +39,9 @@ kubectl get deployment/nginx-to-scaleout
 
 ### Scale our ReplicaSet
 
-OK, let's scale out the replicaset to 10
+OK, let's scale out the replicaset to 20
 ```
-kubectl scale --replicas=10 deployment/nginx-to-scaleout
+kubectl scale --replicas=20 deployment/nginx-to-scaleout
 ```
 Some pods will be in the `Pending` state, which triggers the cluster-autoscaler to scale out the EC2 fleet.
 
@@ -81,3 +81,4 @@ Check the AWS Management Console to confirm that the Auto Scaling groups are sca
 ```
 kubectl scale --replicas=1 deployment/nginx-to-scaleout
 ```
+Time permitting, you should see the cluster ASGs scale back down

@@ -1,7 +1,7 @@
 ---
 title: "Managing Spot Workers"
 chapter: true
-weight: 55
+weight: 30
 draft: false
 ---
 

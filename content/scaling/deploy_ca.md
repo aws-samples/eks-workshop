@@ -18,7 +18,7 @@ We have provided a manifest file to deploy the CA. Copy the commands below into 
 ```
 mkdir ~/environment/cluster-autoscaler
 cd ~/environment/cluster-autoscaler
-wget https://eksworkshop.com/scaling/deploy_ca.files/cluster_autoscaler.yml
+wget https://eksworkshop.com/spot/scaling/deploy_ca.files/cluster_autoscaler.yml
 ```
 
 ### Configure the ASG
@@ -34,7 +34,8 @@ Check the box beside each ASG and click `Actions` and `Edit`
 
 Change the following settings:
 
-* Min: **2**
+* Min: **1**
+* Desired: **1**
 * Max: **8**
 
 ![ASG Config](/images/scaling-asg-config.png)
@@ -55,9 +56,9 @@ command:
   - --cloud-provider=aws
   - --skip-nodes-with-local-storage=false
   - --expander=most-pods
-  - --nodes=2:8:eksworkshop-nodegroup-0-OnDemandNodeLaunchConfig-<YOUR_VALUE>
-  - --nodes=2:8:eksworkshop-nodegroup-0-SpotNode1LaunchConfig-<YOUR_VALUE>
-  - --nodes=2:8:eksworkshop-nodegroup-0-SpotNode2LaunchConfig-<YOUR_VALUE>
+  - --nodes=2:8:<ON DEMAND AUTOSCALING GROUP NAME>
+  - --nodes=2:8:<SPOT 1 AUTOSCALING GROUP NAME>
+  - --nodes=2:8:<SPOT 2 AUTOSCALING GROUP NAME>
 env:
   - name: AWS_REGION
     value: <AWS_REGION>
@@ -65,42 +66,6 @@ env:
 This command contains all of the configuration for the Cluster Autoscaler. The primary config is the `--nodes` flag. This specifies the minimum nodes **(2)**, max nodes **(8)** and **ASG Name**.
 
 Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods.
-
-### Create an IAM Policy
-The CA pods need IAM permissions to manipulate the ASG settings. We need to configure an inline policy and add it to the EC2 instance profile of the worker nodes.
-
-Collect the Instance Profile and Role Name from the CloudFormation Stack
-```
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks --stack-name eksctl-eksworkshop-eksctl-nodegroup-0 | jq -r '.Stacks[].Outputs[].ExportName' | sed 's/:.*//')
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
-```
-```
-mkdir ~/environment/asg_policy
-cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "autoscaling:DescribeAutoScalingGroups",
-        "autoscaling:DescribeAutoScalingInstances",
-        "autoscaling:SetDesiredCapacity",
-        "autoscaling:TerminateInstanceInAutoScalingGroup"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EoF
-aws iam put-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker --policy-document file://~/environment/asg_policy/k8s-asg-policy.json
-```
-
-Validate that the policy is attached to the role
-```
-aws iam get-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker
-```
 
 ### Deploy the Cluster Autoscaler
 

@@ -6,7 +6,7 @@ draft: false
 ---
 EKS suggests launching a single EKS Cluster into a VPC. To make that easy, EKS
 provides a CloudFormation template that we can use:
-{{% notice info %}}
+{{% notice tip %}}
 The latest version of the CloudFormation template can be found here: https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html
 {{% /notice %}}
 ```

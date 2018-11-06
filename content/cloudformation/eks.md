@@ -8,7 +8,8 @@ draft: false
 To build the EKS cluster, we need to tell the EKS service which IAM Service role
 to use, and which Subnets and Security Group to use. We can gather this information
 from our previous labs where we built the IAM role and VPC:
-{{% notice info %}}
+
+{{% notice tip %}}
 If you named your IAM role or CloudFormation stack something different, you will need to edit the commands below with the correct values.
 {{% /notice %}}
 ```

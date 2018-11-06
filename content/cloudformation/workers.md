@@ -42,9 +42,11 @@ Once the console is open you will need to configure the missing parameters. Use 
 
 | Parameter | Value |
 |-----------|-------|
+| Stack Name: | eksworkshop-nodegroup-0 |
 | Cluster Name: | eksworkshop (or whatever you named your cluster) |
 |ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and ControlPlane |
 |NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for eu-west-1 |
+|KeyName: | SSH Key Pair created earlier |
 |VpcId: | Select your workshop VPC from the dropdown |
 |Subnets: | Select the subnets for your workshop VPC from the dropdown |
 |OnDemandBootstrapArguments: | See Below |

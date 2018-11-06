@@ -135,6 +135,7 @@ spec:
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
+            - --expander=most-pods
             - --nodes=2:8:<ON DEMAND AUTOSCALING GROUP NAME>
             - --nodes=2:8:<SPOT 1 AUTOSCALING GROUP NAME>
             - --nodes=2:8:<SPOT 2 AUTOSCALING GROUP NAME>
