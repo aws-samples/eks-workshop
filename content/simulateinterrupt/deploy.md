@@ -53,7 +53,8 @@ Update the `Instance tags` to reflect below values. These instance tags ensure t
 | Key | Value |
 |-----------|-------|
 | Name | EKSSpot-SpotFleet-Node |
-| kubernetes.io/cluster/EKSSpot | owned |
+| kubernetes.io/cluster/eksworkshop | owned |
+| k8s.io/cluster-autoscaler/enabled | true | 
 | Spot | true|
 
 Wait for few minutes (about 8-10). Check from command line if you are able to see these newly added EC2 instances as part of cluster launched by SpotFleet API by using command below
