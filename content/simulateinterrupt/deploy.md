@@ -29,11 +29,32 @@ Leave the default choice of `Request`, and leave `Total target capacity` to **1*
 
 Change the instance type to a `t2.micro`
 
-Choose the `VPC` for the EKS Workshop
+Provide the [**EKS-Optimized ami-id**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) that you used in your CloudFormation Template
+
+Choose the `VPC` for the EKS Workshop. Select each AZ. The subnets should be autopopulated
+
+Under `Security Groups`, select the one Named EKSWorkshop and nodegroup0
+
+For `Auto-assign IPv4 Public IP`, select **Enable**
+
+Select the `keypair` named eksworkshop
+
+Select the `IAM Instance Profile` beginning with **EKSWorkshop-nodegroup0**
+
+In the UserData section paste the following script:
+```
+#!/bin/bash
+set -o xtrace
+/etc/eks/bootstrap.sh eksworkshop --kubelet-extra-args --node-labels=lifecycle=Ec2Spot
+```
 
 Update the `Instance tags` to reflect below values. These instance tags ensure that when the EC2 instances are launched by SpotFleet API, they are discoverable and join the EKS cluster control plane endpoint for the cluster you created earlier.
 
-![Instance tags](/images/InstanceTags.png)
+| Key | Value |
+|-----------|-------|
+| Name | EKSSpot-SpotFleet-Node |
+| kubernetes.io/cluster/EKSSpot | owned |
+| Spot | true|
 
 Wait for few minutes (about 8-10). Check from command line if you are able to see these newly added EC2 instances as part of cluster launched by SpotFleet API by using command below
 
