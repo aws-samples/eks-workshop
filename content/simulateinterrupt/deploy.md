@@ -57,7 +57,7 @@ Update the `Instance tags` to reflect below values. These instance tags ensure t
 | k8s.io/cluster-autoscaler/enabled | true | 
 | Spot | true|
 
-Wait for few minutes (about 8-10). Check from command line if you are able to see these newly added EC2 instances as part of cluster launched by SpotFleet API by using command below
+Wait for few minutes (about 8-10). Check from command line if you are able to see these newly added EC2 instances as part of cluster launched by SpotFleet API by using command below.  Look at the Age column to identify the new node. Take note of the name as you will want to confirm that pods are placed on this instance in the next step.
 
 ```
 kubectl get nodes 
@@ -68,7 +68,7 @@ If you don't see your nodes joining the cluster, make sure the instances have th
 
 Now let's scale up the app we used previously with Cluster Autoscaler and watch the pods getting placed on newly added EC2 Instance using SpotFleet API.
 ```
-kubectl scale --replicas=5 deployment/nginx-to-scaleout
+kubectl scale --replicas=10 deployment/nginx-to-scaleout
 ```
 
 If you change the settings of all of the EC2 Spot instances ASGs, you can watch this interruption and reassignment very easily with a low-number of replicas. You can do this by setting one of your SpotNodeGroups ASG desired and min values to **1** and the rest to zero.

@@ -78,6 +78,23 @@ Watch the logs
 kubectl logs -f deployment/cluster-autoscaler -n kube-system
 ```
 
+### Deploy a PDB
+But how do you reliably control scale-down operations so that you do not remove the pods that you need? This is accomplished using a pod disruption budget (PDB). A PDB limits the number of replicated pods that can be down at a given time. Create a PDB to ensure that you always have at least one Cluster Autoscaler pod running.
+
+```
+cat <<EoF>~/environment/cluster-autoscaler/pdb.yml
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: cluster-autoscaler-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+EoF
+kubectl apply -f ~/environment/cluster-autoscaler/pdb.yml
+```
 #### We are now ready to scale our cluster
 
 {{%attachments title="Related files" pattern=".yml"/%}}
