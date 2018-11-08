@@ -4,4 +4,4 @@ chapter: true
 weight: 90
 ---
 
-# What Have We Accomplished?
+# Thank you!  Please complete the session survey in the mobile app.

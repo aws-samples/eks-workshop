@@ -23,11 +23,17 @@ kubectl get pods -o wide --sort-by='.status.hostIP'
 ```
 kubectl get nodes  -o wide --show-labels 
 ```  
-![Greeter pods on remaining nodes](/images/remainingspotpods.png) 
+![Greeter pods on remaining nodes](/images/remainingspotpods.png)
 
 ### What has happened?
 
 * The spot interrupt handler (running as daemon set) detected the interruption on EC2 instance launched by SpotFleet API.
 * It issued a `kubectl drain` API command
 * Kubernetes has reassigned the running pods elsewhere in cluster and your application is still running desired replicas.
+
+### Clean up the Spot Fleet
+Go to **Spot Requests**](https://eu-west-1.console.aws.amazon.com/ec2sp/v1/spot/home) in the EC2 Console. 
+
+Check the box next to the spot request and click on the **Actions** button above, and select **Cancel Spot Request** from the dropdown.
+
 
