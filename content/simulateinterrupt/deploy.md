@@ -31,7 +31,7 @@ Provide the [**EKS-Optimized ami-id**](https://docs.aws.amazon.com/eks/latest/us
 
 Change the instance type to a `t2.micro`
 
-Choose the `VPC` for the EKS Workshop. Select each AZ. The subnets should be autopopulated
+Choose the `VPC` for the EKS Workshop. Select each AZ. The subnets should be auto-populated
 
 Under `Security Groups`, select the one Named EKSWorkshop and nodegroup0
 
