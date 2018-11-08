@@ -23,13 +23,13 @@ Click on **Request Spot Instances** button
 
 <Screenshot>
 
-Leave the default choice of `Request`, and leave `Total target capacity` to **1**. (Later, we'll reduce this to **0** to cause Spot Fleet to send an interruption to EC2 instance)
+Leave the default choice of `Request and Maintain`, and leave `Total target capacity` to **1**. (Later, we'll reduce this to **0** to cause Spot Fleet to send an interruption to EC2 instance)
 
 <Screenshot>
 
-Change the instance type to a `t2.micro`
-
 Provide the [**EKS-Optimized ami-id**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) that you used in your CloudFormation Template
+
+Change the instance type to a `t2.micro`
 
 Choose the `VPC` for the EKS Workshop. Select each AZ. The subnets should be autopopulated
 
