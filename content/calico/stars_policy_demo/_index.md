@@ -1,7 +1,7 @@
 ---
 title: "Stars Policy Demo"
 chapter: true
-weight: 50
+weight: 62
 ---
 
 # Stars Policy Demo
