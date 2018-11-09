@@ -21,7 +21,7 @@ spec:
     targetPort: 9001
     nodePort: 30002
 ```
-{{% notice note %}}
+{{% notice tip %}}
 Remember to open port 30002 in your Worker nodes' Security Group.
 {{% /notice %}}
 

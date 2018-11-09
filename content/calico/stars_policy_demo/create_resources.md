@@ -51,6 +51,6 @@ stars           backend-tkjrx                                         1/1     Ru
 stars           frontend-q4r84                                        1/1     Running   0          24m
 ```
 
-{{% notice note %}}
+{{% notice tip %}}
 It may take several minutes to download all the required Docker images.
 {{% /notice %}}
