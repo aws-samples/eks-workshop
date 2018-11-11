@@ -1,8 +1,10 @@
 ---
-title: "Deploy Helm"
+title: "Using Helm"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
+
+### Configure Helm access with RBAC
 
 Helm relies on a service called **tiller** that requires special permission on the
 kubernetes cluster, so we need to build a _**Service Account**_ for **tiller**
@@ -46,3 +48,54 @@ helm init --service-account tiller
 
 This will install **tiller** into the cluster which gives it access to manage
 resources in your cluster.
+
+### Install Demo application
+
+Clone demo application [eksdemo-chart](https://github.com/alexei-led/eksdemo-chart) chart:
+
+```sh
+# clone this repository
+git clone https://github.com/alexei-led/eksdemo-chart
+
+# change working directory
+cd eksdemo-chart
+```
+
+First time application install with release named `workshop`:
+
+```sh
+helm --debug install --name workshop eksdemo
+```
+
+### Update demo application chart
+
+Modify `nodejs.image.repository` to `brentley/ecsdemo-nodejs-non-existing` in `values.yaml` file, setting non-existing Docker image.
+
+Deploy an update demo application chart:
+
+```sh
+helm update --name workshop eksdemo
+```
+
+The `eksdemo-nodejs` Pod will fail to pull non-existing image. So, we will rollback to the previous release revision. `helm status workshop` will show `ImagePullBackOff` error for the updated Pod.
+
+Now we are going to rollback to the previous working release revision.
+
+First, list Helm release revisions:
+
+```
+helm history workshop
+```
+
+Then, rollback to the previous application revision (can rollback to any revision too):
+
+```sh
+# rollback to the 1st revision
+helm rollback workshop 1
+```
+
+Validate `workshop` release status with:
+
+```
+helm status workshop
+```
