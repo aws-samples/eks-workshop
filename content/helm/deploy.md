@@ -71,15 +71,23 @@ helm --debug install --name workshop eksdemo
 
 Modify `nodejs.image.repository` to `brentley/ecsdemo-nodejs-non-existing` in `values.yaml` file, setting non-existing Docker image.
 
-Deploy an update demo application chart:
+Deploy the updated demo application chart:
 
 ```sh
-helm update --name workshop eksdemo
+helm upgrade workshop eksdemo
 ```
 
-The `eksdemo-nodejs` Pod will fail to pull non-existing image. So, we will rollback to the previous release revision. `helm status workshop` will show `ImagePullBackOff` error for the updated Pod.
+The `eksdemo-nodejs` Pod should fail to pull non-existing image.
 
-Now we are going to rollback to the previous working release revision.
+Run `helm status` command to see the `ImagePullBackOff` error:
+
+```
+`helm status workshop
+```
+
+### Rollback application
+
+Now we are going to rollback demo application to the previous working release revision.
 
 First, list Helm release revisions:
 
