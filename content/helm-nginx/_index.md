@@ -13,4 +13,4 @@ In this Chapter, we will dig deeper with Helm and demonstrate how to install the
 
 {{% children showhidden="false" %}}
 
-Be sure you completed the the chapter [Deploy Helm](../deploy) before continuing, as having Helm installed is a prerequisite for completing this chapter.
+Be sure you completed the the chapter [Deploy Helm](../helm) before continuing, as having Helm installed is a prerequisite for completing this chapter.
