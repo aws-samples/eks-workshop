@@ -58,5 +58,7 @@ replicaset.apps/grafana-b9697f8b5   1         1         1         2m
 You can get Grafana ELB URL using this command. Copy & Paste the value into browser to access Grafana web UI
 
 ```
-kubectl get svc -n grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname'}
+ELB=$(kubectl get svc -n grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname'})
+
+echo "http://$ELB"
 ```
