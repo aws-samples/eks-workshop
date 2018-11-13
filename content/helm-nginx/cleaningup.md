@@ -12,11 +12,11 @@ Before we delete it though, we can verify what we have running via the [Helm lis
 helm list
 ```
 
-You should see output similiar to below, which show that mywebserver is installed:
+You should see output similar to below, which show that mywebserver is installed:
 
 ```
-NAME            REVISION        UPDATED                         STATUS          CHART           APP VERSION     NAMESPACE
-mywebserver     1               Tue Nov 13 19:55:25 2018        DEPLOYED        nginx-1.1.2     1.14.1          default
+NAME            REVISION        UPDATED                         STATUS          CHART           APP VERSION     
+mywebserver     1               Tue Nov 13 19:55:25 2018        DEPLOYED        nginx-1.1.2     1.14.1          
 ```
 
 It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to delete this deployment.  To delete:

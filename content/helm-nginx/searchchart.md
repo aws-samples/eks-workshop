@@ -21,7 +21,7 @@ stable/aerospike                        0.1.7           v3.14.1.2               
 ...
 ```
 
-You can see from the output that it dumped the list of all Charts it knows about.  In some cases that may be useful, but an even more useful search would involve a keyword argument.  So next, we'll search just for nginx:
+You can see from the output that it dumped the list of all Charts it knows about.  In some cases that may be useful, but an even more useful search would involve a keyword argument.  So next, we'll search just for NGINX:
 
 ```
 helm search nginx
