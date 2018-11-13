@@ -15,14 +15,6 @@ helm install stable/metrics-server \
     --namespace metrics
 ```
 
-### Update Nodes Security Group
-
-By default, Amazon EKS nodes security group does not allow incoming `https` connection from masters security group and the control plane cannot access the Metrics API.
-
-Update the Amazon EKS Kubernetes nodes security groups to allow ingress / incoming `https` connections from the EKS masters security group.
-
-![Configure Nodes SG](/images/hpa-eks-sg.png)
-
 ### Confirm the Metrics API is available
 
 Return to the terminal in the Cloud9 Environment
@@ -42,5 +34,27 @@ status:
     status: "True"
     type: Available
 ```
+
+### Troubleshooting: Configure Access to the Metrics API
+
+If the Metrics API server is not available and you see the status message bellow, you might need to configure additional ingress rule for nodes security group.
+
+```text
+status:
+  conditions:
+  - lastTransitionTime: 2018-04-17T12:34:34Z
+    message: 'no response from https://10.100.11.77:443: Get https://10.100.11.77:443:
+      net/http: request canceled while waiting for connection (Client.Timeout exceeded
+      while awaiting headers)'
+    reason: FailedDiscoveryCheck
+    status: "False"
+    type: Available
+```
+
+By default, Amazon EKS nodes security group does not allow incoming `https` connection from masters security group and the control plane cannot access the Metrics API.
+
+Update the Amazon EKS Kubernetes nodes security groups to allow ingress / incoming `https` connections from the EKS masters security group.
+
+![Configure Nodes SG](/images/hpa-eks-sg.png)
 
 #### We are now ready to scale a deployed application
