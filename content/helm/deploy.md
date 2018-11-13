@@ -54,7 +54,7 @@ resources in your cluster.
 Clone demo application [eksdemo-chart](https://github.com/alexei-led/eksdemo-chart) chart:
 
 ```sh
-# set working directory to ~/environt
+# set working directory to ~/environment
 cd ~/environment
 
 # clone this repository
