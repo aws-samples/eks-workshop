@@ -1,5 +1,5 @@
 ---
-title: "Provision an ElasticSearch Cluster"
+title: "Provision an Elasticsearch Cluster"
 date: 2018-08-07T08:30:11-07:00
 weight: 20
 ---
@@ -22,7 +22,7 @@ aws es create-elasticsearch-domain \
 
 It takes a little while for the cluster to be created and arrive at an active state. The AWS Console should show the following status when the cluster is ready. 
 
-![ElasticSearch Dashboard](/images/logging_es_dashboard.png)
+![Elasticsearch Dashboard](/images/logging_es_dashboard.png)
 
 You could also check this via AWS CLI:
 ```
