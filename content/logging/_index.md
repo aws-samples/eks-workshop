@@ -1,5 +1,5 @@
 ---
-title: "Logging with ElasticSearch, Fluentd, and Kibana (EFK)"
+title: "Logging with Elasticsearch, Fluentd, and Kibana (EFK)"
 chapter: true
 weight: 64
 ---
