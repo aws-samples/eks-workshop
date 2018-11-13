@@ -67,12 +67,16 @@ cp ~/environment/ecsdemo-nodejs/kubernetes/deployment.yaml ~/environment/eksdemo
 cp ~/environment/ecsdemo-nodejs/kubernetes/service.yaml ~/environment/eksdemo/templates/service/nodejs.yaml
 ```
 
-All files in the templates directory are sent through the template engine. These are currently plain YAML files that would be sent to Kubernetes as-is. Let's replace some of the values with `template directives` to enable more customization and start removing hard-coded values.
+All files in the templates directory are sent through the template engine. These are currently plain YAML files that would be sent to Kubernetes as-is.
+
+#### Replace hard-coded values with template directives 
+Let's replace some of the values with `template directives` to enable more customization and start removing hard-coded values.
 
 Open ~/environment/eksdemo/templates/deployment/frontend.yaml in your Cloud9 editor.
 {{% notice info %}}
 You will repeat these steps for **crystal.yaml** and **nodejs.yaml**
 {{% /notice %}}
+
 Under `spec`, find **replicas: 1**  and replace with the following:
 ```
 replicas: {{ .Values.replica }}
@@ -115,6 +119,11 @@ helm install --debug --dry-run --name workshop ~/environment/eksdemo
 ```
 Confirm that the values created by the template look correct.
 
+Delete the workshop release
+```
+helm del --purge workshop
+```
+
 #### Deploy the chart
 Now that we have tested our template, lets install it. 
 ```
@@ -122,7 +131,7 @@ helm install --name workshop ~/environment/eksdemo
 ```
 #### Update demo application chart with a breaking change
 
-Open **values.yaml** and modify the image name under `nodejs.image.repository` to **brentley/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment. 
+Open **values.yaml** and modify the image name under `nodejs.image` to **brentley/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment. 
 
 Deploy the updated demo application chart:
 ```sh
