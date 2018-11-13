@@ -1,7 +1,7 @@
 ---
 title: "Deploy Helm"
 chapter: true
-weight: 63
+weight: 62
 ---
 
 # Deploy Helm
