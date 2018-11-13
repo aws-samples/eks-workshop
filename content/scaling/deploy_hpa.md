@@ -19,7 +19,7 @@ helm install stable/metrics-server \
 
 By default, Amazon EKS nodes security group does not allow incoming `https` connection from masters security group and the control plane cannot access the Metrics API.
 
-Update the Amazon EKS kubernetes nodes security groups to allow ingress / incoming `https` connections from the EKS masters security group.
+Update the Amazon EKS Kubernetes nodes security groups to allow ingress / incoming `https` connections from the EKS masters security group.
 
 ![Configure Nodes SG](/images/hpa-eks-sg.png)
 
