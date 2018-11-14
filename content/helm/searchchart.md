@@ -1,7 +1,7 @@
 ---
 title: "Search the Chart Repository"
 date: 2018-08-07T08:30:11-07:00
-weight: 20
+weight: 200
 ---
 
 Now that our repository Chart list has been updated, we can [search for Charts](https://docs.helm.sh/helm/#helm-search).

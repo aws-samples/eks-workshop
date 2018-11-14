@@ -1,7 +1,7 @@
 ---
 title: "Add the Bitnami Repository"
 date: 2018-08-07T08:30:11-07:00
-weight: 30
+weight: 300
 ---
 
 In the last slide, we saw that NGINX offers many different products via the default Helm Chart repository, but the NGINX standalone web server is not one of them.
@@ -65,4 +65,4 @@ In both of those last two searches, we see
 bitnami/nginx
 ```
 
-as a search result.  That's the one we're looking for, so lets next use Helm to install it to the EKS cluster.
+as a search result.  That's the one we're looking for, so let's use Helm to install it to the EKS cluster.

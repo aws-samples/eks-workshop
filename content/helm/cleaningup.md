@@ -1,7 +1,7 @@
 ---
 title: "Clean Up"
 date: 2018-08-07T08:30:11-07:00
-weight: 50
+weight: 500
 ---
 
 To remove all the objects that the Helm Chart created, we can use [Helm delete](https://docs.helm.sh/helm/#helm-delete).
@@ -22,7 +22,7 @@ mywebserver     1               Tue Nov 13 19:55:25 2018        DEPLOYED        
 It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to delete this deployment.  To delete:
 
 ```
-helm delete mywebserver
+helm delete --purge mywebserver
 ```
 
 And you should be met with the output:

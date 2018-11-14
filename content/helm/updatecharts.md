@@ -1,7 +1,7 @@
 ---
 title: "Update the Chart Repository"
 date: 2018-08-07T08:30:11-07:00
-weight: 10
+weight: 100
 ---
 
 Helm uses a packaging format called [Charts](https://github.com/helm/helm/blob/master/docs/charts.md).  A Chart is a collection of files that describe k8s resources.  
@@ -28,4 +28,4 @@ Hang tight while we grab the latest from your chart repositories...
 Update Complete. ⎈ Happy Helming!⎈
 ```
 
-Next, we'll search for the NGINX web server Chart. 
+Next, we'll search for the NGINX web server Chart.
