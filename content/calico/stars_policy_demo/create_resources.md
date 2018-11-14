@@ -32,6 +32,10 @@ Check their status, and wait for all the pods to reach the Running status:
 
 ```
 $ kubectl get pods --all-namespaces
+```
+Your output should look like this:
+
+```
 NAMESPACE       NAME                                                  READY   STATUS    RESTARTS   AGE
 client          client-nkcfg                                          1/1     Running   0          24m
 kube-system     aws-node-6kqmw                                        1/1     Running   0          50m
@@ -51,6 +55,6 @@ stars           backend-tkjrx                                         1/1     Ru
 stars           frontend-q4r84                                        1/1     Running   0          24m
 ```
 
-{{% notice tip %}}
+{{% notice note %}}
 It may take several minutes to download all the required Docker images.
 {{% /notice %}}
