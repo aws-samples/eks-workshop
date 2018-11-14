@@ -1,0 +1,3743 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta property="og:title" content="EKSworkshop.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://eksworkshop.com" />
+    <meta property="og:image" content="https://eksworkshop.com/images/3-service-animated.gif" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="generator" content="Hugo 0.50" />
+    <meta name="description" content="Amazon EKS Workshop">
+<meta name="author" content="Brent Langston">
+
+    <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="../../images/favicon.ico" type="image/x-icon" />
+
+    <title>Create StatefulSet :: Amazon EKS Workshop</title>
+
+    
+    <link href="../../css/nucleus.css?1542171799" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1542171799" rel="stylesheet">
+    <link href="../../css/hybrid.css?1542171799" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1542171799" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1542171799" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1542171799" rel="stylesheet">
+    <link href="../../css/theme.css?1542171799" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1542171799" rel="stylesheet">
+    <link href="../../css/jquery-ui.min.css?1542171799" rel="stylesheet">
+    
+      <link href="../../css/theme-mine.css?1542171799" rel="stylesheet">
+    
+
+    <script src="../../js/jquery-3.3.1.min.js?1542171799"></script>
+    <script src="../../js/jquery-ui-1.12.1.min.js?1542171799"></script>
+
+
+    <style type="text/css">
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/statefulset/statefulset/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a href="../../" title="Go home"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" width="60%" style="padding:20px 0px;"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg></a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="text" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-close"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js?1542171799"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1542171799"></script>
+<script type="text/javascript">
+    
+        var baseurl = '\/';
+    
+</script>
+<script type="text/javascript" src="../../js/search.js?1542171799"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/introduction/" title="Introduction" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../introduction/">
+          Introduction
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/introduction/basics/" title="Kubernetes (k8s) Basics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../introduction/basics/">
+          Kubernetes (k8s) Basics
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/basics/what_is_k8s/" title="What is Kubernetes?" class="dd-item ">
+        <a href="../../introduction/basics/what_is_k8s/">
+        What is Kubernetes?
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/basics/concepts_nodes/" title="Kubernetes Nodes" class="dd-item ">
+        <a href="../../introduction/basics/concepts_nodes/">
+        Kubernetes Nodes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/basics/concepts_objects/" title="K8s Objects Overview" class="dd-item ">
+        <a href="../../introduction/basics/concepts_objects/">
+        K8s Objects Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/basics/concepts_objects_details_1/" title="K8s Objects Detail (1/2)" class="dd-item ">
+        <a href="../../introduction/basics/concepts_objects_details_1/">
+        K8s Objects Detail (1/2)
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/basics/concepts_objects_details_2/" title="K8s Objects Detail (2/2)" class="dd-item ">
+        <a href="../../introduction/basics/concepts_objects_details_2/">
+        K8s Objects Detail (2/2)
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/introduction/architecture/" title="Kubernetes Architecture" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../introduction/architecture/">
+          Kubernetes Architecture
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/architecture/architecture_control_and_data_overview/" title="Architectural Overview" class="dd-item ">
+        <a href="../../introduction/architecture/architecture_control_and_data_overview/">
+        Architectural Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/architecture/architecture_control/" title="Control Plane" class="dd-item ">
+        <a href="../../introduction/architecture/architecture_control/">
+        Control Plane
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/architecture/architecture_worker/" title="Data Plane" class="dd-item ">
+        <a href="../../introduction/architecture/architecture_worker/">
+        Data Plane
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/architecture/cluster_setup_options/" title="Kubernetes Cluster Setup" class="dd-item ">
+        <a href="../../introduction/architecture/cluster_setup_options/">
+        Kubernetes Cluster Setup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/introduction/eks/" title="Amazon EKS" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../introduction/eks/">
+          Amazon EKS
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/eks/eks_customers/" title="EKS Cluster Creation Workflow" class="dd-item ">
+        <a href="../../introduction/eks/eks_customers/">
+        EKS Cluster Creation Workflow
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/eks/eks_control_plane/" title="What happens when you create your EKS cluster" class="dd-item ">
+        <a href="../../introduction/eks/eks_control_plane/">
+        What happens when you create your EKS cluster
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/eks/eks_high_architecture/" title="EKS Architecture for Control plane and Worker node communication" class="dd-item ">
+        <a href="../../introduction/eks/eks_high_architecture/">
+        EKS Architecture for Control plane and Worker node communication
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/eks/eks_high_level/" title="High Level" class="dd-item ">
+        <a href="../../introduction/eks/eks_high_level/">
+        High Level
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/introduction/eks/stay_tuned/" title="Amazon EKS!" class="dd-item ">
+        <a href="../../introduction/eks/stay_tuned/">
+        Amazon EKS!
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/prerequisites/" title="Prerequisites" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../prerequisites/">
+          Prerequisites
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/account/" title="Create an AWS account" class="dd-item ">
+        <a href="../../prerequisites/account/">
+        Create an AWS account
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/workspace/" title="Create a Workspace" class="dd-item ">
+        <a href="../../prerequisites/workspace/">
+        Create a Workspace
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/sshkey/" title="Create a SSH key" class="dd-item ">
+        <a href="../../prerequisites/sshkey/">
+        Create a SSH key
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/k8stools/" title="Install Kubernetes Tools" class="dd-item ">
+        <a href="../../prerequisites/k8stools/">
+        Install Kubernetes Tools
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/clone/" title="Clone the Service Repos" class="dd-item ">
+        <a href="../../prerequisites/clone/">
+        Clone the Service Repos
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/iamrole/" title="Create an IAM role for your Workspace" class="dd-item ">
+        <a href="../../prerequisites/iamrole/">
+        Create an IAM role for your Workspace
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/ec2instance/" title="Attach the IAM role to your Workspace" class="dd-item ">
+        <a href="../../prerequisites/ec2instance/">
+        Attach the IAM role to your Workspace
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/prerequisites/workspaceiam/" title="Update IAM settings for your Workspace" class="dd-item ">
+        <a href="../../prerequisites/workspaceiam/">
+        Update IAM settings for your Workspace
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/eksctl/" title="Launch using eksctl" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../eksctl/">
+          Launch using eksctl
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/eksctl/prerequisites/" title="Prerequisites" class="dd-item ">
+        <a href="../../eksctl/prerequisites/">
+        Prerequisites
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/eksctl/launcheks/" title="Launch EKS" class="dd-item ">
+        <a href="../../eksctl/launcheks/">
+        Launch EKS
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/eksctl/test/" title="Test the Cluster" class="dd-item ">
+        <a href="../../eksctl/test/">
+        Test the Cluster
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/dashboard/" title="Deploy the Kubernetes Dashboard" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../dashboard/">
+          Deploy the Kubernetes Dashboard
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/dashboard/dashboard/" title="Deploy the Official Kubernetes Dashboard" class="dd-item ">
+        <a href="../../dashboard/dashboard/">
+        Deploy the Official Kubernetes Dashboard
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/dashboard/connect/" title="Access the Dashboard" class="dd-item ">
+        <a href="../../dashboard/connect/">
+        Access the Dashboard
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/statefulset/" title="Stateful containers using StatefulSets" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="../../statefulset/">
+          Stateful containers using StatefulSets
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/storageclass/" title="Define Storageclass" class="dd-item ">
+        <a href="../../statefulset/storageclass/">
+        Define Storageclass
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/configmap/" title="Create ConfigMap" class="dd-item ">
+        <a href="../../statefulset/configmap/">
+        Create ConfigMap
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/services/" title="Create Services" class="dd-item ">
+        <a href="../../statefulset/services/">
+        Create Services
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/statefulset/" title="Create StatefulSet" class="dd-item active">
+        <a href="../../statefulset/statefulset/">
+        Create StatefulSet
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/testmysql/" title="Test MySQL" class="dd-item ">
+        <a href="../../statefulset/testmysql/">
+        Test MySQL
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/testfailure/" title="Test Failure" class="dd-item ">
+        <a href="../../statefulset/testfailure/">
+        Test Failure
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/scaling/" title="Test Scaling" class="dd-item ">
+        <a href="../../statefulset/scaling/">
+        Test Scaling
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/statefulset/cleanup/" title="Cleanup" class="dd-item ">
+        <a href="../../statefulset/cleanup/">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/deploy/" title="Deploy the Example Microservices" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../deploy/">
+          Deploy the Example Microservices
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/applications/" title="Deploy our Sample Applications" class="dd-item ">
+        <a href="../../deploy/applications/">
+        Deploy our Sample Applications
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/deploynodejs/" title="Deploy NodeJS Backend API" class="dd-item ">
+        <a href="../../deploy/deploynodejs/">
+        Deploy NodeJS Backend API
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/deploycrystal/" title="Deploy Crystal Backend API" class="dd-item ">
+        <a href="../../deploy/deploycrystal/">
+        Deploy Crystal Backend API
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/servicetype/" title="Let&#39;s check Service Types" class="dd-item ">
+        <a href="../../deploy/servicetype/">
+        Let&#39;s check Service Types
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/servicerole/" title="Ensure the ELB Service Role exists" class="dd-item ">
+        <a href="../../deploy/servicerole/">
+        Ensure the ELB Service Role exists
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/deployfrontend/" title="Deploy Frontend Service" class="dd-item ">
+        <a href="../../deploy/deployfrontend/">
+        Deploy Frontend Service
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/viewservices/" title="Find the Service Address" class="dd-item ">
+        <a href="../../deploy/viewservices/">
+        Find the Service Address
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/scalebackend/" title="Scale the Backend Services" class="dd-item ">
+        <a href="../../deploy/scalebackend/">
+        Scale the Backend Services
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/deploy/scalefrontend/" title="Scale the Frontend" class="dd-item ">
+        <a href="../../deploy/scalefrontend/">
+        Scale the Frontend
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/helm/" title="Deploy Helm" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../helm/">
+          Deploy Helm
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/helm/install/" title="Install Helm CLI" class="dd-item ">
+        <a href="../../helm/install/">
+        Install Helm CLI
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/helm/deploy/" title="Deploy Helm" class="dd-item ">
+        <a href="../../helm/deploy/">
+        Deploy Helm
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/logging/" title="Logging with ElasticSearch, Fluentd, and Kibana (EFK)" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../logging/">
+          Logging with ElasticSearch, Fluentd, and Kibana (EFK)
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/logging/prereqs/" title="Configure IAM Policy for Worker Nodes" class="dd-item ">
+        <a href="../../logging/prereqs/">
+        Configure IAM Policy for Worker Nodes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/logging/setup_es/" title="Provision an ElasticSearch Cluster" class="dd-item ">
+        <a href="../../logging/setup_es/">
+        Provision an ElasticSearch Cluster
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/logging/deploy/" title="Deploy Fluentd" class="dd-item ">
+        <a href="../../logging/deploy/">
+        Deploy Fluentd
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/logging/configurecwl/" title="Configure CloudWatch Logs and Kibana" class="dd-item ">
+        <a href="../../logging/configurecwl/">
+        Configure CloudWatch Logs and Kibana
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/logging/cleanup/" title="Cleanup Logging" class="dd-item ">
+        <a href="../../logging/cleanup/">
+        Cleanup Logging
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/codepipeline/" title="CI/CD with CodePipeline" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../codepipeline/">
+          CI/CD with CodePipeline
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/role/" title="Create IAM Role" class="dd-item ">
+        <a href="../../codepipeline/role/">
+        Create IAM Role
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/configmap/" title="Modify aws-auth ConfigMap" class="dd-item ">
+        <a href="../../codepipeline/configmap/">
+        Modify aws-auth ConfigMap
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/forksample/" title="Fork Sample Repository" class="dd-item ">
+        <a href="../../codepipeline/forksample/">
+        Fork Sample Repository
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/githubcredentials/" title="GitHub Access Token" class="dd-item ">
+        <a href="../../codepipeline/githubcredentials/">
+        GitHub Access Token
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/codepipeline/" title="CodePipeline Setup" class="dd-item ">
+        <a href="../../codepipeline/codepipeline/">
+        CodePipeline Setup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/change/" title="Trigger New Release" class="dd-item ">
+        <a href="../../codepipeline/change/">
+        Trigger New Release
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/codepipeline/cleanup/" title="Cleanup" class="dd-item ">
+        <a href="../../codepipeline/cleanup/">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/scaling/" title="Autoscaling our Applications and Clusters" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../scaling/">
+          Autoscaling our Applications and Clusters
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/scaling/deploy_hpa/" title="Configure Horizontal Pod AutoScaler (HPA)" class="dd-item ">
+        <a href="../../scaling/deploy_hpa/">
+        Configure Horizontal Pod AutoScaler (HPA)
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/scaling/test_hpa/" title="Scale an Application with HPA" class="dd-item ">
+        <a href="../../scaling/test_hpa/">
+        Scale an Application with HPA
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/scaling/deploy_ca/" title="Configure Cluster Autoscaler (CA)" class="dd-item ">
+        <a href="../../scaling/deploy_ca/">
+        Configure Cluster Autoscaler (CA)
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/scaling/test_ca/" title="Scale a Cluster with CA" class="dd-item ">
+        <a href="../../scaling/test_ca/">
+        Scale a Cluster with CA
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/scaling/cleanup/" title="Cleanup Scaling" class="dd-item ">
+        <a href="../../scaling/cleanup/">
+        Cleanup Scaling
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/monitoring/" title="Monitoring using Prometheus and Grafana" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../monitoring/">
+          Monitoring using Prometheus and Grafana
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/monitoring/prereqs/" title="Prereqs" class="dd-item ">
+        <a href="../../monitoring/prereqs/">
+        Prereqs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/monitoring/deploy-prometheus/" title="Deploy Prometheus" class="dd-item ">
+        <a href="../../monitoring/deploy-prometheus/">
+        Deploy Prometheus
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/monitoring/deploy-grafana/" title="Deploy Grafana" class="dd-item ">
+        <a href="../../monitoring/deploy-grafana/">
+        Deploy Grafana
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/monitoring/dashboards/" title="Dashboards" class="dd-item ">
+        <a href="../../monitoring/dashboards/">
+        Dashboards
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/monitoring/cleanup/" title="Cleanup" class="dd-item ">
+        <a href="../../monitoring/cleanup/">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/cleanup/" title="Cleanup" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../cleanup/">
+          Cleanup
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/cleanup/undeploy/" title="Undeploy the applications" class="dd-item ">
+        <a href="../../cleanup/undeploy/">
+        Undeploy the applications
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/cleanup/eksctl/" title="Delete the EKSCTL Cluster" class="dd-item ">
+        <a href="../../cleanup/eksctl/">
+        Delete the EKSCTL Cluster
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/cleanup/workspace/" title="Cleanup the Workspace" class="dd-item ">
+        <a href="../../cleanup/workspace/">
+        Cleanup the Workspace
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/conclusion/" title="Conclusion" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../conclusion/">
+          Conclusion
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/conclusion/conclusion/" title="What Have We Accomplished" class="dd-item ">
+        <a href="../../conclusion/conclusion/">
+        What Have We Accomplished
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/conclusion/survey/" title="Let us know what you think!" class="dd-item ">
+        <a href="../../conclusion/survey/">
+        Let us know what you think!
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/tabs-example/" title="" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../tabs-example/">
+          
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+             
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="../../more_resources"><i class='fas fa-bookmark'></i> More Resources</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../authors"><i class='fas fa-users'></i> Authors</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/aws-samples/eks-workshop"><i class='fab fa-github'></i> GitHub Project</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="mailto:eksworkshop@amazon.com"><i class='fas fa-envelope'></i> Have questions?</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="footer">
+      <left>
+
+    <h2 class="github-title">GitHub Repos</h2>
+
+    <h3 class="github-title">Frontend</h3>
+    <a class="github-button" href="https://github.com/brentley/ecsdemo-frontend" data-icon="octicon-star" data-show-count="true" aria-label="Star brentley/ecsdemo-frontend on GitHub">Star</a>
+    &nbsp;<a class="github-button" href="https://github.com/brentley/ecsdemo-frontend/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork brentley/ecsdemo-frontend on GitHub">Fork</a>
+
+    <h3 class="github-title">nodejs</h3>
+    <a class="github-button" href="https://github.com/brentley/ecsdemo-nodejs" data-icon="octicon-star" data-show-count="true" aria-label="Star brentley/ecsdemo-nodejs on GitHub">Star</a>
+    &nbsp;<a class="github-button" href="https://github.com/brentley/ecsdemo-nodejs/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork brentley/ecsdemo-nodejs on GitHub">Fork</a>
+
+    <h3 class="github-title">Crystal</h3>
+    <a class="github-button" href="https://github.com/brentley/ecsdemo-crystal" data-icon="octicon-star" data-show-count="true" aria-label="Star brentley/ecsdemo-crystal on GitHub">Star</a>
+    &nbsp;<a class="github-button" href="https://github.com/brentley/ecsdemo-crystal/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork brentley/ecsdemo-crystal on GitHub">Fork</a>
+
+    <h5 class="copyright">&copy; 2018 Amazon Web Services, Inc. or its Affiliates. All rights reserved.<h5>
+
+</left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                  
+                  
+                  
+                  <div id="top-github-link">
+                    <a class="github-link" title='Edit this page' href="https://github.com/aws-samples/eks-workshop/edit/master/content/statefulset/statefulset.md" target="blank">
+                      <i class="fas fa-code-branch"></i>
+                      <span id="top-github-link-text">Edit this page</span>
+                    </a>
+                  </div>
+                  
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../'>Amazon EKS Workshop</a> > <a href='../../statefulset/'>Stateful containers using StatefulSets</a> > Create StatefulSet
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+
+        
+        <div id="body-inner">
+          
+            <h1>Create StatefulSet</h1>
+          
+
+        
+
+
+<p>The official Kubernetes dashboard is not deployed by default, but there are
+instructions in <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/" target="_blank">the official documentation</a></p>
+
+<p>We can deploy the dashboard with the following command:</p>
+
+<pre><code>kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+</code></pre>
+
+<p>Since this is deployed to our private cluster, we need to access it via a proxy.
+Kube-proxy is available to proxy our requests to the dashboard service.  In your
+workspace, run the following command:</p>
+
+<pre><code>kubectl proxy --port=8080 --address='0.0.0.0' --disable-filter=true &amp;
+</code></pre>
+
+<p>This will start the proxy, listen on port 8080, listen on all interfaces, and
+will disable the filtering of non-localhost requests.</p>
+
+<p>This command will continue to run in the background of the current terminal&rsquo;s session.</p>
+
+<p><div class="notices warning" ><p>We are disabling request filtering, a security feature that guards against XSRF attacks.
+This isn&rsquo;t recommended for a production environment, but is useful for our dev environment.</p>
+</div>
+
+<section class="attachments ">
+	<label>
+		<i class="fas fa-paperclip" aria-hidden="true"></i>
+		Related files
+	</label>
+	
+		
+	
+	<div class="attachments-files">
+	
+		
+		
+			
+				<li>
+					<a href="../../statefulset/statefulset.files/mysql-statefulset.yml" >
+						mysql-statefulset.yml
+					</a>
+					(5 ko)
+				</li>
+			
+		
+	
+	<div>
+	
+</section>
+
+</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+        
+                    
+            
+        
+        
+        
+
+
+        
+            <a class="nav nav-prev" href="../../statefulset/services/" title="Create Services"> <i class="fas fa-chevron-left"></i></a>
+        
+        
+            <a class="nav nav-next" href="../../statefulset/testmysql/" title="Test MySQL" style="margin-right: 0px;"><i class="fas fa-chevron-right"></i></a>
+        
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js?1542171799"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1542171799"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1542171799"></script>
+    <script src="../../js/jquery.sticky.js?1542171799"></script>
+    <script src="../../js/featherlight.min.js?1542171799"></script>
+    <script src="../../js/html5shiv-printshiv.min.js?1542171799"></script>
+    <script src="../../js/highlight.pack.js?1542171799"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom.71422.js?1542171799"></script>
+    <script src="../../js/learn.js?1542171799"></script>
+    <script src="../../js/hugo-learn.js?1542171799"></script>
+
+    <link href="../../mermaid/mermaid.css?1542171799" type="text/css" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.min.js?1542171799"></script>
+    <script>
+	var config = {
+        startOnLoad:true,
+        flowchart:{
+	    curve:basis
+        }
+        mermaid.initialize(config);
+    </script>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-44634850-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+</html>
+

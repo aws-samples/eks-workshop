@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stateful containers using StatefulSets on Amazon EKS Workshop</title>
+    <link>/statefulset/</link>
+    <description>Recent content in Stateful containers using StatefulSets on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Aug 2018 08:30:11 -0700</lastBuildDate>
+    
+	<atom:link href="/statefulset/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Define Storageclass</title>
+      <link>/statefulset/storageclass/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/storageclass/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Create ConfigMap</title>
+      <link>/statefulset/configmap/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/configmap/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Create Services</title>
+      <link>/statefulset/services/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/services/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Create StatefulSet</title>
+      <link>/statefulset/statefulset/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/statefulset/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Test MySQL</title>
+      <link>/statefulset/testmysql/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/testmysql/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Test Failure</title>
+      <link>/statefulset/testfailure/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/testfailure/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Test Scaling</title>
+      <link>/statefulset/scaling/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/scaling/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+    <item>
+      <title>Cleanup</title>
+      <link>/statefulset/cleanup/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/statefulset/cleanup/</guid>
+      <description>The official Kubernetes dashboard is not deployed by default, but there are instructions in the official documentation
+We can deploy the dashboard with the following command:
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  Since this is deployed to our private cluster, we need to access it via a proxy. Kube-proxy is available to proxy our requests to the dashboard service. In your workspace, run the following command:
+kubectl proxy --port=8080 --address=&#39;0.0.0.0&#39; --disable-filter=true &amp;amp;  This will start the proxy, listen on port 8080, listen on all interfaces, and will disable the filtering of non-localhost requests.</description>
+    </item>
+    
+  </channel>
+</rss>

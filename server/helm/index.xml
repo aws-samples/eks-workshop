@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deploy Helm on Amazon EKS Workshop</title>
+    <link>/helm/</link>
+    <description>Recent content in Deploy Helm on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Aug 2018 08:30:11 -0700</lastBuildDate>
+    
+	<atom:link href="/helm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Install Helm CLI</title>
+      <link>/helm/install/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/helm/install/</guid>
+      <description>Before we can get started configuring helm we&amp;rsquo;ll need to first install the command line tools that you will interact with. To do this run the following.
+cd ~/environment curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get &amp;gt; get_helm.sh chmod +x get_helm.sh ./get_helm.sh  </description>
+    </item>
+    
+    <item>
+      <title>Deploy Helm</title>
+      <link>/helm/deploy/</link>
+      <pubDate>Tue, 07 Aug 2018 08:30:11 -0700</pubDate>
+      
+      <guid>/helm/deploy/</guid>
+      <description>Helm relies on a service called tiller that requires special permission on the kubernetes cluster, so we need to build a Service Account for tiller to use. We&amp;rsquo;ll then apply this to the cluster.
+To create a new service account manifest:
+cat &amp;lt;&amp;lt;EoF &amp;gt; ~/environment/rbac.yaml --- apiVersion: v1 kind: ServiceAccount metadata: name: tiller namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: tiller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: tiller namespace: kube-system EoF  Next apply the config:</description>
+    </item>
+    
+  </channel>
+</rss>

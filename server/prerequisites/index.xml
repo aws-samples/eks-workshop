@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Prerequisites on Amazon EKS Workshop</title>
+    <link>/prerequisites/</link>
+    <description>Recent content in Prerequisites on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/prerequisites/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Create an AWS account</title>
+      <link>/prerequisites/account/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/account/</guid>
+      <description>Your account must have the ability to create new IAM roles and scope other IAM permissions.
+  If you don&amp;rsquo;t already have an AWS account with Administrator access: create one now by clicking here
+ Once you have an AWS account, ensure you are following the remaining workshop steps as an IAM user with administrator access to the AWS account: Create a new IAM user to use for the workshop</description>
+    </item>
+    
+    <item>
+      <title>Create a Workspace</title>
+      <link>/prerequisites/workspace/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/workspace/</guid>
+      <description>The Cloud9 workspace should be built by an IAM user with Administrator privileges, not the root account user. Please ensure you are logged in as an IAM user, not the root account user.
+ This workshop was designed to run in the Oregon (us-west-2) region. Please don&amp;rsquo;t run in any other region. Future versions of this workshop will expand region availability, and this message will be removed.
+ -- Ad blockers, javascript disablers, and tracking blockers should be disabled for the cloud9 domain, or connecting to the workspace might be impacted.</description>
+    </item>
+    
+    <item>
+      <title>Create a SSH key</title>
+      <link>/prerequisites/sshkey/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/sshkey/</guid>
+      <description>ssh-keygen  Press enter 3 times to take the default choices
+ This key will be used on the worker node instances to allow ssh access if necessary.</description>
+    </item>
+    
+    <item>
+      <title>Install Kubernetes Tools</title>
+      <link>/prerequisites/k8stools/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/k8stools/</guid>
+      <description>Amazon EKS clusters require kubectl and kubelet binaries and the aws-iam-authenticator binary to allow IAM authentication for your Kubernetes cluster.
+In this workshop we will give you the commands to download the Linux binaries. If you are running Mac OSX / Windows, please see the official EKS docs for the download links.
+ Create the default ~/.kube directory for storing kubectl configuration mkdir -p ~/.kube  Install kubectl sudo curl --silent --location -o /usr/local/bin/kubectl &amp;quot;https://amazon-eks.</description>
+    </item>
+    
+    <item>
+      <title>Clone the Service Repos</title>
+      <link>/prerequisites/clone/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/clone/</guid>
+      <description>cd ~/environment git clone https://github.com/brentley/ecsdemo-frontend.git git clone https://github.com/brentley/ecsdemo-nodejs.git git clone https://github.com/brentley/ecsdemo-crystal.git  </description>
+    </item>
+    
+    <item>
+      <title>Create an IAM role for your Workspace</title>
+      <link>/prerequisites/iamrole/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/iamrole/</guid>
+      <description> Follow this deep link to create an IAM role with Administrator access. Confirm that AWS service and EC2 are selected, then click Next to view permissions. Confirm that AdministratorAccess is checked, then click Next to review. Enter eksworkshop-admin for the Name, and select Create Role   </description>
+    </item>
+    
+    <item>
+      <title>Attach the IAM role to your Workspace</title>
+      <link>/prerequisites/ec2instance/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/ec2instance/</guid>
+      <description> Follow this deep link to find your Cloud9 EC2 instance Select the instance, then choose Actions / Instance Settings / Attach/Replace IAM Role  Choose eksworkshop-admin from the IAM Role drop down, and select Apply   </description>
+    </item>
+    
+    <item>
+      <title>Update IAM settings for your Workspace</title>
+      <link>/prerequisites/workspaceiam/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/prerequisites/workspaceiam/</guid>
+      <description>Cloud9 normally manages IAM credentials dynamically. This isn&amp;rsquo;t currently compatible with the aws-iam-authenticator plugin, so we will disable it and rely on the IAM role instead.
+  Return to your workspace and click the sprocket, or launch a new tab to open the Preferences tab Select AWS SETTINGS Turn off AWS managed temporary credentials Close the Preferences tab  To ensure temporary credentials aren&amp;rsquo;t already in place we will also remove any existing credentials file:</description>
+    </item>
+    
+  </channel>
+</rss>

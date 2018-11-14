@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Launch using eksctl on Amazon EKS Workshop</title>
+    <link>/eksctl/</link>
+    <description>Recent content in Launch using eksctl on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Aug 2018 13:31:55 -0700</lastBuildDate>
+    
+	<atom:link href="/eksctl/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Prerequisites</title>
+      <link>/eksctl/prerequisites/</link>
+      <pubDate>Tue, 07 Aug 2018 13:31:55 -0700</pubDate>
+      
+      <guid>/eksctl/prerequisites/</guid>
+      <description>For this module, we need to download the eksctl binary:
+curl --silent --location &amp;quot;https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz&amp;quot; | tar xz -C /tmp sudo mv -v /tmp/eksctl /usr/local/bin  Confirm the eksctl command works:
+eksctl version  </description>
+    </item>
+    
+    <item>
+      <title>Launch EKS</title>
+      <link>/eksctl/launcheks/</link>
+      <pubDate>Tue, 07 Aug 2018 13:34:24 -0700</pubDate>
+      
+      <guid>/eksctl/launcheks/</guid>
+      <description>To create a basic EKS cluster, run:
+eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}  Launching EKS and all the dependencies will take approximately 15 minutes
+ </description>
+    </item>
+    
+    <item>
+      <title>Test the Cluster</title>
+      <link>/eksctl/test/</link>
+      <pubDate>Tue, 07 Aug 2018 13:36:57 -0700</pubDate>
+      
+      <guid>/eksctl/test/</guid>
+      <description>Confirm your Nodes:
+kubectl get nodes  Congratulations! You now have a fully working Amazon EKS Cluster that is ready to use!</description>
+    </item>
+    
+  </channel>
+</rss>

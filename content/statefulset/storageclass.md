@@ -1,0 +1,52 @@
+---
+title: "Define Storageclass"
+
+date: 2018-08-07T08:30:11-07:00
+weight: 5
+---
+#### Introduction
+[Dynamic Volume Provisioning](http://localhost:1313/statefulset/storageclass/) allows storage volumes to be created on-demand. [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) should be pre-created to define which provisoner should be used and what parameters should be passed when dynamic provisioning is invoked.
+(See parameters for [AWS EBS](https://kubernetes.io/docs/concepts/storage/storage-classes/#aws-ebs))
+#### Define Storage Class
+Copy/Paste the following commands into your Cloud9 Terminal. 
+```
+mkdir ~/environment/templates
+cd ~/environment/templates
+wget https://eksworkshop.com/statefulset/storageclass.files/mysql-storageclass.yml
+```
+Check the configuration of mysql-storageclass.yml file by following command.
+```
+cat ~/environment/templates/mysql-storageclass.yml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: gp2
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  zones: us-west-2a, us-west-2b, us-west-2c
+reclaimPolicy: Delete
+mountOptions:
+- debug
+```
+Check storageclass "gp2" created by following command. 
+```
+kubectl create -f ~/environment/templates/mysql-storageclass.yml
+storageclass.storage.k8s.io "gp2" created
+ 
+```
+
+We will specify "gp2" as the storageClassName in volumeClaimTemplates when creating StatefulSet later.
+```
+volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: gp2
+      resources:
+        requests:
+          storage: 10Gi
+```
+
+{{%attachments title="Related files" pattern=".yml"/%}}
