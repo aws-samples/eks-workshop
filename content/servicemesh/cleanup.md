@@ -36,6 +36,6 @@ kubectl delete -f istio.yaml
 
 kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
 
-kubectl delete ns istio-system
+kubectl delete namespace istio-system
 ```
 
