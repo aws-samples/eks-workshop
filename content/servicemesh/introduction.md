@@ -7,9 +7,11 @@ draft: false
 
 ### Istio
 
-> It is a completely open source service mesh that layers transparently onto existing distributed applications. It is also a platform, including APIs that let it integrate into any logging platform, or telemetry or policy system.
-
 ![Istio Architecture](/images/servicemesh-intro2.png)
+
+> Let's review in detail what each of these components are,
+>
+> It is a completely open source service mesh that layers transparently onto existing distributed applications. It is also a platform, including APIs that let it integrate into any logging platform, or telemetry or policy system.
 
 * <span style="color:orange">**Envoy**</span>
   * Process the inbound/outbound traffic from inter-service and service-to-external-service transparently.

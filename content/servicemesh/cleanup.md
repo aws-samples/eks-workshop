@@ -34,8 +34,8 @@ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/booki
 ```
 kubectl delete -f istio.yaml
 
-kubectl delete -f install/kubernetes/helm/helm-service-account.yaml
-
 kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+
+kubectl delete ns istio-system
 ```
 

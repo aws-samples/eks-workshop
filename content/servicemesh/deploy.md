@@ -5,7 +5,10 @@ weight: 40
 draft: false
 ---
 
+> Now that we have all the resources installed for Istio, we will use sample application called BookInfo to review key capabilities of Service Mesh such as intelligent routing and review telemetry data using Prometheus & Grafana.
+
 ### Sample Apps
+
 
 ![Sample Apps](/images/servicemesh-deploy1.png)
 
@@ -44,19 +47,31 @@ Deploy sample apps by manually injecting istio proxy and confirm pods, services 
 kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
 
 kubectl get pod
+NAME                              READY     STATUS    RESTARTS   AGE
+details-v1-64558cf56b-dxbx2       2/2       Running   0          14s
+productpage-v1-5b796957dd-hqllk   2/2       Running   0          14s
+ratings-v1-777b98fcc4-5bfr8       2/2       Running   0          14s
+reviews-v1-866dcb7ff-k69jm        2/2       Running   0          14s
+reviews-v2-6d7959c9d-5ppnc        2/2       Running   0          14s
+reviews-v3-7ddf94f545-m7vls       2/2       Running   0          14s
 
 kubectl get svc
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+details       ClusterIP   10.100.102.153   <none>        9080/TCP   17s
+kubernetes    ClusterIP   10.100.0.1       <none>        443/TCP    138d
+productpage   ClusterIP   10.100.222.154   <none>        9080/TCP   17s
+ratings       ClusterIP   10.100.1.63      <none>        9080/TCP   17s
+reviews       ClusterIP   10.100.255.157   <none>        9080/TCP   17s
 ```
 
-Define virtualservice, ingressgateway and find out ELB endpoint to get connected from your browser.
-
-This may take a minute or two, first for the Ingress to be created, and secondly for the Ingress to hook up with the services it exposes. `wait and wait`
+and define virtualservice, ingressgateway and find out ELB endpoint to get connected from your browser.
 
 ```
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
 kubectl get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n istio-system 
 ```
+This may take a minute or two, first for the Ingress to be created, and secondly for the Ingress to hook up with the services it exposes.
 
 Open a browser and connect to the endpoint that you get from istio-ingressgateway to see whether sample app is working.
 

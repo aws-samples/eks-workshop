@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Embedded tab content on Amazon EKS Workshop</title>
+    <link>/tabs-example/tabs/</link>
+    <description>Recent content in Embedded tab content on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Aug 2018 13:34:24 -0700</lastBuildDate>
+    
+	<atom:link href="/tabs-example/tabs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Launch EKS</title>
+      <link>/tabs-example/tabs/eksctl/</link>
+      <pubDate>Tue, 07 Aug 2018 13:34:24 -0700</pubDate>
+      
+      <guid>/tabs-example/tabs/eksctl/</guid>
+      <description>To create a basic EKS cluster, run:
+eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}  Launching EKS and all the dependencies will take approximately 15 minutes
+ </description>
+    </item>
+    
+    <item>
+      <title>Embedded tab content</title>
+      <link>/tabs-example/tabs/eks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/tabs-example/tabs/eks/</guid>
+      <description>To build the EKS cluster, we need to tell the EKS service which IAM Service role to use, and which Subnets and Security Group to use. We can gather this information from our previous labs where we built the IAM role and VPC:
+export SERVICE_ROLE=$(aws iam get-role --role-name &amp;quot;eks-service-role-workshop&amp;quot; --query Role.Arn --output text) export SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name &amp;quot;eksworkshop-cf&amp;quot; --query &amp;quot;Stacks[0].Outputs[?OutputKey==&#39;SecurityGroups&#39;].OutputValue&amp;quot; --output text) export SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name &amp;quot;eksworkshop-cf&amp;quot; --query &amp;quot;Stacks[0].</description>
+    </item>
+    
+    <item>
+      <title>Embedded tab content</title>
+      <link>/tabs-example/tabs/launcheks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/tabs-example/tabs/launcheks/</guid>
+      <description>We start by initializing the Terraform state:
+terraform init  We can now plan our deployment:
+terraform plan -var &#39;cluster-name=eksworkshop-tf&#39; -var &#39;desired-capacity=3&#39; -out eksworkshop-tf  And if we want to apply that plan:
+terraform apply &amp;quot;eksworkshop-tf&amp;quot;  Applying the fresh terraform plan will take approximately 15 minutes
+ </description>
+    </item>
+    
+  </channel>
+</rss>

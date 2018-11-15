@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes Architecture on Amazon EKS Workshop</title>
+    <link>/introduction/architecture/</link>
+    <description>Recent content in Kubernetes Architecture on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 Oct 2018 10:17:52 -0700</lastBuildDate>
+    
+	<atom:link href="/introduction/architecture/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Architectural Overview</title>
+      <link>/introduction/architecture/architecture_control_and_data_overview/</link>
+      <pubDate>Wed, 03 Oct 2018 10:18:20 -0700</pubDate>
+      
+      <guid>/introduction/architecture/architecture_control_and_data_overview/</guid>
+      <description>graph TB internet((internet)) kubectl{kubectl} subgraph ControlPlane api(API Server) controller(Controller Manager) scheduler(Scheduler) etcd(etcd) end subgraph worker1 kubelet1(kubelet) kube-proxy1(kube-proxy) subgraph docker1 subgraph podA containerA[container] end subgraph podB containerB[container] end end end internet--kube-proxy1 kubectl--api controller--api scheduler--api api--kubelet1 api--etcd kubelet1--containerA kubelet1--containerB kube-proxy1--containerA kube-proxy1--containerB classDef green fill:#9f6,stroke:#333,stroke-width:4px; classDef orange fill:#f96,stroke:#333,stroke-width:4px; classDef blue fill:#6495ed,stroke:#333,stroke-width:4px; class api blue; class internet green; class kubectl orange;  </description>
+    </item>
+    
+    <item>
+      <title>Control Plane</title>
+      <link>/introduction/architecture/architecture_control/</link>
+      <pubDate>Wed, 03 Oct 2018 10:18:27 -0700</pubDate>
+      
+      <guid>/introduction/architecture/architecture_control/</guid>
+      <description>graph TB kubectl{kubectl} subgraph ControlPlane api(API Server) controller(Controller Manager) scheduler(Scheduler) etcd(etcd) end kubectl--api controller--api scheduler--api api--kubelet api--etcd classDef green fill:#9f6,stroke:#333,stroke-width:4px; classDef orange fill:#f96,stroke:#333,stroke-width:4px; classDef blue fill:#6495ed,stroke:#333,stroke-width:4px; class api blue; class internet green; class kubectl orange;   One or More API Servers: Entry point for REST / kubectl
+ etcd: Distributed key/value store
+ Controller-manager: Always evaluating current vs desired state
+ Scheduler: Schedules pods to worker nodes
+  Check out the official Kubernetes documentation for a more in-depth explanation of control plane components.</description>
+    </item>
+    
+    <item>
+      <title>Data Plane</title>
+      <link>/introduction/architecture/architecture_worker/</link>
+      <pubDate>Wed, 03 Oct 2018 10:18:27 -0700</pubDate>
+      
+      <guid>/introduction/architecture/architecture_worker/</guid>
+      <description>graph TB internet((internet)) subgraph worker1 kubelet1(kubelet) kube-proxy1(kube-proxy) subgraph docker1 subgraph podA containerA[container] end subgraph podB containerB[container] end end end internet--kube-proxy1 api--kubelet1 kubelet1--containerA kubelet1--containerB kube-proxy1--containerA kube-proxy1--containerB classDef green fill:#9f6,stroke:#333,stroke-width:4px; classDef orange fill:#f96,stroke:#333,stroke-width:4px; classDef blue fill:#6495ed,stroke:#333,stroke-width:4px; class api blue; class internet green; class kubectl orange;   Made up of worker nodes
+ kubelet: Acts as a conduit between the API server and the node
+ kube-proxy: Manages IP translation and routing</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes Cluster Setup</title>
+      <link>/introduction/architecture/cluster_setup_options/</link>
+      <pubDate>Wed, 03 Oct 2018 10:21:11 -0700</pubDate>
+      
+      <guid>/introduction/architecture/cluster_setup_options/</guid>
+      <description>In addition to the managed Amazon EKS solution, there are many tools available to help bootstrap and configure a self-managed Kubernetes cluster. They include:
+ Minikube – Development and Learning Kops – Learning, Development, Production Kubeadm – Learning, Development, Production Docker for Mac - Learning, Development  Alongside these open source solutions, there are also many commercial options available.
+Let&amp;rsquo;s take a look at Amazon EKS!</description>
+    </item>
+    
+  </channel>
+</rss>

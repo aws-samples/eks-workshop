@@ -12,7 +12,8 @@ cd ~/environment
 
 curl -L https://git.io/getLatestIstio | sh -
 
-cd istio-1.0.x
+// version can be different as istio gets upgraded
+cd istio-1.0.3
 
-export PATH=$PWD/bin:$PATH
+sudo mv -v bin/istioctl /usr/local/bin/
 ```

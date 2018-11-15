@@ -10,7 +10,7 @@ draft: false
 Download a YAML file to hold configuration for the new metric and log stream that Istio will generate and collect automatically.
 
 ```
-curl -L https://bit.ly/2PoBefv -o istio-telemetry.yaml
+curl -LO https://s3.ap-northeast-2.amazonaws.com/docshared/AWS/istio-telemetry.yaml
 
 kubectl apply -f istio-telemetry.yaml
 ```
@@ -48,8 +48,8 @@ SMHOST="$(echo -e "${SMHOST}" | tr -d '[:space:]')"
 while true; do curl -o /dev/null -s "${SMHOST}/productpage"; done
 ```
 
-You will see that the traffic for sample app is only distributing for <span style="color:orange">reviews:v1</span> and <span style="color:blue">reviews:v3</span>
+You will see that the traffic is evenly spread between <span style="color:orange">reviews:v1</span> and <span style="color:blue">reviews:v3</span>
 
 ![Grafana Dashabord](/images/servicemesh-visualize1.png)
 
-Browse other Istio dashboard by click the menu on the top-left
+We encourage you to review other Istio dashboards that are available by clicking Istio Mesh Dashboard Menu on top left and selecting different dashboard

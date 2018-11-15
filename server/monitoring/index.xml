@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Monitoring using Prometheus and Grafana on Amazon EKS Workshop</title>
+    <link>/monitoring/</link>
+    <description>Recent content in Monitoring using Prometheus and Grafana on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 14 Oct 2018 09:27:46 -0400</lastBuildDate>
+    
+	<atom:link href="/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Prereqs</title>
+      <link>/monitoring/prereqs/</link>
+      <pubDate>Sun, 14 Oct 2018 19:56:14 -0400</pubDate>
+      
+      <guid>/monitoring/prereqs/</guid>
+      <description>Is helm installed? We will use helm to install Prometheus &amp;amp; Grafana monitoring tools for this chapter. Please review installing helm chapter for instructions if you don&amp;rsquo;t have it installed.
+helm ls  Configure Storage Class We will use gp2 EBS volumes for simplicity and demonstration purpose. While deploying in Production, you would use io1 volumes with desired IOPS and increase the default storage size in the manifests to get better performance.</description>
+    </item>
+    
+    <item>
+      <title>Deploy Prometheus</title>
+      <link>/monitoring/deploy-prometheus/</link>
+      <pubDate>Sun, 14 Oct 2018 20:33:02 -0400</pubDate>
+      
+      <guid>/monitoring/deploy-prometheus/</guid>
+      <description>Download Prometheus curl -o prometheus-values.yaml https://raw.githubusercontent.com/helm/charts/master/stable/prometheus/values.yaml  Open the prometheus-values.yaml you downloaded by double clicking on the file name on the left panel.
+Search for # storageClass: &amp;ldquo;-&amp;rdquo; in the prometheus-values.yaml, uncomment and change the value to &amp;ldquo;prometheus&amp;rdquo;. You will do this twice, under both server &amp;amp; alertmanager manifests
+The manifests will look like below
+## Prometheus server data Persistent Volume Storage Class ## If defined, storageClassName: &amp;lt;storageClass&amp;gt; ## If set to &amp;quot;-&amp;quot;, storageClassName: &amp;quot;&amp;quot;, which disables dynamic provisioning ## If undefined (the default) or set to null, no storageClassName spec is ## set, choosing the default provisioner.</description>
+    </item>
+    
+    <item>
+      <title>Deploy Grafana</title>
+      <link>/monitoring/deploy-grafana/</link>
+      <pubDate>Sun, 14 Oct 2018 20:54:13 -0400</pubDate>
+      
+      <guid>/monitoring/deploy-grafana/</guid>
+      <description>Download Grafana and update configuration curl -o grafana-values.yaml https://raw.githubusercontent.com/helm/charts/master/stable/grafana/values.yaml  Search for # storageClassName: default, uncomment and change the value to &amp;ldquo;prometheus&amp;rdquo; Search for # adminPassword: strongpassword, uncomment and change the password to &amp;ldquo;EKS!sAWSome&amp;rdquo; or something similar.
+Search for datasources: {} and uncomment entire block, update prometheus to the endpoint referred earlier by helm response. The configuration will look similar to below
+datasources: datasources.yaml: apiVersion: 1 datasources: - name: Prometheus type: prometheus url: http://prometheus-server.</description>
+    </item>
+    
+    <item>
+      <title>Dashboards</title>
+      <link>/monitoring/dashboards/</link>
+      <pubDate>Sun, 14 Oct 2018 21:03:43 -0400</pubDate>
+      
+      <guid>/monitoring/dashboards/</guid>
+      <description>Create Dashboards Login into Grafana dashboard using credentials supplied during configuration
+You will notice that &amp;lsquo;Install Grafana&amp;rsquo; &amp;amp; &amp;lsquo;create your first data source&amp;rsquo; are already completed. We will import community created dashboard for this tutorial
+Click &amp;lsquo;+&amp;rsquo; button on left panel and select &amp;lsquo;Import&amp;rsquo;
+Enter 3131 dashboard id under Grafana.com Dashboard &amp;amp; click &amp;lsquo;Load&amp;rsquo;.
+Leave the defaults, select &amp;lsquo;Prometheus&amp;rsquo; as the endpoint under prometheus data sources drop down, click &amp;lsquo;Import&amp;rsquo;.</description>
+    </item>
+    
+    <item>
+      <title>Cleanup</title>
+      <link>/monitoring/cleanup/</link>
+      <pubDate>Sun, 14 Oct 2018 21:03:30 -0400</pubDate>
+      
+      <guid>/monitoring/cleanup/</guid>
+      <description> Delete Prometheus and grafana helm delete prometheus helm del --purge prometheus helm delete grafana helm del --purge grafana  </description>
+    </item>
+    
+  </channel>
+</rss>
