@@ -1,7 +1,7 @@
 ---
 title: "Stateful containers using StatefulSets"
 chapter: true
-weight: 50
+weight: 63
 ---
 
 # Stateful containers using StatefulSets

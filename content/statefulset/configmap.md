@@ -5,7 +5,7 @@ weight: 10
 ---
 
 #### Introduction
-[ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) allow you to decouple configuration artifacts and secrets from image content to keep containerized applications portable. Using ConfigMap, you can independently control MySQL configuration. In this lab, we will use master to serve replication logs to slave and slaves are read-only. 
+[ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) allow you to decouple configuration artifacts and secrets from image content to keep containerized applications portable. Using ConfigMap, you can independently control MySQL configuration. 
 
 #### Create ConfigMap
 Copy/Paste the following commands into your Cloud9 Terminal.
@@ -17,6 +17,9 @@ wget https://eksworkshop.com/statefulset/configmap.files/mysql-configmap.yml
 Check the configuration of mysql-configmap.yml file by following command.
 ```
 cat ~/environment/templates/mysql-configmap.yml
+```
+You can see **master.cnf** has binary log option (log-bin) to provides a record of the data changes to be sent to slave servers and **slave.cnf** has super-read-only option.
+```
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -33,10 +36,9 @@ data:
     [mysqld]
     super-read-only
 ```
-Check configmap "mysql-config" created by following command.
+Create configmap "mysql-config" by following command.
 ```
 kubectl create -f ~/environment/templates/mysql-configmap.yml
-configmap "mysql-config" created
 ```
 
 {{%attachments title="Related files" pattern=".yml"/%}}

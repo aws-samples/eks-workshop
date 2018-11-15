@@ -162,7 +162,7 @@ spec:
       name: data
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: gp2
+      storageClassName: mysql-gp2
       resources:
         requests:
           storage: 10Gi

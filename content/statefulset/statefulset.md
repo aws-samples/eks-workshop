@@ -12,24 +12,29 @@ Copy/Paste the following commands into your Cloud9 Terminal.
 cd ~/environment/templates
 wget https://eksworkshop.com/statefulset/statefulset.files/mysql-statefulset.yml
 ```
-Check statefulset "mysql" created by following command.
+Create statefulset "mysql" by following command.
 ```
 kubectl create -f ~/environment/templates/mysql-statefulset.yml
-statefulset "mysql" created
 ```
 #### Watch StatefulSet
 Watch the status of statefulset.
 ```
 kubectl get -w statefulset
+```
+DESIRED is the replicas number you define at StatefulSet.
+```
 NAME      DESIRED   CURRENT   AGE
 mysql     3         1         8s
 mysql     3         2         59s
 mysql     3         3         2m
 mysql     3         3         3m
 ```
-Open another Cloud9 Terminal and watch the progress of pods creation using the following command. You can see ordered, graceful deployment with a stable, unique name for each pod.
+Open another Cloud9 Terminal and watch the progress of pods creation using the following command. 
 ```
 kubectl get pods -l app=mysql --watch
+```
+You can see ordered, graceful deployment with a stable, unique name for each pod.
+```
 NAME      READY     STATUS     RESTARTS   AGE
 mysql-0   0/2       Init:0/2   0          30s
 mysql-0   0/2       Init:1/2   0         35s
@@ -60,10 +65,13 @@ Press Ctrl+C to stop watching.
 Check the dynamically created PVC by following command.
 ```
 kubectl get pvc -l app=mysql
+```
+You can see data-mysql-0,1,2 are created by STORAGECLASS mysql-gp2.
+```
 NAME           STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-data-mysql-0   Bound     pvc-83e9dfeb-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            gp2            1d
-data-mysql-1   Bound     pvc-977e7806-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            gp2            1d
-data-mysql-2   Bound     pvc-b3009b02-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            gp2            1d
+data-mysql-0   Bound     pvc-83e9dfeb-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            1d
+data-mysql-1   Bound     pvc-977e7806-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            1d
+data-mysql-2   Bound     pvc-b3009b02-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            1d
 ```
 (Optional) Check 10Gi 3 EBS volumes are created across availability zones at your AWS console.
 {{%attachments title="Related files" pattern=".yml"/%}}

@@ -14,6 +14,9 @@ wget https://eksworkshop.com/statefulset/services.files/mysql-services.yml
 Check the configuration of mysql-services.yml by following command.
 ```
 cat ~/environment/templates/mysql-services.yml
+```
+You can see the **mysql** service is for DNS resolution so that when pods are placed by StatefulSet controller, pods can be resolved using pod-name.mysql. **mysql-read** is a client service that does load balancing for all slaves. 
+```
 # Headless service for stable DNS entries of StatefulSet members.
 apiVersion: v1
 kind: Service
@@ -44,11 +47,8 @@ spec:
   selector:
     app: mysql
 ```
-Check service "mysql" and "mysql-read" created by following command
+Create service mysql and mysql-read by following command
 ```
 kubectl create -f ~/environment/templates/mysql-services.yml
-service "mysql" created
-service "mysql-read" created
 ```
-The **mysql** service is used for DNS resolution so that when pods are placed by StatefulSet Controller, pods can be resolved using pod-name.mysql. To execute writes, clients should connect directly to the MySQL master Pod. The **mysql-read** is a client service that does load balancing for all slaves and only read queries can use it. 
 {{%attachments title="Related files" pattern=".yml"/%}}

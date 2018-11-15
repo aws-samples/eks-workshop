@@ -7,17 +7,20 @@ First delete the StatefulSet. This will also terminates the pods.
 It may take some while.
 ```
 kubectl delete statefulset mysql
-statefulset "mysql" deleted
 ```
-Verify there are no pods running
+Verify there are no pods running by following command.
 ```
 kubectl get pods -l app=mysql
+```
+```
 No resources found.
 ```
 
 Delete ConfigMap, Service and PVC by following command.
 ```
 kubectl delete configmap,service,pvc -l app=mysql
+```
+```
 configmap "mysql-config" deleted
 service "mysql" deleted
 service "mysql-read" deleted
