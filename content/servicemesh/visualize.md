@@ -2,7 +2,7 @@
 title: "Monitor & Visualize"
 date: 2018-11-13T22:42:01+09:00
 weight: 60
-draft: true
+draft: false
 ---
 
 ### Collecting new telemetry data

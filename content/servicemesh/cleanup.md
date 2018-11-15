@@ -2,10 +2,10 @@
 title: "Cleanup"
 date: 2018-11-13T23:59:44+09:00
 weight: 70
-draft: true
+draft: false
 ---
 
-#### remove telemetry configuration / port-forward process
+#### Remove telemetry configuration / port-forward process
 
 ```
 kubectl delete -f istio-telemetry.yaml

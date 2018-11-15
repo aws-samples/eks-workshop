@@ -2,7 +2,7 @@
 title: "Download and Install Istio CLI"
 date: 2018-11-13T16:36:43+09:00
 weight: 20
-draft: true
+draft: false
 ---
 
 Before we can get started configuring Istio we’ll need to first install the command line tools that you will interact with. To do this run the following.

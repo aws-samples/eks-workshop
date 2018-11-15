@@ -2,7 +2,7 @@
 title: "Intelligent Routing"
 date: 2018-11-13T21:49:32+09:00
 weight: 50
-draft: true
+draft: false
 ---
 
 ### Intelligent Routing
