@@ -10,7 +10,7 @@ draft: false
 Download a YAML file to hold configuration for the new metric and log stream that Istio will generate and collect automatically.
 
 ```
-curl -LO https://s3.ap-northeast-2.amazonaws.com/docshared/AWS/istio-telemetry.yaml
+curl -LO https://eksworkshop.com/servicemesh/deploy.files/istio-telemetry.yaml
 
 kubectl apply -f istio-telemetry.yaml
 ```

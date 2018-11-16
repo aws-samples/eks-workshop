@@ -45,8 +45,11 @@ Deploy sample apps by manually injecting istio proxy and confirm pods, services 
 
 ```
 kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
+```
 
-kubectl get pod
+The output from 'kubectl get pod, svc' will look like this.
+
+```
 NAME                              READY     STATUS    RESTARTS   AGE
 details-v1-64558cf56b-dxbx2       2/2       Running   0          14s
 productpage-v1-5b796957dd-hqllk   2/2       Running   0          14s
@@ -55,7 +58,6 @@ reviews-v1-866dcb7ff-k69jm        2/2       Running   0          14s
 reviews-v2-6d7959c9d-5ppnc        2/2       Running   0          14s
 reviews-v3-7ddf94f545-m7vls       2/2       Running   0          14s
 
-kubectl get svc
 NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 details       ClusterIP   10.100.102.153   <none>        9080/TCP   17s
 kubernetes    ClusterIP   10.100.0.1       <none>        443/TCP    138d
