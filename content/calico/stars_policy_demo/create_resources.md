@@ -6,29 +6,30 @@ weight: 1
 
 Before creating network polices, let's create the required resources.
 
-Create a namespace called [stars](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml):
+Create a namespace called stars:
 
 ```
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
+cd ~/environment/calico_resources
+kubectl apply -f 00-namespace.yaml
 ```
 We will create frontend and backend [replication controllers](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
 
 
-[Create](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml) a management-ui namespace, with a management-ui service and replication controller within that namespace:
+Create a management-ui namespace, with a management-ui service and replication controller within that namespace:
 
 ```
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
+kubectl apply -f 01-management-ui.yaml
 ```
-Create [frontend](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml) and [backend](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml) replication controllers and services within the stars namespace:
+Create frontend and backend replication controllers and services within the stars namespace:
 
 ```
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml
+kubectl apply -f 02-backend.yaml
+kubectl apply -f 03-frontend.yaml
 ```
-Lastly, [create](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml) a client namespace, and a client service for a replication controller:
+Lastly, create a client namespace, and a client service for a replication controller:
 
 ```
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml
+kubectl apply -f 04-client.yaml
 ```
 Check their status, and wait for all the pods to reach the Running status:
 

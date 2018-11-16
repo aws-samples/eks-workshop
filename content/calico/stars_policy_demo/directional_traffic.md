@@ -8,13 +8,13 @@ Let's see how we can allow directional traffic from client to frontend and backe
 To allow traffic from frontend service to the backend service apply the following manifest:
 
 ```
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/backend-policy.yaml
+kubectl apply -f backend-policy.yaml
 ```
 
 And allow traffic from the client namespace to the frontend service:
 
 ```
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/frontend-policy.yaml
+kubectl apply -f frontend-policy.yaml
 ```
 Upon refreshing your browser, you should be able to see the network policies in action:
 
