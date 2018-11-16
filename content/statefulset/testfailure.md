@@ -9,7 +9,7 @@ Open a new terminal and simulate MySQL as being unresponsive by following comman
 ```
 kubectl exec mysql-2 -c mysql -- mv /usr/bin/mysql /usr/bin/mysql.off
 ```
-This command renames the /usr/bin/mysql command so shat readiness probe can't find it. During the next health check, the pod should report one of it's containers is not healthy. This can be verified by following command.
+This command renames the /usr/bin/mysql command so that readiness probe can't find it. During the next health check, the pod should report one of it's containers is not healthy. This can be verified by following command.
 ```
 kubectl get pod mysql-2
 ```
