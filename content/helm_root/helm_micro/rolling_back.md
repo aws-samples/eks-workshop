@@ -1,15 +1,12 @@
 ---
-title: "Using Helm"
+title: "Rolling Back"
 date: 2018-08-07T08:30:11-07:00
-weight: 1
+weight: 50
 ---
-#### Deploy our Microservices using Helm
 
+Mistakes will happen during deployment, and when they do, Helm makes it easy to undo, or "roll back" to the previously deployed version.
 
-
-
-
-#### Update demo application chart with a breaking change
+#### Update the demo application chart with a breaking change
 
 Open **values.yaml** and modify the image name under `nodejs.image` to **brentley/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment.
 
