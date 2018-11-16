@@ -5,9 +5,7 @@ weight: 2
 ---
 In Kubernetes, the **pods by default can communicate with other pods**, regardless of which host they land on. Every pod gets its own IP address so you do not need to explicitly create links between pods. This is demonstrated by the management UI
 
-You can access it by going to one of your worker nodes' IP address and specifying port :30002 at the end (for example: 52.12.161.128:30002)
-
-30002 is the port on each node's IP where the service is exposed.
+because we specified NodePort while deploying our services, you can reach this service using worker node IP:NodePort, which is 30002 (for example: 52.12.161.128:30002)
 
 ```
 kind: Service
@@ -22,7 +20,7 @@ spec:
     nodePort: 30002
 ```
 {{% notice tip %}}
-Remember to open port 30002 in your Worker nodes' Security Group.
+Remember to open port 30002 in your Worker nodes' [Security Group](https://console.aws.amazon.com/ec2/v2/home?#/nstances:sort=tag:Name/).
 {{% /notice %}}
 
 The UI here shows the default behavior, of all services being able to reach each other.

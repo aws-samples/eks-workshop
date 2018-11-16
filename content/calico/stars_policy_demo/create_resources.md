@@ -6,18 +6,20 @@ weight: 1
 
 Before creating network polices, let's create the required resources.
 
-Create a namespace called [stars](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml). We will create frontend and backend services in this namespace in later steps
+Create a namespace called [stars](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml):
 
 ```
 kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
 ```
+We will create frontend and backend [replication controllers](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
 
-[Create](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml) a management-ui namespace, with a management-ui service and [replication controller](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/) within that namespace.
+
+[Create](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml) a management-ui namespace, with a management-ui service and replication controller within that namespace:
 
 ```
 kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
 ```
-Create [frontend](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml) and [backend](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml) services within the stars namespace:
+Create [frontend](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml) and [backend](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml) replication controllers and services within the stars namespace:
 
 ```
 kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
@@ -58,3 +60,12 @@ stars           frontend-q4r84                                        1/1     Ru
 {{% notice note %}}
 It may take several minutes to download all the required Docker images.
 {{% /notice %}}
+
+To summarize the different resources we created:
+
+* A namespace called 'stars'
+* 'frontend' and 'backend' replication controllers and services within 'stars' namespace
+* A namespace called 'management-ui'
+* Replication controller and service 'management-ui' for the user interface seen on the browser, in the 'management-ui' namespace
+* A namespace called 'client'
+* 'client' replication controller and service in 'client' namespace

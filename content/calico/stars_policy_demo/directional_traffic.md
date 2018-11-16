@@ -20,7 +20,7 @@ Upon refreshing your browser, you should be able to see the network policies in 
 
 ![directional traffic](/images/calico-client-f-b-access.png)
 
-Let's have a look at the backend-policy. Its spec has a podSelector that selects all pods with the label **role:backend**, and allows ingress from all pods that have the label **role:frontend** and on TCP port **6379**
+Let's have a look at the backend-policy. Its spec has a podSelector that selects all pods with the label **role:backend**, and allows ingress from all pods that have the label **role:frontend** and on TCP port **6379**, but not the other way round. Traffic is allowed in one direction on a specific port number.
 
 ```
 spec:
