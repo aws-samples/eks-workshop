@@ -1,7 +1,7 @@
 ---
-title: "Deploy Helm"
+title: "Deploying NGINX webserver Using Helm"
 chapter: true
-weight: 62
+weight: 70
 ---
 
 # Kubernetes Helm

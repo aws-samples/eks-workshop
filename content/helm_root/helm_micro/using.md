@@ -5,8 +5,6 @@ weight: 20
 ---
 #### Deploy our Microservices using Helm
 
-Instead of manually deploying our microservices using `kubectl`, we will create a custom Helm Chart. For detailed information on working with chart templates, refer to the [**Helm docs**](https://docs.helm.sh/chart_template_guide/)
-
 Helm charts are structured like this:
 
 ```text
@@ -69,7 +67,7 @@ cp ~/environment/ecsdemo-nodejs/kubernetes/service.yaml ~/environment/eksdemo/te
 
 All files in the templates directory are sent through the template engine. These are currently plain YAML files that would be sent to Kubernetes as-is.
 
-#### Replace hard-coded values with template directives 
+#### Replace hard-coded values with template directives
 Let's replace some of the values with `template directives` to enable more customization and start removing hard-coded values.
 
 Open ~/environment/eksdemo/templates/deployment/frontend.yaml in your Cloud9 editor.
@@ -91,7 +89,7 @@ Under `spec.template.spec.containers.image`, replace the image with the correct 
 
 #### Create a values.yaml file with our template defaults
 
-This file will populate our `template directives` with default values. 
+This file will populate our `template directives` with default values.
 ```
 cat <<EoF > ~/environment/eksdemo/values.yaml
 # Default values for eksdemo.
@@ -125,13 +123,13 @@ helm del --purge workshop
 ```
 
 #### Deploy the chart
-Now that we have tested our template, lets install it. 
+Now that we have tested our template, lets install it.
 ```
 helm install --name workshop ~/environment/eksdemo
 ```
 #### Update demo application chart with a breaking change
 
-Open **values.yaml** and modify the image name under `nodejs.image` to **brentley/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment. 
+Open **values.yaml** and modify the image name under `nodejs.image` to **brentley/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment.
 
 Deploy the updated demo application chart:
 ```sh
