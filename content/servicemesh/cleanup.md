@@ -9,8 +9,6 @@ draft: false
 
 ```
 kubectl delete -f istio-telemetry.yaml
-
-killall kubectl
 ```
 
 #### Remove the application virtual services / destination rules
@@ -26,7 +24,7 @@ kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
 ```
 kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
-kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
+kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
 ```
 
 #### Remove the Istio
