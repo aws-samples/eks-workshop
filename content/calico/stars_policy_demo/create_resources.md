@@ -6,6 +6,10 @@ weight: 1
 
 Before creating network polices, let's create the required resources.
 
+First, clone the Github repo containing all the manifests:
+```
+git clone https://github.com/nikipat/calico_resources.git
+```
 Create a namespace called stars:
 
 ```
