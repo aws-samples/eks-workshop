@@ -19,7 +19,7 @@ aws-iam-authenticator token -i eksworkshop-eksctl --token-only
 ```
 
 Copy the output of this command and then *click* the radio button next to
-*Token* then in the text field below pate the output from the last command.
+*Token* then in the text field below paste the output from the last command.
 
 ![Token page](/images/dashboard-connect.png)
 
