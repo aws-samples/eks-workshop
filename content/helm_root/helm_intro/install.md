@@ -4,8 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 5
 ---
 
-Before we can get started configuring `helm` we'll need to first install the
-command line tools that you will interact with. To do this run the following.
+Before we can get started configuring `helm` we'll need to first install the command line tools that you will interact with. To do this run the following.
 
 ```
 cd ~/environment
