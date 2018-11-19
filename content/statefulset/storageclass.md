@@ -18,7 +18,7 @@ Check the configuration of mysql-storageclass.yml file by following command.
 ```
 cat ~/environment/templates/mysql-storageclass.yml
 ```
-You can see provisioner is kubernetes.io/aws-ebs and parameters for EBS.
+You can see provisioner is kubernetes.io/aws-ebs and type is gp2 specified as a parameter. 
 ```
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -27,7 +27,6 @@ metadata:
 provisioner: kubernetes.io/aws-ebs
 parameters:
   type: gp2
-  zones: us-west-2a, us-west-2b, us-west-2c
 reclaimPolicy: Delete
 mountOptions:
 - debug
