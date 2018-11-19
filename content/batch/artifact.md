@@ -22,14 +22,14 @@ Next, edit the workflow-controller ConfigMap to use the S3 bucket.
 kubectl edit -n argo configmap/workflow-controller-configmap
 ```
 
-Add the following lines to the end of the ConfigMap:
+Add the following lines to the end of the ConfigMap, substituting your Account ID for `{{ACCOUNT_ID}}`:
 
 ```
 data:
   config: |
     artifactRepository:
       s3:
-        bucket: batch-artifact-repository-${ACCOUNT_ID}
+        bucket: batch-artifact-repository-{{ACCOUNT_ID}}
         endpoint: s3.amazonaws.com
 ```
 
