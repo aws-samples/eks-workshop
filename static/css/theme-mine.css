@@ -148,3 +148,38 @@ div.notices p:first-child:before {
     font-weight: 900; /* Fix version 5.0.9 */
     left: 10px;
 }
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    border: 1px solid #dddddd;
+    font-weight: normal;
+    color: #454545;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    border: 1px solid var(--MENU-HEADER-BG-color);
+    background: var(--MENU-HEADER-BG-color);
+    font-weight: normal;
+    color: #fff;
+}
+
+.ui-widget.ui-widget-content {
+    border: 1px solid #eeeeee;
+}
+
+.ui-widget-header {
+  border: 1px solid #eeeeee;
+}
+
+.hljs {
+  background-color: none; 
+}
+
+pre {
+  background-color: var(--MENU-SECTIONS-BG-color) !important;
+}
+
+div.notices.info p {
+    border-top: 30px solid #fd9827;
+    background: #FFF2DB;
+}
+

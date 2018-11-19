@@ -8,7 +8,7 @@ draft: false
 #### Delete Prometheus and grafana
 ```
 helm delete prometheus
-
 helm del --purge prometheus
-
+helm delete grafana
+helm del --purge grafana
 ```

@@ -2,8 +2,9 @@
 title: "Deploy Helm"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
-draft: true
 ---
+
+### Configure Helm access with RBAC
 
 Helm relies on a service called **tiller** that requires special permission on the
 kubernetes cluster, so we need to build a _**Service Account**_ for **tiller**
@@ -34,7 +35,7 @@ subjects:
 EoF
 ```
 
-Lastly apply the config:
+Next apply the config:
 ```
 kubectl apply -f ~/environment/rbac.yaml
 ```

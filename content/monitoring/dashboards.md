@@ -7,15 +7,15 @@ draft: false
 
 #### Create Dashboards
 
-In your Cloud9 environment, click **Preview / Preview Running Application**. Scroll to **the end of the URL** and append **:3000** to view cluster-level metrics
+Login into Grafana dashboard using credentials supplied during configuration
 
-You will notice that 'Install Grafana' & 'create your first data source' are already completed. We will import community created dashboard
+You will notice that **'Install Grafana'** & **'create your first data source'** are already completed. We will import community created dashboard for this tutorial
 
 Click '+' button on left panel and select 'Import'
 
-Enter **3131** dashboard id under Grafana.com Dashboard & click 'Load'.
+Enter **3131** dashboard id under Grafana.com Dashboard & click **'Load'**.
 
-Leave the defaults, select 'Prometheus' as the endpoint, click 'Import'
+Leave the defaults, select **'Prometheus'** as the endpoint under prometheus data sources drop down, click **'Import'**.
 
 This will show monitoring dashboard for all cluster nodes
 
