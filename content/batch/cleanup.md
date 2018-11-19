@@ -20,6 +20,11 @@ ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/
 ```
 
+#### Remove permissions for Artifact Repository Bucket
+```bash
+aws iam delete-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker
+```
+
 #### Undeploy Argo
 
 ```bash
