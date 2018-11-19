@@ -18,7 +18,7 @@ Check the configuration of mysql-configmap.yml file by following command.
 ```
 cat ~/environment/templates/mysql-configmap.yml
 ```
-You can see **master.cnf** has binary log option (log-bin) to provides a record of the data changes to be sent to slave servers and **slave.cnf** has super-read-only option.
+ConfigMap stores master.cnf, slave.cnf and pass them when initializing master and slave pods defined in statefulset. **master.cnf** is for the MySQL master pod which has binary log option (log-bin) to provides a record of the data changes to be sent to slave servers and **slave.cnf** is for slave pods which has super-read-only option.
 ```
 apiVersion: v1
 kind: ConfigMap
@@ -36,6 +36,7 @@ data:
     [mysqld]
     super-read-only
 ```
+
 Create configmap "mysql-config" by following command.
 ```
 kubectl create -f ~/environment/templates/mysql-configmap.yml

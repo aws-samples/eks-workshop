@@ -21,7 +21,8 @@ Watch the status of statefulset.
 ```
 kubectl get -w statefulset
 ```
-DESIRED is the replicas number you define at StatefulSet.
+It will take few minutes for pods to initialize and have statefulset created.
+**DESIRED** is the replicas number you define at StatefulSet.
 ```
 NAME      DESIRED   CURRENT   AGE
 mysql     3         1         8s

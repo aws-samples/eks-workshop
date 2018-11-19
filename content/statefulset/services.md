@@ -4,7 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 15
 ---
 #### Introduction
-[Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/) defines a logical set of Pods and a policy by which to access them. Service can be exposed in different ways by specifying a [type](https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/) in the serviceSpec. By specifying **"None"** for the clusterIP, you can create [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) required by StatefulSets.
+[Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/) defines a logical set of Pods and a policy by which to access them. Service can be exposed in different ways by specifying a [type](https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/) in the serviceSpec. StatefulSet currently requires a [Headless Service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) to control the domain of its Pods, directly reach each Pod with stable DNS entries. By specifying **"None"** for the clusterIP, you can create Headless Service.
 #### Create Services
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
