@@ -9,7 +9,7 @@ draft: false
 
 A _job_ creates one or more pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the job tracks the successful completions. When a specified number of successful completions is reached, the job itself is complete. Deleting a Job will cleanup the pods it created.
 
-Run a sample Kubernetes Job using the `whalesay` image.
+Save the below manifest as 'job-whalesay.yaml' using your favorite editor.
 
 ```
 apiVersion: batch/v1
@@ -26,6 +26,8 @@ spec:
       restartPolicy: Never
   backoffLimit: 4
 ```
+
+Run a sample Kubernetes Job using the `whalesay` image.
 
 ```
 kubectl apply -f job-whalesay.yaml

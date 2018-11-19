@@ -7,7 +7,7 @@ draft: false
 
 ### Simple Batch Workflow
 
-Let's deploy the `whalesay` example from before using Argo.
+Save the below manifest as 'workflow-whalesay.yaml' using your favorite editor and let's deploy the `whalesay` example from before using Argo.
 
 ```
 apiVersion: argoproj.io/v1alpha1
