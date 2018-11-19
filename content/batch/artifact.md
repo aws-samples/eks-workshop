@@ -44,6 +44,7 @@ ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFI
 ```
 
 ```
+ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 mkdir ~/environment/batch_policy
 cat <<EoF > ~/environment/batch_policy/k8s-s3-policy.json
 {
