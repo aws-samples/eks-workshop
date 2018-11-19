@@ -33,4 +33,39 @@ data:
         endpoint: s3.amazonaws.com
 ```
 
-We'll use artifacts in the [Advanced Batch Workflow](/batch/workflow-advanced/) example.
+### Create an IAM Policy
+In order for Argo to read from/write to the S3 bucket, we need to configure an inline policy and add it to the EC2 instance profile of the worker nodes.
+
+Collect the Instance Profile and Role NAME from the CloudFormation Stack
+```
+INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks --stack-name eksctl-eksworkshop-eksctl-nodegroup-0 | jq -r '.Stacks[].Outputs[].ExportName' | sed 's/:.*//')
+INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
+ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
+```
+
+```
+mkdir ~/environment/batch_policy
+cat <<EoF > ~/environment/batch_policy/k8s-s3-policy.json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::batch-artifact-repository-${ACCOUNT_ID}",
+        "arn:aws:s3:::batch-artifact-repository-${ACCOUNT_ID}/*"
+      ]
+    }
+  ]
+}
+EoF
+aws iam put-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker --policy-document file://~/environment/batch_policy/k8s-s3-policy.json
+```
+
+Validate that the policy is attached to the role
+```
+aws iam get-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker
+```
