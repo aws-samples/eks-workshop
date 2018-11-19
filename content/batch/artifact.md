@@ -36,15 +36,17 @@ data:
 ### Create an IAM Policy
 In order for Argo to read from/write to the S3 bucket, we need to configure an inline policy and add it to the EC2 instance profile of the worker nodes.
 
-Collect the Instance Profile and Role NAME from the CloudFormation Stack
+Collect the Instance Profile, Role name, and Account ID from the CloudFormation Stack.
 ```
 INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks --stack-name eksctl-eksworkshop-eksctl-nodegroup-0 | jq -r '.Stacks[].Outputs[].ExportName' | sed 's/:.*//')
 INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
 ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
+ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 ```
 
+Create and policy and attach to the worker node role.
+
 ```
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 mkdir ~/environment/batch_policy
 cat <<EoF > ~/environment/batch_policy/k8s-s3-policy.json
 {
