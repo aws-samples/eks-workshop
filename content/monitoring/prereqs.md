@@ -17,23 +17,45 @@ helm ls
 
 We will use **gp2** EBS volumes for simplicity and demonstration purpose. While deploying in Production, you would use **io1** volumes with desired IOPS and increase the default storage size in the manifests to get better performance.
 
+Save the below manifest as `prometheus-storageclass.yaml` using your favorite editor.
+
+{{% notice tip %}}
+You need to update provisioner value that is applicable to AWS EBS provisioner. Please see [Kubernetes documentation] (https://kubernetes.io/docs/concepts/storage/storage-classes/) for help
+{{% /notice %}}
+
 ```
-kubectl create -f - <<EOF
-{
-  "kind": "StorageClass",
-  "apiVersion": "storage.k8s.io/v1",
-  "metadata": {
-    "name": "prometheus",
-    "namespace": "prometheus"
-  },
-  "provisioner": "kubernetes.io/aws-ebs",
-  "parameters": {
-    "type": "gp2"
-  },
-  "reclaimPolicy": "Retain",
-  "mountOptions": [
-    "debug"
-  ]  
-}
-EOF
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: prometheus
+  namespace: prometheus
+provisioner: <EDIT: UPDATE WITH VALUE OF EBS PROVISIONER>
+parameters:
+  type: gp2
+reclaimPolicy: Retain
+mountOptions:
+  - debug
 ```
+{{% expand "Expand here to see the solution"%}}
+```yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: prometheus
+  namespace: prometheus
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+reclaimPolicy: Retain
+mountOptions:
+  - debug
+```
+{{%/expand%}}
+
+Create storageclass "prometheus" by applying proper kubectl command
+
+{{% expand "Expand here to see the solution"%}}
+```
+kubectl create -f prometheus-storageclass.yaml
+```
+{{%/expand%}}
