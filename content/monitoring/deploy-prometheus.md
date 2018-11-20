@@ -11,16 +11,16 @@ draft: false
 curl -o prometheus-values.yaml https://raw.githubusercontent.com/helm/charts/master/stable/prometheus/values.yaml
 ```
 
-Open the prometheus-values.yaml you downloaded by double clicking on the file name on the left panel. You need to make **`three`** edits to this file.
+Open the prometheus-values.yaml you downloaded by double clicking on the file name on the left panel. You need to make **_three_** edits to this file.
 
-Search for **`storageClass`** in the prometheus-values.yaml, uncomment and change the value to **"prometheus"**. You will do this twice, under both **`server`** & **`alertmanager`** manifests
+Search for **storageClass** in the prometheus-values.yaml, uncomment and change the value to **"prometheus"**. You will do this twice, under both **server** & **alertmanager** manifests
 
-The third edit you will do is to expose Prometheus server as a NodePort. Because Prometheus is exposed as ClusterIP by default, the web UI cannot be reached outside of Kubernetes. By exposing the service as NodePort, we will be able to reach Prometheus web UI from the worker node IP address. Search for **`type: ClusterIP`** and add **nodePort: 30900** and change the type to **NodePort** as indicated below.
+The third edit you will do is to expose Prometheus server as a NodePort. Because Prometheus is exposed as ClusterIP by default, the web UI cannot be reached outside of Kubernetes. By exposing the service as NodePort, we will be able to reach Prometheus web UI from the worker node IP address. Search for **type: ClusterIP** and add **nodePort: 30900** and change the type to **NodePort** as indicated below.
 
 This configuration is not recommended in Production and there are better ways to secure it. You can read more about exposing Prometheus web UI in this [link](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/exposing-prometheus-and-alertmanager.md)
 
 {{% notice info %}}
-When you search, you will find their are more than one **`type: ClusterIP`** in prometheus-values.yaml. You need to update relevant Prometheus manifest. See below snippet for identifying Prometheus manifest
+When you search, you will find their are more than one **type: ClusterIP** in prometheus-values.yaml. You need to update relevant Prometheus manifest. See below snippet for identifying Prometheus manifest
 {{% /notice %}}
 
 ```yaml

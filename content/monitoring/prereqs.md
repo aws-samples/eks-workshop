@@ -17,11 +17,10 @@ helm ls
 
 We will use **gp2** EBS volumes for simplicity and demonstration purpose. While deploying in Production, you would use **io1** volumes with desired IOPS and increase the default storage size in the manifests to get better performance.
 
-Save the below manifest as `prometheus-storageclass.yaml` using your favorite editor.
+Save the below manifest as **_prometheus-storageclass.yaml_** using your favorite editor.
 
-{{% notice tip %}}
-You need to update provisioner value that is applicable to AWS EBS provisioner. Please see [Kubernetes documentation] (https://kubernetes.io/docs/concepts/storage/storage-classes/) for help
-{{% /notice %}}
+#### Challenge:
+**You need to update provisioner value that is applicable to AWS EBS provisioner. Please see [Kubernetes documentation] (https://kubernetes.io/docs/concepts/storage/storage-classes/) for help**
 
 ```
 kind: StorageClass
@@ -52,7 +51,8 @@ mountOptions:
 ```
 {{%/expand%}}
 
-Create storageclass "prometheus" by applying proper kubectl command
+#### Challenge:
+**Create storageclass "prometheus" by applying proper kubectl command**
 
 {{% expand "Expand here to see the solution"%}}
 ```
