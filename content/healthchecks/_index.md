@@ -14,11 +14,4 @@ In this section we will understand how [liveness and readiness probes](https://k
 
 **Readiness probes** are used in Kubernetes to know when a pod is ready to serve traffic. Only when the readiness probe passes, a pod will receive traffic from the service. When readiness probe fails, traffic will not be sent to a pod until it passes.
 
-Download the sample yaml files as below
-
-```
-mkdir ~/environment/healthchecks
-cd ~/environment/healthchecks
-wget https://eksworkshop.com/healthchecks/deploy.files/liveness-app.yaml
-wget https://eksworkshop.com/healthchecks/deploy.files/readiness-deployment.yaml
-```
+We will review some examples in the next two pages to understand different options for configuring liveness and readiness probes.

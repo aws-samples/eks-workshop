@@ -6,11 +6,43 @@ weight: 5
 
 # Configure Liveness Probe
 
+Create a directory ~/environment/healthchecks as mentioned below and save the text from following block as ~/environment/healthchecks/liveness-app.yaml. The livenessProbe definition explains how a simple http health check can be configured for a nodejs application. Any container created from brentley/ecsdemo-nodejs image responds to http://:3000/health with a 200 to let the healthcheck pass.
+
+```
+mkdir ~/environment/healthchecks
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-app
+spec:
+  containers:
+  - name: liveness
+    image: brentley/ecsdemo-nodejs
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 3000
+      initialDelaySeconds: 5
+      periodSeconds: 5
+```
+
+You may also download liveness-app.yaml file with the following command
+
+```
+wget https://eksworkshop.com/healthchecks/liveness.files/liveness-app.yaml
+
+```
+
+Now, we will create a pod to test liveness probe.
+
 ```
 kubectl apply -f ~/environment/healthchecks/liveness-app.yaml
 ```
 
-The above command creates a pod with liveness probe as described in ~/environment/healthchecks/liveness-app.yaml.
+The above command creates a pod with liveness probe as described in the beginning
 
 ```
 kubectl get pod liveness-app
