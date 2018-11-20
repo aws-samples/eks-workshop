@@ -14,7 +14,11 @@ The above command creates a pod with liveness probe as described in ~/environmen
 
 ```
 kubectl get pod liveness-app
+```
 
+The output looks like below
+
+```
 NAME           READY     STATUS    RESTARTS   AGE
 liveness-app   1/1       Running   0          11s
 ```
@@ -37,7 +41,7 @@ Events:
   Normal  Started                37s   kubelet, ip-192-168-18-63.ec2.internal  Started container
 ```
 
-We will issue the next command to terminate the node process
+We will issue the next command to send a SIGUSR1 signal to the nodejs application
 
 ```
 kubectl exec -it liveness-app -- /bin/kill -s SIGUSR1 1
@@ -59,11 +63,15 @@ Events:
   Normal   Killing                0s                 kubelet, ip-192-168-18-63.ec2.internal  Killing container with id docker://liveness:Container failed liveness probe.. Container will be killed and recreated.
 ```
 
-Below command confirms that the pod was restarted
+When the nodejs application entered a debug mode with SIGUSR1 signal it did not respond to the health check pings and kubelet killed the container. The container was subject to the default restart policy
 
 ```
 kubectl get pod liveness-app
+```
 
+The output looks like below
+
+```
 NAME           READY     STATUS    RESTARTS   AGE
 liveness-app   1/1       Running   1          12m
 ```
