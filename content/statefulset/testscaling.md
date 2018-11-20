@@ -34,6 +34,11 @@ mysql-4   1/2       Running   0         12s
 mysql-4   2/2       Running   0         17s
 
 ```
+
+{{% notice note %}}
+It may take few minutes to launch all the pods.
+{{% /notice %}}
+
 Press Ctrl+C to stop watching.
 Open another terminal to check loop if you closed it.
 ```
