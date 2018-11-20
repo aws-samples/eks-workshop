@@ -5,7 +5,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 5
 ---
 #### Introduction
-[Dynamic Volume Provisioning](http://localhost:1313/statefulset/storageclass/) allows storage volumes to be created on-demand. [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) should be pre-created to define which provisoner should be used and what parameters should be passed when dynamic provisioning is invoked.
+[Dynamic Volume Provisioning](/statefulset/storageclass/) allows storage volumes to be created on-demand. [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) should be pre-created to define which provisoner should be used and what parameters should be passed when dynamic provisioning is invoked.
 (See parameters for [AWS EBS](https://kubernetes.io/docs/concepts/storage/storage-classes/#aws-ebs))
 #### Define Storage Class
 Copy/Paste the following commands into your Cloud9 Terminal. 
