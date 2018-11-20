@@ -77,4 +77,10 @@ It is confirmed that traffic will not be routed to the first pod in above deploy
 
 When the readiness probe for a pod fails, the endpoints controller removes the pod from list of endpoints of all services that match the pod.
 
+Run the below command to let the readiness probe for selected pod passes and describe the deployment to confirm all the pods are healthy.
+
+```
+kubectl exec -it readiness-deployment-<pod> -- touch /tmp/healthy
+```
+
 In the next section, we will cleanup the resources created to demonstrate liveness and readiness probes.
