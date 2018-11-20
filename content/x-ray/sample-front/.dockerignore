@@ -1,0 +1,8 @@
+*.swp
+.git
+.gitignore
+.DS_Store
+README.md
+Dockerfile
+build.sh
+eks-workshop-x-ray-sample-front
