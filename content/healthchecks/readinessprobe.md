@@ -1,13 +1,12 @@
 ---
 title: "Configure Readiness Probe"
-chapter: true
+chapter: false
 weight: 10
 ---
 
-# Configure Readiness Probe
+#### Configure the Probe
 
-Save the text from following block as ~/environment/healthchecks/readiness-deployment.yaml. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file /tmp/healthy to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods.  
-
+Save the text from following block as **~/environment/healthchecks/readiness-deployment.yaml**. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file **/tmp/healthy** to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods. 
 
 ```
 apiVersion: apps/v1
@@ -80,27 +79,27 @@ The output looks like below
 Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
 ```
 
-Pick one of the pods from above 3 and issue a command as below to terminate the node process which makes the readiness probe fail.
+#### Introduce a Failure
+Pick one of the pods from above 3 and issue a command as below to delete the **/tmp/healthy** file which makes the readiness probe fail.
 
 ```
-kubectl exec -it readiness-deployment-<pod> -- rm /tmp/healthy
+kubectl exec -it readiness-deployment-<YOUR-POD-NAME> -- rm /tmp/healthy
 ```
 
-readiness-deployment-7869b5d679-922mx was picked from above to remove the file which is supposed to be present for the health check to pass. Below is the status after issuing the command.
+**readiness-deployment-7869b5d679-922mx** was picked in our example cluster. The **/tmp/healthy** file was deleted. This file must be present for the readiness check to pass. Below is the status after issuing the command.
 
 ```
 kubectl get pods -l app=readiness-deployment
 ```
 
-The output looks similar to below
-
+The output looks similar to below:
 ```
-
 NAME                                    READY     STATUS    RESTARTS   AGE
 readiness-deployment-7869b5d679-922mx   0/1       Running   0          4m
 readiness-deployment-7869b5d679-vd55d   1/1       Running   0          4m
 readiness-deployment-7869b5d679-vxb6g   1/1       Running   0          4m
 ```
+Traffic will not be routed to the first pod in the above deployment. The ready column confirms that the readiness probe for this pod did not pass and hence was marked as not ready. 
 
 We will now check for the replicas that are available to serve traffic when a service is pointed to this deployment.
 
@@ -114,14 +113,17 @@ The output looks like below
 Replicas:               3 desired | 3 updated | 3 total | 2 available | 1 unavailable
 ```
 
-It is confirmed that traffic will not be routed to the first pod in above deployment . The ready column confirms that the readiness probe for this pod did not pass and hence was marked as not ready. Once the pod passes the probe, it gets marked as ready and will receive any traffic.
-
 When the readiness probe for a pod fails, the endpoints controller removes the pod from list of endpoints of all services that match the pod.
 
-Run the below command to let the readiness probe for selected pod passes and describe the deployment to confirm all the pods are healthy.
+#### Challenge: 
+**How would you restore the pod to Ready status?**
+{{%expand "Expand here to see the solution" %}}
+Run the below command with the name of the pod to recreate the **/tmp/healthy** file. Once the pod passes the probe, it gets marked as ready and will begin to receive traffic again.
 
 ```
-kubectl exec -it readiness-deployment-<pod> -- touch /tmp/healthy
+kubectl exec -it readiness-deployment-<YOUR-POD-NAME> -- touch /tmp/healthy
 ```
-
-In the next section, we will cleanup the resources created to demonstrate liveness and readiness probes.
+```
+kubectl get pods -l app=readiness-deployment
+```
+{{% /expand %}}
