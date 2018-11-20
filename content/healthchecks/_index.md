@@ -6,7 +6,7 @@ weight: 61
 
 # Health Checks
 
-Kubernetes restarts a container when it crashes. Kubernetes uses Liveness and Readiness probes which can be configured for running a robust application by identifying the healthy containers to send traffic to and restarting the ones when required.
+If a container crashes for any reason, Kubernetes by default will restart the container. It uses Liveness and Readiness probes which can be configured for running a robust application by identifying the healthy containers to send traffic to and restarting the ones when required.
 
 In this section we will understand how [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) are defined and test the same against different states of a pod. Below is the high level description of how these probes work.
 

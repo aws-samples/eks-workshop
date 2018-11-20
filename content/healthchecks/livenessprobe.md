@@ -6,11 +6,14 @@ weight: 5
 
 # Configure Liveness Probe
 
-Create a directory ~/environment/healthchecks as mentioned below and save the text from following block as ~/environment/healthchecks/liveness-app.yaml. The livenessProbe definition explains how a simple http health check can be configured for a nodejs application. Any container created from brentley/ecsdemo-nodejs image responds to http://:3000/health with a 200 to let the healthcheck pass.
+
+Use the command below to create a directory
 
 ```
 mkdir ~/environment/healthchecks
 ```
+
+Save the manifest as liveness-app.yaml using your favorite editor. The livenessProbe definition explains how a simple http health check can be configured for a nodejs application. Any container created from ecsdemo-nodejs application responds to http://:3000/health with a 200 to let the healthcheck pass.
 
 ```
 apiVersion: v1
@@ -27,13 +30,6 @@ spec:
         port: 3000
       initialDelaySeconds: 5
       periodSeconds: 5
-```
-
-You may also download liveness-app.yaml file with the following command
-
-```
-wget https://eksworkshop.com/healthchecks/liveness.files/liveness-app.yaml
-
 ```
 
 Now, we will create a pod to test liveness probe.
@@ -73,7 +69,7 @@ Events:
   Normal  Started                37s   kubelet, ip-192-168-18-63.ec2.internal  Started container
 ```
 
-We will issue the next command to send a SIGUSR1 signal to the nodejs application
+We will run the next command to send a SIGUSR1 signal to the nodejs application. By issuing this command we will send a kill signal to the application process in docker runtime.
 
 ```
 kubectl exec -it liveness-app -- /bin/kill -s SIGUSR1 1
@@ -95,7 +91,7 @@ Events:
   Normal   Killing                0s                 kubelet, ip-192-168-18-63.ec2.internal  Killing container with id docker://liveness:Container failed liveness probe.. Container will be killed and recreated.
 ```
 
-When the nodejs application entered a debug mode with SIGUSR1 signal it did not respond to the health check pings and kubelet killed the container. The container was subject to the default restart policy
+When the nodejs application entered a debug mode with SIGUSR1 signal, it did not respond to the health check pings and kubelet killed the container. The container was subject to the default restart policy.
 
 ```
 kubectl get pod liveness-app
