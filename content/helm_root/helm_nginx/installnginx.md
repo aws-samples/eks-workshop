@@ -8,11 +8,15 @@ Installing the Bitnami standalone NGINX web server Chart involves us using the [
 
 When we install using Helm, we need to provide a deployment name, or a random one will be assigned to the deployment automatically.
 
-Let's provide **mywebserver** as the deployment name as we install NGINX:
+Now, use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment:
 
+**NOTE:** Consult the helm documentation link above or run the command ```helm install --help``` command to figure out the syntax
+
+{{%expand "ONLY if you get stuck" %}}
 ```
 helm install --name mywebserver bitnami/nginx
 ```
+{{% /expand %}}
 
 Upon running this command, the output confirms the types of k8s objects that were created as a result:
 
