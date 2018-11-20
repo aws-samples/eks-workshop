@@ -17,7 +17,7 @@ argo delete --all
 
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/
+aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
 ```
 
 #### Remove permissions for Artifact Repository Bucket
