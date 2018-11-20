@@ -10,9 +10,9 @@ We now have the foundation in place to deploy microservices, which are instrumen
 In this step, we are going to deploy example [front-end](https://github.com/aws-samples/eks-workshop/content/x-ray/sample-front) and [back-end](https://github.com/aws-samples/eks-workshop/content/sample-back) microservices to the cluster. The example services are already instrumented using the [X-Ray SDK for Go](https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-go.html). Currently, X-Ray has SDKs for Go, Python, Node.js, Ruby, .NET and Java.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/x-ray/sample-front/x-ray-sample-front-k8s.yml
+kubectl apply -f https://eksworkshop.com/x-ray/sample-front/x-ray-sample-front-k8s.yml
 
-kubectl apply -f https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/x-ray/sample-back/x-ray-sample-back-k8s.yml
+kubectl apply -f https://eksworkshop.com/x-ray/sample-back/x-ray-sample-back-k8s.yml
 ```
 
 To review the status of the deployments, you can run:

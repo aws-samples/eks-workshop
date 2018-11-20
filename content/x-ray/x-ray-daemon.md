@@ -23,7 +23,7 @@ func init() {
 To deploy the X-Ray DaemonSet:
 
 ```
-kubectl create -f https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/x-ray/daemonset/xray-k8s-daemonset.yaml
+kubectl create -f https://eksworkshop.com/x-ray/daemonset/xray-k8s-daemonset.yaml
 ```
 
 To see the status of the X-Ray DaemonSet:
