@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-app
+spec:
+  containers:
+  - name: liveness
+    image: brentley/ecsdemo-nodejs
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 3000
+      initialDelaySeconds: 5
+      periodSeconds: 5
