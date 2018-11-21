@@ -24,6 +24,7 @@ kubectl get svc -o wide -n management-ui
 ```
 
 Copy the **EXTERNAL-IP** from the output, and paste into a browser.
+The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com” - the full value is the DNS address.
 
 ```output
 NAME            TYPE           CLUSTER-IP     EXTERNAL-IP                                                              PORT(S)        AGE       SELECTOR
