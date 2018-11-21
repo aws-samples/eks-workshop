@@ -1,10 +1,10 @@
 ---
 title: "Configure Liveness Probe"
-chapter: true
+chapter: false
 weight: 5
 ---
 
-# Configure Liveness Probe
+#### Configure the Probe
 
 
 Use the command below to create a directory
@@ -43,21 +43,19 @@ The above command creates a pod with liveness probe
 ```
 kubectl get pod liveness-app
 ```
-
-The output looks like below
+The output looks like below. Notice the ***RESTARTS***
 
 ```
 NAME           READY     STATUS    RESTARTS   AGE
 liveness-app   1/1       Running   0          11s
 ```
 
-```
+The `kubectl describe` command will show an event history which will show any probe failures or restarts.
+```bash
 kubectl describe pod liveness-app
 ```
 
-Above command when issued shows an output which ends as following:
-
-```
+```text
 Events:
   Type    Reason                 Age   From                                    Message
   ----    ------                 ----  ----                                    -------
@@ -69,6 +67,8 @@ Events:
   Normal  Started                37s   kubelet, ip-192-168-18-63.ec2.internal  Started container
 ```
 
+
+#### Introduce a Failure
 We will run the next command to send a SIGUSR1 signal to the nodejs application. By issuing this command we will send a kill signal to the application process in docker runtime.
 
 ```
@@ -103,4 +103,24 @@ NAME           READY     STATUS    RESTARTS   AGE
 liveness-app   1/1       Running   1          12m
 ```
 
-We will now run a similar exercise for readiness probe in next section.
+#### Challenge:
+**How can we check the status of the container health checks?**
+
+{{%expand "Expand here to see the solution" %}}
+```bash
+kubectl logs liveness-app
+```
+You can also use `kubectl logs` to retrieve logs from a previous instantiation of a container with `--previous flag`, in case the container has crashed
+```bash
+kubectl logs liveness-app --previous
+```
+```text
+<Output omitted>
+Example app listening on port 3000!
+::ffff:192.168.43.7 - - [20/Nov/2018:22:53:01 +0000] "GET /health HTTP/1.1" 200 16 "-" "kube-probe/1.10"
+::ffff:192.168.43.7 - - [20/Nov/2018:22:53:06 +0000] "GET /health HTTP/1.1" 200 17 "-" "kube-probe/1.10"
+::ffff:192.168.43.7 - - [20/Nov/2018:22:53:11 +0000] "GET /health HTTP/1.1" 200 17 "-" "kube-probe/1.10"
+Starting debugger agent.
+Debugger listening on [::]:5858
+```
+{{% /expand %}}
