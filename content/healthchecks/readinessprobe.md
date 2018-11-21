@@ -5,7 +5,6 @@ weight: 10
 ---
 
 #### Configure the Probe
-
 Save the text from following block as **~/environment/healthchecks/readiness-deployment.yaml**. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file **/tmp/healthy** to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods. 
 
 ```
@@ -37,13 +36,6 @@ spec:
 
 ```
 
-You may also download readiness-deployment.yaml file with the following commands
-
-```
-cd ~/environment/healthchecks
-wget https://eksworkshop.com/healthchecks/readiness.files/readiness-deployment.yaml
-```
-
 We will now create a deployment to test readiness probe
 
 ```
@@ -51,7 +43,6 @@ kubectl apply -f ~/environment/healthchecks/readiness-deployment.yaml
 ```
 
 The above command creates a deployment with 3 replicas and readiness probe as described in the beginning
-
 
 ```
 kubectl get pods -l app=readiness-deployment

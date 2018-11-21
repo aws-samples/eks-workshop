@@ -47,11 +47,12 @@ Duration:            3 seconds
 STEP               PODNAME         DURATION  MESSAGE
  ✔ whalesay-2kfxb  whalesay-2kfxb  2s        
 ```
+Make a note of the workflow's name from your output (It should be similar to whalesay-xxxxx).
 
-Confirm the output.
+Confirm the output by running the following command, substituting name of your workflow for "whalesay-xxxxx":
 
 ```bash
-argo logs whalesay-2kfxb
+argo logs whalesay-xxxxx
 ```
 
 ```output

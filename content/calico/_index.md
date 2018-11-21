@@ -15,4 +15,4 @@ For example, you can only allow traffic from frontend to backend in your applica
 Network policies also help in isolating traffic within namespaces. For instance, if you have separate namespaces for development and production, you can prevent traffic flow between them by restrict pod to pod communication within the same namespace.
 
 
-![calico](/images/calico-chapter-image.png)
+![calico](/images/Project-Calico-logo-1000px.png)
