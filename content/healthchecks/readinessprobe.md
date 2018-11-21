@@ -37,13 +37,6 @@ spec:
 
 ```
 
-You may also download readiness-deployment.yaml file with the following commands
-
-```
-cd ~/environment/healthchecks
-wget https://eksworkshop.com/healthchecks/readiness.files/readiness-deployment.yaml
-```
-
 We will now create a deployment to test readiness probe
 
 ```
@@ -51,7 +44,6 @@ kubectl apply -f ~/environment/healthchecks/readiness-deployment.yaml
 ```
 
 The above command creates a deployment with 3 replicas and readiness probe as described in the beginning
-
 
 ```
 kubectl get pods -l app=readiness-deployment

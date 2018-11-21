@@ -5,7 +5,7 @@ weight: 40
 draft: false
 ---
 
-> Now that we have all the resources installed for Istio, we will use sample application called BookInfo to review key capabilities of Service Mesh such as intelligent routing and review telemetry data using Prometheus & Grafana.
+Now that we have all the resources installed for Istio, we will use sample application called BookInfo to review key capabilities of the service mesh such as intelligent routing, and review telemetry data using Prometheus & Grafana.
 
 ### Sample Apps
 
@@ -47,7 +47,13 @@ Deploy sample apps by manually injecting istio proxy and confirm pods, services 
 kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
 ```
 
-The output from 'kubectl get pod, svc' will look like this.
+The output from
+
+```
+kubectl get pod,svc
+```
+
+Should look similar to:
 
 ```
 NAME                              READY     STATUS    RESTARTS   AGE
@@ -66,21 +72,31 @@ ratings       ClusterIP   10.100.1.63      <none>        9080/TCP   17s
 reviews       ClusterIP   10.100.255.157   <none>        9080/TCP   17s
 ```
 
-and define virtualservice, ingressgateway and find out ELB endpoint to get connected from your browser.
+Next we'll define the virtual service and ingress gateway:
 
 ```
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-
-kubectl get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n istio-system 
 ```
+
+Next, we'll query the DNS name of the ingress gateway and use it to connect via the browser.
+
+```
+kubectl get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n istio-system ; echo
+```
+
 This may take a minute or two, first for the Ingress to be created, and secondly for the Ingress to hook up with the services it exposes.
 
-Open a browser and connect to the endpoint that you get from istio-ingressgateway to see whether sample app is working.
+To test, do the following:
+
+1. Open a new browser tab
+2. Paste the DNS endpoint returned from the previous ```get service istiogateway``` command
+3. Add /productpage to the end of that DNS endpoint
+4. Hit enter to retrieve the page.
 
 {{% notice info %}}
-You have to add **/productpage** at the end of the URI in the browser to see the sample webpage
+Remember to add **/productpage** to the end of the URI in the browser to see the sample webpage!
 {{% /notice %}}
 
 ![Sample Apps](/images/servicemesh-deploy2.png)
 
-> Iterate reloading the page and check out review section calls different versions of reviews (v1, v2, v3) each time
+Click reload multiple times to see how the layout and content of the reviews changes as differnt versions (v1, v2, v3) of the app are called.

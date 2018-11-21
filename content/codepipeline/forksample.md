@@ -14,7 +14,7 @@ Login to GitHub and fork the sample service to your own account:
 
 ![GitHub Fork](/images/codepipeline/github_fork.png)
 
-Once the repo is forked, you can view it in your your [GitHub repositories](https://github.com/testgitrz?tab=repositories).
+Once the repo is forked, you can view it in your your [GitHub repositories](https://github.com).
 
 The forked repo will look like:
 
