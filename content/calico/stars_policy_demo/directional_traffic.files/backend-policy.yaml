@@ -9,9 +9,9 @@ spec:
       role: backend
   ingress:
     - from:
-        - podSelector:
-            matchLabels:
-              role: frontend
+        - <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST FRONTEND USING PODSELECTOR>
+            <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST FRONTEND USING PODSELECTOR>
+              <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST FRONTEND USING PODSELECTOR>
       ports:
         - protocol: TCP
           port: 6379
