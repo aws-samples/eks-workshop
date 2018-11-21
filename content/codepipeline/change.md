@@ -29,14 +29,17 @@ After you modify and commit your change in GitHub, in approximately one minute y
 
 ![CodePiepline Running](/images/codepipeline/codepipeline_building.png)
 
-Once the service is built and delivered, run the following command to get the Elastic Load Balancer (ELB) endpoint and open it in a browser.
-If the message is not updated immediately, give Kubernetes some time to deploy the change.
+#### Challenge:
+**How can we validate the changes and access latest version of the app?**
+ {{%expand "Expand here to see the solution" %}}
 
-```
-kubectl get services hello-k8s -o wide
-```
+ Once the service is built and delivered, we can run the following command to get the Elastic Load Balancer (ELB) endpoint and open it in a browser.
+ If the message is not updated immediately, give Kubernetes some time to deploy the change.
 
-{{% notice info %}}
-The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com" - the full value is the DNS record.
-{{% /notice %}}
+ ```
+ kubectl get services hello-k8s -o wide
+ ```
 
+The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com" - the full value is the DNS record which can be used to validate/access the app.
+
+{{% /expand %}}
