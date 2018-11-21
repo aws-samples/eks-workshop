@@ -23,8 +23,14 @@ Ad blockers, javascript disablers, and tracking blockers should be disabled for
 the cloud9 domain, or connecting to the workspace might be impacted.
 {{% /notice %}}
 
-- Create a [Cloud9 Environment](https://us-west-2.console.aws.amazon.com/cloud9/home?region=us-west-2)
-  - select **Create environment**
+### Launch Cloud9 in your closest region:
+{{< tabs name="Region" >}}
+{{{< tab name="Oregon" include="us-west-2.md" />}}
+{{{< tab name="Ohio" include="us-east-2.md" />}}
+{{{< tab name="Ireland" include="eu-west-1.md" />}}
+{{< /tabs >}}
+
+- Select **Create environment**
 - Name it **eksworkshop**, and take all other defaults
 - When it comes up, customize the environment by closing the **welcome tab**
 and **lower work area**, and opening a new **terminal** tab in the main work area:
