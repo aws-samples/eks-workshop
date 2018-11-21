@@ -21,7 +21,7 @@ Click the **Launch** button to create the CloudFormation stack in the AWS Manage
 
 | Launch template |  |  |
 | ------ |:------:|:--------:|
-| CodePipeline & EKS |  {{% cf-launch "ci-cd-codepipeline.cfn.yml" "eksws-codepipeline" %}} | {{% cf-download "ci-cd-codepipeline.cfn.yml" %}}  |
+| CodePipeline & EKS |  {{% cf-launch "eksws-codepipeline" "ci-cd-codepipeline.cfn.yml" %}} | {{% cf-download "ci-cd-codepipeline.cfn.yml" %}}  |
 
 After the console is open, enter your GitHub username, personal access token (created in previous step), check the acknowledge box and then click the "Create" button.
 
@@ -67,6 +67,3 @@ This service was configured with a [LoadBalancer](https://kubernetes.io/docs/tas
 an [AWS Elastic Load Balancer](https://aws.amazon.com/elasticloadbalancing/) is launched by Kubernetes for the service.
 The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com" - the full value is the DNS address.
 {{% /notice %}}
-
-
-
