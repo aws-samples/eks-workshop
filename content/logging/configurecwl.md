@@ -3,9 +3,6 @@ title: "Configure CloudWatch Logs and Kibana"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
 ---
-{{% notice warning %}}
-All AWS console URLs default to us-west-2. On the console, select the region that is configured as default for CLI in prerequisites module.
-{{% /notice %}}
 
 ### Configure CloudWatch Logs Subscription
 
@@ -40,7 +37,7 @@ aws iam create-role --role-name lambda_basic_execution --assume-role-policy-docu
 aws iam attach-role-policy --role-name lambda_basic_execution --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 ```
 
-Go to the [CloudWatch Logs console](https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#logs:)
+Go to the [CloudWatch Logs console](https://console.aws.amazon.com/cloudwatch/home?#logs:)
 
 Select the log group `/eks/eksworkshop-eksctl/containers`. Click on `Actions` and select `Stream to Amazon ElasticSearch Service`.
 ![Stream to ElasticSearch](/images/logging_cwl_es.png)
@@ -63,7 +60,7 @@ Cloudwatch page is refreshed to show that the filter was successfully created
 
 ### Configure Kibana
 
-In Amazon Elasticsearch console, select the [Elasticsearch cluster](https://us-west-2.console.aws.amazon.com/es/home?region=us-west-2#domain:resource=kubernetes-logs;action=dashboard)
+In Amazon Elasticsearch console, select the [Elasticsearch cluster](https://console.aws.amazon.com/es/home?#domain:resource=kubernetes-logs;action=dashboard)
 
 ![ElasticSearch Details](/images/logging_es_details.png)
 
