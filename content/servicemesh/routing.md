@@ -120,7 +120,7 @@ kubectl apply -f samples/bookinfo/networking/virtual-service-ratings-test-abort.
 kubectl get virtualservice ratings -o yaml
 ```
 
-The subset is set to v1 by default and returns a 500 HTTP error for all requests if the logged user matches with **jason** for ratings.
+The subset is set to v1 and by default returns an error message of "Ratings service is currently unavailable" below the reviewer name if the logged username matches 'jason'.
 
 ```
 spec:
@@ -145,9 +145,9 @@ spec:
         subset: v1
 ```
 
-Click **Sign in** from the top right corner of the page and login using **jason** as user name with a blank password. You will see error for ratings. Others will see rating without error.
+To test, click **Sign in** from the top right corner of the page and login using **jason** for the user name with a blank password. As **jason** you will see the error message. Others (not logged in as **jason**) will see no error message.
 
-Next, we'll show how to gradually migrate traffic from one version of a microservice to another. In our example, we'll send <span style="color:orange">50% of traffic to reviews:v1</span> and <span style="color:blue">50% to reviews:v3</span>.
+Next, we'll demonstrate how to gradually migrate traffic from one version of a microservice to another. In our example, we'll send <span style="color:orange">50% of traffic to reviews:v1</span> and <span style="color:blue">50% to reviews:v3</span>.
 
 ```
 kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
