@@ -4,7 +4,7 @@ chapter: false
 weight: 10
 ---
 
-# Configure Readiness Probe
+#### Configure Readiness Probe
 
 Save the text from following block as ~/environment/healthchecks/readiness-deployment.yaml. Readiness probes are defined much similar to liveness probes. The only difference is, you use readinessProbe instead of livenessProbe within your configuration. In the following example, we create an empty file **/tmp/healthy** and put the container to sleep to keep it alive. Kubelet checks if the file exists to determine if its healthy
 
