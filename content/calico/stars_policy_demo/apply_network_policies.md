@@ -80,12 +80,16 @@ spec:
               role: management-ui
 ```
 
-Apply the following network policies to allow the management UI to access the frontend, backend and client services:
+#### Challenge:
+**How do we apply our network policies to allow the traffic we want?**
 
+{{%expand "Expand here to see the solution" %}}
 ```
 kubectl apply -f allow-ui.yaml
 kubectl apply -f allow-ui-client.yaml
 ```
+{{% /expand %}}
+
 Upon refreshing your browser, you can see that the management UI can reach all the services, but they cannot communicate with each other.
 
 ![Management UI access all services](/images/calico-mgmtui-access.png)
