@@ -31,6 +31,9 @@ After you modify and commit your change in GitHub, in approximately one minute y
 
 #### Challenge:
 **How can we validate the changes and access latest version of the app?**
+
+**HINT:** Which kubectl command will get you the Elastic Load Balancer (ELB) endpoint for this app?
+
  {{%expand "Expand here to see the solution" %}}
 
  Once the service is built and delivered, we can run the following command to get the Elastic Load Balancer (ELB) endpoint and open it in a browser.
