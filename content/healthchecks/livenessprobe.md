@@ -13,7 +13,7 @@ Use the command below to create a directory
 mkdir ~/environment/healthchecks
 ```
 
-Save the manifest as liveness-app.yaml using your favorite editor. The livenessProbe definition explains how a simple http health check can be configured for a nodejs application. Any container created from ecsdemo-nodejs application responds to http://:3000/health with a 200 to let the healthcheck pass.
+Save the manifest as liveness-app.yaml using your favorite editor. You can review the manifest that is described below. In the configuration file, livenessProbe determines how kubelet should check the Container in order to consider whether it is healthy or not. kubelet uses periodSeconds field to do frequent check on the Container. In this case, kubelet checks liveness probe every 5 seconds. initialDelaySeconds field is to tell the kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this Pod and if the handler for the servers /health returns a success code, then the Container is considered healthy. If the handler returns a failure code, the kubelet kills the Container and restarts it.
 
 ```
 apiVersion: v1
@@ -32,13 +32,13 @@ spec:
       periodSeconds: 5
 ```
 
-Now, we will create a pod to test liveness probe.
+Let's create the pod using the manifest
 
 ```
 kubectl apply -f ~/environment/healthchecks/liveness-app.yaml
 ```
 
-The above command creates a pod with liveness probe as described in the beginning
+The above command creates a pod with liveness probe
 
 ```
 kubectl get pod liveness-app
@@ -75,8 +75,7 @@ We will run the next command to send a SIGUSR1 signal to the nodejs application.
 kubectl exec -it liveness-app -- /bin/kill -s SIGUSR1 1
 ```
 
-Describe the pod after waiting for 15-20 seconds and output has a trail as below
-
+Describe the pod after waiting for 15-20 seconds and you will notice kubelet actions of killing the Container and restarting it. 
 ```
 Events:
   Type     Reason                 Age                From                                    Message
