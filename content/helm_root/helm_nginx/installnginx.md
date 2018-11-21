@@ -8,13 +8,18 @@ Installing the Bitnami standalone NGINX web server Chart involves us using the [
 
 When we install using Helm, we need to provide a deployment name, or a random one will be assigned to the deployment automatically.
 
-Let's provide **mywebserver** as the deployment name as we install NGINX:
+#### Challenge:
+**How can you use Helm to deploy the bitnami/nginx chart?**
 
+**HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment. Consult the [helm install](https://docs.helm.sh/helm/#helm-install) documentation or run the ```helm install --help``` command to figure out the syntax
+
+{{%expand "Expand here to see the solution" %}}
 ```
 helm install --name mywebserver bitnami/nginx
 ```
+{{% /expand %}}
 
-Upon running this command, the output confirms the types of k8s objects that were created as a result:
+Once you run this command, the output confirms the types of k8s objects that were created as a result:
 
 ```
 NAME:   mywebserver
@@ -79,7 +84,10 @@ NAME                TYPE           CLUSTER-IP      EXTERNAL-IP
 mywebserver-nginx   LoadBalancer   10.100.223.99   abc123.amazonaws.com
 ```
 
-Copy the value for **EXTERNAL-IP**, open a new tab in your web browser, and paste it in.  It may take a couple minutes for the ELB and its associated DNS name to become available; if you get an error, wait one minute, and hit reload.
+Copy the value for **EXTERNAL-IP**, open a new tab in your web browser, and paste it in.
+{{% notice info %}}
+It may take a couple minutes for the ELB and its associated DNS name to become available; if you get an error, wait one minute, and hit reload.
+{{% /notice %}}
 
 When the Service does come online, you should see a welcome message similar to:
 
