@@ -6,34 +6,216 @@ weight: 1
 
 Before creating network polices, let's create the required resources.
 
-First, clone the Github repo containing all the manifests:
+Create a new folder for the configuration files.
+
 ```
-git clone https://github.com/nikipat/calico_resources.git
+mkdir ~/environment/calico_resources
+cd ~/environment/calico_resources
 ```
+
+#### Stars Namespace
+
+Save the following as `namespace.yaml`.
+
+```
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: stars
+```
+
 Create a namespace called stars:
 
 ```
-cd ~/environment/calico_resources
-kubectl apply -f 00-namespace.yaml
+kubectl apply -f namespace.yaml
 ```
+
 We will create frontend and backend [replication controllers](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
 
+
+Create a new file called `management-ui.yaml` with the following contents:
+
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: management-ui 
+  labels:
+    role: management-ui 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: management-ui 
+  namespace: management-ui 
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80 
+    targetPort: 9001
+  selector:
+    role: management-ui 
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: management-ui 
+  namespace: management-ui 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: management-ui 
+    spec:
+      containers:
+      - name: management-ui 
+        image: calico/star-collect:v0.1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9001
+```
 
 Create a management-ui namespace, with a management-ui service and replication controller within that namespace:
 
 ```
-kubectl apply -f 01-management-ui.yaml
+kubectl apply -f management-ui.yaml
 ```
+
+Save the backend application as `backend.yaml`.
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend 
+  namespace: stars
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379 
+  selector:
+    role: backend 
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: backend 
+  namespace: stars
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: backend 
+    spec:
+      containers:
+      - name: backend 
+        image: calico/star-probe:v0.1.0
+        imagePullPolicy: Always
+        command:
+        - probe
+        - --http-port=6379
+        - --urls=http://frontend.stars:80/status,http://backend.stars:6379/status,http://client.client:9000/status
+        ports:
+        - containerPort: 6379
+```
+
+Save the frontend application as `frontend.yaml`.
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend 
+  namespace: stars
+spec:
+  ports:
+  - port: 80 
+    targetPort: 80 
+  selector:
+    role: frontend 
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: frontend 
+  namespace: stars
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: frontend 
+    spec:
+      containers:
+      - name: frontend 
+        image: calico/star-probe:v0.1.0
+        imagePullPolicy: Always
+        command:
+        - probe
+        - --http-port=80
+        - --urls=http://frontend.stars:80/status,http://backend.stars:6379/status,http://client.client:9000/status
+        ports:
+        - containerPort: 80
+```
+
 Create frontend and backend replication controllers and services within the stars namespace:
 
 ```
-kubectl apply -f 02-backend.yaml
-kubectl apply -f 03-frontend.yaml
+kubectl apply -f backend.yaml
+kubectl apply -f frontend.yaml
 ```
-Lastly, create a client namespace, and a client service for a replication controller:
+
+Lastly, create a client namespace, and a client service for a replication controller. Create `client.yaml` with the following:
 
 ```
-kubectl apply -f 04-client.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: client
+  labels:
+    role: client
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: client 
+  namespace: client
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: client 
+    spec:
+      containers:
+      - name: client 
+        image: calico/star-probe:v0.1.0
+        imagePullPolicy: Always
+        command:
+        - probe
+        - --urls=http://frontend.stars:80/status,http://backend.stars:6379/status
+        ports:
+        - containerPort: 9000 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client
+  namespace: client
+spec:
+  ports:
+  - port: 9000 
+    targetPort: 9000
+  selector:
+    role: client
+```
+
+Apply the client configuraiton.
+
+```
+kubectl apply -f client.yaml
 ```
 Check their status, and wait for all the pods to reach the Running status:
 
@@ -68,9 +250,9 @@ It may take several minutes to download all the required Docker images.
 
 To summarize the different resources we created:
 
-* A namespace called 'stars'
-* 'frontend' and 'backend' replication controllers and services within 'stars' namespace
-* A namespace called 'management-ui'
-* Replication controller and service 'management-ui' for the user interface seen on the browser, in the 'management-ui' namespace
-* A namespace called 'client'
-* 'client' replication controller and service in 'client' namespace
+* A namespace called `stars`
+* `frontend` and `backend` replication controllers and services within `stars` namespace
+* A namespace called `management-ui`
+* Replication controller and service `management-ui` for the user interface seen on the browser, in the `management-ui` namespace
+* A namespace called `client`
+* `client` replication controller and service in `client` namespace
