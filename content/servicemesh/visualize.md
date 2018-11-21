@@ -7,7 +7,7 @@ draft: false
 
 ### Collecting new telemetry data
 
-Download a YAML file to hold configuration for the new metric and log stream that Istio will generate and collect automatically.
+Next, download a YAML file to hold configuration for the new metric and log stream that Istio will generate and collect automatically.
 
 ```
 curl -LO https://eksworkshop.com/servicemesh/deploy.files/istio-telemetry.yaml
@@ -15,7 +15,7 @@ curl -LO https://eksworkshop.com/servicemesh/deploy.files/istio-telemetry.yaml
 kubectl apply -f istio-telemetry.yaml
 ```
 
-Make sure prometheus and grafana is running
+Make sure Prometheus and Grafana are running
 
 ```
 kubectl -n istio-system get svc prometheus
@@ -52,4 +52,4 @@ You will see that the traffic is evenly spread between <span style="color:orange
 
 ![Grafana Dashabord](/images/servicemesh-visualize1.png)
 
-We encourage you to review other Istio dashboards that are available by clicking Istio Mesh Dashboard Menu on top left and selecting different dashboard
+We encourage you to explore other Istio dashboards that are available by clicking the **Istio Mesh Dashboard** menu on top left of the page, and selecting a different dashboard.
