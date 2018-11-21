@@ -9,7 +9,7 @@ draft: false
 
 > A service mesh is a dedicated infrastructure layer for handling **service-to-service communication**. It’s responsible for the reliable delivery of requests through the complex topology of services that comprise a modern, cloud native application
 
-Sservice mesh solution have two distinct components that behave somewhat differently: a data plane and a control plane. Below is an presents the basic architecture.
+Service mesh solution have two distinct components that behave somewhat differently: a data plane and a control plane. Below is an presents the basic architecture.
 
 ![Service Mesh Architecture](/images/servicemesh-intro1.png)
 
