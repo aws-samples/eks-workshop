@@ -11,11 +11,10 @@ metadata:
   name: management-ui 
   namespace: management-ui 
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 9001 
+  - port: 80 
     targetPort: 9001
-    nodePort: 30002
   selector:
     role: management-ui 
 ---
