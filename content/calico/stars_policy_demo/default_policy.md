@@ -20,7 +20,9 @@ spec:
     nodePort: 30002
 ```
 {{% notice tip %}}
-Remember to open port 30002 in your Worker nodes' [Security Group](https://console.aws.amazon.com/ec2/v2/home?#/nstances:sort=tag:Name/).
+NodePort leverages the network configuration of the Worker Node. You will need to ensure that you have added the relevant network ports to the Security group assigned to the Worker node in [EC2 Instances](https://console.aws.amazon.com/ec2).
+
+If you have trouble connecting to the Public IP:Port of the worker, then the traffic may be blocked by a VPN/Firewall/Wifi Network Policy. You may try from a cell phone or tethered connection.
 {{% /notice %}}
 
 The UI here shows the default behavior, of all services being able to reach each other.

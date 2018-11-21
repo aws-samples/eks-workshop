@@ -5,6 +5,50 @@ weight: 4
 ---
 Let's see how we can allow directional traffic from client to frontend and backend.
 
+Create a network policy for the backend (named `backend-policy.yaml`):
+
+```
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: stars
+  name: backend-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: backend
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: frontend
+      ports:
+        - protocol: TCP
+          port: 6379
+```
+
+Create a network policy for the frontend (named `frontend-policy.yaml`):
+
+```
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: stars
+  name: frontend-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: frontend 
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              role: client
+      ports:
+        - protocol: TCP
+          port: 80
+```
+
 To allow traffic from frontend service to the backend service apply the following manifest:
 
 ```
@@ -36,6 +80,7 @@ spec:
         - protocol: TCP
           port: 6379
 ```
+
 The frontend-policy is similar, except it allows ingress from **namespaces** that have the label **role: client** on TCP port **80**.
 
 ```
