@@ -6,12 +6,12 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      role: frontend 
+      role: frontend
   ingress:
     - from:
-        - namespaceSelector:
-            matchLabels:
-              role: client
+        - <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST CLIENT USING PODSELECTOR>
+            <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST CLIENT USING PODSELECTOR>
+              <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST CLIENT USING PODSELECTOR>
       ports:
         - protocol: TCP
           port: 80
