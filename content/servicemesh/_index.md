@@ -1,5 +1,5 @@
 ---
-title: "Servicemesh with Istio"
+title: "Service Mesh with Istio"
 date: 2018-11-13T16:32:30+09:00
 weight: 68
 draft: false
@@ -7,9 +7,9 @@ draft: false
 
 ### Service Mesh
 
-> A service mesh is a dedicated infrastructure layer for handling **service-to-service communication**. It’s responsible for the reliable delivery of requests through the complex topology of services that comprise a modern, cloud native application
+A service mesh is a dedicated infrastructure layer for handling **service-to-service communication**. It’s responsible for the reliable delivery of requests through the complex topology of services that comprise a modern, cloud native application.
 
-Sservice mesh solution have two distinct components that behave somewhat differently: a data plane and a control plane. Below is an presents the basic architecture.
+Service mesh solutions have two distinct components that behave somewhat differently: 1) a data plane, and 2) a control plane. The following diagram illustrates the basic architecture.
 
 ![Service Mesh Architecture](/images/servicemesh-intro1.png)
 

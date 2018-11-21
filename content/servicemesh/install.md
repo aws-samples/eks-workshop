@@ -6,14 +6,13 @@ draft: false
 ---
 
 ### Install Istio's CRD
-The CRD(Custom Resource Definition) API resource allows you to define custom resources. To find more about CRD click [here](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions).
-
+The [Custom Resource Definition, also known as a CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions), is an API resource which allows you to define custom resources. 
 ```
 kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
 ```
 
 ### Install Istio
-Make sure you have Helm to install Istio into your EKS Cluster.
+Helm is required for the following examples.  If you have not installed Helm yet, [please first reference the Helm chapter](/helm_root) before proceeding.
 
 ```
 kubectl create -f install/kubernetes/helm/helm-service-account.yaml
@@ -25,7 +24,13 @@ kubectl create namespace istio-system
 kubectl apply -f istio.yaml
 ```
 
-You can watch the progress of installation using 'kubectl get pod -n istio-system -w'
+Watch the progress of installation using:
+
+```
+kubectl get pod -n istio-system -w
+```
+
+And hit CTRL-C when you're ready to proceed.
 
 ```
 NAME                                    READY     STATUS      RESTARTS   AGE
