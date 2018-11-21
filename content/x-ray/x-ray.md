@@ -5,13 +5,13 @@ weight: 13
 draft: false
 ---
 
-We now have the example microservices deployed, so we are going to investigate our [Service Graph](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-servicegraph) and [Traces](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-traces) in [X-Ray section of the AWS Management Console](https://us-west-2.console.aws.amazon.com/xray/home?region=us-west-2#/service-map).
+We now have the example microservices deployed, so we are going to investigate our [Service Graph](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-servicegraph) and [Traces](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-traces) in [X-Ray section of the AWS Management Console](https://console.aws.amazon.com/xray/home#/service-map).
 
-The [Service map in the console](https://us-west-2.console.aws.amazon.com/xray/home?region=us-west-2#/service-map) provides a visual representation of the steps identified by X-Ray for a particular trace. Each resource that sends data to X-Ray within the same context appears as a service in the graph. In the example below, we can see that the `x-ray-sample-front-k8s` service is processing 39 transactions per minute with an average latency of 0.99ms per operation. Additionally, the `x-ray-sample-back-k8s` is showing an average latency of 0.08ms per transaction.
+The [Service map in the console](https://console.aws.amazon.com/xray/home#/service-map) provides a visual representation of the steps identified by X-Ray for a particular trace. Each resource that sends data to X-Ray within the same context appears as a service in the graph. In the example below, we can see that the `x-ray-sample-front-k8s` service is processing 39 transactions per minute with an average latency of 0.99ms per operation. Additionally, the `x-ray-sample-back-k8s` is showing an average latency of 0.08ms per transaction.
 
 ![GitHub Edit](/images/x-ray/service_map.png)
 
-Next, go to the [traces section in the AWS Management Console](https://us-west-2.console.aws.amazon.com/xray/home?region=us-west-2#/traces) to view the execution times for the segments in the requests. At the top of the page, we can see the URL for the ELB endpoint and the corresponding traces below.
+Next, go to the [traces section in the AWS Management Console](https://console.aws.amazon.com/xray/home#/traces) to view the execution times for the segments in the requests. At the top of the page, we can see the URL for the ELB endpoint and the corresponding traces below.
 
 ![GitHub Edit](/images/x-ray/traces.png)
 
