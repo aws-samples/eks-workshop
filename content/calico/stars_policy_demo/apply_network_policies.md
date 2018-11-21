@@ -5,7 +5,13 @@ weight: 3
 ---
 In a production level cluster, it is not secure to have open pod to pod communication. Let's see how we can isolate the services from each other.
 
-Save this NetworkPolicy as `default-deny.yaml`.
+Copy/Paste the following commands into your Cloud9 Terminal.
+```
+cd ~/environment/calico_resources
+wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
+```
+
+Let's examine our file by running `cat default-deny.yaml`.
 
 ```
 kind: NetworkPolicy
@@ -19,7 +25,7 @@ spec:
 
 Let's go over the network policy. Here we see the podSelector does not have any matchLabels, essentially blocking all the pods from accessing it.
 
-Apply the network policy in the `stars` namespace (frontend and backend services) and the `client` namespace (client service):
+Apply the network policy in the **stars** namespace (frontend and backend services) and the **client** namespace (client service):
 
 ```
 kubectl apply -n stars -f default-deny.yaml
@@ -32,13 +38,21 @@ Network policies in Kubernetes use labels to select pods, and define rules on wh
 
 Create two new network policies.
 
-##### `allow-ui.yaml`
+Copy/Paste the following commands into your Cloud9 Terminal.
+```
+cd ~/environment/calico_resources
+wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.files/allow-ui.yaml
+wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.files/allow-ui-client.yaml
+```
+
+Again, we can examine our file contents by running: `cat allow-ui.yaml`
+
 ```
 kind: NetworkPolicy
-apiVersion: extensions/v1beta1 
+apiVersion: extensions/v1beta1
 metadata:
   namespace: stars
-  name: allow-ui 
+  name: allow-ui
 spec:
   podSelector:
     matchLabels: {}
@@ -49,13 +63,13 @@ spec:
               role: management-ui
 ```
 
-##### `allow-ui-client.yaml`
+`cat allow-ui-client.yaml`
 ```
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  namespace: client 
-  name: allow-ui 
+  namespace: client
+  name: allow-ui
 spec:
   podSelector:
     matchLabels: {}
