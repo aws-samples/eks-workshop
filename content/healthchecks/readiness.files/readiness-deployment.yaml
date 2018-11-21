@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readiness-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: readiness-deployment
+  template:
+    metadata:
+      labels:
+        app: readiness-deployment
+    spec:
+      containers:
+      - name: readiness-deployment
+        image: alpine
+        command: ["sh", "-c", "touch /tmp/healthy && sleep 86400"]
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 3
