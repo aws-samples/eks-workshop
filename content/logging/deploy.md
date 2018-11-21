@@ -25,7 +25,7 @@ Watch for all of the pods to change to running status
 kubectl get pods -w --namespace=kube-system
 ```
 
-We are now ready to check that logs are arriving in [CloudWatch Logs](https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#logStream:group=/eks/eksworkshop-eksctl/containers)
+We are now ready to check that logs are arriving in [CloudWatch Logs](https://console.aws.amazon.com/cloudwatch/home?#logStream:group=/eks/eksworkshop-eksctl/containers)
 
 Select the region that is mentioned in fluentd.yml to browse the Cloudwatch Log Group if required.
 
