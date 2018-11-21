@@ -13,7 +13,7 @@ Use the command below to create a directory
 mkdir ~/environment/healthchecks
 ```
 
-Save the manifest as liveness-app.yaml using your favorite editor. The livenessProbe definition explains how a simple http health check can be configured for a nodejs application. Any container created from ecsdemo-nodejs application responds to http://:3000/health with a 200 to let the healthcheck pass.
+Save the manifest as liveness-app.yaml using your favorite editor. The livenessProbe definition explains how a simple http health check can be configured for a nodejs application. Any container created from ecsdemo-nodejs application responds to http://health:3000 with a 200 to let the healthcheck pass.
 
 ```
 apiVersion: v1
