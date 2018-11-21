@@ -5,7 +5,7 @@ weight: 16
 draft: false
 ---
 
-Congratulations on completing the CI/CD with CodePipline module.
+Congratulations on completing the CI/CD with CodePipeline module.
 
 This module is not used in subsequent steps, so you can remove the resources now, or at the end of the workshop.
 
@@ -17,13 +17,13 @@ kubectl delete deployments hello-k8s
 kubectl delete services hello-k8s
 ```
 
-Next, we are going to delete the CloudFormation stack created. Open CloudFormation the [AWS Managemnt Console](https://console.aws.amazon.com/cloudformation).
+Next, we are going to delete the CloudFormation stack created. Open CloudFormation the [AWS Management Console](https://console.aws.amazon.com/cloudformation).
 
 Check the box next to the **eksws-codepipeline** stack, select the **Actions** dropdown menu and then click **Delete stack**:
 
 ![CloudFormation Delete](/images/codepipeline/cloudformation_delete.png)
 
-Now we are going to delete the [ECR respository](https://console.aws.amazon.com/ecs/home#/repositories):
+Now we are going to delete the [ECR repository](https://console.aws.amazon.com/ecs/home#/repositories):
 
 ![ECR Delete](/images/codepipeline/ecr_delete.png)
 
@@ -35,7 +35,7 @@ select the bucket, then empty the bucket and finally delete the bucket:
 Finally, we are going to delete the IAM role created for CodeBuild to permit changes to the EKS cluster:
 
 ```
-aws iam delete-role-policy --role-name EksWorkshopCodeBuilKubectldRole --policy-name eks-describe
+aws iam delete-role-policy --role-name EksWorkshopCodeBuildKubectlRole --policy-name eks-describe
 
-aws iam delete-role --role-name EksWorkshopCodeBuilKubectldRole
+aws iam delete-role --role-name EksWorkshopCodeBuildKubectlRole
 ```

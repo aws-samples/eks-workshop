@@ -56,17 +56,23 @@ For the status of the service, run the following command:
 kubectl describe service hello-k8s
 ```
 
-Once the service is built and delivered, run the following command to get the Elastic Load Balancer (ELB) endpoint and open it in a browser.
+#### Challenge:
+**How can we view our exposed service?**
 
-```
-kubectl get services hello-k8s -o wide
-```
+**HINT:** Which kubectl command will get you the Elastic Load Balancer (ELB) endpoint for this app?
+
+ {{%expand "Expand here to see the solution" %}}
+
+ Once the service is built and delivered, we can run the following command to get the Elastic Load Balancer (ELB) endpoint and open it in a browser.
+ If the message is not updated immediately, give Kubernetes some time to deploy the change.
+
+ ```
+ kubectl get services hello-k8s -o wide
+ ```
 
 {{% notice info %}}
 This service was configured with a [LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) so,
 an [AWS Elastic Load Balancer](https://aws.amazon.com/elasticloadbalancing/) is launched by Kubernetes for the service.
 The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com" - the full value is the DNS address.
 {{% /notice %}}
-
-
-
+{{% /expand %}}
