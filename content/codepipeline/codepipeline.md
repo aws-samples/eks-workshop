@@ -23,7 +23,7 @@ Click the **Launch** button to create the CloudFormation stack in the AWS Manage
 | ------ |:------:|:--------:|
 | CodePipeline & EKS |  {{% cf-launch "ci-cd-codepipeline.cfn.yml" "eksws-codepipeline" %}} | {{% cf-download "ci-cd-codepipeline.cfn.yml" %}}  |
 
-After the console is open, enter your GitHub username, personal access token (created in previous step), check the acknowledge box and then click the "Create" button.
+After the console is open, enter your GitHub username, personal access token (created in previous step), check the acknowledge box and then click the "Create stack" button located at the bottom of the page.
 
 ![CloudFormation Stack](/images/codepipeline/cloudformation_stack.png)
 

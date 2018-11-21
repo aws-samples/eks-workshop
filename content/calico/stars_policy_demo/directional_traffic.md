@@ -5,6 +5,56 @@ weight: 4
 ---
 Let's see how we can allow directional traffic from client to frontend and backend.
 
+Copy/Paste the following commands into your Cloud9 Terminal.
+```
+cd ~/environment/calico_resources
+wget https://eksworkshop.com/calico/stars_policy_demo/directional_traffic.files/backend-policy.yaml
+wget https://eksworkshop.com/calico/stars_policy_demo/directional_traffic.files/frontend-policy.yaml
+```
+
+Let's examine this backend policy with `cat backend-policy.yaml`:
+```
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: stars
+  name: backend-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: backend
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: frontend
+      ports:
+        - protocol: TCP
+          port: 6379
+```
+
+Let's examine the frontend policy with `cat frontend-policy.yaml`:
+
+```
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: stars
+  name: frontend-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: frontend
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              role: client
+      ports:
+        - protocol: TCP
+          port: 80
+```
+
 To allow traffic from frontend service to the backend service apply the following manifest:
 
 ```
@@ -36,13 +86,14 @@ spec:
         - protocol: TCP
           port: 6379
 ```
+
 The frontend-policy is similar, except it allows ingress from **namespaces** that have the label **role: client** on TCP port **80**.
 
 ```
 spec:
   podSelector:
     matchLabels:
-      role: frontend 
+      role: frontend
   ingress:
     - from:
         - namespaceSelector:
