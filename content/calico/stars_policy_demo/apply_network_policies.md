@@ -47,24 +47,6 @@ wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.fil
 
 Again, we can examine our file contents by running: `cat allow-ui.yaml`
 
-##### `allow-ui.yaml`
-```
-kind: NetworkPolicy
-apiVersion: extensions/v1beta1 
-metadata:
-  namespace: stars
-  name: allow-ui 
-spec:
-  podSelector:
-    matchLabels: {}
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              role: management-ui
-```
-
-##### `allow-ui-client.yaml`
 ```
 kind: NetworkPolicy
 apiVersion: extensions/v1beta1
