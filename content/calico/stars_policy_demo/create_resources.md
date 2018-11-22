@@ -15,7 +15,13 @@ cd ~/environment/calico_resources
 
 #### Stars Namespace
 
-Save the following as `namespace.yaml`.
+Copy/Paste the following commands into your Cloud9 Terminal.
+```
+cd ~/environment/calico_resources
+wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/namespace.yaml
+```
+
+Let's examine our file by running `cat namespace.yaml`.
 
 ```
 kind: Namespace
@@ -33,43 +39,52 @@ kubectl apply -f namespace.yaml
 We will create frontend and backend [replication controllers](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
 
 
-Create a new file called `management-ui.yaml` with the following contents:
+Copy/Paste the following commands into your Cloud9 Terminal.
+```
+cd ~/environment/calico_resources
+wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/management-ui.yaml
+wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/backend.yaml
+wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/frontend.yaml
+wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/client.yaml
+```
+
+`cat management-ui.yaml`:
 
 ```
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: management-ui 
+  name: management-ui
   labels:
-    role: management-ui 
+    role: management-ui
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: management-ui 
-  namespace: management-ui 
+  name: management-ui
+  namespace: management-ui
 spec:
   type: LoadBalancer
   ports:
-  - port: 80 
+  - port: 80
     targetPort: 9001
   selector:
-    role: management-ui 
+    role: management-ui
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: management-ui 
-  namespace: management-ui 
+  name: management-ui
+  namespace: management-ui
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        role: management-ui 
+        role: management-ui
     spec:
       containers:
-      - name: management-ui 
+      - name: management-ui
         image: calico/star-collect:v0.1.0
         imagePullPolicy: Always
         ports:
@@ -82,35 +97,35 @@ Create a management-ui namespace, with a management-ui service and replication c
 kubectl apply -f management-ui.yaml
 ```
 
-Save the backend application as `backend.yaml`.
+`cat backend.yaml` to see how the backend service is built:
 
 ```
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend 
+  name: backend
   namespace: stars
 spec:
   ports:
   - port: 6379
-    targetPort: 6379 
+    targetPort: 6379
   selector:
-    role: backend 
+    role: backend
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: backend 
+  name: backend
   namespace: stars
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        role: backend 
+        role: backend
     spec:
       containers:
-      - name: backend 
+      - name: backend
         image: calico/star-probe:v0.1.0
         imagePullPolicy: Always
         command:
@@ -121,35 +136,35 @@ spec:
         - containerPort: 6379
 ```
 
-Save the frontend application as `frontend.yaml`.
+Let's examine the frontend service with `cat frontend.yaml`:
 
 ```
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend 
+  name: frontend
   namespace: stars
 spec:
   ports:
-  - port: 80 
-    targetPort: 80 
+  - port: 80
+    targetPort: 80
   selector:
-    role: frontend 
+    role: frontend
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: frontend 
+  name: frontend
   namespace: stars
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        role: frontend 
+        role: frontend
     spec:
       containers:
-      - name: frontend 
+      - name: frontend
         image: calico/star-probe:v0.1.0
         imagePullPolicy: Always
         command:
@@ -167,7 +182,8 @@ kubectl apply -f backend.yaml
 kubectl apply -f frontend.yaml
 ```
 
-Lastly, create a client namespace, and a client service for a replication controller. Create `client.yaml` with the following:
+Lastly, let's examine how the client namespace, and a client service for a replication controller.
+are built. `cat client.yaml`:
 
 ```
 kind: Namespace
@@ -180,24 +196,24 @@ metadata:
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: client 
+  name: client
   namespace: client
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        role: client 
+        role: client
     spec:
       containers:
-      - name: client 
+      - name: client
         image: calico/star-probe:v0.1.0
         imagePullPolicy: Always
         command:
         - probe
         - --urls=http://frontend.stars:80/status,http://backend.stars:6379/status
         ports:
-        - containerPort: 9000 
+        - containerPort: 9000
 ---
 apiVersion: v1
 kind: Service
@@ -206,7 +222,7 @@ metadata:
   namespace: client
 spec:
   ports:
-  - port: 9000 
+  - port: 9000
     targetPort: 9000
   selector:
     role: client
@@ -250,9 +266,9 @@ It may take several minutes to download all the required Docker images.
 
 To summarize the different resources we created:
 
-* A namespace called `stars`
-* `frontend` and `backend` replication controllers and services within `stars` namespace
-* A namespace called `management-ui`
-* Replication controller and service `management-ui` for the user interface seen on the browser, in the `management-ui` namespace
-* A namespace called `client`
-* `client` replication controller and service in `client` namespace
+* A namespace called **stars**
+* **frontend** and **backend** replication controllers and services within **stars** namespace
+* A namespace called **management-ui**
+* Replication controller and service **management-ui** for the user interface seen on the browser, in the **management-ui** namespace
+* A namespace called **client**
+* **client** replication controller and service in **client** namespace
