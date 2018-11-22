@@ -5,6 +5,7 @@ weight: 10
 ---
 
 #### Configure the Probe
+
 Save the text from following block as **~/environment/healthchecks/readiness-deployment.yaml**. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file **/tmp/healthy** to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods. 
 
 ```

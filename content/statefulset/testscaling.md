@@ -134,6 +134,23 @@ data-mysql-3   Bound     pvc-de14acd8-e811-11e8-86c5-069628ef0c9c   10Gi       R
 data-mysql-4   Bound     pvc-e916c3ec-e812-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            26m
 ```
 
+
+#### Challenge:
+**By default, deleting a PersistentVolumeClaim will delete its associated persistent volume. What if you wanted to keep the volume? Change the reclaim policy of the PersistentVolume associated with PVC "data-mysql-3" to "Retain". Please see [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/change-pv-reclaim-policy/) for help**
+
+{{% expand "Expand here to see the solution"%}}
+Change the reclaim policy:
+```
+kubectl patch pv <your-pv-name> -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+```
+Now, if you delete the PersistentVolumeClaim data-mysql-3, you can still see the EBS volume in your AWS EC2 console, with its state as "available".
+
+Let's change the reclaim policy back to "Delete" to avoid orphaned volumes:
+```
+kubectl patch pv <your-pv-name> -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}'
+```
+{{%/expand%}}
+
 Delete data-mysql-3, data-mysql-4 by following command.
 ```
 kubectl delete pvc data-mysql-3
