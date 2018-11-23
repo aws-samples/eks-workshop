@@ -1,10 +1,10 @@
 ---
 title: "Logging with Elasticsearch, Fluentd, and Kibana (EFK)"
 chapter: true
-weight: 64
+weight: 51
 ---
 
-# Implement Logging with EFK 
+# Implement Logging with EFK
 
 In this Chapter, we will deploy a common Kubernetes logging pattern which consists of the following:
 

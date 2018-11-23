@@ -1,7 +1,7 @@
 ---
 title: "Create Network Policies Using Calico"
 chapter: true
-weight: 61
+weight: 50
 ---
 
 # Create Network Policies Using Calico
