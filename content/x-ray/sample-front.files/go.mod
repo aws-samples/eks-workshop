@@ -1,4 +1,4 @@
-module github.com/aws-samples/eks-workshop/content/x-ray/sample-back
+module github.com/aws-samples/eks-workshop/content/x-ray/sample-front
 
 require github.com/aws/aws-sdk-go v1.15.75
 
