@@ -1,4 +1,5 @@
 languageCode = "en-us"
+ignoreFiles = [ "\\.files/README.md$",  ]
 defaultContentLanguage = "en"
 title = "Amazon EKS Workshop"
 theme = "learn"
@@ -24,6 +25,8 @@ disableInlineCopyToClipBoard = true
 ghrepo = "https://github.com/aws-samples/eks-workshop/"
 branch = "master"
 template_bucket = "eksworkshop.com"
+
+
 
 #
 
