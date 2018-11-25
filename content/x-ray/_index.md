@@ -1,7 +1,7 @@
 ---
 title: "Tracing with X-Ray"
 chapter: true
-weight: 64
+weight: 43
 draft: false
 ---
 
@@ -12,4 +12,3 @@ As [distributed systems](https://en.wikipedia.org/wiki/Distributed_computing) ev
 In this module, we are going to deploy the [X-Ray agent](https://docs.aws.amazon.com/xray/latest/devguide/xray-daemon.html) as a [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/), deploy sample front-end and back-end services that are instrumented with the [X-Ray SDK](https://docs.aws.amazon.com/xray/index.html#lang/en_us), make some sample requests and then examine the traces and service maps in the AWS Management Console.
 
 ![GitHub Edit](/images/x-ray/overview.png)
-

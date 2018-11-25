@@ -1,7 +1,7 @@
 ---
 title: "Launch using Terraform"
 chapter: false
-weight: 30
+weight: 25
 draft: true
 ---
 

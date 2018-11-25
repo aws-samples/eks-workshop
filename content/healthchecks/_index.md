@@ -1,7 +1,7 @@
 ---
 title: "Health Checks"
 chapter: true
-weight: 61
+weight: 40
 ---
 
 # Health Checks

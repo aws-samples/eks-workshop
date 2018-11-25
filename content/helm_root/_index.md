@@ -1,7 +1,7 @@
 ---
 title: "Helm"
 chapter: true
-weight: 62
+weight: 32
 ---
 
 # Kubernetes Helm
