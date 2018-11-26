@@ -37,7 +37,7 @@ You can query the status of your cluster with the following command:
 aws eks describe-cluster --name "eksworkshop-cf" --query cluster.status --output text
 ```
 
-This is a script that will let you know when tyour cluster is active:
+This is a script that will let you know when your cluster is active:
 ```bash
 until [[ `aws eks describe-cluster --name "eksworkshop" --query cluster.status --output text` == "ACTIVE" ]]; do  echo "Your cluster is NOT in a state of ACTIVE at `date`";   sleep 30; done && echo "Your cluster is now active at `date` - Please proceed"
 ```
