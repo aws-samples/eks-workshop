@@ -26,3 +26,17 @@ Click on the image to zoom
 {{% /notice %}}
 
 
+#### Challenge
+**Append the  _?slow=true_ query param to the service endpoint in the browser and diagnose the increase in latency.**
+
+**HINT:** How were the microservices performing before you added this query parameter?
+
+{{%expand "Expand to see the solution" %}}
+
+If you examined the traces in the X-Ray console before appending the query parameter, you would have seen that the **x-ray-sample-back-k8s-gen** subsegment was processing in less than 1ms.
+After adding the _slow_ parameter, the latency for this microservice increased by 10ms [for each call](https://github.com/aws-samples/eks-workshop/blob/master/content/x-ray/sample-back.files/main.go#L38:L41) to the random number generator.
+
+**Bonus:** Append the &repeat=true query parameter to the URL in the browser and determine the source of the additional latency.
+
+{{% /expand %}}
+
