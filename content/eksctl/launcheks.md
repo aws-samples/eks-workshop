@@ -6,7 +6,7 @@ weight: 20
 
 
 {{% notice warning %}}
-**DO NOT PROCEED** with this step unless you have [validated the IAM role](/prerequisites/workspaceiam/) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
+**DO NOT PROCEED** with this step unless you have [validated the IAM role](/prerequisites/workspaceiam/#validate-the-iam-role) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
 {{% /notice %}}
 
 {{%expand "How do I check the IAM role on the workspace?" %}}
