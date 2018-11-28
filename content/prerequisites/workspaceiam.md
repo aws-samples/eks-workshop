@@ -28,3 +28,31 @@ echo "export AWS_REGION=${AWS_REGION}" >> ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
 aws configure get default.region
 ```
+
+### Validate the IAM role
+
+Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
+
+#### VALID
+
+If the _Arn_ contains `modernizer-workshop-cl9` and an Instance ID, you may proceed.
+
+```output
+{
+    "Account": "123456789012", 
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Arn": "arn:aws:sts::123456789012:assumed-role/modernizer-workshop-cl9/i-01234567890abcdef"
+}
+```
+
+#### INVALID
+
+If the _Arn contains `TeamRole` or `MasterRole`, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
+
+```output
+{
+    "Account": "123456789012", 
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/MasterRole"
+}
+```
