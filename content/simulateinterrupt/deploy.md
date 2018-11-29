@@ -4,7 +4,7 @@ weight: 10
 draft: false
 ---
 
-We will simulate a spot interruption by triggering the Spot API to scale down a group of instance. This is not possible with the EC2 Autoscaling groups that we have been using thus far. We will by creating a new [**Spot Fleet**](https://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-fleet.html) request and add these workers to our cluster. We will deploy pods to these nodes and then remove capacity from the fleet triggering a notification.  
+We will simulate a spot interruption by triggering the Spot API to scale down a group of instance. This is not possible with the EC2 Autoscaling groups that we have been using thus far. We will by creating a new [**Spot Fleet**](https://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-fleet.html) request and add these workers to our cluster. We will deploy pods to these nodes and then remove capacity from the fleet triggering a notification.
 
 Spot interruption notifications are reported in the following ways:
 
@@ -12,20 +12,17 @@ Spot interruption notifications are reported in the following ways:
  * In the EC2 instance, using the [EC2 metadata service](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
  * In the AWS account, using [CloudWatch Events](https://aws.amazon.com/about-aws/whats-new/2018/01/amazon-ec2-spot-two-minute-warning-is-now-available-via-amazon-cloudwatch-events/)
 
-
 Login to [**AWS EC2 Console**](https://console.aws.amazon.com/ec2)
 
 In the left hand menu bar, choose **Spot Requests**
 
-<Screenshot>
-
 Click on **Request Spot Instances** button
 
-<Screenshot>
+{{% notice info %}}
+The Amazon EC2 Spot Console was updated on 11/20/2018 to [simplify the user flow and provide Spot Fleet recommendations.](https://aws.amazon.com/about-aws/whats-new/2018/11/new-simplified-user-flow-and-fleet-recommendations-available-in-amazon-ec2-spot-console/) As a result, some of the prompts referenced below have changed. We will be updating the instructions soon. In the meantime, please refer to the [Spot documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#create-spot-fleet) for more information.
+{{% /notice %}}
 
 Leave the default choice of `Request and Maintain`, and leave `Total target capacity` to **1**. (Later, we'll reduce this to **0** to cause Spot Fleet to send an interruption to EC2 instance)
-
-<Screenshot>
 
 Provide the [**EKS-Optimized ami-id**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) that you used in your CloudFormation Template
 
@@ -54,13 +51,13 @@ Update the `Instance tags` to reflect below values. These instance tags ensure t
 |-----------|-------|
 | Name | EKSSpot-SpotFleet-Node |
 | kubernetes.io/cluster/eksworkshop | owned |
-| k8s.io/cluster-autoscaler/enabled | true | 
+| k8s.io/cluster-autoscaler/enabled | true |
 | Spot | true|
 
 Wait for few minutes (about 8-10). Check from command line if you are able to see these newly added EC2 instances as part of cluster launched by SpotFleet API by using command below.  Look at the Age column to identify the new node. Take note of the name as you will want to confirm that pods are placed on this instance in the next step.
 
 ```
-kubectl get nodes 
+kubectl get nodes
 ```
 {{% notice info %}}
 If you don't see your nodes joining the cluster, make sure the instances have the correct Public IP address, security group for worker nodes, and the IAM Role attached along with tags as mentioned above. Only then will they able to join the cluster. Compare to existing worker nodes if you have doubts.

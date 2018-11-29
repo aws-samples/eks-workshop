@@ -6,7 +6,7 @@ draft: false
 
 Once you are able to see the nodes, we are ready to reduce the target capacity down by 1. This will trigger a Spot interruption notification. The Spot interrupt handler will see this notification and taint the node. Then pods will be moved and other ASGs will be scaled up by Cluster Autoscaler as needed.
 
-Go to [**Spot Requests**](https://eu-west-1.console.aws.amazon.com/ec2sp/v1/spot/home) in the EC2 Console. This will show you the open spot requests. Look at the request starting with **sfr-** This is the spot fleet request you would have created on the previous page.
+Go to [**Spot Requests**](https://console.aws.amazon.com/ec2sp/v1/spot/home) in the EC2 Console. This will show you the open spot requests. Look at the request starting with **sfr-** This is the spot fleet request you would have created on the previous page.
 
 Check the box next to the spot request and click on the **Actions** button above, and select **Modify Target Capacity** from the dropdown.
 
