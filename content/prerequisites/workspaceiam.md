@@ -33,9 +33,27 @@ aws configure get default.region
 
 Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
 
+First, get the IAM role name from the AWS CLI.
+```bash
+INSTANCE_PROFILE_NAME=`basename $(aws ec2 describe-instances --filters Name=tag:Name,Values=aws-cloud9-${C9_PROJECT}-${C9_PID} | jq -r '.Reservations[0].Instances[0].IamInstanceProfile.Arn' | awk -F "/" "{print $2}")`
+aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME --query "InstanceProfile.Roles[0].RoleName" --output text
+```
+
+The output is the role name.
+
+```output
+modernizer-workshop-cl9
+```
+
+Compare that with the result of
+
+```bash
+aws sts get-caller-identity
+```
+
 #### VALID
 
-If the _Arn_ contains `modernizer-workshop-cl9` and an Instance ID, you may proceed.
+If the _Arn_ contains the role name from above and an Instance ID, you may proceed.
 
 ```output
 {
@@ -47,7 +65,7 @@ If the _Arn_ contains `modernizer-workshop-cl9` and an Instance ID, you may proc
 
 #### INVALID
 
-If the _Arn contains `TeamRole` or `MasterRole`, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
+If the _Arn contains `TeamRole`, `MasterRole`, or does not match the role name, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
 
 ```output
 {
