@@ -13,7 +13,7 @@ weight: 20
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
-Run `aws sts get-caller-identity` and validate that your _Arn_ containers `modernizer-workshop-cl9` (or the role created when starting the workshop) and an Instance Id.
+Run `aws sts get-caller-identity` and validate that your _Arn_ contains `modernizer-workshop-cl9` (or the role created when starting the workshop) and an Instance Id.
 
 ```output
 {
