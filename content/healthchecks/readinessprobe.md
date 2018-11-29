@@ -75,7 +75,7 @@ Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavai
 Pick one of the pods from above 3 and issue a command as below to delete the **/tmp/healthy** file which makes the readiness probe fail.
 
 ```
-kubectl exec -it readiness-deployment-<YOUR-POD-NAME> -- rm /tmp/healthy
+kubectl exec -it <YOUR-READINESS-POD-NAME> -- rm /tmp/healthy
 ```
 
 **readiness-deployment-7869b5d679-922mx** was picked in our example cluster. The **/tmp/healthy** file was deleted. This file must be present for the readiness check to pass. Below is the status after issuing the command.
@@ -113,7 +113,7 @@ When the readiness probe for a pod fails, the endpoints controller removes the p
 Run the below command with the name of the pod to recreate the **/tmp/healthy** file. Once the pod passes the probe, it gets marked as ready and will begin to receive traffic again.
 
 ```
-kubectl exec -it readiness-deployment-<YOUR-POD-NAME> -- touch /tmp/healthy
+kubectl exec -it <YOUR-READINESS-POD-NAME> -- touch /tmp/healthy
 ```
 ```
 kubectl get pods -l app=readiness-deployment
