@@ -15,38 +15,53 @@ The workflow can be summarized as:
 * [**Drain**](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) connections on the running pods.
 * Replace the pods on remaining nodes to maintain the desired capacity.
 
-We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per node. 
+We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per node.
 
-```
+```bash
 mkdir ~/environment/spot
 cd ~/environment/spot
 wget https://eksworkshop.com/spot/managespot/deployhandler.files/spot-interrupt-handler-example.yml
 ```
+#### Challenge:
+**How could you get a list of only the Spot Nodes?**
 
-As written, the manifest will deploy pods to all nodes including On-Demand, which is a waste of resources. We want to edit our DaemonSet to only be deployed on Spot Instances. Let's use the labels to identify the right nodes.
+[**Check this link**](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources) for more information.
+{{% expand "Expand here to see the solution"%}}
 
-**Challenge: How could you get a list of only the Spot Nodes?** [**Check this link**](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources)
-{{% expand "Do you just want us to tell you?"%}}
-```
+```bash
 kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
 # or
 kubectl get nodes  --selector=lifecycle=Ec2Spot -o json | jq -r '[.items[].metadata.name]'
-``` 
+```
+
 {{% /expand %}}
+
+As written, the manifest will deploy pods to all nodes including On-Demand, which is a waste of resources. We want to edit our DaemonSet to only be deployed on Spot Instances. Let's use the labels to identify the right nodes.
 
 Use a `nodeSelector` to constrain our deployment to spot instances. View this [**link**](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) for more details.
 
-{{% expand "Still need some help?"%}}
-```
+#### Challenge:
+**Configure our Spot Handler to use nodeSelector**
+{{% expand "Expand here to see the solution"%}}
+Place this at the end of the DaemonSet manifest under Spec.Template.Spec.nodeSelector
+
+```bash
+...
+              fieldPath: status.podIP
       nodeSelector:
         lifecycle: Ec2Spot
 ```
 {{% /expand %}}
 
 Deploy the DaemonSet
-```
+
+```bash
 kubectl apply -f ~/environment/spot/spot-interrupt-handler-example.yml
 ```
+
+{{% notice tip %}}
+If you receive an error deploying the DaemonSet, there is likely a small error in the YAML file. We have provided a solution file at the bottom of this page that you can use to compare.
+{{% /notice %}}
 
 View the pods. There should be one for each spot node.
 ```

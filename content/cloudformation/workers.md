@@ -9,7 +9,7 @@ Now that your VPC and Kubernetes control plane are created, you can launch and
 configure your worker nodes. We will now use CloudFormation to launch worker
 nodes that will connect to the EKS cluster:
 
-First, make export our network information
+First, we export our network information
 ```
 export SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
 export SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
@@ -45,27 +45,29 @@ Once the console is open you will need to configure the missing parameters. Use 
 | Stack Name: | eksworkshop-nodegroup-0 |
 | Cluster Name: | eksworkshop (or whatever you named your cluster) |
 |ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and ControlPlane |
-|NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for eu-west-1 |
+|NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for eu-west-1 - **Check for empty spaces in copy/paste**|
 |KeyName: | SSH Key Pair created earlier |
 |VpcId: | Select your workshop VPC from the dropdown |
 |Subnets: | Select the subnets for your workshop VPC from the dropdown |
-|OnDemandBootstrapArguments: | See Below |
-|SpotBootstrapArguments: | See Below |
+|OnDemandBootstrapArguments: | See Challenge Below |
+|SpotBootstrapArguments: | See Challenge Below |
 
-The EKS Bootstrap.sh script is packaged into the EKS Optimized AMI that we are using, and only requires a single input: the EKS Cluster name. The bootstrap script supports setting any `kubelet-extra-args` at runtime. You will need to configure `node-labels` so that kubernetes knows what type of nodes we have provisioned. Set the `lifecycle` for the nodes as `OnDemand` or `Ec2Spot`
+The EKS Bootstrap.sh script is packaged into the EKS Optimized AMI that we are using, and only requires a single input: the EKS Cluster name. The bootstrap script supports setting any `kubelet-extra-args` at runtime. You will need to configure `node-labels` so that kubernetes knows what type of nodes we have provisioned. Set the `lifecycle` for the nodes as `OnDemand` or `Ec2Spot`. Check out this [**link**](https://aws.amazon.com/blogs/opensource/improvements-eks-worker-node-provisioning/) for more information
 
-Check out this [**link**](https://aws.amazon.com/blogs/opensource/improvements-eks-worker-node-provisioning/) for more information
+#### Challenge:
+**What do we need to use for our Bootstrap Arguments?**
+{{% expand "Expand here to see the solution"%}}
 
-{{% expand "ONLY If you get stuck..."%}}
-```
+```text
 --kubelet-extra-args --node-labels=lifecycle=OnDemand
 ```
-```
+
+```text
 --kubelet-extra-args --node-labels=lifecycle=Ec2Spot
 ```
 {{%/expand%}}
 
-You can leave the rest of the default parameters as is and continue through the remaining CloudFormation screens. Check the box next to **I acknowledge that AWS CloudFormation might create IAM resources** and click **Create** 
+You can leave the rest of the default parameters as is and continue through the remaining CloudFormation screens. Check the box next to **I acknowledge that AWS CloudFormation might create IAM resources** and click **Create**
 
 The creation of the workers will take about 3 minutes. This is a script that will let you know when the CloudFormation stack is complete:
 

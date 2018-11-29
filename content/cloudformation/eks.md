@@ -26,17 +26,34 @@ echo SERVICE_ROLE=${SERVICE_ROLE}
 echo SECURITY_GROUP=${SECURITY_GROUP}
 echo SUBNET_IDS=${SUBNET_IDS}
 ```
+{{% notice warning %}}
+**DO NOT PROCEED** with this step unless you have previously disabled [Managed AWS Credentials](/prerequisites/workspaceiam/) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the eksworkshop IAM role.
+{{% /notice %}}
+
+#### Challenge:
+**How do I check the IAM role on the workspace?**
+{{%expand "Expand here to see the solution" %}}
+Run `aws sts get-caller-identity` and validate that your _Arn_ contains **eksworkshop-admin**.
+
+```bash
+aws sts get-caller-identity
+```
+
+{{% /expand%}}
 
 Now we can create the EKS cluster:
-```
+
+```bash
 aws eks create-cluster --name eksworkshop --role-arn "${SERVICE_ROLE}" --resources-vpc-config subnetIds="${SUBNET_IDS}",securityGroupIds="${SECURITY_GROUP}"
 ```
+
 {{% notice info %}}
 Cluster provisioning usually takes less than 10 minutes.
 {{% /notice %}}
 
 You can query the status of your cluster with the following command:
-```
+
+```bash
 aws eks describe-cluster --name "eksworkshop" --query cluster.status --output text
 ```
 

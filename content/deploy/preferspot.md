@@ -5,17 +5,20 @@ weight: 29
 draft: false
 ---
 
-We want our frontend service to be deployed on Spot Instances when they are available. We will use Node Affinity in our manifest file to configure this. 
+We want our frontend service to be deployed on Spot Instances when they are available. We will use Node Affinity in our manifest file to configure this.
 
-Open the deployment manifest in your Cloud9 editor - **~/environment/ecsdemo-nodejs/kubernetes/deployment.yaml**
+Open the deployment manifest in your Cloud9 editor - **~/environment/ecsdemo-frontend/kubernetes/deployment.yaml**
 
 Edit the spec to configure NodeAffinity to `prefer` Spot Instances, but not `require` them. This will allow the pods to be scheduled on On-Demand nodes if no spot instances were available or correctly labelled.
 
 For examples of Node Affinity, check this [**link**](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
-{{% expand "In a hurry and just want the answer?"%}}
+#### Challenge:
+**Configure Node Affinity**
+{{% expand "Expand here to see the solution"%}}
 Add this to your deployment file under spec.template.spec
-```
+
+```yaml
   affinity:
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
@@ -27,6 +30,7 @@ Add this to your deployment file under spec.template.spec
             values:
             - Ec2Spot
 ```
+
 {{% /expand %}}
 
 {{%attachments title="Related files" pattern=".yml"/%}}
