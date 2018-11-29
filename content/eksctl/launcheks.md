@@ -9,7 +9,10 @@ weight: 20
 **DO NOT PROCEED** with this step unless you have [validated the IAM role](/prerequisites/workspaceiam/#validate-the-iam-role) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
 {{% /notice %}}
 
-{{%expand "How do I check the IAM role on the workspace?" %}}
+#### Challenge:
+**How do I check the IAM role on the workspace?**
+
+{{%expand "Expand here to see the solution" %}}
 Run `aws sts get-caller-identity` and validate that your _Arn_ containers `modernizer-workshop-cl9` and an Instance Id.
 
 ```output
@@ -19,7 +22,7 @@ Run `aws sts get-caller-identity` and validate that your _Arn_ containers `moder
     "Arn": "arn:aws:sts::123456789012:assumed-role/modernizer-workshop-cl9/i-01234567890abcdef"
 }
 ```
-{{% /expand%}}
+{{% /expand %}}
 
 ### Create an EKS cluster
 
