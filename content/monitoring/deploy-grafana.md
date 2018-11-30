@@ -13,7 +13,7 @@ curl -o grafana-values.yaml https://raw.githubusercontent.com/helm/charts/master
 
 You will make **_three_** edits to grafana-values.yaml. Search for **storageClassName**, uncomment and change the value to **"prometheus"**. Search for **adminPassword**, uncomment and change the password to **"EKS!sAWSome"** or something similar. Make a note of this password as you will need it for logging into grafana dashboard later
 
-The third edit you will do is for adding Prometheus as a datasource. Search for **datasources.yaml** and uncomment entire block, update prometheus to the endpoint referred earlier by helm response. The configuration will look similar to below
+The third edit you will do is for adding Prometheus as a datasource. Search for **datasources.yaml** and uncomment entire block, remove **{}** from **datasources**, and update prometheus to the endpoint referred earlier by helm response. The configuration will look similar to below
 
 ```yaml
 datasources:
