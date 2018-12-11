@@ -15,10 +15,6 @@ Metadata:
 
 Parameters:
 
-  NodeInstanceRole:
-    Description: Use the Role associated with existing EKS Worker Nodes
-    Type: AWS::IAM::Role
-
   KeyName:
     Description: The EC2 Key Pair to allow SSH access to the instances
     Type: AWS::EC2::KeyPair::KeyName
@@ -26,6 +22,10 @@ Parameters:
   NodeImageId:
     Type: AWS::EC2::Image::Id
     Description: Find the latest AMI id here - https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+
+  NodeInstanceRole:
+    Description: Use the Role associated with existing EKS Worker Nodes
+    Type: String
 
   SpotPrice:
     Description: Spot Price (Only Spot market price is charged, up to max of On-Demand price. Value here is only used to prevent EC2 instance launch if Spot market price exceeds this value.)
@@ -224,7 +224,7 @@ Parameters:
   NodeAutoScalingGroupMaxSize:
     Type: Number
     Description: Maximum size of Node Group ASG.
-    Default: 3
+    Default: 8
 
   NodeVolumeSize:
     Type: Number
@@ -234,6 +234,7 @@ Parameters:
   ClusterName:
     Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
     Type: String
+    Default: 'eksworkshop-eksctl'
 
   SpotBootstrapArguments:
     Description: Sets Node Labels to set lifecycle as Ec2Spot
@@ -288,6 +289,7 @@ Metadata:
           - NodeAutoScalingGroupMinSize
           - NodeAutoScalingGroupMaxSize
           - NodeImageId
+          - NodeInstanceRole
           - NodeVolumeSize
           - KeyName
           - BootstrapArguments
@@ -300,6 +302,7 @@ Metadata:
           - NodeAutoScalingGroupMinSize
           - NodeAutoScalingGroupMaxSize
           - NodeImageId
+          - NodeInstanceRole
           - NodeVolumeSize
           - KeyName
           - BootstrapArguments
@@ -312,6 +315,7 @@ Metadata:
           - NodeAutoScalingGroupMinSize
           - NodeAutoScalingGroupMaxSize
           - NodeImageId
+          - NodeInstanceRole
           - NodeVolumeSize
           - KeyName
           - BootstrapArguments
@@ -562,8 +566,3 @@ Resources:
                      --stack  ${AWS::StackName} \
                      --resource OnDemandNodeGroup  \
                      --region ${AWS::Region}
-
-Outputs:
-  NodeInstanceRole:
-    Description: The node instance role. Needed for aws-cm-auth.yaml
-    Value: !GetAtt NodeInstanceRole.Arn
