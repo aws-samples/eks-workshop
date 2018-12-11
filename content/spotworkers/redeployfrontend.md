@@ -1,5 +1,5 @@
 ---
-title: "Deploy Frontend Service"
+title: "Redeploy Frontend Service"
 date: 2018-09-18T17:40:09-05:00
 weight: 40
 ---
