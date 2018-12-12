@@ -59,7 +59,8 @@ Once the console is open you will need to configure the missing parameters. Use 
 
 The EKS Bootstrap.sh script is packaged into the EKS Optimized AMI that we are using, and only requires a single input: the EKS Cluster name. The bootstrap script supports setting any `kubelet-extra-args` at runtime. You will need to configure `node-labels` so that kubernetes knows what type of nodes we have provisioned. Set the `lifecycle` for the nodes as `OnDemand` or `Ec2Spot`. Check out this [**link**](https://aws.amazon.com/blogs/opensource/improvements-eks-worker-node-provisioning/) for more information
 
-#### Challenge:
+#### Challenge
+
 **What do we need to use for our Bootstrap Arguments?**
 {{% expand "Expand here to see the solution"%}}
 
@@ -70,13 +71,14 @@ The EKS Bootstrap.sh script is packaged into the EKS Optimized AMI that we are u
 ```text
 --kubelet-extra-args --node-labels=lifecycle=Ec2Spot
 ```
+
 {{%/expand%}}
 
 You can leave the rest of the default parameters as is and continue through the remaining CloudFormation screens. Check the box next to **I acknowledge that AWS CloudFormation might create IAM resources** and click **Create**
 
 The creation of the workers will take about 3 minutes. This is a script that will let you know when the CloudFormation stack is complete:
 
-```
+```bash
 until [[ `aws cloudformation describe-stacks --stack-name "eksworkshop-nodegroup-0" --query "Stacks[0].[StackStatus]" --output text` == "CREATE_COMPLETE" ]]; do  echo "The stack is NOT in a state of CREATE_COMPLETE at `date`";   sleep 30; done && echo "The Stack is built at `date` - Please proceed"
 ```
 
@@ -89,9 +91,11 @@ kubectl get nodes
 ```
 
 You can use the node-labels to identify the lifecycle of the nodes
+
 ```bash
 kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
 ```
+
 ```bash
 kubectl get nodes --show-labels --selector=lifecycle=OnDemand
 ```

@@ -13,7 +13,8 @@ Edit the spec to configure NodeAffinity to `prefer` Spot Instances, but not `req
 
 For examples of Node Affinity, check this [**link**](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
-#### Challenge:
+#### Challenge
+
 **Configure Node Affinity**
 {{% expand "Expand here to see the solution"%}}
 Add this to your deployment file under spec.template.spec
