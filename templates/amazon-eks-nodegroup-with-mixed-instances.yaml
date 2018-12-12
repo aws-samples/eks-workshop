@@ -38,9 +38,9 @@ Parameters:
     Description: The VPC of the worker instances
     Type: AWS::EC2::VPC::Id
 
-  NodeInstanceRole:
-    Description: Use the Role associated with existing EKS Worker Nodes
-    Type: String
+  # NodeInstanceRole:
+  #   Description: Use the Role associated with existing EKS Worker Nodes
+  #   Type: String
 
   Subnets:
     Description: Select 3 subnets where workers can be created.
@@ -233,6 +233,24 @@ Resources:
       Roles:
       - !Ref NodeInstanceRole
 
+  NodeInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
   NodeSecurityGroup:
     Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroup
@@ -419,3 +437,7 @@ Resources:
                 - !Split [ ",", !Ref ExistingNodeSecurityGroups ]
         ImageId: !Ref NodeImageId
         InstanceType: !Ref NodeInstanceType
+Outputs:
+  NodeInstanceRole:
+    Description: The node instance role
+    Value: !GetAtt NodeInstanceRole.Arn

@@ -8,10 +8,7 @@ draft: false
 We have our EKS Cluster and worker nodes already, but we need some Spot Instances configured as workers. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to launch new worker
 nodes that will connect to the EKS cluster.
 
-CloudFormation is an [infrastructure as code](https://en.wikipedia.org/wiki/Infrastructure_as_Code) (IaC) tool which
-provides a common language for you to describe and provision all the infrastructure resources in your cloud environment.
-CloudFormation allows you to use a simple text file to model and provision, in an automated and secure manner, all the
-resources needed for your applications across all regions and accounts.
+This template will create a single ASG that leverages the latest feature to mix multiple instance types and purchase as a single K8s nodegroup. Check out this blog: [New – EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/tw/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/) for details.
 
 #### Retrieve the Worker Role name
 
