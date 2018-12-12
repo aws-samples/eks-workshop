@@ -93,5 +93,5 @@ You can use the node-labels to identify the lifecycle of the nodes
 kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
 ```
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
+kubectl get nodes --show-labels --selector=lifecycle=OnDemand
 ```
