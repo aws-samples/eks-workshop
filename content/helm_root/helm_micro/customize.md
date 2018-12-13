@@ -13,7 +13,7 @@ If you look in the newly created **eksdemo** directory, you'll see several files
 
 We're actually going to create our own files, so we'll delete these boilerplate files
 ```
-rm -rf ~/environment/eksdemo/templates/*.*
+rm -rf ~/environment/eksdemo/templates/
 rm ~/environment/eksdemo/Chart.yaml
 rm ~/environment/eksdemo/values.yaml
 ```
