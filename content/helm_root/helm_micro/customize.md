@@ -31,8 +31,8 @@ EoF
 Next we'll copy the manifest files for each of our microservices into the templates directory as *servicename*.yaml
 ```
 #create subfolders for each template type
-mkdir  ~/environment/eksdemo/templates/deployment
-mkdir  ~/environment/eksdemo/templates/service
+mkdir -p ~/environment/eksdemo/templates/deployment
+mkdir -p ~/environment/eksdemo/templates/service
 
 # Copy and rename frontend manifests
 cp ~/environment/ecsdemo-frontend/kubernetes/deployment.yaml ~/environment/eksdemo/templates/deployment/frontend.yaml
