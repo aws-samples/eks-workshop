@@ -8,7 +8,7 @@ weight: 50
 
 In this Chapter, we will create some network policies using [Calico](https://www.projectcalico.org/) and see the rules in action.
 
-Network policies allow you to define rules that determine what type of traffic is allowed to flow between different services. Using network policies you can also define rules to restrict traffic. They are a means ot improve your cluster's security.
+Network policies allow you to define rules that determine what type of traffic is allowed to flow between different services. Using network policies you can also define rules to restrict traffic. They are a means to improve your cluster's security.
 
 For example, you can only allow traffic from frontend to backend in your application.
 
