@@ -18,6 +18,8 @@ Metadata:
           - NodeGroupName
           - UseExistingNodeSecurityGroups
           - ExistingNodeSecurityGroups
+          - UseExistingNodeRole
+          - ExistingNodeRole
           - Subnets
       -
         Label:
@@ -37,10 +39,6 @@ Parameters:
   VpcId:
     Description: The VPC of the worker instances
     Type: AWS::EC2::VPC::Id
-
-  # NodeInstanceRole:
-  #   Description: Use the Role associated with existing EKS Worker Nodes
-  #   Type: String
 
   Subnets:
     Description: Select 3 subnets where workers can be created.
@@ -164,6 +162,19 @@ Parameters:
       - "no"
     Default: "yes"
 
+  UseExistingNodeRole:
+    Type: String
+    Description: OPTIONAL - select 'yes' if you prefer to attach existing Role to nodegroup
+    Default: "yes"
+    AllowedValues:
+      - "yes"
+      - "no"
+
+  ExistingNodeRole:
+    Type: String
+    Description: OPTIONAL - attach existing Role for your nodegroup
+    Default: ""
+
   OnDemandBaseCapacity:
     Type: Number
     Description: "on-demand base capacity"
@@ -222,8 +233,9 @@ Parameters:
 Conditions:
   IsASGAutoAssignPublicIp: !Equals [ !Ref ASGAutoAssignPublicIp , "yes" ]
   AttachExistingNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "yes" ]
+  AttachExistingNodeRole: !Equals [ !Ref UseExistingNodeRole, "yes" ]
   CreateNewNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "no" ]
-
+  CreateNewNodeRole: !Equals [ !Ref UseExistingNodeRole, "no" ]
 
 Resources:
   NodeInstanceProfile:
@@ -231,9 +243,14 @@ Resources:
     Properties:
       Path: "/"
       Roles:
-      - !Ref NodeInstanceRole
+        !If
+          - CreateNewNodeRole
+          -
+            - !Ref NodeInstanceRole
+          - !Split [ ",", !Ref ExistingNodeRole ]
 
   NodeInstanceRole:
+    Condition: AttachExistingNodeRole
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:

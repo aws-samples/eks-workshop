@@ -29,12 +29,13 @@ eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXXXXX
 ```
 
 #### Launch the CloudFormation Stack
+We will launch the CloudFormation template as a new set of worker nodes, but it's also possible to update the nodegroup CloudFormation stack created by the *eksctl* tool.
 
 Click the **Launch** button to create the CloudFormation stack in the AWS Management Console.
 
 | Launch template |  |  |
 | ------ |:------:|:--------:|
-| EKS Workers - Spot and On Demand |  {{% cf-launch "amazon-eks-nodegroup-with-spot.yml?stackName=eksworkshop-nodegroup-0" %}} | {{% cf-download "amazon-eks-nodegroup-with-spot.yml" %}}  |
+| EKS Workers - Spot and On Demand |  {{% cf-launch "amazon-eks-nodegroup-with-mixed-instances.yml?stackName=eksworkshop-nodegroup-0" %}} | {{% cf-download "amazon-eks-nodegroup-with-mixed-instances.yml" %}}  |
 
 {{% notice info %}}
 Confirm the region is correct based on where you've deployed your cluster.
