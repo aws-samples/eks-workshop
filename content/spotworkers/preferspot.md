@@ -45,14 +45,14 @@ Add this to your deployment file under spec.template.spec
 ```
 
 {{% notice tip %}}
- We have provided a solution file at the bottom of this page that you can use to compare.
+ We have provided a solution file below that you can use to compare.
 {{% /notice %}}
 
 {{% /expand %}}
 
 {{%attachments title="Related files" pattern=".yml"/%}}
 
-Let’s redeploy the Frontend on Spot instance!
+#### Redeploy the Frontend on Spot
 
 First let's take a look at all pods deployed on Spot instances
 
