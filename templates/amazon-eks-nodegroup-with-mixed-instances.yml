@@ -8,19 +8,15 @@ Metadata:
         Label:
           default: "EKS Configuration"
         Parameters:
-          - VpcId
-          - KeyName
-          - NodeImageId
           - ClusterName
+          - ClusterControlPlaneSecurityGroup
+          - NodeInstanceRole
+          - NodeImageId
+          - KeyName
+          - VpcId
+          - Subnets
           - BootstrapArgumentsForOnDemand
           - BootstrapArgumentsForSpotFleet
-          - ClusterControlPlaneSecurityGroup
-          - NodeGroupName
-          - UseExistingNodeSecurityGroups
-          - ExistingNodeSecurityGroups
-          - UseExistingNodeRole
-          - ExistingNodeRole
-          - Subnets
       -
         Label:
           default: "Auto Scaling Configuration"
@@ -70,7 +66,7 @@ Parameters:
     - t3.xlarge
     - t3.2xlarge
     - m3.medium
-    - m3.large
+      - m3.large
     - m3.xlarge
     - m3.2xlarge
     - m4.large
@@ -162,17 +158,9 @@ Parameters:
       - "no"
     Default: "yes"
 
-  UseExistingNodeRole:
+  NodeInstanceRole:
     Type: String
-    Description: OPTIONAL - select 'yes' if you prefer to attach existing Role to nodegroup
-    Default: "yes"
-    AllowedValues:
-      - "yes"
-      - "no"
-
-  ExistingNodeRole:
-    Type: String
-    Description: OPTIONAL - attach existing Role for your nodegroup
+    Description: Use the existing Role for your nodegroup
     Default: ""
 
   OnDemandBaseCapacity:
@@ -195,18 +183,6 @@ Parameters:
     Description: "multiple spot instances to override(seperated by comma)"
     Default: "m4.large,t3.large,t3.xlarge"
 
-  UseExistingNodeSecurityGroups:
-    Type: String
-    Description: OPTIONAL - select 'yes' if you prefer to attach existing SGs to nodegroup
-    Default: "no"
-    AllowedValues:
-      - "yes"
-      - "no"
-  ExistingNodeSecurityGroups:
-    Type: String
-    Description: OPTIONAL - attach existing security group ID(s) for your nodegroup
-    Default: ""
-
   ClusterName:
     Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
     Type: String
@@ -214,28 +190,20 @@ Parameters:
 
   BootstrapArgumentsForOnDemand:
     Description: Sets Node Labels to set lifecycle as OnDemand
-    # Default: "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
+    Default: "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
     Type: String
 
   BootstrapArgumentsForSpotFleet:
     Description: Sets Node Labels to set lifecycle as Ec2Spot
-    # Default: "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'"
+    Default: "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'"
     Type: String
 
   ClusterControlPlaneSecurityGroup:
     Description: The security group of the cluster control plane.
     Type: AWS::EC2::SecurityGroup::Id
 
-  NodeGroupName:
-    Description: Unique identifier for the Node Group.
-    Type: String
-
 Conditions:
   IsASGAutoAssignPublicIp: !Equals [ !Ref ASGAutoAssignPublicIp , "yes" ]
-  AttachExistingNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "yes" ]
-  AttachExistingNodeRole: !Equals [ !Ref UseExistingNodeRole, "yes" ]
-  CreateNewNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "no" ]
-  CreateNewNodeRole: !Equals [ !Ref UseExistingNodeRole, "no" ]
 
 Resources:
   NodeInstanceProfile:
@@ -243,33 +211,9 @@ Resources:
     Properties:
       Path: "/"
       Roles:
-        !If
-          - CreateNewNodeRole
-          -
-            - !Ref NodeInstanceRole
-          - !Split [ ",", !Ref ExistingNodeRole ]
-
-  NodeInstanceRole:
-    Condition: AttachExistingNodeRole
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - ec2.amazonaws.com
-          Action:
-          - sts:AssumeRole
-      Path: "/"
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
-        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
-        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - !Ref NodeInstanceRole
 
   NodeSecurityGroup:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security group for all nodes in the cluster
@@ -282,7 +226,6 @@ Resources:
         Value: !Sub "${ClusterName}-cluster/NodeSecurityGroup"
 
   NodeSecurityGroupIngress:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -294,7 +237,6 @@ Resources:
       ToPort: 65535
 
   NodeSecurityGroupFromControlPlaneIngress:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -306,7 +248,6 @@ Resources:
       ToPort: 65535
 
   ControlPlaneEgressToNodeSecurityGroup:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupEgress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -318,7 +259,6 @@ Resources:
       ToPort: 65535
 
   NodeSecurityGroupFromControlPlaneOn443Ingress:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -330,7 +270,6 @@ Resources:
       ToPort: 443
 
   ControlPlaneEgressToNodeSecurityGroupOn443:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupEgress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -342,7 +281,6 @@ Resources:
       ToPort: 443
 
   ClusterControlPlaneSecurityGroupIngress:
-    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -357,10 +295,6 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       DesiredCapacity: !Ref NodeAutoScalingGroupDesiredSize
-      #LaunchConfigurationName: !Ref NodeLaunchConfig
-      # LaunchTemplate:
-      #   LaunchTemplateId: !Ref EKSWorkshopTemplate
-      #   Version: !GetAtt EKSWorkshopTemplate.LatestVersionNumber
       MixedInstancesPolicy:
         InstancesDistribution:
           OnDemandAllocationStrategy: prioritized
@@ -385,7 +319,7 @@ Resources:
         !Ref Subnets
       Tags:
       - Key: Name
-        Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
+        Value: !Sub "${ClusterName}-ASG-Node"
         PropagateAtLaunch: 'true'
       - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
         Value: 'owned'
@@ -411,7 +345,7 @@ Resources:
             ResourceType: instance
             Tags:
               - Key: Name
-                Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
+                Value: !Sub "${ClusterName}-ASG-Node"
               - Key: KubernetesCluster
                 Value: !Ref ClusterName
               - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
@@ -447,14 +381,6 @@ Resources:
                 - 'false'
             SubnetId: !Select [0, !Ref Subnets]
             Groups:
-              !If
-                - CreateNewNodeSG
-                -
-                  - !Ref NodeSecurityGroup
-                - !Split [ ",", !Ref ExistingNodeSecurityGroups ]
+              - !Ref NodeSecurityGroup
         ImageId: !Ref NodeImageId
         InstanceType: !Ref NodeInstanceType
-Outputs:
-  NodeInstanceRole:
-    Description: The node instance role
-    Value: !GetAtt NodeInstanceRole.Arn

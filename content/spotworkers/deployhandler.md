@@ -24,23 +24,8 @@ We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per
 ```bash
 mkdir ~/environment/spot
 cd ~/environment/spot
-wget https://eksworkshop.com/spotworkers/deployhandler.files/spot-interrupt-handler-example.yml
+wget https://eksworkshop.com/spot/managespot/deployhandler.files/spot-interrupt-handler-example.yml
 ```
-
-#### Challenge
-
-**How could you get a list of only the Spot Nodes?**
-
-[**Check this link**](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources) for more information.
-{{% expand "Expand here to see the solution"%}}
-
-```bash
-kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
-# or
-kubectl get nodes  --selector=lifecycle=Ec2Spot -o json | jq -r '[.items[].metadata.name]'
-```
-
-{{% /expand %}}
 
 As written, the manifest will deploy pods to all nodes including On-Demand, which is a waste of resources. We want to edit our DaemonSet to only be deployed on Spot Instances. Let's use the labels to identify the right nodes.
 
@@ -53,8 +38,6 @@ Use a `nodeSelector` to constrain our deployment to spot instances. View this [*
 Place this at the end of the DaemonSet manifest under Spec.Template.Spec.nodeSelector
 
 ```bash
-...
-              fieldPath: status.podIP
       nodeSelector:
         lifecycle: Ec2Spot
 ```
