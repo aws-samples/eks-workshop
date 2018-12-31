@@ -42,7 +42,7 @@ aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME --qu
 The output is the role name.
 
 ```output
-modernizer-workshop-cl9
+eksworkshop-admin
 ```
 
 Compare that with the result of
