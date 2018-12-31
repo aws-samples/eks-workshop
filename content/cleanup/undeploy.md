@@ -21,6 +21,6 @@ cd ~/environment/ecsdemo-nodejs
 kubectl delete -f kubernetes/service.yaml
 kubectl delete -f kubernetes/deployment.yaml
 
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
 
 ```
