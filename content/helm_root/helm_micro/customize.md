@@ -66,9 +66,9 @@ Under `spec.template.spec.containers.image`, replace the image with the correct 
 
 |Filename | Value |
 |---|---|
-|frontend.yaml|image: {{ .Values.frontend.image }}:{{ .Values.version }}|
-|crystal.yaml|image: {{ .Values.crystal.image }}:{{ .Values.version }}|
-|nodejs.yaml|image: {{ .Values.nodejs.image }}:{{ .Values.version }}|
+|frontend.yaml|- image: {{ .Values.frontend.image }}:{{ .Values.version }}|
+|crystal.yaml|- image: {{ .Values.crystal.image }}:{{ .Values.version }}|
+|nodejs.yaml|- image: {{ .Values.nodejs.image }}:{{ .Values.version }}|
 
 #### Create a values.yaml file with our template defaults
 
