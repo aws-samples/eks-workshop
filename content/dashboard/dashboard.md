@@ -9,7 +9,7 @@ instructions in [the official documentation](https://kubernetes.io/docs/tasks/ac
 
 We can deploy the dashboard with the following command:
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.0/src/deploy/recommended/kubernetes-dashboard.yaml
 ```
 
 Since this is deployed to our private cluster, we need to access it via a proxy.
