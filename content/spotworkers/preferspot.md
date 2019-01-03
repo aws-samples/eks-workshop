@@ -5,7 +5,7 @@ weight: 30
 draft: false
 ---
 
-We are redesigning out Microservice example and want our frontend service to be deployed on Spot Instances when they are available. We will use Node Affinity in our manifest file to configure this.
+We are redesigning our Microservice example and want our frontend service to be deployed on Spot Instances when they are available. We will use Node Affinity in our manifest file to configure this.
 
 #### Configure Node Affinity and Tolerations
 

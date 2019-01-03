@@ -30,6 +30,11 @@ spec:
                 operator: In
                 values:
                 - Ec2Spot
+      tolerations:
+      - key: "spotInstance"
+        operator: "Equal"
+        value: "true"
+        effect: "PreferNoSchedule"
       containers:
       - image: brentley/ecsdemo-frontend:latest
         imagePullPolicy: Always
