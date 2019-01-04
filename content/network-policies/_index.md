@@ -13,4 +13,4 @@ First we will use [Project Calico](https://www.projectcalico.org) to enforce Kub
 After that, we will use [Tigera's](https://www.tigera.io) [Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce) to integrate the Kubernetes network policies with Amazon's VPC security groups.
 
 
-![calico](/images/Project-Calico-logo-1000px.png) ![tigera](/images/tigera-logo.png)
+![calico](/images/Project-Calico-logo-1000px.png)
