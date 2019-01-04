@@ -1,18 +1,16 @@
 ---
-title: "Create Network Policies Using Calico"
+title: "Securing your cluster with network policies"
 chapter: true
 weight: 50
 ---
 
-# Create Network Policies Using Calico
+# Securing your cluster with network policies
 
-In this Chapter, we will create some network policies using [Calico](https://www.projectcalico.org/) and see the rules in action.
+In this chapter, we are going to use two tools to secure our cluster by using network policies and then integrating our cluster's network policies with EKS security groups.
 
-Network policies allow you to define rules that determine what type of traffic is allowed to flow between different services. Using network policies you can also define rules to restrict traffic. They are a means to improve your cluster's security.
+First we will use [Project Calico](https://www.projectcalico.org) to enforce Kubernetes network policies in our cluster, protecting our various microservices.   
 
-For example, you can only allow traffic from frontend to backend in your application.
-
-Network policies also help in isolating traffic within namespaces. For instance, if you have separate namespaces for development and production, you can prevent traffic flow between them by restrict pod to pod communication within the same namespace.
+After that, we will use [Tigera's](https://www.tigera.io) [Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce) to integrate the Kubernetes network policies with Amazon's VPC security groups.
 
 
-![calico](/images/Project-Calico-logo-1000px.png)
+![calico](/images/Project-Calico-logo-1000px.png) ![tigera](/images/tigera-logo.png)
