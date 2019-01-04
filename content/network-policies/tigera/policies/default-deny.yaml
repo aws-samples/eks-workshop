@@ -1,0 +1,6 @@
+kind: NetworkPolicy
+apiVersion: projectcalico.org/v3
+metadata:
+  name: default-deny
+spec:
+  selector:
