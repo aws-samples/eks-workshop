@@ -1,11 +1,11 @@
 ---
 title: "Service Mesh with Istio"
 date: 2018-11-13T16:32:30+09:00
-weight: 53
+weight: 54
 draft: false
 ---
 
-### Service Mesh
+### Service Mesh With Istio
 
 A service mesh is a dedicated infrastructure layer for handling **service-to-service communication**. It’s responsible for the reliable delivery of requests through the complex topology of services that comprise a modern, cloud native application.
 
