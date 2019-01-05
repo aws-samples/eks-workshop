@@ -15,4 +15,4 @@ App Mesh gives you consistent visibility and network traffic controls for every 
 
 App Mesh is currently in Public Preview.  In addition to this workshop module, you can [visit the official AWS App Mesh page](https://aws.amazon.com/app-mesh/).
 
-The content of this chapter was based on work found at https://github.com/awslabs/aws-app-mesh-examples.  Be sure to also check that repo often for the latest App Mesh demos.
+The content of this chapter was based on work found at https://github.com/awslabs/aws-app-mesh-examples.  Be sure to check that repo often for the latest App Mesh demos.

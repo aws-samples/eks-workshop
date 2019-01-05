@@ -56,8 +56,6 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
 
 ### colorteller-vn
 
-TODO: Explain why this has no backend defined, why its here.
-
 collorteller-vn always *white* as its color response.
 
 The following JSON defines:
