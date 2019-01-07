@@ -4,7 +4,7 @@ weight: 30
 ---
 Now that your environment variables are set, and _tsctl_ is installed, go back to the instructions in the Tigera Secure CE v1.0.1 download link and look for the second step in the **Procedure** section.  It should look something like this:
 ```
-tsctl install --token $TOKEN \
+tsctl install --token $TS_TOKEN \
             --kubeconfig ~/.kube/config \
             --cluster-name $CLUSTER_NAME \
             --vpc-id $VPC_ID \

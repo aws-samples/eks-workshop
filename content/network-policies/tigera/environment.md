@@ -26,10 +26,10 @@ The $CLUSTER_NAME variable is the same that you used to create the cluster using
 CLUSTER_NAME=eksworkshop-eksctl
 ```
 
-The next thing we need to manually set is your Tigera Secure Cloud Edition $TOKEN.  This can be found by checking your [Zendesk tickets](https://support.tigera.io/hc/en-us/requests).  The Token can be found in your welcome ticket and is a _UUID_, or long string of hex digits.
+The next thing we need to manually set is your Tigera Secure Cloud Edition $TS_TOKEN.  This can be found by checking your [Zendesk tickets](https://support.tigera.io/hc/en-us/requests).  The Token can be found in your welcome ticket and is a _UUID_, or long string of hex digits.
 
 ```
-TOKEN=<token UUID>
+TS_TOKEN=<token UUID>
 ```
 
 The following commands will set the remainder of the environment variables.
