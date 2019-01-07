@@ -14,8 +14,8 @@ The instructions below assume that you have followed all of the initial _EKSWork
 First, you need to install tsctl in your Cloud9 environment.
 
 ```
-curl -o tsctl -O https://s3.amazonaws.com/tigera-public/ce/v1.0.6/tsctl-linux-amd64
-chmod +x tsctl
+sudo curl --location -o /usr/local/bin/tsctl https://s3.amazonaws.com/tigera-public/ce/v1.0.6/tsctl-linux-amd64
+sudo chmod +x /usr/local/bin/tsctl
 ```
 
 Next, you will need to set some environment variables.  There are commands for some of them, but a few you need to supply.
