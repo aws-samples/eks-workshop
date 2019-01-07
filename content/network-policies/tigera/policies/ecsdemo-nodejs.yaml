@@ -1,16 +1,15 @@
-apiVersion: projectcalico.org/v3
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: ecsdemo-nodejs
 spec:
-  selector: app == 'ecsdemo-nodejs'
-  types:
-  - Ingress
-  ingress:
-  - action: Allow
-    protocol: TCP
-    source:
-      selector: app == 'ecsdemo-frontend'
-    destination:
-      ports:
-      - 3000
+  podSelector:
+    matchLabels:
+      app: ecsdemo-nodejs
+ingress:
+- ports:
+  -port: 3000
+  from:
+  - podSelector:
+    matchLabels:
+      app: ecsdemo-frontend
