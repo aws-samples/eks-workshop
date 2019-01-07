@@ -1,5 +1,5 @@
 ---
-title: "Securing your cluster with network policies"
+title: "Securing Your Cluster with Network Policies"
 chapter: true
 weight: 50
 ---
