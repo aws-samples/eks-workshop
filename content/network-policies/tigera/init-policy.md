@@ -9,11 +9,12 @@ The YAML fragment that defines such a policy can be seen below
 
 ```
 kind: NetworkPolicy
-apiVersion: projectcalico.org/v3
+apiVersion: networking.k8s.io/v1
 metadata:
   name: default-deny
 spec:
-  selector:
+  podSelector:
+    matchLabels: {}
 ```
 
 Now create a file called _default-deny.yaml_ with the above contents and install it in your cluster using kubectl.
