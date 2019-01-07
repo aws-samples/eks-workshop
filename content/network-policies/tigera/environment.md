@@ -7,7 +7,7 @@ weight: 20
 If you have setup your kubernetes cluster using the Cloud9 environment and eksctl, as instructed at the start of this workshop, then you can follow the abbreviated instructions here, as much of the work has been done for you.  If not please refer to the instructions you received when you downloaded the _Tigera Secure Cloud Edition 1.0.1_ link.
 {{% /notice %}}
 
-{{% notice info %}}
+{{% notice tip %}}
 The instructions below assume that you have followed all of the initial _EKSWorkshop_ setup instructions when creating your cluster.  If you have not, some of the commands or environment settings that we rely on below will not be set correctly.  If you encounter problems, please check your initial setup and/or consult the instructions mentioned above.
 {{% /notice %}}
 
