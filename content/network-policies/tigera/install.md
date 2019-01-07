@@ -13,9 +13,8 @@ Now that your environment variables are set, and _tsctl_ is installed, go back t
 ```
 Copy that text and run it in your Cloud9 shell.
 
-{{% notice info %}}
-**Known Issues**
+### Known Issues
+
 * It may take up to five seconds for pods to gain network connectivity after starting up.
-* Due to a kops issue, network policy does not work as expected when trying to reach services via their cluster IP or DNS name. This can result in traffic being allowed when it should be denied or vice versa. For the latest status on this defect and a workaround, refer to issue 4674 in the kops repo.
+
 * Network Load Balancers (NLBs) may lose their ability to balance traffic to pods after installing Tigera Secure CE. To resolve this issue, manually modify the pods’ security group to allow ingress traffic from the original source of the traffic (not the NLB). See the User Guide for more information or contact Tigera support for assistance.
-{{% /notice %}}
