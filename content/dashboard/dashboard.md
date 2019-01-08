@@ -9,7 +9,7 @@ instructions in [the official documentation](https://kubernetes.io/docs/tasks/ac
 
 We can deploy the dashboard with the following command:
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
 ```
 
 Since this is deployed to our private cluster, we need to access it via a proxy.
@@ -22,7 +22,7 @@ kubectl proxy --port=8080 --address='0.0.0.0' --disable-filter=true &
 This will start the proxy, listen on port 8080, listen on all interfaces, and
 will disable the filtering of non-localhost requests.
 
-Leave this running in your current terminal tab, and open a new terminal tab to continue.
+This command will continue to run in the background of the current terminal's session.
 
 {{% notice warning %}}
 We are disabling request filtering, a security feature that guards against XSRF attacks.
