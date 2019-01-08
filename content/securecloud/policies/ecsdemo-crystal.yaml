@@ -1,16 +1,15 @@
-apiVersion: projectcalico.org/v3
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: ecsdemo-crystal
 spec:
-  selector: app == 'ecsdemo-crystal'
-  types:
-  - Ingress
-  ingress:
-  - action: Allow
-    protocol: TCP
-    source:
-      selector: app == 'ecsdemo-frontend'
-    destination:
-      ports:
-      - 3000
+  podSelector:
+    matchLabels:
+      app: ecsdemo-crystal
+ingress:
+- ports:
+  -port: 3000
+  from:
+  - podSelector:
+    matchLabels:
+      app: ecsdemo-frontend
