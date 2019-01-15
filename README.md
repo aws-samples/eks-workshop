@@ -22,33 +22,32 @@ From wherever you checkout repos:
 `git clone git@github.com:aws-samples/eks-workshop.git` (or your fork)
 
 #### Clone the theme submodule:
+
 `cd eksworkshop`
 
 `git submodule init` ;
 `git submodule update`
 
-#### Install Node.js and npm:
-You can follow instructions from npm website: https://www.npmjs.com/get-npm
+#### Run Hugo locally
 
-#### Install node packages:
-`npm install`
+Use GNU `make` to run the project commands.
 
-#### Run Hugo locally:
-`npm run server`
+`make server` to see release pages [http://localhost:8080/](http://localhost:8080/)
 or
-`npm run drafts` to see stubbed in draft pages.
+`make drafts` to see stubbed in draft pages [http://localhost:1313/](http://localhost:1313/)
 
-`npm run build` will build your content locally and output to `./public/`
+`make` or `make build` will build your content locally and output to `./public/`
 
-`npm run test` will test the built content for bad links
+`make test` will test the built content for bad links (Docker is required)
 
-#### View Hugo locally:
-Visit http://localhost:1313/ to see the site.
+`make clean` to remove `./public/` folder
 
-#### Making Edits:
+#### Making Edits
+
 As you save edits to a page, the site will live-reload to show your changes.
 
-#### Auto Deploy:
+#### Auto Deploy
+
 Any commits to master will auto build and deploy in a couple of minutes. You can see the currently
 deployed hash at the bottom of the menu panel.
 
