@@ -1,7 +1,7 @@
 ---
 title: "Launch using CloudFormation"
 chapter: true
-weight: 40
+weight: 26
 draft: true
 ---
 

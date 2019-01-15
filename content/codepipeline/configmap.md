@@ -13,7 +13,7 @@ Once the ConfigMap includes this new role, kubectl in the CodeBuild stage of the
 ```
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
-ROLE="    - rolearn: arn:aws:iam::$ACCOUNT_ID:role/EksWorkshopCodeBuilKubectldRole\n      username: build\n      groups:\n        - system:masters"
+ROLE="    - rolearn: arn:aws:iam::$ACCOUNT_ID:role/EksWorkshopCodeBuildKubectlRole\n      username: build\n      groups:\n        - system:masters"
 
 kubectl get -n kube-system configmap/aws-auth -o yaml | awk "/mapRoles: \|/{print;print \"$ROLE\";next}1" > /tmp/aws-auth-patch.yml
 
