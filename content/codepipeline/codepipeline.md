@@ -34,6 +34,11 @@ Wait for the status to change from "CREATE_IN_PROGRESS" to **CREATE_COMPLETE** b
 Open [CodePipeline in the Management Console](https://console.aws.amazon.com/codesuite/codepipeline/pipelines). You will see a CodePipeline that starts with **eks-workshop-codepipeline**.
 Click this link to view the details.
 
+{{% notice tip %}}
+If you receive a permissions error similar to **User x is not authorized to perform: codepipeline:ListPipelines...** upon clicking the above link, the CodePipeline console may have opened up in the wrong region.  To correct this, from the **Region** dropdown in the console, choose the region you provisioned the workshop in.  Select Oregon (us-west-2) if you provisioned the workshow per the "Start the workshop at an AWS event" instructions. 
+{{% /notice %}}
+
+
 ![CodePipeline Landing](/images/codepipeline/codepipeline_landing.png)
 
 Once you are on the detail page for the specific CodePipeline, you can see the status along with links to the change and build details.
