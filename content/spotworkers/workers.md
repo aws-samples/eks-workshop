@@ -15,13 +15,21 @@ This template will create a single ASG that leverages the latest feature to mix 
 First, we will need to collect the Role Name that is in use with our EKS worker nodes
 
 ```bash
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks --stack-name eksctl-eksworkshop-eksctl-nodegroup-0 | jq -r '.Stacks[].Outputs[].ExportName' | sed 's/:.*//')
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
 echo $ROLE_NAME
 ```
 
-Copy the Role Name for use as a Parameter in the next step
+Copy the Role Name for use as a Parameter in the next step. If you receive an error or empty response, expand the steps below to export.
+
+{{%expand "Expand here if you need to export the Role Name" %}}
+
+```bash
+INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r .Stacks[].StackName | grep eksctl-eksworkshop-eksctl-nodegroup)
+INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
+ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
+echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
+```
+
+{{% /expand %}}
 
 ```text
 # Example Output
