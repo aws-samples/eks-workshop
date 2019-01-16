@@ -37,6 +37,7 @@ eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXXXXX
 ```
 
 #### Launch the CloudFormation Stack
+
 We will launch the CloudFormation template as a new set of worker nodes, but it's also possible to update the nodegroup CloudFormation stack created by the *eksctl* tool.
 
 Click the **Launch** button to create the CloudFormation stack in the AWS Management Console.

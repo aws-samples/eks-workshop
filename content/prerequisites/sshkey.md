@@ -1,5 +1,5 @@
 ---
-title: "Create a SSH key"
+title: "Create an SSH key"
 chapter: false
 weight: 21
 ---
@@ -18,8 +18,9 @@ ssh-keygen
 Press `enter` 3 times to take the default choices
 {{% /notice %}}
 
-Upload the public key to your EC2 region:
+<!--
+Upload the public key to your EC2 region
 
 ```bash
-aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file://~/.ssh/id_rsa.pub
+aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file://~/.ssh/id_rsa.pub -->
 ```

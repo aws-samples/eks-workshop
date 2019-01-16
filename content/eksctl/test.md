@@ -10,7 +10,7 @@ Confirm your Nodes:
 kubectl get nodes
 ```
 
-Export the Worker Role Name for use throughout the sorkshop
+Export the Worker Role Name for use throughout the workshop
 
 ```bash
 INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
@@ -19,4 +19,5 @@ echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
 ```
 
 #### Congratulations!
+
 You now have a fully working Amazon EKS Cluster that is ready to use!
