@@ -47,13 +47,13 @@ Once the console is open you will need to configure the missing parameters. Use 
 | Stack Name: | eksworkshop-spot-workers |
 | Cluster Name: | eksworkshop-eksctl (or whatever you named your cluster) |
 |ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and the words **'ControlPlaneSecurityGroup'** |
-|NodeInstanceRole: | Use the same role name that is used with to the other EKS worker nodes. (e.g. eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXX)
+|NodeInstanceRole: | Use the role name that copied in the first step. (e.g. eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXX)
 |NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for your region - **Check for empty spaces in copy/paste**|
 |KeyName: | SSH Key Pair created earlier or any valid key will work |
 |VpcId: | Select your workshop VPC from the dropdown |
 |Subnets: | Select the **public** subnets for your workshop VPC from the dropdown |
-|OnDemandBootstrapArguments: | --kubelet-extra-args --node-labels=lifecycle=OnDemand |
-|SpotBootstrapArguments: | --kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule' |
+|BootstrapArgumentsForOnDemand: | --kubelet-extra-args --node-labels=lifecycle=OnDemand |
+|BootstrapArgumentsForSpotFleet: | --kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule' |
 
 #### What's going on with Bootstrap Arguments?
 
@@ -73,15 +73,24 @@ Confirm that the new nodes joined the cluster correctly. You should see 2-3 more
 kubectl get nodes
 ```
 
+![All Nodes](/images/spotworkers/spot_get_nodes.png)
 You can use the node-labels to identify the lifecycle of the nodes
 
 ```bash
 kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
 ```
 
+The output of this command should return 2 nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**
+
+![Spot Output](/images/spotworkers/spot_get_spot.png)
+
+Now we will show all nodes with the **lifecycle=OnDemand**. The output of this command should return 1 node as configured in our CloudFormation template.
+
 ```bash
 kubectl get nodes --show-labels --selector=lifecycle=OnDemand
 ```
+
+![OnDemand Output](/images/spotworkers/spot_get_od.png)
 
 You can use the `kubectl describe nodes` with one of the spot nodes to see the taints aaplied to the EC2 Spot Instances.
 
