@@ -61,8 +61,8 @@ Once the console is open you will need to configure the missing parameters. Use 
 |KeyName: | SSH Key Pair created earlier or any valid key will work |
 |VpcId: | Select your workshop VPC from the dropdown |
 |Subnets: | Select the **public** subnets for your workshop VPC from the dropdown |
-|BootstrapArgumentsForOnDemand: | --kubelet-extra-args --node-labels=lifecycle=OnDemand |
-|BootstrapArgumentsForSpotFleet: | --kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule' |
+|BootstrapArgumentsForOnDemand: | `--kubelet-extra-args --node-labels=lifecycle=OnDemand` |
+|BootstrapArgumentsForSpotFleet: | `--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'` |
 
 #### What's going on with Bootstrap Arguments?
 
