@@ -80,7 +80,7 @@ cat <<EoF > ~/environment/eksdemo/values.yaml
 # Declare variables to be passed into your templates.
 
 # Release-wide Values
-replica: 3
+replicas: 3
 version: 'latest'
 
 # Service Specific Values
