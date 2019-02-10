@@ -10,10 +10,10 @@ Before we can get started configuring Istio we’ll need to first install the co
 ```
 cd ~/environment
 
-curl -L https://git.io/getLatestIstio | sh -
+curl -L https://github.com/istio/istio/releases/download/1.0.5/istio-1.0.5-linux.tar.gz | tar xvfz -
 
 // version can be different as istio gets upgraded
-cd istio-1.0.3
+cd istio-1.0.5
 
 sudo mv -v bin/istioctl /usr/local/bin/
 ```
