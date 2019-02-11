@@ -25,7 +25,7 @@ spec:
       role: backend
   ingress:
     - from:
-        - <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST FRONTEND USING PODSELECTOR>
+        - <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELIST FRONTEND USING PODSELECTOR>
       ports:
         - protocol: TCP
           port: 6379
@@ -69,7 +69,7 @@ spec:
       role: frontend
   ingress:
     - from:
-        - <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELEST CLIENT USING NAMESPACESELECTOR>
+        - <EDIT: UPDATE WITH THE CONFIGURATION NEEDED TO WHITELIST CLIENT USING NAMESPACESELECTOR>
       ports:
         - protocol: TCP
           port: 80
