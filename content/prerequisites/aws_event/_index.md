@@ -1,7 +1,7 @@
 ---
 title: "...at an AWS event"
 chapter: true
-weight: 10
+weight: 12
 ---
 
 ### Running the workshop at an AWS Event
