@@ -23,7 +23,7 @@ Check the box next to the **eksws-codepipeline** stack, select the **Actions** d
 
 ![CloudFormation Delete](/images/codepipeline/cloudformation_delete.png)
 
-Now we are going to delete the [ECR repository](https://console.aws.amazon.com/ecs/home#/repositories):
+Now we are going to delete the [ECR repository](https://console.aws.amazon.com/ecr/home#/repositories):
 
 ![ECR Delete](/images/codepipeline/ecr_delete.png)
 
