@@ -101,6 +101,6 @@ kubectl get nodes --show-labels --selector=lifecycle=OnDemand
 
 ![OnDemand Output](/images/spotworkers/spot_get_od.png)
 
-You can use the `kubectl describe nodes` with one of the spot nodes to see the taints aaplied to the EC2 Spot Instances.
+You can use the `kubectl describe nodes` with one of the spot nodes to see the taints applied to the EC2 Spot Instances.
 
 ![Spot Taints](/images/spotworkers/instance_taints.png)

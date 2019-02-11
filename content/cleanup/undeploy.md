@@ -5,7 +5,9 @@ weight: 20
 ---
 
 To delete the resources created by the applications, we should delete the application
-deployments and kubernetes dashboard:
+deployments and kubernetes dashboard.
+
+Note that if you followed the cleanup section of the modules, some of the commands below might fail because there is nothing to delete and its ok.
 
 Undeploy the applications:
 ```
