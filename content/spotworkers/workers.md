@@ -36,6 +36,20 @@ echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
 eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXXXXX
 ```
 
+#### Retrieve the Security Group Name
+We also need to collect the ID of the security group used with the existing worker nodes.
+
+```bash
+STACK_NAME=$(aws cloudformation describe-stacks | jq -r .Stacks[].StackName | grep eksctl-eksworkshop-eksctl-nodegroup)
+SG_ID=$(aws cloudformation describe-stack-resources --stack-name $STACK_NAME --logical-resource-id SG | jq -r '.StackResources[].PhysicalResourceId')
+echo $SG_ID
+```
+
+```text
+# Example Output
+sg-0d9fb7e709dff5675
+```
+
 #### Launch the CloudFormation Stack
 
 We will launch the CloudFormation template as a new set of worker nodes, but it's also possible to update the nodegroup CloudFormation stack created by the *eksctl* tool.
@@ -53,14 +67,17 @@ Once the console is open you will need to configure the missing parameters. Use 
 
 | Parameter | Value |
 |-----------|-------|
-| Stack Name: | eksworkshop-spot-workers |
-| Cluster Name: | eksworkshop-eksctl (or whatever you named your cluster) |
+|Stack Name: | eksworkshop-spot-workers |
+|Cluster Name: | eksworkshop-eksctl (or whatever you named your cluster) |
 |ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and the words **'ControlPlaneSecurityGroup'** |
-|NodeInstanceRole: | Use the role name that copied in the first step. (e.g. eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXX)
+|NodeInstanceRole: | Use the role name that copied in the step above. (e.g. eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXX)
+|UseExistingNodeSecurityGroups: | Leave as **'Yes'** |
+|ExistingNodeSecurityGroups: | Use the SG name that copied in the step above. (e.g. sg-0123456789abcdef)
 |NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for your region - **Check for empty spaces in copy/paste**|
 |KeyName: | SSH Key Pair created earlier or any valid key will work |
+|NodeGroupName: | Leave as **spotworkers** |
 |VpcId: | Select your workshop VPC from the dropdown |
-|Subnets: | Select the **public** subnets for your workshop VPC from the dropdown |
+|Subnets: | Select the 3 **private** subnets for your workshop VPC from the dropdown |
 |BootstrapArgumentsForOnDemand: | `--kubelet-extra-args --node-labels=lifecycle=OnDemand` |
 |BootstrapArgumentsForSpotFleet: | `--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'` |
 
