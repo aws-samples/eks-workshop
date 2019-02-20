@@ -20,7 +20,7 @@ The third edit you will do is to expose Prometheus server as a NodePort. Because
 This configuration is not recommended in Production and there are better ways to secure it. You can read more about exposing Prometheus web UI in this [link](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/exposing-prometheus-and-alertmanager.md)
 
 {{% notice info %}}
-When you search, you will find their are more than one **type: ClusterIP** in prometheus-values.yaml. You need to update relevant Prometheus manifest. See below snippet for identifying Prometheus manifest
+When you search, you will find there are more than one **type: ClusterIP** in prometheus-values.yaml. You need to update relevant Prometheus manifest. See below snippet for identifying Prometheus manifest
 {{% /notice %}}
 
 ```yaml
