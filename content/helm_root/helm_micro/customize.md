@@ -60,7 +60,7 @@ The following steps should be completed seperately for **frontend.yaml**, **crys
 
 Under `spec`, find **replicas: 1**  and replace with the following:
 ```
-replicas: {{ .Values.replica }}
+replicas: {{ .Values.replicas }}
 ```
 Under `spec.template.spec.containers.image`, replace the image with the correct template value from the table below:
 
