@@ -12,6 +12,7 @@ In addition to the managed Amazon EKS solution, there are many tools available t
 * [Kops](https://github.com/kubernetes/kops) – Learning, Development, Production
 * [Kubeadm](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/) – Learning, Development, Production
 * [Docker for Mac](https://docs.docker.com/docker-for-mac/#kubernetes) - Learning, Development
+* [Kubernetes IN Docker](https://github.com/kubernetes-sigs/kind) - Learning, Development
 
 Alongside these open source solutions, there are also many commercial options available.
 
