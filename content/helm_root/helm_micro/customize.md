@@ -60,15 +60,15 @@ The following steps should be completed seperately for **frontend.yaml**, **crys
 
 Under `spec`, find **replicas: 1**  and replace with the following:
 ```
-replicas: {{ .Values.replica }}
+replicas: {{ .Values.replicas }}
 ```
 Under `spec.template.spec.containers.image`, replace the image with the correct template value from the table below:
 
 |Filename | Value |
 |---|---|
-|frontend.yaml|image: {{ .Values.frontend.image }}:{{ .Values.version }}|
-|crystal.yaml|image: {{ .Values.crystal.image }}:{{ .Values.version }}|
-|nodejs.yaml|image: {{ .Values.nodejs.image }}:{{ .Values.version }}|
+|frontend.yaml|- image: {{ .Values.frontend.image }}:{{ .Values.version }}|
+|crystal.yaml|- image: {{ .Values.crystal.image }}:{{ .Values.version }}|
+|nodejs.yaml|- image: {{ .Values.nodejs.image }}:{{ .Values.version }}|
 
 #### Create a values.yaml file with our template defaults
 
@@ -80,7 +80,7 @@ cat <<EoF > ~/environment/eksdemo/values.yaml
 # Declare variables to be passed into your templates.
 
 # Release-wide Values
-replica: 3
+replicas: 3
 version: 'latest'
 
 # Service Specific Values

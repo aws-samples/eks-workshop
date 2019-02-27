@@ -11,9 +11,12 @@ Metadata:
           - ClusterName
           - ClusterControlPlaneSecurityGroup
           - NodeInstanceRole
+          - UseExistingNodeSecurityGroups
+          - ExistingNodeSecurityGroups
           - NodeImageId
-          - KeyName
           - VpcId
+          - KeyName
+          - NodeGroupName
           - Subnets
           - BootstrapArgumentsForOnDemand
           - BootstrapArgumentsForSpotFleet
@@ -40,9 +43,15 @@ Parameters:
     Description: Select 3 subnets where workers can be created.
     Type: List<AWS::EC2::Subnet::Id>
 
+  NodeInstanceRole:
+    Type: String
+    Description: Use the existing Role for your nodegroup
+    Default: ""
+
   KeyName:
     Description: The EC2 Key Pair to allow SSH access to the instances
     Type: AWS::EC2::KeyPair::KeyName
+    Default: "eksworkshop"
 
   NodeImageId:
     Type: AWS::EC2::Image::Id
@@ -66,7 +75,7 @@ Parameters:
     - t3.xlarge
     - t3.2xlarge
     - m3.medium
-      - m3.large
+    - m3.large
     - m3.xlarge
     - m3.2xlarge
     - m4.large
@@ -115,6 +124,7 @@ Parameters:
     - p3.2xlarge
     - p3.8xlarge
     - p3.16xlarge
+    - p3dn.24xlarge
     - r5.large
     - r5.xlarge
     - r5.2xlarge
@@ -133,7 +143,7 @@ Parameters:
     - z1d.3xlarge
     - z1d.6xlarge
     - z1d.12xlarge
-    ConstraintDescription: must be a valid EC2 instance type.
+    ConstraintDescription: Must be a valid EC2 instance type
 
   NodeAutoScalingGroupMinSize:
     Type: Number
@@ -158,11 +168,6 @@ Parameters:
       - "no"
     Default: "yes"
 
-  NodeInstanceRole:
-    Type: String
-    Description: Use the existing Role for your nodegroup
-    Default: ""
-
   OnDemandBaseCapacity:
     Type: Number
     Description: "on-demand base capacity"
@@ -183,27 +188,48 @@ Parameters:
     Description: "multiple spot instances to override(seperated by comma)"
     Default: "m4.large,t3.large,t3.xlarge"
 
+  UseExistingNodeSecurityGroups:
+    Type: String
+    Description: Please select 'yes' to attach existing SGs to nodegroup
+    Default: "yes"
+    AllowedValues:
+      - "yes"
+      - "no"
+  ExistingNodeSecurityGroups:
+    Type: String
+    Description: Use the existing Security Group for your nodegroup
+    Default: ""
+
   ClusterName:
     Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
     Type: String
-    Default: eksworkshop-eksctl
+    Default: "eksworkshop-eksctl"
 
   BootstrapArgumentsForOnDemand:
-    Description: Sets Node Labels to set lifecycle as OnDemand
+    Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
     Default: "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
     Type: String
 
   BootstrapArgumentsForSpotFleet:
-    Description: Sets Node Labels to set lifecycle as Ec2Spot
-    Default: "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'"
+    Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
+    Default: "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'
+"
     Type: String
 
   ClusterControlPlaneSecurityGroup:
     Description: The security group of the cluster control plane.
     Type: AWS::EC2::SecurityGroup::Id
 
+  NodeGroupName:
+    Description: Unique identifier for the Node Group.
+    Type: String
+    Default: "spotworkers"
+
 Conditions:
   IsASGAutoAssignPublicIp: !Equals [ !Ref ASGAutoAssignPublicIp , "yes" ]
+  AttachExistingNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "yes" ]
+  CreateNewNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "no" ]
+
 
 Resources:
   NodeInstanceProfile:
@@ -211,9 +237,10 @@ Resources:
     Properties:
       Path: "/"
       Roles:
-        - !Ref NodeInstanceRole
+      - !Ref NodeInstanceRole
 
   NodeSecurityGroup:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security group for all nodes in the cluster
@@ -226,6 +253,7 @@ Resources:
         Value: !Sub "${ClusterName}-cluster/NodeSecurityGroup"
 
   NodeSecurityGroupIngress:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -237,6 +265,7 @@ Resources:
       ToPort: 65535
 
   NodeSecurityGroupFromControlPlaneIngress:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -248,6 +277,7 @@ Resources:
       ToPort: 65535
 
   ControlPlaneEgressToNodeSecurityGroup:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupEgress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -259,6 +289,7 @@ Resources:
       ToPort: 65535
 
   NodeSecurityGroupFromControlPlaneOn443Ingress:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -270,6 +301,7 @@ Resources:
       ToPort: 443
 
   ControlPlaneEgressToNodeSecurityGroupOn443:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupEgress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -281,6 +313,7 @@ Resources:
       ToPort: 443
 
   ClusterControlPlaneSecurityGroupIngress:
+    Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroupIngress
     DependsOn: NodeSecurityGroup
     Properties:
@@ -295,6 +328,10 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       DesiredCapacity: !Ref NodeAutoScalingGroupDesiredSize
+      #LaunchConfigurationName: !Ref NodeLaunchConfig
+      # LaunchTemplate:
+      #   LaunchTemplateId: !Ref MyLaunchTemplate
+      #   Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
       MixedInstancesPolicy:
         InstancesDistribution:
           OnDemandAllocationStrategy: prioritized
@@ -305,9 +342,9 @@ Resources:
           # SpotMaxPrice: String
         LaunchTemplate:
           LaunchTemplateSpecification:
-            LaunchTemplateId: !Ref EKSWorkshopTemplate
+            LaunchTemplateId: !Ref MyLaunchTemplate
             # LaunchTemplateName: String
-            Version: !GetAtt EKSWorkshopTemplate.LatestVersionNumber
+            Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
           Overrides:
             - InstanceType: !Select [0, !Split [ ",", !Ref InstanceTypesOverride ] ]
             - InstanceType: !Select [1, !Split [ ",", !Ref InstanceTypesOverride ] ]
@@ -319,21 +356,30 @@ Resources:
         !Ref Subnets
       Tags:
       - Key: Name
-        Value: !Sub "${ClusterName}-ASG-Node"
+        Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
         PropagateAtLaunch: 'true'
       - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
         Value: 'owned'
         PropagateAtLaunch: 'true'
     UpdatePolicy:
       AutoScalingRollingUpdate:
-        MinInstancesInService: '0'
+        MinInstancesInService: !Ref NodeAutoScalingGroupDesiredSize
         MaxBatchSize: '1'
+        PauseTime: 'PT5M'
 
+  LCH:
+    Type: AWS::AutoScaling::LifecycleHook
+    Properties:
+      AutoScalingGroupName: !Ref NodeGroup
+      HeartbeatTimeout: 60
+      DefaultResult: CONTINUE
+      LifecycleHookName: !Sub "${NodeGroupName}-LCH"
+      LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
 
 #
 # Launch Template
 #
-  EKSWorkshopTemplate:
+  MyLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
       LaunchTemplateName: !Sub "eksLaunchTemplate-${AWS::StackName}"
@@ -345,7 +391,7 @@ Resources:
             ResourceType: instance
             Tags:
               - Key: Name
-                Value: !Sub "${ClusterName}-ASG-Node"
+                Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
               - Key: KubernetesCluster
                 Value: !Ref ClusterName
               - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
@@ -381,6 +427,10 @@ Resources:
                 - 'false'
             SubnetId: !Select [0, !Ref Subnets]
             Groups:
-              - !Ref NodeSecurityGroup
+              !If
+                - CreateNewNodeSG
+                -
+                  - !Ref NodeSecurityGroup
+                - !Split [ ",", !Ref ExistingNodeSecurityGroups ]
         ImageId: !Ref NodeImageId
         InstanceType: !Ref NodeInstanceType
