@@ -43,6 +43,8 @@ The output is the role name.
 
 ```output
 eksworkshop-admin
+or
+modernizer-workshop-cl9
 ```
 
 Compare that with the result of
@@ -56,6 +58,12 @@ aws sts get-caller-identity
 If the _Arn_ contains the role name from above and an Instance ID, you may proceed.
 
 ```output
+{
+    "Account": "123456789012", 
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Arn": "arn:aws:sts::123456789012:assumed-role/eksworkshop-admin/i-01234567890abcdef"
+}
+or
 {
     "Account": "123456789012", 
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
