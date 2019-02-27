@@ -13,7 +13,7 @@ cd ~/environment
 curl -L https://git.io/getLatestIstio | sh -
 
 // version can be different as istio gets upgraded
-cd istio-1.0.3
+cd istio-*
 
 sudo mv -v bin/istioctl /usr/local/bin/
 ```

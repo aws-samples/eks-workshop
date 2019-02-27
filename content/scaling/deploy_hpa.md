@@ -10,7 +10,7 @@ Metrics Server is a cluster-wide aggregator of resource usage data. These metric
 ```
 helm install stable/metrics-server \
     --name metrics-server \
-    --version 2.0.2 \
+    --version 2.0.4 \
     --namespace metrics
 ```
 ### Confirm the Metrics API is available.

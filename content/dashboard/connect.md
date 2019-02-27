@@ -6,7 +6,7 @@ weight: 30
 
 Now we can access the Kubernetes Dashboard
 
-1. In your Cloud9 environment, click **Preview / Preview Running Application**
+1. In your Cloud9 environment, click **Tools / Preview / Preview Running Application**
 1. Scroll to **the end of the URL** and append:
 
 ```
