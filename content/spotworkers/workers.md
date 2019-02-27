@@ -23,7 +23,7 @@ Copy the Role Name for use as a Parameter in the next step. If you receive an er
 {{%expand "Expand here if you need to export the Role Name" %}}
 
 ```bash
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r .Stacks[].StackName | grep eksctl-eksworkshop-eksctl-nodegroup)
+INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
 INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
 ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
 echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
@@ -40,7 +40,7 @@ eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXXXXX
 We also need to collect the ID of the security group used with the existing worker nodes.
 
 ```bash
-STACK_NAME=$(aws cloudformation describe-stacks | jq -r .Stacks[].StackName | grep eksctl-eksworkshop-eksctl-nodegroup)
+STACK_NAME=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
 SG_ID=$(aws cloudformation describe-stack-resources --stack-name $STACK_NAME --logical-resource-id SG | jq -r '.StackResources[].PhysicalResourceId')
 echo $SG_ID
 ```
