@@ -1,4 +1,5 @@
 languageCode = "en-us"
+ignoreFiles = [ "\\.files/README.md$",  ]
 defaultContentLanguage = "en"
 title = "Amazon EKS Workshop"
 theme = "learn"
@@ -25,6 +26,8 @@ ghrepo = "https://github.com/aws-samples/eks-workshop/"
 branch = "master"
 template_bucket = "eksworkshop.com"
 
+
+
 #
 
 [menu]
@@ -46,7 +49,7 @@ url = "/authors"
 weight = 20
 
 [[menu.shortcuts]]
-name = "<i class='fab fa-github'></i> Github Project"
+name = "<i class='fab fa-github'></i> GitHub Project"
 url = "https://github.com/aws-samples/eks-workshop"
 weight = 30
 

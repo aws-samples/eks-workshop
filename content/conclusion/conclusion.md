@@ -6,7 +6,9 @@ weight: 1
 
 We have:
 
-- Built EKS using a partner provided tool called eksctl
-- Built EKS using a community contributed terraform module
-- Built EKS using the recommended steps from AWS
+- Deployed an application consisting of microservices
 - Deployed the Kubernetes Dashboard
+- Deployed packages using Helm
+- Deployed a centralized logging infrastructure
+- Configured Automatic scaling of our pods and worker nodes
+

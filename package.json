@@ -1,30 +1,31 @@
 {
-	"name": "eksworkshop",
-	"version": "1.0.0",
-	"homepage": "https://github.com/brentley/eksworkshop#readme",
-	"bugs": {
-		"url": "https://github.com/brentley/eksworkshop/issues"
-	},
-	"license": "ISC",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/brentley/eksworkshop.git"
-	},
-	"scripts": {
-		"drafts": "hugo server -w -v -DF --disableFastRender --enableGitInfo --bind=0.0.0.0",
-		"server": "hugo server -w -v --enableGitInfo --bind=0.0.0.0",
-		"build": "hugo -v",
-		"test": "docker run -v $PWD/public/:/public 18fgsa/html-proofer /public --empty-alt-ignore --allow-hash-href",
-		"deploy": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete",
-		"deploycontent": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete --cache-control \"max-age=3600, public\" --exclude \"*\" --include \"*.html\" --include \"*.xml\"",
-		"deploytemplates": "aws s3 sync templates/ s3://${TEMPLATE_BUCKET}/templates/${CODEBUILD_GIT_CLEAN_BRANCH}/ --delete --acl public-read --cache-control \"max-age=86400, public\"",
-		"deployothers": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete --cache-control \"max-age=86400, public\" --exclude \"*.html\" --exclude \"*.xml\""
-	},
-	"dependencies": {
-		"@fortawesome/fontawesome-free": "^5.3.1",
-		"hugo-cli": "0.7.0",
-		"hugo-lunr": "0.0.4",
-		"mermaid": "^8.0.0-rc.8"
-	}
+  "name": "eksworkshop",
+  "version": "1.0.0",
+  "homepage": "https://github.com/aws-samples/eks-workshop#readme",
+  "bugs": {
+    "url": "https://github.com/aws-samples/eks-workshop/issues"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws-samples/eks-workshop.git"
+  },
+  "scripts": {
+    "theme": "git submodule init && git submodule update",
+    "drafts": "hugo server -w -v -DF --disableFastRender --enableGitInfo --bind=0.0.0.0",
+    "server": "hugo server -w -v --enableGitInfo --bind=0.0.0.0 --port 8080 --navigateToChanged",
+    "build": "hugo -v",
+    "test": "docker run -v $PWD/public/:/public 18fgsa/html-proofer /public --empty-alt-ignore --allow-hash-href --log-level ':debug'",
+    "deploy": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete",
+    "deploycontent": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete --cache-control \"max-age=3600, public\" --exclude \"*\" --include \"*.html\" --include \"*.xml\"",
+    "deploytemplates": "aws s3 sync templates/ s3://${TEMPLATE_BUCKET}/templates/${CODEBUILD_GIT_CLEAN_BRANCH}/ --delete --acl public-read --cache-control \"max-age=86400, public\"",
+    "deployothers": "aws s3 sync public/ s3://us-east-1-eksworkshop.com/ --delete --cache-control \"max-age=86400, public\" --exclude \"*.html\" --exclude \"*.xml\""
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.5.0",
+    "hugo-cli": "^0.7.0",
+    "hugo-lunr": "0.0.4",
+    "mermaid": "^8.0.0-rc.8"
+  }
 }

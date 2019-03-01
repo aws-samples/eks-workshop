@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: x-ray-sample-back-k8s
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: x-ray-sample-back-k8s
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: x-ray-sample-back-k8s
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 2
+  selector:
+    matchLabels:
+      app: x-ray-sample-back-k8s
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: x-ray-sample-back-k8s
+        tier: backend
+    spec:
+      containers:
+        - name: x-ray-sample-back-k8s
+          image: rnzdocker1/eks-workshop-x-ray-sample-back:ba01b042766edb5fc794733b0af28d92d99b63dd
+          securityContext:
+            privileged: false
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 8080
+
