@@ -42,3 +42,12 @@ do
 	aws ec2 terminate-instances --instance-ids $i
 done
 ```
+Delete secondary CIDR from your VPC
+```
+VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=eksctl-eksworkshop* | jq -r '.Vpcs[].VpcId')
+ASSOCIATION_ID=$(aws ec2 describe-vpcs --vpc-id $VPC_ID | jq -r '.Vpcs[].CidrBlockAssociationSet[] | select(.CidrBlock == "100.64.0.0/16") | .AssociationId')
+aws ec2 delete-subnet --subnet-id $CGNAT_SNET1
+aws ec2 delete-subnet --subnet-id $CGNAT_SNET2
+aws ec2 delete-subnet --subnet-id $CGNAT_SNET3
+aws ec2 disassociate-vpc-cidr-block --association-id $ASSOCIATION_ID
+```
