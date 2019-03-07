@@ -110,7 +110,7 @@ liveness-app   1/1       Running   1          12m
 ```bash
 kubectl logs liveness-app
 ```
-You can also use `kubectl logs` to retrieve logs from a previous instantiation of a container with `--previous flag`, in case the container has crashed
+You can also use `kubectl logs` to retrieve logs from a previous instantiation of a container with `--previous` flag, in case the container has crashed
 ```bash
 kubectl logs liveness-app --previous
 ```
