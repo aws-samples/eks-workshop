@@ -33,14 +33,14 @@ aws ec2 describe-instances --filters "Name=tag:Name,Values=eksworkshop*" --query
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
 ```
 
-I have 3 instances and using 3 subnets in my environment. For simplicity, we will just create 3 subnets but you can certainly customize according to your networking requirements. You can also chose to create these subnets in desired AZ by adding `--availability-zone` parameter
-
+I have 3 instances and using 3 subnets in my environment. For simplicity, we will use the same AZ's and create 3 secondary CIDR subnets but you can certainly customize according to your networking requirements. Remember to change the AZ names according to your environment
 ```
-CGNAT_SNET1=$(aws ec2 create-subnet --cidr-block 100.64.0.0/19 --vpc-id $VPC_ID | jq -r .Subnet.SubnetId)
-
-CGNAT_SNET2=$(aws ec2 create-subnet --cidr-block 100.64.32.0/19 --vpc-id $VPC_ID | jq -r .Subnet.SubnetId)
-
-CGNAT_SNET3=$(aws ec2 create-subnet --cidr-block 100.64.64.0/19 --vpc-id $VPC_ID | jq -r .Subnet.SubnetId)
+export AZ1=us-east-2a
+export AZ2=us-east-2b
+export AZ3=us-east-2c
+CGNAT_SNET1=$(aws ec2 create-subnet --cidr-block 100.64.0.0/19 --vpc-id $VPC_ID --availability-zone $AZ1 | jq -r .Subnet.SubnetId)
+CGNAT_SNET2=$(aws ec2 create-subnet --cidr-block 100.64.32.0/19 --vpc-id $VPC_ID --availability-zone $AZ2 | jq -r .Subnet.SubnetId)
+CGNAT_SNET3=$(aws ec2 create-subnet --cidr-block 100.64.64.0/19 --vpc-id $VPC_ID --availability-zone $AZ3 | jq -r .Subnet.SubnetId)
 ```
 Next step is to add Kubernetes tags on newer Subnets. You can check these tags by querying your current subnets
 ```

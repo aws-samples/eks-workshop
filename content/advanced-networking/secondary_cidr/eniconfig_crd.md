@@ -1,5 +1,5 @@
 ---
-title: "Eniconfig_crd"
+title: "Create CRDs"
 date: 2019-03-02T12:47:43-05:00
 weight: 40
 ---
@@ -7,7 +7,11 @@ weight: 40
 ### Create ENIConfig as a CRD
 As next step, we will define a new ENIConfig custom resource definition (CRD) for your cluster. CRD's are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRD's so that Worker nodes can access them to configure VPC CNI plugin.
 
-Create ENIConfig.yaml using your favorite editor and paste the following
+You should have ENIConfig CRD already installed with latest CNI version (1.3+). You can check if its installed by running this command.
+```
+kubectl get crd
+```
+If you don't have ENIConfig installed, you can create by using your favorite editor and paste the following
 
 ```
 apiVersion: apiextensions.k8s.io/v1beta1
@@ -30,9 +34,9 @@ Apply the configuration. You may have to use --validate=false for 1.11 cluster
 ```
 kubectl apply -f ENIConfig.yaml
 ```
-Create ENIConfig CRD for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom CRD's.
+Create the custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom resources.
 
-Here is the template for CRD's. Notice the values for Subnet ID and SecurityGroup ID needs to be replaced with appropriate values
+Here is the template for custom resource. Notice the values for Subnet ID and SecurityGroup ID needs to be replaced with appropriate values
 ```
 apiVersion: crd.k8s.amazonaws.com/v1alpha1
 kind: ENIConfig
@@ -77,7 +81,7 @@ SecurityGroup for EC2 instance i-048e5ec8815e5ea8a ...
 sg-070d03008bda531ad
 sg-06e5cab8e5d6f16ef
 ```
-Create CRD1 **group1-pod-netconfig.yaml** for first subnet (100.64.0.0/19). Replace the SubnetId and SecuritGroupIds with the values from above. Here is how it looks with the configuration values for my environment
+Create custom resource **group1-pod-netconfig.yaml** for first subnet (100.64.0.0/19). Replace the SubnetId and SecuritGroupIds with the values from above. Here is how it looks with the configuration values for my environment
 
 Note: We are using same SecurityGroup for pods as your Worker Nodes but you can change these and use custom SecurityGroups for your Pod Networking
 
@@ -92,9 +96,9 @@ spec:
  - sg-070d03008bda531ad
  - sg-06e5cab8e5d6f16ef
 ```
-Create 2nd CRD **group2-pod-netconfig.yaml** for second subnet (100.64.32.0/19). Replace the SubnetId and SecuritGroupIds as above.
+Create custom resource **group2-pod-netconfig.yaml** for second subnet (100.64.32.0/19). Replace the SubnetId and SecuritGroupIds as above.
 
-Similarly, create 3rd CRD **group3-pod-netconfig.yaml** for third subnet (100.64.64.0/19). Replace the SubnetId and SecuritGroupIds as above.
+Similarly, create custom resource **group3-pod-netconfig.yaml** for third subnet (100.64.64.0/19). Replace the SubnetId and SecuritGroupIds as above.
 
 Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
 ```

@@ -24,9 +24,11 @@ kubectl edit daemonset -n kube-system aws-node
         - name: MY_NODE_NAME
 ...
 ```
-Delete CRDs
+Delete custom resource objects from ENIConfig CRD
 ```
-kubectl delete -f ENIConfig.yaml
+kubectl delete eniconfig/group1-pod-netconfig
+kubectl delete eniconfig/group2-pod-netconfig
+kubectl delete eniconfig/group3-pod-netconfig
 ```
 Terminate EC2 instances so that fresh instances are launched with default CNI configuration
 
