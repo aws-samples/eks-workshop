@@ -4,37 +4,23 @@ date: 2019-03-02T12:47:43-05:00
 weight: 40
 ---
 
-### Create ENIConfig as a CRD
-As next step, we will define a new ENIConfig custom resource definition (CRD) for your cluster. CRD's are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRD's so that Worker nodes can access them to configure VPC CNI plugin.
+### Create custom resources for ENIConfig CRD
+As next step, we will add custom resources to ENIConfig custom resource definition (CRD). CRD's are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRD's so that Worker nodes can access them to configure VPC CNI plugin.
 
 You should have ENIConfig CRD already installed with latest CNI version (1.3+). You can check if its installed by running this command.
 ```
 kubectl get crd
 ```
-If you don't have ENIConfig installed, you can create by using your favorite editor and paste the following
-
+You should see response similar to this
 ```
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: eniconfigs.crd.k8s.amazonaws.com
-spec:
-  scope: Cluster
-  group: crd.k8s.amazonaws.com
-  version: v1alpha1
-  names:
-    scope: Cluster
-    plural: eniconfigs
-    singular: eniconfig
-    kind: ENIConfig
-
+NAME                               CREATED AT
+eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
 ```
-Apply the configuration. You may have to use --validate=false for 1.11 cluster
-
+If you don't have ENIConfig installed, you can install it by using this command
 ```
-kubectl apply -f ENIConfig.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
 ```
-Create the custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom resources.
+Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom resources.
 
 Here is the template for custom resource. Notice the values for Subnet ID and SecurityGroup ID needs to be replaced with appropriate values
 ```
