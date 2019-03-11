@@ -4,11 +4,6 @@ chapter: false
 weight: 50
 ---
 
-Let's delete our SSH key:
-```
-aws ec2 delete-key-pair --key-name "eksworkshop"
-```
-
 Since we no longer need the Cloud9 instance to have Administrator access
 to our account, we can delete the role we created:
 

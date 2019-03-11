@@ -10,10 +10,10 @@ weight: 5
 Use the command below to create a directory
 
 ```
-mkdir ~/environment/healthchecks
+mkdir -p ~/environment/healthchecks
 ```
 
-Save the manifest as liveness-app.yaml using your favorite editor. You can review the manifest that is described below. In the configuration file, livenessProbe determines how kubelet should check the Container in order to consider whether it is healthy or not. kubelet uses periodSeconds field to do frequent check on the Container. In this case, kubelet checks liveness probe every 5 seconds. initialDelaySeconds field is to tell the kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this Pod and if the handler for the servers /health returns a success code, then the Container is considered healthy. If the handler returns a failure code, the kubelet kills the Container and restarts it.
+Save the manifest as ~/environment/healthchecks/liveness-app.yaml using your favorite editor. You can review the manifest that is described below. In the configuration file, livenessProbe determines how kubelet should check the Container in order to consider whether it is healthy or not. kubelet uses periodSeconds field to do frequent check on the Container. In this case, kubelet checks liveness probe every 5 seconds. initialDelaySeconds field is to tell the kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this Pod and if the handler for the servers /health returns a success code, then the Container is considered healthy. If the handler returns a failure code, the kubelet kills the Container and restarts it.
 
 ```
 apiVersion: v1
@@ -110,7 +110,7 @@ liveness-app   1/1       Running   1          12m
 ```bash
 kubectl logs liveness-app
 ```
-You can also use `kubectl logs` to retrieve logs from a previous instantiation of a container with `--previous flag`, in case the container has crashed
+You can also use `kubectl logs` to retrieve logs from a previous instantiation of a container with `--previous` flag, in case the container has crashed
 ```bash
 kubectl logs liveness-app --previous
 ```

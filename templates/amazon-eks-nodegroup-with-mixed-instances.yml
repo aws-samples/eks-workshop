@@ -1,0 +1,436 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Amazon EKS Node Group'
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: "EKS Configuration"
+        Parameters:
+          - ClusterName
+          - ClusterControlPlaneSecurityGroup
+          - NodeInstanceRole
+          - UseExistingNodeSecurityGroups
+          - ExistingNodeSecurityGroups
+          - NodeImageId
+          - VpcId
+          - KeyName
+          - NodeGroupName
+          - Subnets
+          - BootstrapArgumentsForOnDemand
+          - BootstrapArgumentsForSpotFleet
+      -
+        Label:
+          default: "Auto Scaling Configuration"
+        Parameters:
+          - NodeAutoScalingGroupMinSize
+          - NodeAutoScalingGroupDesiredSize
+          - NodeAutoScalingGroupMaxSize
+          - NodeInstanceType
+          - ASGAutoAssignPublicIp
+          - OnDemandBaseCapacity
+          - OnDemandPercentageAboveBaseCapacity
+          - SpotInstancePools
+          - InstanceTypesOverride
+
+Parameters:
+  VpcId:
+    Description: The VPC of the worker instances
+    Type: AWS::EC2::VPC::Id
+
+  Subnets:
+    Description: Select 3 subnets where workers can be created.
+    Type: List<AWS::EC2::Subnet::Id>
+
+  NodeInstanceRole:
+    Type: String
+    Description: Use the existing Role for your nodegroup
+    Default: ""
+
+  KeyName:
+    Description: The EC2 Key Pair to allow SSH access to the instances
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: "eksworkshop"
+
+  NodeImageId:
+    Type: AWS::EC2::Image::Id
+    Description: Find the latest AMI id here - https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+
+  NodeInstanceType:
+    Description: Default EC2 instance type for the node instances.
+    Type: String
+    Default: m4.large
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - t3.nano
+    - t3.micro
+    - t3.small
+    - t3.medium
+    - t3.large
+    - t3.xlarge
+    - t3.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    - p3dn.24xlarge
+    - r5.large
+    - r5.xlarge
+    - r5.2xlarge
+    - r5.4xlarge
+    - r5.12xlarge
+    - r5.24xlarge
+    - r5d.large
+    - r5d.xlarge
+    - r5d.2xlarge
+    - r5d.4xlarge
+    - r5d.12xlarge
+    - r5d.24xlarge
+    - z1d.large
+    - z1d.xlarge
+    - z1d.2xlarge
+    - z1d.3xlarge
+    - z1d.6xlarge
+    - z1d.12xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+
+  NodeAutoScalingGroupMinSize:
+    Type: Number
+    Description: Minimum size of Node Group ASG.
+    Default: 1
+
+  NodeAutoScalingGroupDesiredSize:
+    Type: Number
+    Description: Desired size of Node Group ASG.
+    Default: 3
+
+  NodeAutoScalingGroupMaxSize:
+    Type: Number
+    Description: Maximum size of Node Group ASG.
+    Default: 5
+
+  ASGAutoAssignPublicIp:
+    Type: String
+    Description: "auto assign public IP address for ASG instances"
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+
+  OnDemandBaseCapacity:
+    Type: Number
+    Description: "on-demand base capacity"
+    Default: 1
+
+  OnDemandPercentageAboveBaseCapacity:
+    Type: Number
+    Description: "on-demand percentage above base capacity(0-100)"
+    Default: 0
+
+  SpotInstancePools:
+    Type: Number
+    Description: "spot instance pools(1-20)"
+    Default: 2
+
+  InstanceTypesOverride:
+    Type: String
+    Description: "multiple spot instances to override(seperated by comma)"
+    Default: "m4.large,t3.large,t3.xlarge"
+
+  UseExistingNodeSecurityGroups:
+    Type: String
+    Description: Please select 'yes' to attach existing SGs to nodegroup
+    Default: "yes"
+    AllowedValues:
+      - "yes"
+      - "no"
+  ExistingNodeSecurityGroups:
+    Type: String
+    Description: Use the existing Security Group for your nodegroup
+    Default: ""
+
+  ClusterName:
+    Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
+    Type: String
+    Default: "eksworkshop-eksctl"
+
+  BootstrapArgumentsForOnDemand:
+    Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
+    Default: "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
+    Type: String
+
+  BootstrapArgumentsForSpotFleet:
+    Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
+    Default: "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'
+"
+    Type: String
+
+  ClusterControlPlaneSecurityGroup:
+    Description: The security group of the cluster control plane.
+    Type: AWS::EC2::SecurityGroup::Id
+
+  NodeGroupName:
+    Description: Unique identifier for the Node Group.
+    Type: String
+    Default: "spotworkers"
+
+Conditions:
+  IsASGAutoAssignPublicIp: !Equals [ !Ref ASGAutoAssignPublicIp , "yes" ]
+  AttachExistingNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "yes" ]
+  CreateNewNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "no" ]
+
+
+Resources:
+  NodeInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+      - !Ref NodeInstanceRole
+
+  NodeSecurityGroup:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for all nodes in the cluster
+      VpcId:
+        !Ref VpcId
+      Tags:
+      - Key: !Sub "kubernetes.io/cluster/${ClusterName}"
+        Value: 'owned'
+      - Key: Name
+        Value: !Sub "${ClusterName}-cluster/NodeSecurityGroup"
+
+  NodeSecurityGroupIngress:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroupIngress
+    DependsOn: NodeSecurityGroup
+    Properties:
+      Description: Allow node to communicate with each other
+      GroupId: !Ref NodeSecurityGroup
+      SourceSecurityGroupId: !Ref NodeSecurityGroup
+      IpProtocol: '-1'
+      FromPort: 0
+      ToPort: 65535
+
+  NodeSecurityGroupFromControlPlaneIngress:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroupIngress
+    DependsOn: NodeSecurityGroup
+    Properties:
+      Description: Allow worker Kubelets and pods to receive communication from the cluster control plane
+      GroupId: !Ref NodeSecurityGroup
+      SourceSecurityGroupId: !Ref ClusterControlPlaneSecurityGroup
+      IpProtocol: tcp
+      FromPort: 1025
+      ToPort: 65535
+
+  ControlPlaneEgressToNodeSecurityGroup:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroupEgress
+    DependsOn: NodeSecurityGroup
+    Properties:
+      Description: Allow the cluster control plane to communicate with worker Kubelet and pods
+      GroupId: !Ref ClusterControlPlaneSecurityGroup
+      DestinationSecurityGroupId: !Ref NodeSecurityGroup
+      IpProtocol: tcp
+      FromPort: 1025
+      ToPort: 65535
+
+  NodeSecurityGroupFromControlPlaneOn443Ingress:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroupIngress
+    DependsOn: NodeSecurityGroup
+    Properties:
+      Description: Allow pods running extension API servers on port 443 to receive communication from cluster control plane
+      GroupId: !Ref NodeSecurityGroup
+      SourceSecurityGroupId: !Ref ClusterControlPlaneSecurityGroup
+      IpProtocol: tcp
+      FromPort: 443
+      ToPort: 443
+
+  ControlPlaneEgressToNodeSecurityGroupOn443:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroupEgress
+    DependsOn: NodeSecurityGroup
+    Properties:
+      Description: Allow the cluster control plane to communicate with pods running extension API servers on port 443
+      GroupId: !Ref ClusterControlPlaneSecurityGroup
+      DestinationSecurityGroupId: !Ref NodeSecurityGroup
+      IpProtocol: tcp
+      FromPort: 443
+      ToPort: 443
+
+  ClusterControlPlaneSecurityGroupIngress:
+    Condition: CreateNewNodeSG
+    Type: AWS::EC2::SecurityGroupIngress
+    DependsOn: NodeSecurityGroup
+    Properties:
+      Description: Allow pods to communicate with the cluster API Server
+      GroupId: !Ref ClusterControlPlaneSecurityGroup
+      SourceSecurityGroupId: !Ref NodeSecurityGroup
+      IpProtocol: tcp
+      ToPort: 443
+      FromPort: 443
+
+  NodeGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      DesiredCapacity: !Ref NodeAutoScalingGroupDesiredSize
+      #LaunchConfigurationName: !Ref NodeLaunchConfig
+      # LaunchTemplate:
+      #   LaunchTemplateId: !Ref MyLaunchTemplate
+      #   Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+      MixedInstancesPolicy:
+        InstancesDistribution:
+          OnDemandAllocationStrategy: prioritized
+          OnDemandBaseCapacity: !Ref OnDemandBaseCapacity
+          OnDemandPercentageAboveBaseCapacity: !Ref OnDemandPercentageAboveBaseCapacity
+          SpotAllocationStrategy: lowest-price
+          SpotInstancePools: !Ref SpotInstancePools
+          # SpotMaxPrice: String
+        LaunchTemplate:
+          LaunchTemplateSpecification:
+            LaunchTemplateId: !Ref MyLaunchTemplate
+            # LaunchTemplateName: String
+            Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+          Overrides:
+            - InstanceType: !Select [0, !Split [ ",", !Ref InstanceTypesOverride ] ]
+            - InstanceType: !Select [1, !Split [ ",", !Ref InstanceTypesOverride ] ]
+            - InstanceType: !Select [2, !Split [ ",", !Ref InstanceTypesOverride ] ]
+
+      MinSize: !Ref NodeAutoScalingGroupMinSize
+      MaxSize: !Ref NodeAutoScalingGroupMaxSize
+      VPCZoneIdentifier:
+        !Ref Subnets
+      Tags:
+      - Key: Name
+        Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
+        PropagateAtLaunch: 'true'
+      - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
+        Value: 'owned'
+        PropagateAtLaunch: 'true'
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstancesInService: !Ref NodeAutoScalingGroupDesiredSize
+        MaxBatchSize: '1'
+        PauseTime: 'PT5M'
+
+  LCH:
+    Type: AWS::AutoScaling::LifecycleHook
+    Properties:
+      AutoScalingGroupName: !Ref NodeGroup
+      HeartbeatTimeout: 60
+      DefaultResult: CONTINUE
+      LifecycleHookName: !Sub "${NodeGroupName}-LCH"
+      LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
+
+#
+# Launch Template
+#
+  MyLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: !Sub "eksLaunchTemplate-${AWS::StackName}"
+      LaunchTemplateData:
+        # SecurityGroupIds:
+        #   - !Ref NodeSecurityGroup
+        TagSpecifications:
+          -
+            ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
+              - Key: KubernetesCluster
+                Value: !Ref ClusterName
+              - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
+                Value: 'owned'
+        UserData:
+          Fn::Base64:
+            !Sub |
+            #!/bin/bash
+            set -o xtrace
+            iid=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+            export AWS_DEFAULT_REGION=${AWS::Region}
+            ilc=`aws ec2 describe-instances --instance-ids  $iid  --query 'Reservations[0].Instances[0].InstanceLifecycle' --output text`
+            if [ "$ilc" == "spot" ]; then
+              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForSpotFleet}
+            else
+              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForOnDemand}
+            fi
+            # /etc/eks/bootstrap.sh ${ClusterName} $BootstrapArgumentsForOnDemand
+            /opt/aws/bin/cfn-signal --exit-code $? \
+                     --stack  ${AWS::StackName} \
+                     --resource NodeGroup  \
+                     --region ${AWS::Region}
+        IamInstanceProfile:
+          Arn: !GetAtt NodeInstanceProfile.Arn
+        KeyName: !Ref KeyName
+        NetworkInterfaces:
+          -
+            DeviceIndex: 0
+            AssociatePublicIpAddress:
+              !If
+                - IsASGAutoAssignPublicIp
+                - 'true'
+                - 'false'
+            SubnetId: !Select [0, !Ref Subnets]
+            Groups:
+              !If
+                - CreateNewNodeSG
+                -
+                  - !Ref NodeSecurityGroup
+                - !Split [ ",", !Ref ExistingNodeSecurityGroups ]
+        ImageId: !Ref NodeImageId
+        InstanceType: !Ref NodeInstanceType
