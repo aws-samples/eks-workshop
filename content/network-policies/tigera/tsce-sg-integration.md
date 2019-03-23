@@ -73,7 +73,7 @@ Once that is done, get the Security Group identifiers (*i.e.* sg-xxxxxxxxxxx) fo
 Now annotate the *test1* pod with the *allow-sa-sg* security group.
 
 ```
-kubectl annotate pod <test1 pod name> aws.tigera.io/security-groups=["sg-xxxxxx"]
+kubectl annotate pod <test1 pod name> aws.tigera.io/security-groups='["sg-xxxxxx"]'
 ```
 
 Lastly, use the instructions provided for connecting back into the *test1* and *test2* pods and re-run the wget commands.  
