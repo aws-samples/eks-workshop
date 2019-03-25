@@ -75,3 +75,7 @@ helm init --service-account tiller
 
 This will install **tiller** into the cluster which gives it access to manage
 resources in your cluster.
+
+{{% notice info %}}
+The default installation contains **no security configuration**. This is acceptable for our workshop, but is not advisable for production deployments. Refer to the [Helm Documentation](https://helm.sh/docs/using_helm/#securing-your-helm-installation) for instructions on securing your helm installation.
+{{% /notice %}}
