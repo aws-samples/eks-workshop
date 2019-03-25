@@ -17,7 +17,12 @@ INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].
 INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
 ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
 echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
+```
 
+Confirm that the Role has been exported correctly
+
+```bash
+echo $ROLE_NAME
 ```
 
 Congratulations! You now have a fully working Amazon EKS Cluster that is ready to use!
