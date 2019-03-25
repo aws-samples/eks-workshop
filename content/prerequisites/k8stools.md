@@ -24,6 +24,10 @@ sudo curl --silent --location -o /usr/local/bin/kubectl "https://amazon-eks.s3-u
 sudo chmod +x /usr/local/bin/kubectl
 ```
 
+{{% notice tip %}}
+You can find links to latest version of the kubectl binary [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
+{{% /notice %}}
+
 #### Install AWS IAM Authenticator
 ```
 go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
