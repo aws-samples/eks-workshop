@@ -1,8 +1,18 @@
 ---
-title: "Install Helm CLI"
+title: "Install Helm on EKS"
 date: 2018-08-07T08:30:11-07:00
-weight: 5
+weight: 40
 ---
+
+[Helm](https://helm.sh/) is a package manager and application management tool for Kubernetes that packages multiple Kubernetes resources into a single logical deployment unit called **Chart**.
+
+Helm helps you to:
+
+- Achieve a simple (one command) and repeatable deployment
+- Manage application dependency, using specific versions of other application and services
+- Manage multiple deployment configurations: test, staging, production and others
+- Execute post/pre deployment jobs during application deployment
+- Update/rollback and test application deployments
 
 Before we can get started configuring `helm` we'll need to first install the command line tools that you will interact with. To do this run the following.
 

@@ -20,6 +20,4 @@ echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
 
 ```
 
-#### Congratulations!
-
-You now have a fully working Amazon EKS Cluster that is ready to use!
+Congratulations! You now have a fully working Amazon EKS Cluster that is ready to use!
