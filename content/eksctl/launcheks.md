@@ -37,7 +37,18 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 ### Create an EKS cluster
 
-To create a basic EKS cluster, run:
+To create a basic EKS cluster, we can start by downloading a config template:
+```
+cd ~/environment
+wget https://eksworkshop.com/eksctl/launcheks.files/eksworkshop.yml.template
+```
+
+Next, let's fill in the template variables with values from our environment:
+```
+envsubst <eksworkshop.yml.template >eksworkshop.yml
+```
+
+Finally, now that we have the proper config generated, we can launch EKS:
 ```
 eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
 ```
