@@ -45,8 +45,6 @@ wget https://eksworkshop.com/eksctl/launcheks.files/eksworkshop.yml.template
 
 Next, let's fill in the template variables with values from our environment:
 ```
-export WORKER_INSTANCE_PROFILE=$(aws cloudformation describe-stack-resources --stack-name module-k8s-on-aws | grep -Eo 'module-k8s-on-aws-NodeInstanceProfile-[[:alnum:]]+')
-
 envsubst <eksworkshop.yml.template >eksworkshop.yml
 ```
 

@@ -15,13 +15,13 @@ the aws-iam-authenticator plugin, so we will disable it and rely on the IAM role
 - Close the Preferences tab
 ![c9disableiam](/images/c9disableiam.png)
 
-- To ensure temporary credentials aren't already in place we will also remove
+To ensure temporary credentials aren't already in place we will also remove
 any existing credentials file:
 ```
 rm -vf ${HOME}/.aws/credentials
 ```
 
-- We should configure our aws cli with our current region as default:
+We should configure our aws cli with our current region as default:
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
@@ -36,24 +36,24 @@ aws configure get default.region
 
 Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
 
+```
+aws sts get-caller-identity
+
+```
+
+<!--
 First, get the IAM role name from the AWS CLI.
 ```bash
 INSTANCE_PROFILE_NAME=`basename $(aws ec2 describe-instances --filters Name=tag:Name,Values=aws-cloud9-${C9_PROJECT}-${C9_PID} | jq -r '.Reservations[0].Instances[0].IamInstanceProfile.Arn' | awk -F "/" "{print $2}")`
 aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME --query "InstanceProfile.Roles[0].RoleName" --output text
 ```
+-->
 
-The output is the role name.
-
-```output
+The output assumed-role name should contain:
+```
 eksworkshop-admin
 or
 modernizer-workshop-cl9
-```
-
-Compare that with the result of
-
-```bash
-aws sts get-caller-identity
 ```
 
 #### VALID
