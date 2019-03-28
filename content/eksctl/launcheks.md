@@ -45,12 +45,19 @@ wget https://eksworkshop.com/eksctl/launcheks.files/eksworkshop.yml.template
 
 Next, let's fill in the template variables with values from our environment:
 ```
+export WORKER_INSTANCE_PROFILE=$(aws cloudformation describe-stack-resources --stack-name module-k8s-on-aws | grep -Eo 'module-k8s-on-aws-NodeInstanceProfile-[[:alnum:]]+')
+
 envsubst <eksworkshop.yml.template >eksworkshop.yml
+```
+
+We can examine the rendered output by viewing `eksworkshop.yml`:
+```
+cat eksworkshop.yml
 ```
 
 Finally, now that we have the proper config generated, we can launch EKS:
 ```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+eksctl create cluster -f eksworkshop.yml
 ```
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
