@@ -12,7 +12,6 @@ Argo uses an artifact repository to pass data between jobs in a workflow, known 
 Let's create a S3 bucket using the AWS CLI.
 
 ```bash
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 aws s3 mb s3://batch-artifact-repository-${ACCOUNT_ID}/
 ```
 
@@ -36,12 +35,21 @@ data:
 ### Create an IAM Policy
 In order for Argo to read from/write to the S3 bucket, we need to configure an inline policy and add it to the EC2 instance profile of the worker nodes.
 
-Collect the Instance Profile, Role name, and Account ID from the CloudFormation Stack.
+First, we will need to ensure the Role Name our workers use is set in our environment:
+
+```bash
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+
+If you receive an error or empty response, expand the steps below to export.
+
+{{%expand "Expand here if you need to export the Role Name" %}}
+If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
+{{% /expand %}}
+
+```text
+# Example Output
+ROLE_NAME is eks-workshop-nodegroup
 ```
 
 Create and policy and attach to the worker node role.

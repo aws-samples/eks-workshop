@@ -5,21 +5,26 @@ weight: 10
 draft: false
 ---
 
-In order for the [X-Ray daemon](https://docs.aws.amazon.com/xray/latest/devguide/xray-daemon.html) to communicate with the service, we need to add a policy to the worker nodes' [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role.
+In order for the [X-Ray daemon](https://docs.aws.amazon.com/xray/latest/devguide/xray-daemon.html) 
+to communicate with the service, we need to add a policy to the worker nodes' 
+[AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role.
 
-Modify the role in the Cloud9 terminal:
-
-{{%expand "Expand here if you need to export the Role Name" %}}
+First, we will need to ensure the Role Name our workers use is set in our environment:
 
 ```bash
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r .Stacks[].StackName | grep eksctl-eksworkshop-eksctl-nodegroup)
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
-echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
 
+{{%expand "Expand here if you need to export the Role Name" %}}
+If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
 {{% /expand %}}
 
+```text
+# Example Output
+ROLE_NAME is eks-workshop-nodegroup
 ```
-aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
+
+```
+aws iam attach-role-policy --role-name $ROLE_NAME \
+--policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
 ```
