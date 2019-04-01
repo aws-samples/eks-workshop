@@ -32,10 +32,3 @@ select the bucket, then empty the bucket and finally delete the bucket:
 
 ![S3 Delete](/images/codepipeline/s3_delete.png)
 
-Finally, we are going to delete the IAM role created for CodeBuild to permit changes to the EKS cluster:
-
-```
-aws iam delete-role-policy --role-name EksWorkshopCodeBuildKubectlRole --policy-name eks-describe
-
-aws iam delete-role --role-name EksWorkshopCodeBuildKubectlRole
-```

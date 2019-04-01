@@ -19,11 +19,6 @@ argo delete --all
 aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
 ```
 
-#### Remove permissions for Artifact Repository Bucket
-```bash
-aws iam delete-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker
-```
-
 #### Undeploy Argo
 
 ```bash

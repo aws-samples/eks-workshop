@@ -20,8 +20,13 @@ If you receive an error or empty response, expand the steps below to export.
 If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
 {{% /expand %}}
 
-Create a new IAM Policy and attach it to the Worker Node Role.
-```
+{{< tabs name="Create IAM policy and attach it to the worker node role." >}}
+{{{< tab name="Workshop at AWS event" >}}
+This IAM policy has been created for you  and has been attached to the correct role.<br>
+
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
 mkdir ~/environment/iam_policy
 cat <<EoF > ~/environment/iam_policy/k8s-logs-policy.json
 {
@@ -41,8 +46,10 @@ cat <<EoF > ~/environment/iam_policy/k8s-logs-policy.json
     ]
 }
 EoF
+
 aws iam put-role-policy --role-name $ROLE_NAME --policy-name Logs-Policy-For-Worker --policy-document file://~/environment/iam_policy/k8s-logs-policy.json
-```
+{{< /tab >}}}
+{{< /tabs >}}
 
 Validate that the policy is attached to the role
 ```

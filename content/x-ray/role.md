@@ -24,7 +24,16 @@ If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
 ROLE_NAME is eks-workshop-nodegroup
 ```
 
-```
+{{< tabs name="Attach IAM Policy to the Role" >}}
+{{{< tab name="Workshop at AWS event" >}}
+This IAM policy has been attached to the correct role for you.<br>
+
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
 aws iam attach-role-policy --role-name $ROLE_NAME \
 --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
-```
+{{< /tab >}}}
+{{< /tabs >}}
+
+
