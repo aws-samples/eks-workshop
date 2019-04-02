@@ -2,7 +2,7 @@
 title: "Add EC2 Workers - On-Demand and Spot"
 date: 2018-08-07T11:05:19-07:00
 weight: 10
-draft: false
+draft: true
 ---
 
 We have our EKS Cluster and worker nodes already, but we need some Spot Instances configured as workers. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to launch new worker
