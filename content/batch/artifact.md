@@ -11,9 +11,16 @@ Argo uses an artifact repository to pass data between jobs in a workflow, known 
 
 Let's create a S3 bucket using the AWS CLI.
 
-```bash
+{{< tabs name="Create S3 Bucket" >}}
+{{{< tab name="Workshop at AWS event" >}}
+This S3 bucket has been created for you.<br>
+
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
 aws s3 mb s3://batch-artifact-repository-${ACCOUNT_ID}/
-```
+{{< /tab >}}}
+{{< /tabs >}}
 
 Next, edit the workflow-controller ConfigMap to use the S3 bucket.
 
