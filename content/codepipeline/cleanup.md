@@ -2,7 +2,7 @@
 title: "Cleanup"
 date: 2018-10-087T08:30:11-07:00
 weight: 16
-draft: false
+draft: true
 ---
 
 Congratulations on completing the CI/CD with CodePipeline module.
