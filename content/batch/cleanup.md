@@ -15,9 +15,16 @@ argo delete --all
 
 #### Remove Artifact Repository Bucket
 
-```bash
+{{< tabs name="Delete S3 Bucket" >}}
+{{{< tab name="Workshop at AWS event" >}}
+This S3 bucket will be deleted for you.<br>
+
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
 aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
-```
+{{< /tab >}}}
+{{< /tabs >}}
 
 #### Undeploy Argo
 
