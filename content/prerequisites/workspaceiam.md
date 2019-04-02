@@ -53,7 +53,7 @@ The output assumed-role name should contain:
 ```
 eksworkshop-admin
 or
-modernizer-workshop-cl9
+TeamRole
 ```
 
 #### VALID
@@ -70,7 +70,7 @@ or
 {
     "Account": "123456789012", 
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
-    "Arn": "arn:aws:sts::123456789012:assumed-role/modernizer-workshop-cl9/i-01234567890abcdef"
+    "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/i-01234567890abcdef"
 }
 ```
 

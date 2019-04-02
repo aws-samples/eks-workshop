@@ -13,8 +13,8 @@ weight: 20
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
-Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `modernizer-workshop-cl9
-` (or the role created when starting the workshop) and an Instance Id.
+Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `TeamRole` 
+(or the role created when starting the workshop) and an Instance Id.
 
 ```output
 {
@@ -26,7 +26,7 @@ or
 {
     "Account": "123456789012", 
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
-    "Arn": "arn:aws:sts::123456789012:assumed-role/modernizer-workshop-cl9/i-01234567890abcdef"
+    "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/i-01234567890abcdef"
 }
 ```
 
