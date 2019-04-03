@@ -2,7 +2,7 @@
 title: "Create Virtual Nodes"
 date: 2018-11-13T16:37:17+09:00
 weight: 30
-draft: false
+draft: true
 ---
 
 Next, we'll create five Virtual Nodes, one for each of the microservices in our application.

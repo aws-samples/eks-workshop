@@ -2,7 +2,7 @@
 title: "Test the App on App Mesh"
 date: 2018-11-13T16:37:17+09:00
 weight: 50
-draft: false
+draft: true
 ---
 
 We now have both App Mesh and the application deployed.  Next comes the fun part of seeing how we can use App Mesh to change the charactertics of the application.

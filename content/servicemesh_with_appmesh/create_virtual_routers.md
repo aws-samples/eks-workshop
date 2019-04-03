@@ -2,7 +2,7 @@
 title: "Create Virtual Routers and Routes"
 date: 2018-11-13T16:37:17+09:00
 weight: 40
-draft: false
+draft: true
 ---
 Virtual routers handle traffic for one or more service names within your mesh. After you create a virtual router, you can create and associate routes for your virtual router that direct incoming requests to different virtual nodes.
 

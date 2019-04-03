@@ -2,7 +2,7 @@
 title: "Clean Up"
 date: 2018-11-13T16:37:17+09:00
 weight: 60
-draft: false
+draft: true
 ---
 
 There are three groups of components to remove when we're done:
