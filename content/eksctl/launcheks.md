@@ -36,7 +36,8 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
 
 ### Create an EKS cluster
-
+{{< tabs name="Create EKS Cluster" >}}
+{{{< tab name="Workshop at AWS event" >}}
 To create a basic EKS cluster, we can start by downloading a config template:
 ```output
 cd ~/environment
@@ -56,6 +57,13 @@ cat eksworkshop.yml
 Finally, now that we have the proper config generated, we can launch EKS:
 ```output
 eksctl create cluster -f eksworkshop.yml
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
+eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+{{< /tab >}}}
+{{< /tabs >}}
+
+
 ```
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
