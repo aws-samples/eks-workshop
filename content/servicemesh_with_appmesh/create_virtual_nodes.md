@@ -43,11 +43,15 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorgateway.default.svc.cluster.local"
+                "hostname": "colorgateway.default.svc.cluster.local"
             }
         },
         "backends": [
-            "colorteller.default.svc.cluster.local"
+             {
+                "virtualService": {
+                    "virtualServiceName": "colorteller.default.svc.cluster.local"
+                }
+            }
         ]
     },
     "virtualNodeName": "colorgateway-vn"
