@@ -13,8 +13,8 @@ weight: 20
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
-Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `modernizer-workshop-cl9
-` (or the role created when starting the workshop) and an Instance Id.
+Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `TeamRole` 
+(or the role created when starting the workshop) and an Instance Id.
 
 ```output
 {
@@ -26,7 +26,7 @@ or
 {
     "Account": "123456789012", 
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
-    "Arn": "arn:aws:sts::123456789012:assumed-role/modernizer-workshop-cl9/i-01234567890abcdef"
+    "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/i-01234567890abcdef"
 }
 ```
 
@@ -37,9 +37,25 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 ### Create an EKS cluster
 
-To create a basic EKS cluster, run:
+To create a basic EKS cluster, we can start by downloading a config template:
+```output
+cd ~/environment
+wget https://eksworkshop.com/eksctl/launcheks.files/eksworkshop.yml.template
 ```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+
+Next, let's fill in the template variables with values from our environment:
+```output
+envsubst <eksworkshop.yml.template >eksworkshop.yml
+```
+
+We can examine the rendered output by viewing `eksworkshop.yml`:
+```output
+cat eksworkshop.yml
+```
+
+Finally, now that we have the proper config generated, we can launch EKS:
+```output
+eksctl create cluster -f eksworkshop.yml
 ```
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes

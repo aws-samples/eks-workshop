@@ -2,7 +2,7 @@
 title: "Create IAM Role"
 date: 2018-10-087T08:30:11-07:00
 weight: 10
-draft: false
+draft: true
 ---
 
 In an AWS CodePipeline, we are going to use AWS CodeBuild to deploy a sample Kubernetes service.
@@ -14,10 +14,14 @@ to interact with the EKS cluster via kubectl.
 
 Create the role:
 
-```
-cd ~/environment
+{{< tabs name="Create IAM ROLE for CI/CD" >}}
+{{{< tab name="Workshop at AWS event" >}}
+This IAM role and policy has been created for you.<br>
 
-ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="go" >}}
+cd ~/environment
 
 TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": \"arn:aws:iam::${ACCOUNT_ID}:root\" }, \"Action\": \"sts:AssumeRole\" } ] }"
 
@@ -26,4 +30,6 @@ echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": "
 aws iam create-role --role-name EksWorkshopCodeBuildKubectlRole --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
 
 aws iam put-role-policy --role-name EksWorkshopCodeBuildKubectlRole --policy-name eks-describe --policy-document file:///tmp/iam-role-policy
-```
+{{< /tab >}}}
+{{< /tabs >}}
+
