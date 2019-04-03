@@ -76,7 +76,7 @@ or
 
 #### INVALID
 
-If the _Arn contains `TeamRole`, `MasterRole`, or does not match the role name, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
+If the _Arn contains anything other than `TeamRole`, `MasterRole`, or does not match the role name output above, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
 
 ```output
 {
