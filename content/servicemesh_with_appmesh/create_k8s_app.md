@@ -2,7 +2,7 @@
 title: "Create the k8s app"
 date: 2018-11-13T16:37:17+09:00
 weight: 50
-draft: false
+draft: true
 ---
 
 Up to this point, we've created all required components of the app mesh (virtual nodes, virtual routers, and routes) to support our application.   In this chapter, we'll actually deploy the k8s application.
