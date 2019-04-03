@@ -1,7 +1,7 @@
 ---
 title: "Create an SSH key"
 chapter: false
-weight: 21
+weight: 31
 ---
 
 {{% notice info %}}

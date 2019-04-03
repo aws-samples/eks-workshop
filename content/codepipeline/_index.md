@@ -2,7 +2,7 @@
 title: "CI/CD with CodePipeline"
 chapter: true
 weight: 42
-draft: false
+draft: true
 ---
 
 # CI/CD with CodePipeline
