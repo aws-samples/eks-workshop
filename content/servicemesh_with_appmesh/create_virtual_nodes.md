@@ -79,7 +79,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller.default.svc.cluster.local"
+                "hostname": "colorteller.default.svc.cluster.local"
             }
         }
     },
@@ -105,7 +105,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller-black.default.svc.cluster.local"
+                "hostname": "colorteller-black.default.svc.cluster.local"
             }
         }
     },
@@ -127,7 +127,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller-blue.default.svc.cluster.local"
+                "hostname": "colorteller-blue.default.svc.cluster.local"
             }
         }
     },
@@ -150,7 +150,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller-red.default.svc.cluster.local"
+                "hostname": "colorteller-red.default.svc.cluster.local"
             }
         }
     },
