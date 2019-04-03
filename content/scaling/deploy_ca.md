@@ -62,13 +62,19 @@ Although Cluster Autoscaler is the de facto standard for automatic scaling in K8
 ### Create an IAM Policy
 We need to configure an inline policy and add it to the EC2 instance profile of the worker nodes
 
-Collect the Instance Profile and Role NAME from the CloudFormation Stack
+Ensure `ROLE_NAME` is set in your environment:
 ```
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
-```
+If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
+
+{{< tabs name="Create IAM policy for ASG" >}}
+{{{< tab name="Workshop at AWS event" >}}
+This IAM policy has been created for you  and has been attached to the correct role.<br>
+
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="go" >}}
 mkdir ~/environment/asg_policy
 cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
 {
@@ -88,7 +94,8 @@ cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
 }
 EoF
 aws iam put-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker --policy-document file://~/environment/asg_policy/k8s-asg-policy.json
-```
+{{< /tab >}}}
+{{< /tabs >}}
 
 Validate that the policy is attached to the role
 ```

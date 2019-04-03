@@ -2,7 +2,7 @@
 title: "Add EC2 Workers - On-Demand and Spot"
 date: 2018-08-07T11:05:19-07:00
 weight: 10
-draft: false
+draft: true
 ---
 
 We have our EKS Cluster and worker nodes already, but we need some Spot Instances configured as workers. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to launch new worker
@@ -12,28 +12,21 @@ This template will create a single ASG that leverages the latest feature to mix 
 
 #### Retrieve the Worker Role name
 
-First, we will need to collect the Role Name that is in use with our EKS worker nodes
+First, we will need to ensure the Role Name our workers use is set in our environment:
 
 ```bash
-echo $ROLE_NAME
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
 
 Copy the Role Name for use as a Parameter in the next step. If you receive an error or empty response, expand the steps below to export.
 
 {{%expand "Expand here if you need to export the Role Name" %}}
-
-```bash
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
-echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
-```
-
+If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
 {{% /expand %}}
 
 ```text
 # Example Output
-eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXXXXX
+ROLE_NAME is eks-workshop-nodegroup
 ```
 
 #### Retrieve the Security Group Name
@@ -70,7 +63,7 @@ Once the console is open you will need to configure the missing parameters. Use 
 |Stack Name: | eksworkshop-spot-workers |
 |Cluster Name: | eksworkshop-eksctl (or whatever you named your cluster) |
 |ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and the words **'ControlPlaneSecurityGroup'** |
-|NodeInstanceRole: | Use the role name that copied in the step above. (e.g. eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXXX)
+|NodeInstanceRole: | Use the role name that copied in the step above. (e.g.eks-workshop-nodegroup)
 |UseExistingNodeSecurityGroups: | Leave as **'Yes'** |
 |ExistingNodeSecurityGroups: | Use the SG name that copied in the step above. (e.g. sg-0123456789abcdef)
 |NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for your region - **Check for empty spaces in copy/paste**|

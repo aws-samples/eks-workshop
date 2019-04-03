@@ -2,7 +2,7 @@
 title: "Deploy The Spot Interrupt Handler"
 date: 2018-08-07T12:32:40-07:00
 weight: 20
-draft: false
+draft: true
 ---
 
 In this section, we will prepare our cluster to handle Spot interruptions.
