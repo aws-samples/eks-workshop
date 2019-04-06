@@ -18,6 +18,7 @@ This S3 bucket has been created for you.<br>
 You can proceed with the next step.
 {{< /tab >}}
 {{< tab name="Workshop in your own account" codelang="bash" >}}
+ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
 aws s3 mb s3://batch-artifact-repository-${ACCOUNT_ID}/
 {{< /tab >}}}
 {{< /tabs >}}
