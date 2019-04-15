@@ -4,7 +4,7 @@ chapter: true
 weight: 20
 ---
 
-# Launch using [eksctl by Weaveworks](https://eksctl.io/)
+# Launch using [eksctl](https://eksctl.io/)
 
 Because EKS uses AWS CloudFormation and AWS APIs, it is possible to automate much of
 the experience of creating an EKS cluster.
