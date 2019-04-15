@@ -20,7 +20,7 @@ dj-5b445fbdf4-8xkwp   1/1       Running   0          32s
 Next, we'll exec into the DJ pod, and make a curl request to the virtual service jazz, simulating what would happen if code running in the same pod made a request to the metal service by entering the following:
 
 ```
-kubectl exec -nprod -it <your dj pod name> bash
+kubectl exec -nprod -it <your-dj-pod-name> -c dj bash
 ```
 
  Output should be similar to:

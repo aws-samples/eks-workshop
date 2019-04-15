@@ -9,7 +9,8 @@ When you're done experimenting and want to delete all resources created during t
 
 For ease of use, these commands have all been packaged into the cleanup script, which can be run via:
 
+```
 ./cleanup.sh
-
+```
 
 The above script will not delete any nodes in your k8s cluster.
