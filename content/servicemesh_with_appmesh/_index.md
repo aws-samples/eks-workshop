@@ -1,18 +1,17 @@
 ---
-title: "Service Mesh with AWS App Mesh"
-date: 2018-11-13T16:32:30+09:00
+title: "Service Mesh with App Mesh"
+date: 2018-08-07T08:30:11-07:00
 weight: 54
-draft: true
 ---
 
-### Service Mesh With AWS App Mesh
+At [re:invent 2018](https://www.youtube.com/watch?v=GVni3ruLSe0), we announced [AWS App Mesh](https://aws.amazon.com/app-mesh), a service mesh that provides application-level networking to make it easy for your services to communicate with each other across multiple types of compute infrastructure. App Mesh standardizes how your services communicate, giving you end-to-end visibility and ensuring high-availability for your applications.
 
-A service mesh is a dedicated infrastructure layer for handling **service-to-service communication**.
+Service meshes like AWS App Mesh help you to run and monitor HTTP and TCP services at scale. Whether your application consists of [AWS Fargate](https://aws.amazon.com/fargate/), [Amazon EC2](https://aws.amazon.com/ec2/), [Amazon ECS](https://aws.amazon.com/ecs/), [Amazon Elastic Container Service for Kubernetes](https://aws.amazon.com/eks/), or [Kubernetes](https://aws.amazon.com/kubernetes/) clusters or instances, App Mesh provides consistent routing and traffic monitoring functionality, giving you insight into problems and the ability to re-route traffic after failures or code changes.
 
-AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy to monitor and control containerized microservices. App Mesh standardizes how your microservices communicate, giving you end-to-end visibility and helping to ensure high-availability for your applications.
+App Mesh uses the open source [Envoy](https://www.envoyproxy.io/) proxy, giving you access to a wide range of tools from AWS partners and the open source community.  Since all traffic in and out of each service goes through the Envoy proxy, all traffic can be routed, shaped, measured, and logged. This extra level of indirection lets you build your services in any desired languages without having to use a common set of communication libraries.
 
-App Mesh gives you consistent visibility and network traffic controls for every microservice in an application. You can use App Mesh with Amazon ECS (using the Amazon EC2 launch type), Amazon EKS, and Kubernetes on AWS.
+In this tutorial, we'll walk you through many popular App Mesh use cases.  
 
-App Mesh is now generally available and supported for production use.  In addition to this workshop module, you can [visit the official AWS App Mesh page](https://aws.amazon.com/app-mesh/).
+The first two sections, "Create the k8s app", and "Create the App Mesh Components" should be performed in order.  
 
-The content of this chapter was based on work found at https://github.com/awslabs/aws-app-mesh-examples.  Be sure to check that repo often for the latest App Mesh demos.
+They will take you through building an easy to understand standalone k8s microservices-based application, and then enabling App Mesh service mesh functionality for it.  
