@@ -4,12 +4,15 @@ date: 2018-08-07T08:30:11-07:00
 weight: 40
 ---
 
-To test that your worker nodes are able to use these permissions correctly, run the following job from the project's directory:
+To test that your worker nodes are able to use these permissions correctly, we'll run a job that attempts to list all existing meshes.
 
-{{% notice note %}}
-The following YAML is configured for the us-west-2 region.  If you are running your cluster and App Mesh out of a different region, please modify the region value in the YAML before proceeding.
-{{% /notice %}}
+Run this command to set the script to run against the correct region:
 
+```
+sed -i'.old' -e 's/\"us-west-2\"/\"'$AWS_REGION'\"/' awscli.yaml
+```
+
+Next, execute the job:
 
 ```
 kubectl apply -f awscli.yaml
