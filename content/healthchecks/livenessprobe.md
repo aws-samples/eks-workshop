@@ -16,6 +16,7 @@ mkdir -p ~/environment/healthchecks
 Save the manifest as ~/environment/healthchecks/liveness-app.yaml using your favorite editor. You can review the manifest that is described below. In the configuration file, livenessProbe determines how kubelet should check the Container in order to consider whether it is healthy or not. kubelet uses periodSeconds field to do frequent check on the Container. In this case, kubelet checks liveness probe every 5 seconds. initialDelaySeconds field is to tell the kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this Pod and if the handler for the servers /health returns a success code, then the Container is considered healthy. If the handler returns a failure code, the kubelet kills the Container and restarts it.
 
 ```
+cat <<EoF > ~/environment/healthchecks/liveness-app.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -30,6 +31,7 @@ spec:
         port: 3000
       initialDelaySeconds: 5
       periodSeconds: 5
+EoF
 ```
 
 Let's create the pod using the manifest
