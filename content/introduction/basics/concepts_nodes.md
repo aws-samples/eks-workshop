@@ -13,6 +13,6 @@ There are two types of nodes:
 
 * A Master-node type, which makes up the [Control Plane](../../architecture/architecture_control), acts as the “brains” of the cluster.
 
-* A Worker-node type, which makes up the [Data Plane](../../architecture/architecture_worker), runs the actual container images (via pods.)
+* A Worker-node type, which makes up the [Data Plane](../../architecture/architecture_worker), runs the actual container images (via pods).
 
 We’ll dive deeper into how nodes interact with each other later in the presentation.
