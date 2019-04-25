@@ -20,7 +20,9 @@ mkdir -p ~/.kube
 
 #### Install kubectl
 ```
-sudo curl --silent --location -o /usr/local/bin/kubectl "https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/kubectl"
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.0/bin/linux/amd64/kubectl
+
+sudo mv ./kubectl /usr/local/bin/kubectl
 
 sudo chmod +x /usr/local/bin/kubectl
 ```
