@@ -1,6 +1,6 @@
 ---
 title: "Cleanup"
-date: 2018-11-13T23:59:44+09:00
+date: 2019-03-20T13:59:44+01:00
 weight: 70
 draft: false
 ---
@@ -32,10 +32,7 @@ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
 To remove Istio
 
 ```
-kubectl delete -f istio.yaml
-
-kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
-
-kubectl delete namespace istio-system
+helm delete --purge istio
+helm delete --purge istio-init
 ```
 

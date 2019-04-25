@@ -2,7 +2,7 @@
 title: "Create Virtual Nodes"
 date: 2018-11-13T16:37:17+09:00
 weight: 30
-draft: false
+draft: true
 ---
 
 Next, we'll create five Virtual Nodes, one for each of the microservices in our application.
@@ -43,11 +43,15 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorgateway.default.svc.cluster.local"
+                "hostname": "colorgateway.default.svc.cluster.local"
             }
         },
         "backends": [
-            "colorteller.default.svc.cluster.local"
+             {
+                "virtualService": {
+                    "virtualServiceName": "colorteller.default.svc.cluster.local"
+                }
+            }
         ]
     },
     "virtualNodeName": "colorgateway-vn"
@@ -79,7 +83,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller.default.svc.cluster.local"
+                "hostname": "colorteller.default.svc.cluster.local"
             }
         }
     },
@@ -105,7 +109,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller-black.default.svc.cluster.local"
+                "hostname": "colorteller-black.default.svc.cluster.local"
             }
         }
     },
@@ -127,7 +131,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller-blue.default.svc.cluster.local"
+                "hostname": "colorteller-blue.default.svc.cluster.local"
             }
         }
     },
@@ -150,7 +154,7 @@ aws appmesh create-virtual-node  --mesh-name APP_MESH_DEMO --cli-input-json '{
         ],
         "serviceDiscovery": {
             "dns": {
-                "serviceName": "colorteller-red.default.svc.cluster.local"
+                "hostname": "colorteller-red.default.svc.cluster.local"
             }
         }
     },

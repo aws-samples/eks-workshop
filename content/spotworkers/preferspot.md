@@ -2,7 +2,7 @@
 title: "Deploy an Application on Spot"
 date: 2018-09-18T17:40:09-05:00
 weight: 30
-draft: false
+draft: true
 ---
 
 We are redesigning our Microservice example and want our frontend service to be deployed on Spot Instances when they are available. We will use Node Affinity in our manifest file to configure this.

@@ -15,20 +15,16 @@ argo delete --all
 
 #### Remove Artifact Repository Bucket
 
-```bash
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+{{< tabs name="Delete S3 Bucket" >}}
+{{{< tab name="Workshop at AWS event" >}}
+This S3 bucket will be deleted for you.<br>
+
+You can proceed with the next step.
+{{< /tab >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
 aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
-```
-
-#### Remove permissions for Artifact Repository Bucket
-```bash
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-
-aws iam delete-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker
-```
+{{< /tab >}}}
+{{< /tabs >}}
 
 #### Undeploy Argo
 
