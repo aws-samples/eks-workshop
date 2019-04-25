@@ -2,7 +2,7 @@
 title: "Installing Tigera Secure Cloud Edition"
 weight: 30
 ---
-Now that your environment variables are set, and _tsctl_ is installed, we need to install TSCE itself.  To do so, run the following commmand.  The instructions in the Tigera Secure CE v1.0.1 document that you downloaded earlier are almost exactly the same as what is shown here.  The only difference is that we've changed a variable name from ```$TOKEN``` to ```$TS_TOKEN``` to avoid colliding with other ```$TOKEN``` variables that might be set in your environment.
+Now that your environment variables are set, and _tsctl_ is installed, we need to install TSCE itself.  To do so, run the following command.  The instructions in the Tigera Secure CE v1.0.1 document that you downloaded earlier are almost exactly the same as what is shown here.  The only difference is that we've changed a variable name from ```$TOKEN``` to ```$TS_TOKEN``` to avoid colliding with other ```$TOKEN``` variables that might be set in your environment.
 ```
 tsctl install --token $TS_TOKEN \
             --kubeconfig ~/.kube/config \

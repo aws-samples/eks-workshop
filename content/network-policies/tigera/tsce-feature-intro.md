@@ -9,4 +9,4 @@ The two feature areas that we are going to showcase in this section are:
 * [VPC Security Group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) integration.
 * Enhanced flow visibility in [CloudWatch](https://aws.amazon.com/cloudwatch/)
 
-So, let's get stuck in.
+Let's get started.
