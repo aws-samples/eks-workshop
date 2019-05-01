@@ -21,7 +21,7 @@ helm install install/kubernetes/helm/istio-init --name istio-init --namespace is
 
 You can check the installation by running:
 ```
-kubectl get crds | grep 'istio.io'
+kubectl get crds --namespace istio-system | grep 'istio.io'
 ```
 This should return around 50 CRDs. 
 
