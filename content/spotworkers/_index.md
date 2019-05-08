@@ -1,7 +1,7 @@
 ---
 title: "Using Spot Instances with EKS"
 chapter: true
-weight: 32
+weight: 42
 draft: false
 ---
 

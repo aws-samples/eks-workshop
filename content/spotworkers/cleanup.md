@@ -1,7 +1,7 @@
 ---
 title: "Cleanup"
 weight: 50
-draft: true
+draft: false
 ---
 Cleanup our Microservices deployment
 
