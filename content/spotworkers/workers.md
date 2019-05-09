@@ -2,7 +2,7 @@
 title: "Add EC2 Workers - On-Demand and Spot"
 date: 2018-08-07T11:05:19-07:00
 weight: 10
-draft: true
+draft: false
 ---
 
 We have our EKS Cluster and worker nodes already, but we need some Spot Instances configured as workers. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to launch new worker
@@ -10,23 +10,23 @@ nodes that will connect to the EKS cluster.
 
 This template will create a single ASG that leverages the latest feature to mix multiple instance types and purchase as a single K8s nodegroup. Check out this blog: [New – EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/tw/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/) for details.
 
-#### Retrieve the Worker Role name
+#### Retrieve the Worker Node Instance Profile ARN
 
-First, we will need to ensure the Role Name our workers use is set in our environment:
+First, we will need to ensure the ARN Name our workers use is set in our environment:
 
 ```bash
-test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
+test -n "$INSTANCE_PROFILE_ARN" && echo INSTANCE_PROFILE_ARN is "$INSTANCE_PROFILE_ARN" || echo INSTANCE_PROFILE_ARN is not set
 ```
 
-Copy the Role Name for use as a Parameter in the next step. If you receive an error or empty response, expand the steps below to export.
+Copy the Profile ARN for use as a Parameter in the next step. If you receive an error or empty response, expand the steps below to export.
 
-{{%expand "Expand here if you need to export the Role Name" %}}
-If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
+{{%expand "Expand here if you need to export the Instance Profile ARN" %}}
+If `INSTANCE_PROFILE_ARN` is not set, please review: [/eksctl/test/](/eksctl/test/)
 {{% /expand %}}
 
 ```text
 # Example Output
-ROLE_NAME is eks-workshop-nodegroup
+INSTANCE_PROFILE_ARN is arn:aws:iam::123456789101:instance-profile/eksctl-eksworkshop-eksctl-nodegroup-ng-abcd1234-NodeInstanceProfile-ABCDEF1234
 ```
 
 #### Retrieve the Security Group Name
@@ -63,7 +63,7 @@ Once the console is open you will need to configure the missing parameters. Use 
 |Stack Name: | eksworkshop-spot-workers |
 |Cluster Name: | eksworkshop-eksctl (or whatever you named your cluster) |
 |ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and the words **'ControlPlaneSecurityGroup'** |
-|NodeInstanceRole: | Use the role name that copied in the step above. (e.g.eks-workshop-nodegroup)
+|NodeInstanceProfile: | Use the Instance Profile ARN that copied in the step above. (e.g.eks-workshop-nodegroup)
 |UseExistingNodeSecurityGroups: | Leave as **'Yes'** |
 |ExistingNodeSecurityGroups: | Use the SG name that copied in the step above. (e.g. sg-0123456789abcdef)
 |NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for your region - **Check for empty spaces in copy/paste**|

@@ -2,7 +2,7 @@
 title: "Cleanup"
 date: 2018-10-087T08:30:11-07:00
 weight: 16
-draft: true
+draft: false
 ---
 
 Congratulations on completing the CI/CD with CodePipeline module.
@@ -31,4 +31,3 @@ Empty and then delete the [S3 bucket](https://s3.console.aws.amazon.com/s3/home)
 select the bucket, then empty the bucket and finally delete the bucket:
 
 ![S3 Delete](/images/codepipeline/s3_delete.png)
-
