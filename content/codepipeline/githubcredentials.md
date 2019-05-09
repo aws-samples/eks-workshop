@@ -2,7 +2,7 @@
 title: "GitHub Access Token"
 date: 2018-10-087T08:30:11-07:00
 weight: 13
-draft: true
+draft: false
 ---
 
 In order for CodePipeline to receive callbacks from GitHub, we need to generate a personal access token.
@@ -23,4 +23,3 @@ Enter a value for **Token description**, check the **repo** permission scope and
 Copy the **personal access token** and save it in a secure place for the next step
 
 ![Generate New](/images/codepipeline/github_copy_access.png)
-
