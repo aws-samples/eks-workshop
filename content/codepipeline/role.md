@@ -2,7 +2,7 @@
 title: "Create IAM Role"
 date: 2018-10-087T08:30:11-07:00
 weight: 10
-draft: true
+draft: false
 ---
 
 In an AWS CodePipeline, we are going to use AWS CodeBuild to deploy a sample Kubernetes service.
@@ -32,4 +32,3 @@ aws iam create-role --role-name EksWorkshopCodeBuildKubectlRole --assume-role-po
 aws iam put-role-policy --role-name EksWorkshopCodeBuildKubectlRole --policy-name eks-describe --policy-document file:///tmp/iam-role-policy
 {{< /tab >}}}
 {{< /tabs >}}
-

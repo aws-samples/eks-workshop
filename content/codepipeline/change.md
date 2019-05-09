@@ -2,7 +2,7 @@
 title: "Trigger New Release"
 date: 2018-10-087T08:30:11-07:00
 weight: 15
-draft: true
+draft: false
 ---
 #### Update Our Application
 

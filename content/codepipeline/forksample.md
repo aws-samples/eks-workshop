@@ -2,7 +2,7 @@
 title: "Fork Sample Repository"
 date: 2018-10-087T08:30:11-07:00
 weight: 12
-draft: true
+draft: false
 ---
 
 We are now going to [fork](https://help.github.com/articles/fork-a-repo/) the sample Kubernetes service
@@ -19,6 +19,3 @@ Once the repo is forked, you can view it in your your [GitHub repositories](http
 The forked repo will look like:
 
 ![GitHub Fork](/images/codepipeline/github_fork_example.png)
-
-
-

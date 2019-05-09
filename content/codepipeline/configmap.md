@@ -2,7 +2,7 @@
 title: "Modify aws-auth ConfigMap"
 date: 2018-10-087T08:30:11-07:00
 weight: 11
-draft: true
+draft: false
 ---
 
 Now that we have the IAM role created, we are going to add the role to the [aws-auth ConfigMap](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)
@@ -22,4 +22,3 @@ kubectl patch configmap/aws-auth -n kube-system --patch "$(cat /tmp/aws-auth-pat
 {{% notice tip %}}
 If you would like to edit the aws-auth ConfigMap manually, you can run: $ kubectl edit -n kube-system configmap/aws-auth
 {{% /notice %}}
-
