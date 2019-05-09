@@ -8,7 +8,7 @@ draft: false
 # CI/CD with CodePipeline
 
 {{% notice warning %}}
-This chapter does not yet work in the AWS supplied event environments. If you are
+This chapter does not work in the AWS supplied event environments yet. If you are
 **at an AWS event**, please skip this chapter. If you are working in your own account,
 you should have no issues.
 {{% /notice %}}
