@@ -2,7 +2,7 @@
 title: "Logging In"
 date: 2018-08-07T08:30:11-07:00
 weight: 30
-draft: true
+draft: false
 ---
 
 Now that we have the ELB address of your `jenkins` instance we can go an
