@@ -21,7 +21,7 @@ In the cloud9 shell, go to the AWS dashboard, and select the Cloudwatch service.
 
 Go to the metrics section, and select all of the metrics being reported by your clusterID.  See the screenshot below
 
-![](images/tsce-cloudwatch-metrics.png)
+![](/images/tsce-cloudwatch-metrics.png)
 
 Just as in the screenshot, you should now see CloudWatch graphing various statistics such as denied packets, unhealthy nodes, *etc.*
 
@@ -29,4 +29,4 @@ Just as in the screenshot, you should now see CloudWatch graphing various statis
 
 Similarly, you can see the actual flow logs by switching from the *Metrics* to the *Logs* view, as shown below
 
-![](images/tsce-cloudwatch-logs.png)
+![](/images/tsce-cloudwatch-logs.png)
