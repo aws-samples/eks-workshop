@@ -4,7 +4,7 @@ chapter: true
 weight: 54
 ---
 
-# Custom Resource Definiion 
+# Custom Resource Definition 
 ### Introduction
 
 In this Chapter, we will review the Custom Resource Definition (CRD) concept, and some examples of usage.
