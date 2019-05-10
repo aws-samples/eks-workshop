@@ -16,7 +16,7 @@ manage the drift as you need to update releases
 #### Install Jenkins
 
 ```
-helm install stable/jenkins --set rbac.install=true --name cicd
+helm install stable/jenkins --set rbac.create=true --name cicd
 ```
 
 The output of this command will give you some additional information such as the
