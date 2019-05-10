@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ecsdemo-nodejs
+spec:
+  podSelector:
+    matchLabels:
+      app: ecsdemo-nodejs
+ingress:
+- ports:
+  -port: 3000
+  from:
+  - podSelector:
+    matchLabels:
+      app: ecsdemo-frontend
