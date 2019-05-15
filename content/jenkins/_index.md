@@ -1,8 +1,8 @@
 ---
 title: "Deploying Jenkins"
 chapter: true
-weight: 64
-draft: true
+weight: 45
+draft: false
 ---
 
 # Deploy Jenkins
