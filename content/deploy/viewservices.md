@@ -25,7 +25,7 @@ ELB=$(kubectl get service ecsdemo-frontend -o json | jq -r '.status.loadBalancer
 curl -m3 -v $ELB
 ```
 {{% notice tip %}}
-It will take several seconds for the ELB to become healthy and start passing traffic to the frontend pods.
+It will take several minutes for the ELB to become healthy and start passing traffic to the frontend pods.
 {{% /notice %}}
 
 You should also be able to copy/paste the loadBalancer hostname into your browser and see the application running.
