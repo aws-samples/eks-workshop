@@ -27,7 +27,7 @@ sudo chmod +x /usr/local/bin/kubectl
 
 #### Install AWS IAM Authenticator
 ```
-go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
+go get -u -v sigs.k8s.io/aws-iam-authenticator/cmd/aws-iam-authenticator
 sudo mv ~/go/bin/aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
 ```
 
