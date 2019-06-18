@@ -13,19 +13,19 @@ weight: 20
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
-Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `TeamRole` 
+Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `TeamRole`
 (or the role created when starting the workshop) and an Instance Id.
 
 ```output
 {
-    "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Account": "123456789012",
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/eksworkshop-admin/i-01234567890abcdef"
 }
 or
 {
-    "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Account": "123456789012",
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/i-01234567890abcdef"
 }
 ```
@@ -58,7 +58,12 @@ eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --regi
 {{< /tabs >}}
 
 
-```
+{{% notice note %}}
+If you see this error in the output, it can be safely ignored. We will fix
+it next:
+`[✖] neither aws-iam-authenticator nor heptio-authenticator-aws are installed`
+{{% /notice %}}
+
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}
