@@ -16,14 +16,14 @@ This is caused by eksctl wanting to use aws-iam-authencator to pull IAM tokens.
 As of aws-cli version 1.16.156, this token functionality is built in. Let's check
 our aws-cli version:
 ```
-aws --version
+aws --version # in Cloud9, the version output should already be higher than 1.16.156
 ```
 
 Your Cloud9 workspace should already have a version late enough to pull IAM tokens.
 
 If you need to update the aws-cli, use this command:
 ```
-pip install awscli --upgrade --user
+pip install awscli --upgrade --user # this updates aws-cli to the latest available version for the user
 
 aws --version
 ```
@@ -31,14 +31,14 @@ aws --version
 We can update our kubectl config file to use the aws-cli for pulling IAM tokens with
 this command:
 ```
-aws eks update-kubeconfig --name eksworkshop-eksctl
+aws eks update-kubeconfig --name eksworkshop-eksctl # this updates kubeconfig to pull iam tokens using aws-cli
 ```
 
 #### Test the cluster:
 Confirm your Nodes:
 
 ```bash
-kubectl get nodes
+kubectl get nodes # if we see our 3 nodes, we know we have authenticated correctly
 ```
 
 Export the Worker Role Name for use throughout the workshop
