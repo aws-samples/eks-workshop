@@ -13,22 +13,11 @@ binaries. If you are running Mac OSX / Windows, please [see the official EKS doc
 for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 {{% /notice %}}
 
-#### Create the default ~/.kube directory for storing kubectl configuration
-```
-mkdir -p ~/.kube
-```
-
 #### Install kubectl
 ```
 sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/kubectl
 
 sudo chmod +x /usr/local/bin/kubectl
-```
-
-#### Install AWS IAM Authenticator
-```
-go get -u -v sigs.k8s.io/aws-iam-authenticator/cmd/aws-iam-authenticator
-sudo mv ~/go/bin/aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
 ```
 
 #### Install JQ and envsubst
@@ -38,9 +27,8 @@ sudo yum -y install jq gettext
 
 #### Verify the binaries are in the path and executable
 ```
-for command in kubectl aws-iam-authenticator jq envsubst
+for command in kubectl jq envsubst
   do
     which $command &>/dev/null && echo "$command in path" || echo "$command NOT FOUND"
   done
 ```
-
