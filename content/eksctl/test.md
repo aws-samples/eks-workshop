@@ -34,6 +34,7 @@ this command:
 aws eks update-kubeconfig --name eksworkshop-eksctl
 ```
 
+#### Test the cluster:
 Confirm your Nodes:
 
 ```bash
