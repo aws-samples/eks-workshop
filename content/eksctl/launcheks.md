@@ -13,19 +13,19 @@ weight: 20
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
-Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `TeamRole` 
+Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin` or `TeamRole`
 (or the role created when starting the workshop) and an Instance Id.
 
 ```output
 {
-    "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Account": "123456789012",
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/eksworkshop-admin/i-01234567890abcdef"
 }
 or
 {
-    "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Account": "123456789012",
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/i-01234567890abcdef"
 }
 ```
@@ -53,7 +53,7 @@ eksctl create cluster -f eksworkshop.yml
 
 {{< /tab >}}
 {{< tab name="Workshop in your own account" codelang="output" >}}
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
 {{< /tab >}}}
 {{< /tabs >}}
 
