@@ -53,7 +53,7 @@ eksctl create cluster -f eksworkshop.yml
 
 {{< /tab >}}
 {{< tab name="Workshop in your own account" codelang="output" >}}
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
 {{< /tab >}}}
 {{< /tabs >}}
 
