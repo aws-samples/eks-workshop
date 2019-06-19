@@ -11,7 +11,7 @@ When we install using Helm, we need to provide a deployment name, or a random on
 #### Challenge:
 **How can you use Helm to deploy the bitnami/nginx chart?**
 
-**HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment. Consult the [helm install](https://docs.helm.sh/helm/#helm-install) documentation or run the ```helm install --help``` command to figure out the syntax
+**HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment. Consult the [helm install](https://helm.sh/docs/using_helm/#install-an-example-chart) documentation or run the ```helm install --help``` command to figure out the syntax
 
 {{%expand "Expand here to see the solution" %}}
 ```
