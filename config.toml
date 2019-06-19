@@ -25,6 +25,10 @@ disableInlineCopyToClipBoard = true
 ghrepo = "https://github.com/aws-samples/eks-workshop/"
 branch = "master"
 template_bucket = "eksworkshop.com"
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+pygmentsCodefencesGuessSyntax = true
+pygmentsStyle = "tango"
 
 
 
