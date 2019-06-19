@@ -4,7 +4,7 @@ chapter: false
 weight: 22
 ---
 
-Amazon EKS clusters require kubectl and kubelet binaries and the aws-iam-authenticator
+Amazon EKS clusters require kubectl and kubelet binaries and the aws-cli or aws-iam-authenticator
 binary to allow IAM authentication for your Kubernetes cluster.
 
 {{% notice tip %}}

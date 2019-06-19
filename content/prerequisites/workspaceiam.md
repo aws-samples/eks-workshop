@@ -6,7 +6,7 @@ weight: 30
 
 {{% notice info %}}
 Cloud9 normally manages IAM credentials dynamically. This isn't currently compatible with
-the aws-iam-authenticator plugin, so we will disable it and rely on the IAM role instead.
+the EKS IAM authentication, so we will disable it and rely on the IAM role instead.
 {{% /notice %}}
 
 - Return to your workspace and click the sprocket, or launch a new tab to open the Preferences tab
