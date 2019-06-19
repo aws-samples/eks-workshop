@@ -29,7 +29,7 @@ my-nginx   LoadBalancer   10.100.225.196   aca434079a4cb0a9961170c1-23367063.us-
 ```
 Now, let's try if it's accesible. The ELB can take a couple of minutes in being available on the DNS.
 ```
-curl https://<EXTERNAL-IP> -k
+curl http://<EXTERNAL-IP> -k
 ```
 Output
 ```
