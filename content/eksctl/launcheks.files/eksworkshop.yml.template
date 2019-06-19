@@ -10,6 +10,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
+  version: "1.13"
 
 #vpc:
 #  securityGroup: "sg-0f2ae54eb340e8191"
