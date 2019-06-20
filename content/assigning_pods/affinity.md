@@ -6,7 +6,7 @@ draft: false
 ---
 
 #### Affinity and anti-affinity
-nodeSelector provides a very simple way to constrain pods to nodes with particular labels. The affinity/anti-affinity feature, currently in beta, greatly the types of constraints you can express. The key enhancements are:
+nodeSelector provides a very simple way to constrain pods to nodes with particular labels. The affinity/anti-affinity feature, currently in beta, greatly extends the types of constraints you can express. The key enhancements are:
 
 - The language is more expressive (not just “AND of exact match”)
 - You can indicate that the rule is “soft”/“preference” rather than a hard requirement, so if the scheduler can’t satisfy it, the pod will still be scheduled
