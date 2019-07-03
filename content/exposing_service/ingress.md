@@ -19,7 +19,7 @@ An Ingress does not expose arbitrary ports or protocols. Exposing services other
 #### The Ingress Resource
 A minimal ingress resource example:
 ```
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test-ingress
