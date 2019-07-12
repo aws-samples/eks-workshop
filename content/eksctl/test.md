@@ -12,7 +12,7 @@ You will likely see an error in the output similar to this:
 [✔]  EKS cluster "eksworkshop-eksctl" in "us-east-2" region is ready
 ```
 
-This is caused by eksctl wanting to use aws-iam-authencator to pull IAM tokens.
+This is caused by eksctl wanting to use aws-iam-authenticator to pull IAM tokens.
 As of aws-cli version 1.16.156, this token functionality is built in. Let's check
 our aws-cli version:
 ```
