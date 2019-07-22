@@ -57,13 +57,6 @@ eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-
 {{< /tab >}}}
 {{< /tabs >}}
 
-
-{{% notice note %}}
-If you see this error in the output, it can be safely ignored. We will fix
-it next:
-`[✖] neither aws-iam-authenticator nor heptio-authenticator-aws are installed`
-{{% /notice %}}
-
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}
