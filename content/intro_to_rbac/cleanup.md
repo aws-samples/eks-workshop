@@ -14,6 +14,6 @@ kubectl delete namespace rbac-test
 rm aws-auth.yaml
 rm rbacuser_creds.sh
 rm /tmp/create_output.json
-rm eksuser-role.yaml
+rm rbacuser-role.yaml
 aws iam delete-user --user-name rbac-user
 ```
