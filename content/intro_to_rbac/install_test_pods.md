@@ -5,7 +5,7 @@ draft: false
 weight: 11
 ---
 
-During this tutorial, we're going to test access to pods running in the rbac-test namespace.
+In this tutorial, we're going to demonstrate how to provide limited access to pods running in the rbac-test namespace for a user named rbac-user.
 
 To do that, let's first create the rbac-test namespace, and then install nginx into it:
 
