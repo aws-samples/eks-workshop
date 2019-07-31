@@ -33,7 +33,7 @@ You should see something similar to below, where we're now making API calls as r
 Now that we're making calls in the context of the rbac-user, lets quickly make a request to get all pods:
 
 ```
-kubectl get pods -nrbac-test
+kubectl get pods -n rbac-test
 ```
 
 You should get a response back similar to:
