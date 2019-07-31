@@ -17,7 +17,7 @@ kubectl create deploy nginx --image=nginx -n rbac-test
 To verify the test pods were properly installed, run:
 
 ```
-kubectl get all -nrbac-test
+kubectl get all -n rbac-test
 ```
 
 Output should be similar to:
