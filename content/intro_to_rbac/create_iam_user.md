@@ -5,23 +5,28 @@ draft: false
 weight: 20
 ---
 
-From within the terminal, create a new user called rbac-user:
-```
-aws iam create-user --user-name rbac-user
-```
-
 {{% notice note %}}
 For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have priveledged access; It is not a security best practice to store credentials on the filesystem.
 {{% /notice %}}
 
+From within the Cloud9 terminal, create a new user called rbac-user, and generate credentials for it:
 
-Next, we'll create and then save to disk the credentials for this user:
+{{< tabs name="Create EKS Cluster" >}}
 
-```
-aws iam create-access-key --user-name rbac-user | tee /tmp/create_output.json
-```
+{{{< tab name="Workshop at AWS event"  >}}
 
-You will get a response similar to the following with your SecretAccessKey and AccessKeyId:
+From within the Cloud9 terminal, run the script given to you by the AWS Workshop Staff.
+
+{{< /tab >}}
+
+{{< tab name="Workshop in your own account" codelang="output" >}}
+
+aws iam create-user --user-name rbac-user  &&  aws iam create-access-key --user-name rbac-user | tee /tmp/create_output.json
+
+{{< /tab >}}}
+{{< /tabs >}}
+
+Regardless if you are running this workshop at an AWS Event or on your own, by running the previous step, you should get a response similar to:
 
 ```
 {
