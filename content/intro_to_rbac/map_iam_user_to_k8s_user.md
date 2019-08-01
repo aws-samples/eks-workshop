@@ -7,7 +7,33 @@ weight: 30
 
 Next, we'll define a k8s user called rbac-user, and map to it's IAM user counterpart.  Run the following to create a ConfigMap called aws-auth.yaml that creates this mapping:
 
-```
+
+{{< tabs name="Map the User" >}}
+
+{{{< tab name="Workshop at AWS event" codelang="output" >}}
+
+cat << EoF > aws-auth.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: ${ROLE_NAME}
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+  mapUsers: |
+    - userarn: arn:aws:iam::749670941601:user/rbac-user
+      username: rbac-user
+EoF
+
+{{< /tab >}}
+
+{{< tab name="Workshop in your own account" codelang="output" >}}
+
 cat << EoF > aws-auth.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -25,9 +51,11 @@ data:
     - userarn: arn:aws:iam::$(aws sts get-caller-identity --output text --query Account):user/rbac-user
       username: rbac-user
 EoF
-```
 
-Note that rolearn and userarn will be dynamically populated when that file is created.  To verify everything populated and was created correctly, run the following:
+{{< /tab >}}}
+{{< /tabs >}}
+
+Some of the values may be dynamically populated when the file is created.  To verify everything populated and was created correctly, run the following:
 
 ```
 cat aws-auth.yaml
