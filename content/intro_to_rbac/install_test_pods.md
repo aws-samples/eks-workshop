@@ -17,7 +17,7 @@ kubectl create deploy nginx --image=nginx -n rbac-test
 To verify the test pods were properly installed, run:
 
 ```
-kubectl get all -nrbac-test
+kubectl get all -n rbac-test
 ```
 
 Output should be similar to:
@@ -31,7 +31,4 @@ deployment.apps/nginx   1/1     1            1           48s
 
 NAME                             DESIRED   CURRENT   READY   AGE
 replicaset.apps/nginx-5c7588df   1         1         1       48s
-
-NAME                          AGE
-mesh.appmesh.k8s.aws/dj-app   9d
 ```
