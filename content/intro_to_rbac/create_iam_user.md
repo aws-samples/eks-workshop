@@ -11,7 +11,7 @@ For the sake of simplicity, in this chapter, we will save credentials to a file 
 
 From within the Cloud9 terminal, create a new user called rbac-user, and generate credentials for it:
 
-{{< tabs name="Create EKS Cluster" >}}
+{{< tabs name="Create an IAM User" >}}
 
 {{{< tab name="Workshop at AWS event"  >}}
 
