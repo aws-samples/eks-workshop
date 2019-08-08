@@ -41,12 +41,6 @@ metadata:
   name: aws-auth
   namespace: kube-system
 data:
-  mapRoles: |
-    - rolearn: ${ROLE_NAME}
-      username: system:node:{{EC2PrivateDNSName}}
-      groups:
-        - system:bootstrappers
-        - system:nodes
   mapUsers: |
     - userarn: arn:aws:iam::$(aws sts get-caller-identity --output text --query Account):user/rbac-user
       username: rbac-user
