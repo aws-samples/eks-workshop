@@ -58,12 +58,6 @@ metadata:
   name: aws-auth
   namespace: kube-system
 data:
-  mapRoles: |
-    - rolearn: arn:aws:iam::123:role/eksctl-eksworkshop-eksctl-nodegroup-ng-ae-NodeInstanceRole-JEJWYEB12TNF
-      username: system:node:{{EC2PrivateDNSName}}
-      groups:
-        - system:bootstrappers
-        - system:nodes
   mapUsers: |
     - userarn: arn:aws:iam::123:user/rbac-user
       username: rbac-user
