@@ -13,7 +13,7 @@ kubectl get deployments
 Now let's scale up the backend services:
 ```
 kubectl scale deployment ecsdemo-nodejs --replicas=3
-kubectl scale deployment ecsdemo-crystal --replicas=3
+kubectl scale deployment ecsdemo-frontend --replicas=3
 ```
 Confirm by looking at deployments again:
 ```
