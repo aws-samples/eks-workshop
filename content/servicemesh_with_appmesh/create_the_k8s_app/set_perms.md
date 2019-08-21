@@ -79,7 +79,7 @@ cat <<EoF > k8s-appmesh-worker-policy.json
         "appmesh:DeleteVirtualService",
         "appmesh:DeleteVirtualRouter",
         "appmesh:DeleteRoute",
-        "appmesh:StreamAggregatedResources",
+        "appmesh:StreamAggregatedResources"
   ],
       "Resource": "*"
     }
