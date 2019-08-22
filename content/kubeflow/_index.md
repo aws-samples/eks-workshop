@@ -2,7 +2,7 @@
 title: "Machine Learning using Kubeflow"
 chapter: true
 weight: 49
-draft: true
+draft: false
 ---
 
 # Machine Learning using [Kubeflow](https://kubeflow.org/)
