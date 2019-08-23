@@ -61,13 +61,16 @@ kfctl apply all -V
 Wait for all pods to be in `Running` state:
 
 ```
-kubectl -n kubeflow pods all
+kubectl get pods -n kubeflow
 ```
 
 Validate that GPUs are available:
 
 ```
 kubectl get nodes "-o=custom-columns=NAME:.metadata.name,MEMORY:.status.allocatable.memory,CPU:.status.allocatable.cpu,GPU:.status.allocatable.nvidia\.com/gpu"
+NAME                                          MEMORY        CPU   GPU
+ip-192-168-54-93.us-east-2.compute.internal   251641628Ki   32    4
+ip-192-168-68-80.us-east-2.compute.internal   251641628Ki   32    4
 ```
 
 Get Kubeflow service endpoint:
