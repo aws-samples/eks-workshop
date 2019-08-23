@@ -10,12 +10,11 @@ draft: false
 Download 0.6.1+ release of `kfctl`. This binary will allow you to install Kubeflow on Amazon EKS:
 
 ```
-curl -Lo kfctl.tar.gz https://github.com/kubeflow/kubeflow/releases/download/v0.6.1/kfctl_v0.6.1_$(uname -s).tar.gz
-tar xzvf kfctl.tar.gz
-sudo mv kfctl /usr/local/bin/kfctl
+curl --silent --location "https://github.com/kubeflow/kubeflow/releases/download/v0.6.1/kfctl_v0.6.1_$(uname -s).tar.gz" | tar xz -C /tmp
+sudo mv -v /tmp/kfctl /usr/local/bin
 ```
 
-Download the configuration file:
+Download Kubeflow configuration file:
 
 ```
 CONFIG=~/environment/kfctl_aws.yaml
@@ -29,6 +28,14 @@ sed -i "s@eksctl-kubeflow-aws-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAM
 sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG}
 ```
 
+Until https://github.com/kubeflow/kubeflow/issues/3827 is fixed, install `aws-iam-authenticator`:
+
+```
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator
+chmod +x aws-iam-authenticator
+sudo mv aws-iam-authenticator /usr/local/bin
+```
+
 Set Kubeflow application name:
 
 ```
@@ -40,6 +47,11 @@ Initialize the cluster:
 
 ```
 kfctl init ${KFAPP} --config=${CONFIG} -V
+```
+
+Create and apply AWS and Kubernetes resources in the cluster:
+
+```
 cd ${KFAPP}
 
 kfctl generate all -V
@@ -49,7 +61,13 @@ kfctl apply all -V
 Wait for all pods to be in `Running` state:
 
 ```
-kubectl -n kubeflow get all
+kubectl -n kubeflow pods all
+```
+
+Validate that GPUs are available:
+
+```
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,MEMORY:.status.allocatable.memory,CPU:.status.allocatable.cpu,GPU:.status.allocatable.nvidia\.com/gpu"
 ```
 
 Get Kubeflow service endpoint:
