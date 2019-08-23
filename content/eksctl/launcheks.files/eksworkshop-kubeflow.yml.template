@@ -4,6 +4,7 @@
 
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
+availabilityZones: ["${AWS_AZ}"]
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
@@ -16,3 +17,4 @@ nodeGroups:
     minSize: 1
     maxSize: 2
     volumeSize: 500
+    availabilityZones: ["${AWS_AZ}"]
