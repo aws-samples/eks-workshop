@@ -46,7 +46,7 @@ kfctl generate all -V
 kfctl apply all -V
 ```
 
-Wait for all pods to be `Running` state:
+Wait for all pods to be in `Running` state:
 
 ```
 kubectl -n kubeflow get all
@@ -58,6 +58,6 @@ Get Kubeflow service endpoint:
 kubectl get ingress -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'
 ```
 
-Access the endpoint to see Kubeflow dashboard:
+Access the endpoint address in a browser to see Kubeflow dashboard:
 
 ![dashboard](/images/kubeflow/dashboard-welcome.png)
