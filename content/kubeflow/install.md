@@ -10,23 +10,38 @@ draft: false
 Download 0.6.1+ release of `kfctl`. This binary will allow you to install Kubeflow on Amazon EKS:
 
 ```
-curl -O https://github.com/kubeflow/kubeflow/releases/download/v0.6.1/kfctl_v0.6.1_darwin.tar.gz
-tar xzvf kfctl_v0.6.1_darwin.tar.gz
-mv kfctl /usr/local/bin/kfctl
+curl -Lo kfctl.tar.gz https://github.com/kubeflow/kubeflow/releases/download/v0.6.1/kfctl_v0.6.1_$(uname -s).tar.gz
+tar xzvf kfctl.tar.gz
+sudo mv kfctl /usr/local/bin/kfctl
 ```
 
 Download the configuration file:
 
 ```
-export CONFIG="/tmp/kfctl_aws.yaml"
-curl -o ${CONFIG} https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6.1/bootstrap/config/kfctl_aws.yaml
+CONFIG=~/environment/kfctl_aws.yaml
+curl -Lo ${CONFIG} https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6.1/bootstrap/config/kfctl_aws.yaml
 ```
 
-Customize this configuration file for Amazon EKS cluster name, AWS region, and IAM role for your worker nodes:
+Customize this configuration file for AWS region and IAM role for your worker nodes:
 
 ```
-export AWS_CLUSTER_NAME=<YOUR EKS CLUSTER NAME>
+sed -i "s@eksctl-kubeflow-aws-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAME@" ${CONFIG}
+sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG}
+```
+
+Set the cluster name:
+
+```
+export AWS_CLUSTER_NAME=eksworkshop-eksctl
 export KFAPP=${AWS_CLUSTER_NAME}
 ```
 
+Initialize the cluster:
 
+```
+kfctl init ${KFAPP} --config=${CONFIG} -V
+cd ${KFAPP}
+
+kfctl generate all -V
+kfctl apply all -V
+```
