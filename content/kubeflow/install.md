@@ -29,7 +29,7 @@ sed -i "s@eksctl-kubeflow-aws-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAM
 sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG}
 ```
 
-Set the cluster name:
+Set Kubeflow application name:
 
 ```
 export AWS_CLUSTER_NAME=eksworkshop-eksctl
@@ -45,3 +45,19 @@ cd ${KFAPP}
 kfctl generate all -V
 kfctl apply all -V
 ```
+
+Wait for all pods to be `Running` state:
+
+```
+kubectl -n kubeflow get all
+```
+
+Get Kubeflow service endpoint:
+
+```
+kubectl get ingress -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'
+```
+
+Access the endpoint to see Kubeflow dashboard:
+
+![dashboard](/images/kubeflow/dashboard-welcome.png)
