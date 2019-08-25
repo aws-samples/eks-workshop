@@ -2,7 +2,7 @@
 title: "Install"
 date: 2019-08-22T00:00:00-08:00
 weight: 10
-draft: false
+draft: true
 ---
 
 ### Install Kubeflow on Amazon EKS
@@ -58,7 +58,7 @@ kfctl generate all -V
 kfctl apply all -V
 ```
 
-Wait for all pods to be in `Running` state:
+Wait for all pods to be in `Running` state (this can take a few minutes):
 
 ```
 kubectl get pods -n kubeflow
