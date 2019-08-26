@@ -2,7 +2,7 @@
 title: "Install"
 date: 2019-08-22T00:00:00-08:00
 weight: 10
-draft: true
+draft: false
 ---
 
 ### Install Kubeflow on Amazon EKS
