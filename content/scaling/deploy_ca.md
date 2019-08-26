@@ -86,8 +86,7 @@ cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
         "autoscaling:DescribeAutoScalingGroups",
         "autoscaling:DescribeAutoScalingInstances",
         "autoscaling:SetDesiredCapacity",
-        "autoscaling:TerminateInstanceInAutoScalingGroup",
-        "autoscaling:DescribeTags"
+        "autoscaling:TerminateInstanceInAutoScalingGroup"
       ],
       "Resource": "*"
     }
