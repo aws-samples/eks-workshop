@@ -72,13 +72,3 @@ NAME                                          MEMORY        CPU   GPU
 ip-192-168-54-93.us-east-2.compute.internal   251641628Ki   32    4
 ip-192-168-68-80.us-east-2.compute.internal   251641628Ki   32    4
 ```
-
-Get Kubeflow service endpoint:
-
-```
-kubectl get ingress -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'
-```
-
-Access the endpoint address in a browser to see Kubeflow dashboard:
-
-![dashboard](/images/kubeflow/dashboard-welcome.png)
