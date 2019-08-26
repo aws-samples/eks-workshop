@@ -52,8 +52,15 @@ cat eksworkshop.yml
 eksctl create cluster -f eksworkshop.yml
 
 {{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="output" >}}
+{{< tab name="Workshop in your own account" codelang="bash" >}}
 eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+
+# If you're planning to run Machine Learning workloads, then use the following command instead
+curl -OL https://raw.githubusercontent.com/aws-samples/eks-workshop/work/content/eksctl/launcheks.files/eksworkshop-kubeflow.yml.template
+AWS_AZS=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[*].ZoneName' --output json | tr '\n' ' ' | sed 's/[][]//g')
+AWS_AZ=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[0].ZoneName' --output json)
+envsubst <eksworkshop-kubeflow.yml.template >eksworkshop-kubeflow.yml
+eksctl create cluster -f eksworkshop-kubeflow.yml
 {{< /tab >}}}
 {{< /tabs >}}
 
