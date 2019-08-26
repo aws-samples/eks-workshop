@@ -59,6 +59,10 @@ eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-
 curl -OL https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/eksctl/launcheks.files/eksworkshop-kubeflow.yml.template
 AWS_AZS=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[*].ZoneName' --output json | tr '\n' ' ' | sed 's/[][]//g')
 AWS_AZ=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[0].ZoneName' --output json)
+export AWS_AZS=${AWS_AZS}
+export AWS_AZ=${AWS_AZ}
+echo "export AWS_AZS=${AWS_AZS}" >> ~/.bash_profile
+export "AWS_AZ=${AWS_AZ}" >> ~/.bash_profile
 envsubst <eksworkshop-kubeflow.yml.template >eksworkshop-kubeflow.yml
 eksctl create cluster -f eksworkshop-kubeflow.yml
 {{< /tab >}}}
