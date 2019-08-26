@@ -5,7 +5,7 @@ weight: 20
 draft: false
 ---
 
-### Kubeflow Dashaboard
+### Kubeflow Dashboard
 
 Get Kubeflow service endpoint:
 
