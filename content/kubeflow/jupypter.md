@@ -35,3 +35,21 @@ CLick on **New**, select **Python3**
 
 ![dashboard](/images/kubeflow/jupyter-new-python3-notebook.png)
 
+This creates an empty Python 3 Jupyter notebook
+
+![dashboard](/images/kubeflow/jupyter-empty-notebook.png)
+
+Copy the [sample training code](kubeflow.files/mnist-tensorflow.py) and paste in the first code block. This Python sample code uses TensorFlow to create a training model for MNIST database. Click on **Run** to load this code in notebook.
+
+![dashboard](/images/kubeflow/jupyter-mnist-code.png)
+
+This also creates a new code block. Copy `main()` in this new code block and click on **Run** again
+
+![dashboard](/images/kubeflow/jupyter-mnist-code-main.png)
+
+This starts the model training and the output is shown on the notebook:
+
+![dashboard](/images/kubeflow/jupyter-mnist-training.png)
+
+The first few lines shows that TensorFlow and Keras dataset is downloaded. Training data set is 60k images and test data set is 10k images. Hyperparameters used for the training, outputs from five epochs, and finally the model accuracy is shown.
+
