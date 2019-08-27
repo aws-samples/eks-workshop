@@ -5,6 +5,8 @@ weight: 10
 draft: false
 ---
 
+In this chapter, we will install Kubeflow on Amazon EKS cluster. The cluster creation steps are outlined in [Launch EKS](/eksctl/launcheks/#create-eks-cluster-1) chapter.
+
 ### Install Kubeflow on Amazon EKS
 
 Download 0.6.1+ release of `kfctl`. This binary will allow you to install Kubeflow on Amazon EKS:
