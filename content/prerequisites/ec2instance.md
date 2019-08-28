@@ -1,7 +1,7 @@
 ---
 title: "Attach the IAM role to your Workspace"
 chapter: false
-weight: 26
+weight: 17
 ---
 
 1. Follow [this deep link to find your Cloud9 EC2 instance](https://console.aws.amazon.com/ec2/v2/home?#Instances:tag:Name=aws-cloud9-eksworkshop*;sort=desc:launchTime)

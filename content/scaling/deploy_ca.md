@@ -68,13 +68,7 @@ test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not 
 ```
 If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
 
-{{< tabs name="Create IAM policy for ASG" >}}
-{{{< tab name="Workshop at AWS event" >}}
-This IAM policy has been created for you  and has been attached to the correct role.<br>
-
-You can proceed with the next step.
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="go" >}}
+```
 mkdir ~/environment/asg_policy
 cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
 {
@@ -95,8 +89,7 @@ cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
 }
 EoF
 aws iam put-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker --policy-document file://~/environment/asg_policy/k8s-asg-policy.json
-{{< /tab >}}}
-{{< /tabs >}}
+```
 
 Validate that the policy is attached to the role
 ```
