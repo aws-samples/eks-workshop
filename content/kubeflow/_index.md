@@ -11,4 +11,4 @@ draft: false
 
 In this module, we will install Kubeflow on Amazon EKS, run a single-node training and inference using [TensorFlow](https://tensorflow.org/), and run distributed node training using [Horovod](https://github.com/horovod/horovod).
 
-![Kubeflow Logo](/images/kubeflow/kubeflow.png)
+![Kubeflow Logo](/images/kubeflow/kubeflow.svg)
