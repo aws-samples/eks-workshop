@@ -37,7 +37,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 ### Create an EKS cluster
 ```
-eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
+eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --alb-ingress-access --region=${AWS_REGION}
 ```
 
 #### If you're planning to run Machine Learning workloads in the Kubeflow chapter, then use the following command instead (note: this launches large p3 instances)
