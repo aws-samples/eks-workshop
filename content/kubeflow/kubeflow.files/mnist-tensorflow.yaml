@@ -8,7 +8,7 @@ metadata:
 spec:
   restartPolicy: OnFailure
   containers:
-  - name: mnist-tensorflow-keras
+  - name: mnist-tensorflow
     image: seedjeffwan/mnist_tensorflow_keras:1.13.1
     command:
       - "python"
@@ -20,6 +20,8 @@ spec:
       - "--epochs"
       - "40"
     env:
+      - name: AWS_REGION
+        value: $AWS_REGION
       - name: AWS_ACCESS_KEY_ID
         valueFrom:
           secretKeyRef:
