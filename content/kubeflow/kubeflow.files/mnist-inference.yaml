@@ -78,10 +78,3 @@ spec:
           requests:
             cpu: "1"
             memory: 1Gi
-        volumeMounts:
-        - mountPath: /var/config/
-          name: config-volume
-      volumes:
-      - configMap:
-          name: mnist-config
-        name: config-volume
