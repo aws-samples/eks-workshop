@@ -25,13 +25,6 @@ Delete the X-Ray DaemonSet:
 kubectl delete -f https://eksworkshop.com/x-ray/daemonset.files/xray-k8s-daemonset.yaml
 ```
 
-{{< tabs name="Detach IAM Policy from the Role" >}}
-{{{< tab name="Workshop at AWS event" >}}
-This IAM policy will be detached from the role for you.<br>
-
-You can safely proceed.
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="bash" >}}
+```
 aws iam detach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
-{{< /tab >}}}
-{{< /tabs >}}
+```

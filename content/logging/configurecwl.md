@@ -14,13 +14,7 @@ Original instructions for this are available at:
 
 http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_ES_Stream.html
 
-{{< tabs name="Create Lambda Basic Execution Role" >}}
-{{{< tab name="Workshop at AWS event" >}}
-This IAM Role has been created for you.<br>
-
-You can proceed with the next step.
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="go" >}}
+```
 cat <<EoF > ~/environment/iam_policy/lambda.json
 {
    "Version": "2012-10-17",
@@ -39,8 +33,7 @@ EoF
 aws iam create-role --role-name lambda_basic_execution --assume-role-policy-document file://~/environment/iam_policy/lambda.json
 
 aws iam attach-role-policy --role-name lambda_basic_execution --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-{{< /tab >}}}
-{{< /tabs >}}
+```
 
 Go to the [CloudWatch Logs console](https://console.aws.amazon.com/cloudwatch/home?#logs:)
 

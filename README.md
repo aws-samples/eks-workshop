@@ -22,7 +22,7 @@ From wherever you checkout repos:
 `git clone git@github.com:aws-samples/eks-workshop.git` (or your fork)
 
 #### Clone the theme submodule:
-`cd eksworkshop`
+`cd eks-workshop`
 
 `git submodule init` ;
 `git submodule update`
@@ -43,7 +43,7 @@ or
 `npm run test` will test the built content for bad links
 
 #### View Hugo locally:
-Visit http://localhost:1313/ to see the site.
+Visit http://localhost:8080/ to see the site.
 
 #### Making Edits:
 As you save edits to a page, the site will live-reload to show your changes.

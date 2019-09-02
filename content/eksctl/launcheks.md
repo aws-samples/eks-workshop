@@ -36,33 +36,20 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
 
 ### Create an EKS cluster
-{{< tabs name="Create EKS Cluster" >}}
-{{{< tab name="Workshop at AWS event" codelang="bash" >}}
-# To create a basic EKS cluster, we can start by downloading a config template:
-cd ~/environment
-wget https://eksworkshop.com/eksctl/launcheks.files/eksworkshop.yml.template
+```
+eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --alb-ingress-access --region=${AWS_REGION}
+```
 
-# Next, let's fill in the template variables with values from our environment:
-envsubst <eksworkshop.yml.template >eksworkshop.yml
-
-# We can examine the rendered output by viewing `eksworkshop.yml`:
-cat eksworkshop.yml
-
-# Finally, now that we have the proper config generated, we can launch EKS:
-eksctl create cluster -f eksworkshop.yml
-
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="output" >}}
-eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=3 --node-ami=auto --region=${AWS_REGION}
-{{< /tab >}}}
-{{< /tabs >}}
-
-
-{{% notice note %}}
-If you see this error in the output, it can be safely ignored. We will fix
-it next:
-`[✖] neither aws-iam-authenticator nor heptio-authenticator-aws are installed`
-{{% /notice %}}
+#### If you're planning to run Machine Learning workloads in the Kubeflow chapter, then use the following command instead (note: this launches large p3 instances)
+```
+curl -OL https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/eksctl/launcheks.files/eksworkshop-kubeflow.yml.template
+export AWS_AZS=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[*].ZoneName' --output json | tr '\n' ' ' | sed 's/[][]//g')
+export AWS_AZ=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[0].ZoneName' --output json)
+echo "export AWS_AZS=${AWS_AZS}" >> ~/.bash_profile
+export "AWS_AZ=${AWS_AZ}" >> ~/.bash_profile
+envsubst <eksworkshop-kubeflow.yml.template >eksworkshop-kubeflow.yml
+eksctl create cluster -f eksworkshop-kubeflow.yml
+```
 
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
