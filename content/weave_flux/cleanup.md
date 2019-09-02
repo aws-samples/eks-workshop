@@ -1,0 +1,52 @@
+---
+title: "Cleanup"
+date: 2018-10-087T08:30:11-07:00
+weight: 35
+draft: false
+---
+
+Congratulations on completing the GitOps with Weave Flux module. 
+
+This module is not used in subsequent steps, so you can remove the resources now, or at the end of the workshop.
+
+First, delete all images from the [Amazon ECR Repository](https://console.aws.amazon.com/ecr/repositories).
+
+Next, go to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/) and delete the stack used to deploy the image build CodePipeline
+
+Now, delete Weave Flux and your load balanced services
+
+```
+helm delete flux --purge
+kubectl delete ns flux 
+kubectl delete crd helmreleases.flux.weave.works
+
+helm delete mywebserver --purge 
+kubectl delete ns nginx
+kubectl delete svc eks-example -n eks-example
+kubectl delete deployment eks-example -n eks-example
+kubectl delete ns eks-example
+```
+
+Optionally go to GitHub and delete your k8s-config and eks-example repositories.  
+
+
+{{% notice info %}}
+If you are using your own account for this workshop, continue with the below steps.  If doing this at an AWS event, skip the steps below.
+{{% /notice %}}
+
+Remove IAM roles you previously created 
+
+```
+aws iam delete-role-policy --role-name eksworkshop-CodePipelineServiceRole --policy-name codepipeline-access 
+aws iam delete-role --role-name eksworkshop-CodePipelineServiceRole
+aws iam delete-role-policy --role-name eksworkshop-CodeBuildServiceRole --policy-name codebuild-access 
+aws iam delete-role --role-name eksworkshop-CodeBuildServiceRole
+```
+
+Remove the artifact bucket you previously created 
+```
+aws sts get-caller-identity
+ACCT=123456789012
+aws s3 rb s3://eksworkshop-${ACCT}-codepipeline-artifacts --force
+```
+
