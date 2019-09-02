@@ -47,10 +47,6 @@ kubectl get pods -n flux
 
 Install fluxctl in order to get the SSH key to allow GitHub write access.  This allows Flux to keep the configuration in GitHub in sync with the configuration deployed in the cluster.  
 
-{{% notice info %}}
-The steps below assume you are installing in a Cloud9 Linux instance.  If you are using Mac you can *brew install fluxctl*.  Otherwise, check the [fluxctl documentation](https://github.com/weaveworks/flux/blob/master/site/fluxctl.md). 
-{{% /notice %}}
-
 ```
 sudo wget -O /usr/local/bin/fluxctl https://github.com/weaveworks/flux/releases/download/1.12.3/fluxctl_linux_amd64
 sudo chmod 755 /usr/local/bin/fluxctl
@@ -61,7 +57,7 @@ fluxctl identity --k8s-fwd-ns flux
 
 Copy the provided key and add that as a deploy key in the GitHub repository.  
 
-* In GitHub, select your k8s-config GitHub repo.  Go to **Settings** and click **Deploy Keys**.  Alternatively, you can go by direct URL by replacing your user name in this URL: **https://github.com/YOURUSER/k8s-config/settings/keys**.  
+* In GitHub, select your k8s-config GitHub repo.  Go to **Settings** and click **Deploy Keys**.  Alternatively, you can go by direct URL by replacing your user name in this URL: **github.com/YOURUSER/k8s-config/settings/keys**.  
 * Click on **Add Deploy Key**
  * Name: **Flux Deploy Key**
  * Paste the key output from fluxctl
