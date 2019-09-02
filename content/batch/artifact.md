@@ -11,16 +11,9 @@ Argo uses an artifact repository to pass data between jobs in a workflow, known 
 
 Let's create a S3 bucket using the AWS CLI.
 
-{{< tabs name="Create S3 Bucket" >}}
-{{{< tab name="Workshop at AWS event" >}}
-This S3 bucket has been created for you.<br>
-
-You can proceed with the next step.
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="bash" >}}
+```
 aws s3 mb s3://batch-artifact-repository-${ACCOUNT_ID}/
-{{< /tab >}}}
-{{< /tabs >}}
+```
 
 Next, edit the workflow-controller ConfigMap to use the S3 bucket.
 
@@ -61,13 +54,7 @@ ROLE_NAME is eks-workshop-nodegroup
 
 Create and policy and attach to the worker node role.
 
-{{< tabs name="Create IAM policy and attach to the worker node role." >}}
-{{{< tab name="Workshop at AWS event" >}}
-This IAM policy has been created for you  and has been attached to the correct role.<br>
-
-You can proceed with the next step.
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="bash" >}}
+```
 mkdir ~/environment/batch_policy
 cat <<EoF > ~/environment/batch_policy/k8s-s3-policy.json
 {
@@ -87,10 +74,7 @@ cat <<EoF > ~/environment/batch_policy/k8s-s3-policy.json
 }
 EoF
 aws iam put-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker --policy-document file://~/environment/batch_policy/k8s-s3-policy.json
-{{< /tab >}}}
-{{< /tabs >}}
-
-
+```
 
 Validate that the policy is attached to the role
 ```
