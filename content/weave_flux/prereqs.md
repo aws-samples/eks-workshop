@@ -23,22 +23,9 @@ to interact with the EKS cluster via kubectl.
 
 Create the bucket and roles:
 
-{{< tabs name="Create IAM Roles and S3 Bucket" >}}
-{{{< tab name="Workshop at AWS event" >}}
-The required IAM roles and S3 bucket have been created for you as follows:<br>
-<br>
-S3 Artifact Bucket:         eksworkshop-<account number>-codepipeline-artifacts <br>
-CodePipeline Service Role:  eksworkshop-CodePipelineServiceRole <br>
-CodeBuild Service Role:     eksworkshop-CodeBuildServiceRole <br>
-<br>
-You can proceed with the next step.
-{{< /tab >}}
-{{< tab name="Workshop in your own account" codelang="bash" >}}
-aws sts get-caller-identity
-
+```
 # Use your account number below
-ACCT=123456789012
-aws s3 mb s3://eksworkshop-${ACCT}-codepipeline-artifacts
+aws s3 mb s3://eksworkshop-${ACCOUNT_ID}-codepipeline-artifacts
 
 cd ~/environment
 
@@ -57,6 +44,4 @@ aws iam create-role --role-name eksworkshop-CodeBuildServiceRole --assume-role-p
 wget https://eksworkshop.com/weave_flux/iam.files/cbPolicyDocument.json
 
 aws iam put-role-policy --role-name eksworkshop-CodeBuildServiceRole --policy-name codebuild-access --policy-document file://cbPolicyDocument.json
-
-{{< /tab >}}}
-{{< /tabs >}}
+```
