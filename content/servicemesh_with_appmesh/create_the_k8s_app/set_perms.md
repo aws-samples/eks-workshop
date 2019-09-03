@@ -37,16 +37,7 @@ aws configure get default.region
 Copy and paste the below code to add the permissions as an inline policy to your worker node instances:
 
 ### Setup Permissions for the Worker Nodes
-{{< tabs name="Create EKS Cluster" >}}
-
-{{{< tab name="Workshop at AWS event"  >}}
-If you are performing these steps during a Workshop at an AWS event, the steps have already been completed, and you may continue to the next step below of verifying the policy is attached to the role.
-
-{{< /tab >}}
-
-{{< tab name="Workshop in your own account" codelang="output" >}}
-
-
+```
 cat <<EoF > k8s-appmesh-worker-policy.json
 {
   "Version": "2012-10-17",
@@ -78,7 +69,8 @@ cat <<EoF > k8s-appmesh-worker-policy.json
         "appmesh:DeleteVirtualNode",
         "appmesh:DeleteVirtualService",
         "appmesh:DeleteVirtualRouter",
-        "appmesh:DeleteRoute"
+        "appmesh:DeleteRoute",
+        "appmesh:StreamAggregatedResources"
   ],
       "Resource": "*"
     }
@@ -87,9 +79,7 @@ cat <<EoF > k8s-appmesh-worker-policy.json
 EoF
 
 aws iam put-role-policy --role-name $ROLE_NAME --policy-name AM-Policy-For-Worker --policy-document file://k8s-appmesh-worker-policy.json
-
-{{< /tab >}}}
-{{< /tabs >}}
+```
 
 To verify the policy was attached to the role, run the following command:
 

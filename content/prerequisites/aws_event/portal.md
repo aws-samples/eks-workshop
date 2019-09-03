@@ -29,4 +29,4 @@ Once you have been logged in, please first log into the AWS console by clicking 
 The workshop added an IAM role for performing all the steps of the workshop in the Cloud9 Environment. You do not need to add a role to the instance powering the Cloud9 Environment.
 {{% /notice %}}
 
-Once you have completed the step above, you can head straight to [**Install Kubernetes Tools**](/prerequisites/k8stools/)
+Once you have completed the step above, you can head straight to [**Create a Workspace**](/prerequisites/workspace/)
