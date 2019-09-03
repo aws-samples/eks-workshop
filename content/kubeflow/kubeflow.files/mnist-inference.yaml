@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: mnist
+    type: inference
   name: mnist-service
   namespace: default
 spec:
@@ -22,6 +23,7 @@ kind: Deployment
 metadata:
   labels:
     app: mnist
+    type: inference
   name: mnist
   namespace: default
 spec:
