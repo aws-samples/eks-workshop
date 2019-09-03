@@ -32,6 +32,7 @@ spec:
       labels:
         app: mnist
         version: v1
+        type: inference
     spec:
       containers:
       - args:
