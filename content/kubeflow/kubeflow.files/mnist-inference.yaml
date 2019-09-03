@@ -4,7 +4,7 @@ metadata:
   labels:
     app: mnist
     type: inference
-  name: mnist-service
+  name: mnist-inference
   namespace: default
 spec:
   ports:
@@ -24,7 +24,7 @@ metadata:
   labels:
     app: mnist
     type: inference
-  name: mnist
+  name: mnist-inference
   namespace: default
 spec:
   template:
