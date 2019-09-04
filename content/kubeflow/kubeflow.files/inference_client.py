@@ -4,7 +4,6 @@ from tensorflow import keras
 
 # Helper libraries
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 import subprocess
 import argparse
@@ -12,14 +11,6 @@ import argparse
 import random
 import json
 import requests
-
-
-def show(dataset, idx, title):
-  plt.figure()
-  plt.imshow(dataset[idx].reshape(28,28))
-  plt.show()
-  plt.axis('off')
-  plt.title('\n\n{}'.format(title), fontdict={'size': 16})
 
 
 def main(argv=None):
@@ -55,7 +46,6 @@ def main(argv=None):
   title = 'The model thought this was a {} (class {}), and it was actually a {} (class {})'.format(
     class_names[np.argmax(predictions[0])], test_labels[rando], class_names[np.argmax(predictions[0])], test_labels[rando])
   print(title)
-  show(test_images, rando, title)
 
 if __name__ == "__main__":
   main()
