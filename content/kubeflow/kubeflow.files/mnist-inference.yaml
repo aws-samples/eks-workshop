@@ -43,7 +43,6 @@ spec:
         - --rest_api_port=8500
         - --model_name=mnist
         - --model_base_path=s3://$S3_BUCKET/mnist/tf_saved_model
-        - --monitoring_config_file=/var/config/monitoring_config.txt
         command:
         - /usr/bin/tensorflow_model_server
         env:
