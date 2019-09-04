@@ -66,7 +66,7 @@ EOF
 Create pod:
 
 ```
-curl -LO https://raw.githubusercontent.com/arun-gupta/eks-workshop/kubeflow/content/kubeflow/kubeflow.files/mnist-tensorflow.yaml
+curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/mnist-training.yaml
 envsubst <mnist-tensorflow.yaml | kubectl create -f -
 ```
 
