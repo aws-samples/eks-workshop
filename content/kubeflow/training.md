@@ -34,7 +34,6 @@ This name will be used in the pod specification later. This bucket is also used 
 
 If you want to use an existing bucket in a different region, then make sure to specify the exact region as the value of `AWS_REGION` environment variable in `mnist-training.yaml`.
 
-
 #### Setup AWS credentials in EKS cluster
 
 AWS credentials are required to save model on S3 bucket. These credentials are stored in EKS cluster as Kubernetes secrets.

@@ -1,0 +1,238 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: CFN Template to deploy CodePipeline to build Docker Image and push to ECR
+
+Parameters:
+
+  GitSourceRepo:
+    Type: String
+    Description: GitHub source repository - must contain a Dockerfile in the base
+    Default: eks-example
+    MinLength: 1
+    MaxLength: 100
+    ConstraintDescription: You must enter a GitHub repository name
+
+  GitBranch:
+    Type: String
+    Default: master
+    Description: GitHub git repository branch - change triggers a new build
+    MinLength: 1
+    MaxLength: 100
+    ConstraintDescription: You must enter a GitHub repository branch name
+
+  GitHubToken:
+    Type: String
+    NoEcho: true
+    Description: GitHub API token from https://github.com/settings/tokens
+    MinLength: 3
+    MaxLength: 100
+    ConstraintDescription: You must enter a GitHub personal access token
+
+  GitHubUser:
+    Type: String
+    Description: GitHub username or organization
+    MinLength: 3
+    MaxLength: 100
+    ConstraintDescription: You must enter a GitHub username or organization
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: GitHub
+        Parameters:
+          - GitHubUser
+          - GitHubToken
+          - GitSourceRepo
+          - GitBranch
+    ParameterLabels:
+      GitHubUser:
+        default: Username
+      GitHubToken:
+        default: Access token
+      GitSourceRepo:
+        default: Repository
+      GitBranch:
+        default: Branch
+
+Resources:
+
+  EcrDockerRepository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    Properties:
+      RepositoryName: !Ref GitSourceRepo
+
+  #CodePipelineArtifactBucket:
+  #  Type: AWS::S3::Bucket
+  #  DeletionPolicy: Retain
+
+  #CodePipelineServiceRole:
+  #  Type: AWS::IAM::Role
+  #  Properties:
+  #    Path: /
+  #    AssumeRolePolicyDocument:
+  #      Version: 2012-10-17
+  #      Statement:
+  #        - Effect: Allow
+  #          Principal:
+  #            Service: codepipeline.amazonaws.com
+  #          Action: sts:AssumeRole
+  #    Policies:
+  #      - PolicyName: codepipeline-access
+  #        PolicyDocument:
+  #          Version: 2012-10-17
+  #          Statement:
+  #            - Resource: "*"
+  #              Effect: Allow
+  #              Action:
+  #                - codebuild:StartBuild
+  #                - codebuild:BatchGetBuilds
+  #                - codecommit:GetBranch
+  #                - codecommit:GetCommit
+  #                - codecommit:UploadArchive
+  #                - codecommit:GetUploadArchiveStatus
+  #                - codecommit:CancelUploadArchive
+  #                - iam:PassRole
+  #            - Resource: !Sub arn:aws:s3:::${CodePipelineArtifactBucket}/*
+  #              Effect: Allow
+  #              Action:
+  #                - s3:PutObject
+  #                - s3:GetObject
+  #                - s3:GetObjectVersion
+  #                - s3:GetBucketVersioning
+  #  DependsOn: CodePipelineArtifactBucket
+
+  #CodeBuildServiceRole:
+  #  Type: AWS::IAM::Role
+  #  Properties:
+  #    Path: /
+  #    AssumeRolePolicyDocument:
+  #      Version: 2012-10-17
+  #      Statement:
+  #        - Effect: Allow
+  #          Principal:
+  #            Service: codebuild.amazonaws.com
+  #          Action: sts:AssumeRole
+  #    Policies:
+  #      - PolicyName: root
+  #        PolicyDocument:
+  #          Version: 2012-10-17
+  #          Statement:
+  #            - Resource: '*'
+  #              Effect: Allow
+  #              Action:
+  #                - logs:CreateLogGroup
+  #                - logs:CreateLogStream
+  #                - logs:PutLogEvents
+  #            - Resource: '*'
+  #              Effect: Allow
+  #              Action:
+  #                - ecr:GetAuthorizationToken
+  #            - Resource: !Sub arn:aws:s3:::${CodePipelineArtifactBucket}/*
+  #              Effect: Allow
+  #              Action:
+  #                - s3:GetObject
+  #                - s3:PutObject
+  #                - s3:GetObjectVersion
+  #            - Resource: !Sub arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${EcrDockerRepository}
+  #              Effect: Allow
+  #              Action:
+  #                - ecr:GetDownloadUrlForLayer
+  #                - ecr:BatchGetImage
+  #                - ecr:BatchCheckLayerAvailability
+  #                - ecr:PutImage
+  #                - ecr:InitiateLayerUpload
+  #                - ecr:UploadLayerPart
+  #                - ecr:CompleteLayerUpload
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: CODEPIPELINE
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                docker: 18
+              commands:
+                - apt-get -y update
+                - apt-get -y install jq
+            pre_build:
+              commands:
+                - echo "Starting docker daemon..."
+                - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
+                - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+                - echo "Logging into Amazon ECR..."
+                - $(aws ecr get-login --no-include-email --region ${AWS_DEFAULT_REGION})
+                - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+            build:
+              commands:
+                - echo Build started on `date`
+                - docker build -t "${REPOSITORY_URI}:latest" .
+                - docker tag "${REPOSITORY_URI}:latest" "${REPOSITORY_URI}:${TAG}"
+            post_build:
+              commands:
+                - echo Build completed on `date`
+                - echo "Pushing Docker image to ECR"
+                - docker push "${REPOSITORY_URI}:latest"
+                - docker push "${REPOSITORY_URI}:${TAG}"
+                - printf '{"Tag":"%s","RepositoryUri":"%s"}' $TAG $REPOSITORY_URI $PROJECT_NAME $ARTIFACT_BUCKET > build.json
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Type: LINUX_CONTAINER
+        Image: "aws/codebuild/standard:2.0"
+        PrivilegedMode: True
+        EnvironmentVariables:
+          - Name: AWS_DEFAULT_REGION
+            Value: !Ref AWS::Region
+          - Name: REPOSITORY_URI
+            Value: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${EcrDockerRepository}
+      Name: !Ref AWS::StackName
+      ServiceRole: !Sub arn:aws:iam::${AWS::AccountId}:role/eksworkshop-CodeBuildServiceRole
+
+  CodePipelineGitHub:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/eksworkshop-CodePipelineServiceRole
+      ArtifactStore:
+        Type: S3
+        Location: !Sub eksworkshop-${AWS::AccountId}-codepipeline-artifacts
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: App
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: !Ref GitHubUser
+                Repo: !Ref GitSourceRepo
+                Branch: !Ref GitBranch
+                OAuthToken: !Ref GitHubToken
+              OutputArtifacts:
+                - Name: App
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: Build
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              InputArtifacts:
+                - Name: App
+              OutputArtifacts:
+                - Name: BuildOutput
+              RunOrder: 1
+    DependsOn: CodeBuildProject
