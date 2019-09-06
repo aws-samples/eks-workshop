@@ -16,7 +16,7 @@ manage the drift as you need to update releases
 #### Install Jenkins
 
 ```
-helm install stable/jenkins --set rbac.create=true --name cicd
+helm install stable/jenkins --set rbac.create=true,master.servicePort=80 --name cicd
 ```
 
 The output of this command will give you some additional information such as the
@@ -36,5 +36,8 @@ Once this changes to `running` we can get the `load balancer` address.
 
 ```
 export SERVICE_IP=$(kubectl get svc --namespace default cicd-jenkins --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
-echo http://$SERVICE_IP:8080/login
+echo http://$SERVICE_IP/login
 ```
+
+Depending on your environment the AWS loadbalancer health checks may take a few minutes to put the jenkins instances in service and during this time the link above may display a "site unreachable" message. To check if the instances are in service, follow this [deep link](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:tag:kubernetes.io/service-name=default/cicd-jenkins;sort=loadBalancerName) to the load balancer console. On the load balancer select the instances tab and ensure that the instance status is listed as "InService" before proceeding to the jenkins login page. 
+
