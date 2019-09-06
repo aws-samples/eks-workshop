@@ -39,5 +39,12 @@ export SERVICE_IP=$(kubectl get svc --namespace default cicd-jenkins --template 
 echo http://$SERVICE_IP/login
 ```
 
-Depending on your environment the AWS loadbalancer health checks may take a few minutes to put the jenkins instances in service and during this time the link above may display a "site unreachable" message. To check if the instances are in service, follow this [deep link](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:tag:kubernetes.io/service-name=default/cicd-jenkins;sort=loadBalancerName) to the load balancer console. On the load balancer select the instances tab and ensure that the instance status is listed as "InService" before proceeding to the jenkins login page. 
+{{% notice info %}}
+This service was configured with a [LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) so,
+an [AWS Elastic Load Balancer](https://aws.amazon.com/elasticloadbalancing/) (ELB) is launched by Kubernetes for the service.
+The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com" - the full value is the DNS address.
+{{% /notice %}}
 
+{{% notice tip %}}
+When the front-end service is first deployed, it can take up to several minutes for the ELB to be created and DNS updated. During this time the link above may display a "site unreachable" message. To check if the instances are in service, follow this [deep link](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:tag:kubernetes.io/service-name=default/cicd-jenkins;sort=loadBalancerName) to the load balancer console. On the load balancer select the instances tab and ensure that the instance status is listed as "InService" before proceeding to the jenkins login page. 
+{{% /notice %}}
