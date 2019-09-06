@@ -32,6 +32,7 @@ aws s3 mb s3://$S3_BUCKET --region $AWS_REGION
 
 This name will be used in the pod specification later. This bucket is also used for serving the model.
 
+If you want to use an existing bucket in a different region, then make sure to specify the exact region as the value of `AWS_REGION` environment variable in `mnist-training.yaml`.
 
 #### Setup AWS credentials in EKS cluster
 
@@ -66,21 +67,21 @@ EOF
 Create pod:
 
 ```
-curl -LO https://raw.githubusercontent.com/arun-gupta/eks-workshop/kubeflow/content/kubeflow/kubeflow.files/mnist-tensorflow.yaml
+curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/mnist-training.yaml
 envsubst <mnist-tensorflow.yaml | kubectl create -f -
 ```
 
-This will start a pod which will start the training and save the generated model in the S3 bucket. Check status:
+This will start a pod which will start the training and save the generated model in S3 bucket. Check status:
 
 ```
 kubectl get pods
-NAME               READY   STATUS    RESTARTS   AGE
-mnist-tensorflow   1/1     Running   0          2m45s
+NAME              READY   STATUS    RESTARTS   AGE
+mnist-training    1/1     Running   0          2m45s
 ```
 
 {{%expand "Expand here to see complete logs" %}}
 ```
-kubectl logs mnist-tensorflow -f
+kubectl logs mnist-training -f
 Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-labels-idx1-ubyte.gz
 32768/29515 [=================================] - 0s 1us/step
 40960/29515 [=========================================] - 0s 0us/step
