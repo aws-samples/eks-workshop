@@ -7,11 +7,12 @@ draft: false
 
 #### Is **helm** installed?
 
-We will use **helm** to install Weave Flux and a sample Helm chart. Please review  [installing helm chapter](/helm_root/helm_intro/install/index.html) for instructions if you don't have it installed.
+We will use **helm** to install Weave Flux and a sample Helm chart. Check to see if `helm` is installed:
 
 ```
-helm ls
+helm version
 ```
+If `helm` is not found, see [installing helm](/helm_root/helm_intro/install/index.html) for instructions.
 
 <br>
 #### Does S3 artifact bucket exist and are IAM service roles created?
