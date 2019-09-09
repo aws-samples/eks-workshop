@@ -45,8 +45,7 @@ aws iam delete-role --role-name eksworkshop-CodeBuildServiceRole
 
 Remove the artifact bucket you previously created 
 ```
-aws sts get-caller-identity
-ACCT=123456789012
-aws s3 rb s3://eksworkshop-${ACCT}-codepipeline-artifacts --force
+ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
+aws s3 rb s3://eksworkshop-${ACCOUNT_ID}-codepipeline-artifacts --force
 ```
 
