@@ -42,7 +42,7 @@ Update the username (YOURUSER) below to match your GitHub user name.
 {{% /notice %}}
 
 ```
-git clone git@github.com:YOURUSER/eks-example.git
+git clone https://github.com/YOURUSER/eks-example.git
 cd eks-example
 ```
 
