@@ -10,7 +10,7 @@ Now we will use Helm to install Weave Flux into our cluster and enable it to int
 First, install the Flux Custom Resource Definition:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/weaveworks/flux/master/deploy-helm/flux-helm-release-crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/fluxcd/flux/helm-0.10.1/deploy-helm/flux-helm-release-crd.yaml
 ```
 
 Check that Tiller is installed. 
@@ -30,14 +30,14 @@ Update the Git URL below to match your user name and Kubernetes configuration ma
 {{% /notice %}}
 
 ```
-helm repo add weaveworks https://weaveworks.github.io/flux
+helm repo add fluxcd https://charts.fluxcd.io
 
 helm upgrade -i flux \
 --set helmOperator.create=true \
 --set helmOperator.createCRD=false \
 --set git.url=git@github.com:YOURUSER/k8s-config \
 --namespace flux \
-weaveworks/flux
+fluxcd/flux
 ```
 
 Watch the install and confirm everything starts.  There should be 3 pods.  
@@ -48,7 +48,7 @@ kubectl get pods -n flux
 Install fluxctl in order to get the SSH key to allow GitHub write access.  This allows Flux to keep the configuration in GitHub in sync with the configuration deployed in the cluster.  
 
 ```
-sudo wget -O /usr/local/bin/fluxctl https://github.com/weaveworks/flux/releases/download/1.12.3/fluxctl_linux_amd64
+sudo wget -O /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/1.14.1/fluxctl_linux_amd64
 sudo chmod 755 /usr/local/bin/fluxctl
 
 fluxctl version
