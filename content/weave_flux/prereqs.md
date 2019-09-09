@@ -25,6 +25,7 @@ Create the bucket and roles:
 
 ```
 # Use your account number below
+ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
 aws s3 mb s3://eksworkshop-${ACCOUNT_ID}-codepipeline-artifacts
 
 cd ~/environment
