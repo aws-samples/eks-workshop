@@ -37,8 +37,3 @@ Namespaces are an excellent way of creating security boundaries, they also provi
 In this module, we're going to explore k8s RBAC by creating an IAM user called rbac-user who is authenticated to access the EKS cluster but is only authorized (via RBAC) to list, get, and watch pods and deployments in the 'rbac-test' namespace.
 
 To achieve this, we'll create an IAM user, map that user to a kubernetes role, then perform kubernetes actions under that user's context.
-
-### Objectives for this module
-In this module, we're going to explore k8s RBAC by creating an IAM user called rbac-user who is authenticated to access the EKS cluster but is only authorized (via RBAC) to list, get, and watch pods and deployments.
-
-To achieve this, we'll create an IAM user, map that user to a kubernetes role, then perform kubernetes actions under that user's context.
