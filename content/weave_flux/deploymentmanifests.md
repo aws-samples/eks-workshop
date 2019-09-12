@@ -13,7 +13,7 @@ Update the username (YOURUSER) below to match your GitHub user name.
 
 ```
 cd ..
-git clone git@github.com:YOURUSER/k8s-config.git     
+git clone https://github.com/YOURUSER/k8s-config.git     
 cd k8s-config
 mkdir charts namespaces releases workloads
 ```
