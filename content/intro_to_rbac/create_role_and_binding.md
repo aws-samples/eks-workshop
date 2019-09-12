@@ -26,7 +26,7 @@ The output should show the user is no longer rbac-user:
 {
 "Account": <AWS Account ID>,
 "UserId": <AWS User ID>,
-"Arn": "arn:aws:iam::<your AWS account ID>:user/<admin IAM user>"
+"Arn": "arn:aws:iam::<your AWS account ID>:assumed-role/eksworkshop-admin/i-123456789"
 }
 ```
 
