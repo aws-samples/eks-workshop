@@ -1,7 +1,7 @@
 ---
 title: "Create a Workspace"
 chapter: false
-weight: 15
+weight: 14
 ---
 
 {{% notice warning %}}
