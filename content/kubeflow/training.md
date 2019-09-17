@@ -68,7 +68,7 @@ Create pod:
 
 ```
 curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/mnist-training.yaml
-envsubst <mnist-tensorflow.yaml | kubectl create -f -
+envsubst <mnist-training.yaml | kubectl create -f -
 ```
 
 This will start a pod which will start the training and save the generated model in S3 bucket. Check status:
