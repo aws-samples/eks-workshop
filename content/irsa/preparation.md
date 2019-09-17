@@ -39,5 +39,8 @@ If your aws cli version is lower than 1.16.232, use [Installing the AWS CLI](htt
 ```
 aws eks describe-cluster --name eksworkshop-eksctl --query cluster.identity.oidc.issuer --output text
 ```
+  <div data-proofer-ignore>
+    https://oidc.eks.{AWS_REGION}.amazonaws.com/id/D48675832CA65BD10A532F59741CF90B
+  </div>
 
-> https://oidc.eks.{AWS_REGION}.amazonaws.com/id/D48675832CA65BD10A532F59741CF90B
+
