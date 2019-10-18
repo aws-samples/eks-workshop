@@ -9,6 +9,9 @@ There are 2 components that work together to collect Metrics, Logs data for Cont
 1. CloudWatch agent
 2. FluentD
 
+#### Demo App
+In this section we will be setting up Container Insights for the ECS Demo app that you created in the *Deploy the Example Microservices* section earlier. If you haven't done that yet, go ahead and deploy the application and come back here again to proceed with Container Insights.
+
 #### Prerequisites
 Before you proceed further make sure the prerequisites mentioned in this link are taken care of
 
@@ -19,7 +22,7 @@ Before you proceed further make sure the prerequisites mentioned in this link ar
 #### Option 1
 #### Quick start setup
 
-Follow the quickstart setup for Container Insights on EKS easily in one easy step. This is the fastest way to setup CloudWatch Container Insights for your cluster. If you want to take a step by step approach to understand clearly, skip this step and go to steps under Option 2.
+Follow the quickstart setup for Container Insights on EKS easily in one easy step. This is the fastest way to setup CloudWatch Container Insights for your cluster. If you want to take a step by step approach to understand clearly, skip this step and go to instructions under Option 2.
 
 * https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html
 
@@ -45,3 +48,4 @@ Follow these instructions to setup FluentD as a DaemonSet in your EKS cluster
 
 * https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs.html 
 
+{{% children showhidden="false" %}}
