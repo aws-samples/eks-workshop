@@ -9,43 +9,38 @@ There are 2 components that work together to collect Metrics, Logs data for Cont
 1. CloudWatch agent
 2. FluentD
 
-#### Demo App
-In this section we will be setting up Container Insights for the ECS Demo app that you created in the *Deploy the Example Microservices* section earlier. If you haven't done that yet, go ahead and deploy the application and come back here again to proceed with Container Insights.
-
-#### Prerequisites
-Before you proceed further make sure the prerequisites mentioned in this link are taken care of
-
-* https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-prerequisites.html
+#### Application setup
+In this section we will be setting up Container Insights for the ECS Demo app that you created in the **Deploy the Example Microservices** section earlier. If you haven't done that yet, go ahead and deploy the application and come back here again to proceed with Container Insights.
 
 ------------------------------------------------------------
 
-#### Option 1
-#### Quick start setup
+#### Setup IAM role
+In order for the EKS worker nodes to be able to send logs and metrics to CloudWatch, follow the steps below
 
-Follow the quickstart setup for Container Insights on EKS easily in one easy step. This is the fastest way to setup CloudWatch Container Insights for your cluster. If you want to take a step by step approach to understand clearly, skip this step and go to instructions under Option 2.
+* Open the [Amazon EC2 console](https://console.aws.amazon.com/ec2/)
 
-* https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html
+* Select one of the worker node instances and choose the IAM role in the description.
+
+* On the IAM role page, choose **Attach policies**.
+
+* In the list of policies, select the check box next to **CloudWatchAgentServerPolicy**. If necessary, use the search box to find this policy.
+
+* Choose **Attach policies**
 
 ------------------------------------------------------------
 
-#### Option 2
-#### CloudWatch agent
-##### Set Up the CloudWatch Agent to Collect Cluster Metrics
+#### Setup Container Insights
 
-The CloudWatch agent needs to be setup as a DaemonSet which will then collect metrics and send to CloudWatch. Optionally, you could also collect application generated custom metrics using StatsD ([What is StatsD?] (https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/CloudWatch-Agent-custom-metrics-statsd.html)) protocol.
+##### Linux/macOS users
 
-Follow these instructions to setup CloudWatch agent as a DaemonSet
+If you are using Linux or macOS, run the following command to setup Container Insights on your EKS cluster. Make sure you replace **<CLUSTER_NAME>** and **<REGION_NAME>** with your EKS cluster name and AWS region the cluster is in.
 
-* https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-metrics.html
+`curl https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/master/k8s-yaml-templates/quickstart/cwagent-fluentd-quickstart.yaml | sed "s/{{cluster_name}}/Cluster_Name/;s/{{region_name}}/Region/" | kubectl apply -f -`
 
+##### Windows users
 
-#### FluentD
-##### Set Up FluentD as a DaemonSet to Send Logs to CloudWatch Logs
+If you're using Windows, use the below command to setup Container Insights on your EKS cluster.Make sure you replace **<CLUSTER_NAME>** and **<REGION_NAME>** with your EKS cluster name and AWS region the cluster is in.
 
-FluentD ([What is FluentD?](https://www.fluentd.org/)) allows you to collect application logs from your containers and send them to CloudWatch
-
-Follow these instructions to setup FluentD as a DaemonSet in your EKS cluster
-
-* https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs.html 
+`kubectl apply -f (New-Item -ItemType "File" -Name "containerinsights.yml" -Value ((Invoke-WebRequest -Uri https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/master/k8s-yaml-templates/quickstart/cwagent-fluentd-quickstart.yaml).Content -replace "{{cluster_name}}","<CLUSTER_NAME>" -replace "{{region_name}}","<REGION_NAME>"))`
 
 {{% children showhidden="false" %}}

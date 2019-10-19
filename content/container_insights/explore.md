@@ -5,7 +5,7 @@ weight: 2
 ---
 #### Validate Installation
 
-* Once the installation is complete execute the following commands to ensure everything is setup correctly.
+* Once the installation is complete, execute the following commands to ensure everything is setup correctly.
 
     * Execute the following command
 
@@ -22,7 +22,9 @@ weight: 2
 
         `kubectl get pods -n amazon-cloudwatch`
     
-        You should see 3 instances of **cloudwatch-agent** and **fluentd-cloudwatch** pods running.    
+        You should see 3 instances of **cloudwatch-agent** and **fluentd-cloudwatch** pods running.
+
+![Screenshot checking Container Insights installation](/images/ContainerInsights9.png) 
 
 #### Verify that the logs are streaming into CloudWatch
 * Login to AWS console and navigate to [Amazon CloudWatch Logs](https://console.aws.amazon.com/cloudwatch/home#logs:)
@@ -30,7 +32,7 @@ weight: 2
 
 ![Container Insights](/images/ContainerInsights6.png)
 
-* Navigate to AWS CloudWatch home page. Select **Container Insights** from the drop down on the home page as shown below
+* Navigate to Amazon CloudWatch home page. Select **Container Insights** from the drop down on the home page as shown below
 
 ![Container Insights](/images/ContainerInsights1.png)
 
