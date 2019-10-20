@@ -8,7 +8,7 @@ In a production level cluster, it is not secure to have open pod to pod communic
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
 ```
 
 Let's examine our file by running `cat default-deny.yaml`.
@@ -41,8 +41,8 @@ Create two new network policies.
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.files/allow-ui.yaml
-wget https://eksworkshop.com/calico/stars_policy_demo/apply_network_policies.files/allow-ui-client.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui-client.yaml
 ```
 
 Again, we can examine our file contents by running: `cat allow-ui.yaml`
