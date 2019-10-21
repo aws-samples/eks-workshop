@@ -14,6 +14,12 @@ To add the Bitnami Chart repo to our local list of searchable charts:
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
+Now that the repo is added, we need to update the Bitnami repo:
+
+```
+helm repo update bitnami
+```
+
 Once that completes, we can search all Bitnami Charts:
 
 ```
