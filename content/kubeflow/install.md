@@ -20,7 +20,7 @@ Download Kubeflow configuration file:
 
 ```
 CONFIG=~/environment/kfctl_aws.yaml
-curl -Lo ${CONFIG} https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6.1/bootstrap/config/kfctl_aws.yaml
+curl -Lo ${CONFIG} https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6.2/bootstrap/config/kfctl_aws.yaml
 ```
 
 Customize this configuration file for AWS region and IAM role for your worker nodes:
