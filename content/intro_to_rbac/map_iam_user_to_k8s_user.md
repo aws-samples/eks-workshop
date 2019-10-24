@@ -13,7 +13,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aws-auth
-  namespace: kube-system
+  namespace: rbac-test
 data:
   mapUsers: |
     - userarn: arn:aws:iam::${ACCOUNT_ID}:user/rbac-user
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aws-auth
-  namespace: kube-system
+  namespace: rbac-test
 data:
   mapUsers: |
     - userarn: arn:aws:iam::123456789:user/rbac-user
