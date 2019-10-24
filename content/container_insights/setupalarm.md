@@ -38,7 +38,15 @@ Get the name of the **ecsdemo-frontend** pod using the following command
 ```
 kubectl get pods
 ```
-![Container Insights](/images/ContainerInsights11.png)
+
+Your result should look similar to the table below
+
+|   NAME      | READY   |   STATUS  |   RESTARTS    |   AGE |
+|-------------|---------|-----------|---------------|-------|
+|ecsdemo-crystal-6b45547688-tzvw2   |   1/1 |   Running |0  |   8d|
+|ecsdemo-frontend-7f7644d5d5-tk72w  |   1/1 |   Running |3  |   8d|
+|ecsdemo-nodejs-744d497fdc-9hwgz    |   1/1 |   Running |0  |   8d|
+
 
 Kill the pod using the following command after replacing the placeholder string with the name of the ecsdemo-frontend pod obtained from the command above. 
 Wait for the pod to restart, and then kill it again. Do all this within 5 minutes so the alarm can be triggered.

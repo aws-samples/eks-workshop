@@ -10,6 +10,10 @@ weight: 6
 
 #### Delete Container Insights
 
+{{% notice info %}}
+Ensure you change the value of **AWS_REGION** environment variable to the one that fits your needs
+{{% /notice  %}}
+
 {{< tabs name="Setup Instructions" >}}
 {{{< tab name="Linux / macOS" include="cleanup_linuxmacos.md" />}}
 {{{< tab name="Windows" include="cleanup_windowsos.md" />}}
@@ -17,6 +21,6 @@ weight: 6
 
 {{% children showhidden="false" %}}
 
-#### Cleanup the EKS cluster
+#### Cleanup example microservices
 
-Follow [these steps](../../deploy/cleanup) to clean up the EKS resoures
+Follow [these steps](../../deploy/cleanup) to clean up example microservices from your EKS cluster

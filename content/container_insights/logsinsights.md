@@ -3,6 +3,10 @@ title: "CloudWatch Logs Insights"
 chapter: false
 weight: 5
 ---
+#### What is Logs Insights?
+
+[CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) is a fully integrated, interactive, and pay-as-you-go log analytics service for CloudWatch. CloudWatch Logs Insights enables you to explore, analyze, and visualize your logs instantly, allowing you to troubleshoot operational problems with ease.
+
 #### Querying Logs from EKS
 
 Navigate to [CloudWatch Logs Insights](https://console.aws.amazon.com/cloudwatch/home#logs-insights:) and select **aws/containerinsights/eksworkshop-eksctl/performance** Log Group as shown below

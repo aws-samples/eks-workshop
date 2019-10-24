@@ -33,6 +33,9 @@ You should see 3 instances of **cloudwatch-agent** and **fluentd-cloudwatch** po
 ![Screenshot checking Container Insights installation](/images/ContainerInsights9.png) 
 
 #### Verify that the logs are streaming into CloudWatch
+
+In this section we will be taking a few steps to verify that the logs are getting streamed into CloudWatch. After you setup Container Insights, a few CloudWatch Log Groups are automatically created to group relevant types of logs together so it makes it easier for users to narrow their operations. For example,if you need to troubleshoot Kubelet or Docker runtime events, you can search the logs from Dataplane Log Group.
+
 Login to AWS console and navigate to [Amazon CloudWatch Logs](https://console.aws.amazon.com/cloudwatch/home#logs:)
 Type **/aws/containerinsights/eksworkshop-eksctl** in the filter texbox and press enter. You should be able to see 4 Log Groups as shown below each one of them containing Application, Dataplane, Host and Performance Log Streams respectively.
 
@@ -54,7 +57,7 @@ You can also drill down into the cluster and see the metrics at the Pod level by
 
 ![Container Insights](/images/ContainerInsights5.png)
 
-Likewise, you can also see insights at the Node level as well. You just have to select **EKS Nodes** in the first drop down and select a particular node in the second drop down to see metrics specific to that node.
+Likewise, you can also see insights at the Node level as well. You just have to select **EKS Nodes** in the first drop down to see the metrics of all Nodes. You can also select a particular Node from the second drop down to see metrics for that particular Node.
 
-![Container Insights](/images/ContainerInsights11.png)
+![Container Insights](/images/ContainerInsights18.png)
 

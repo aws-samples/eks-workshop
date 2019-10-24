@@ -7,9 +7,9 @@ hidden: true
 
 ##### Windows users
 
-Make sure you replace **<CLUSTER_NAME>** and **<REGION_NAME>** with your EKS cluster name and AWS region the cluster is in.
-
-
 ```
-kubectl delete -f (New-Item -ItemType "File" -Name "containerinsights.yml" -Force -Value ((Invoke-WebRequest -Uri https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/master/k8s-yaml-templates/quickstart/cwagent-fluentd-quickstart.yaml).Content -replace "{{cluster_name}}","<CLUSTER_NAME>" -replace "{{region_name}}","<REGION_NAME>"))
+Set-Item -Path Env:Cluster_Name -Value "eksworkshop-eksctl"
+Set-Item -Path Env:AWS_REGION -Value "us-east-1"
+
+kubectl delete -f (New-Item -ItemType "File" -Name "containerinsights.yml" -Force -Value ((Invoke-WebRequest -Uri https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/master/k8s-yaml-templates/quickstart/cwagent-fluentd-quickstart.yaml).Content -replace "{{cluster_name}}", $env:Cluster_Name -replace "{{region_name}}", $env:AWS_REGION))
 ```
