@@ -5,22 +5,51 @@ weight: 3
 ---
 #### Setup CloudWatch Alarm
 
-In this section, we will setup a CloudWatch alarm based on CPU Utilizaiton metric on a specific EKS worker node.
+In this section, we will setup a CloudWatch alarm and send notification using SNS the number of Pod restarts goes greater than 1 in a 5 minute period.
 
-Select any particular node you want and select **View in metrics** from the **CPU Utilization** widget as shown below
+##### Steps
+
+* Navigate to [CloudWatch Alarms](https://console.aws.amazon.com/cloudwatch/home#alarmsV2:)
+* Click on **Create alarm**
+* In the **Specify metric conditions screen** click **Select metric**
+* Select **Container Insights** and then **ClusterName, Namespace, PodName**.
+* Then check the **pod_number_of_container_restarts** metric as shown below
 
 ![Container Insights](/images/ContainerInsights7.png)
 
-Click on the bell icon (circled red in the screenshot below) to create the alarm
+* Click **Select metric**
+* In the **Specify metric and conditions** screen, change the statistic to **Sum**
+* Enter **1** in the **Define the threshold value** textbox. Click **Next**
+* In the **Configure actions** screen, ensure **in Alarm** is selected and select **Select an existing SNS topic** if you have an SNS topic already in your account you want to use for this purpose. If not, select **Create new topic**
 
 ![Container Insights](/images/ContainerInsights8.png)
 
-In the next screen, enter 70 in the threshold textbox and leave everything as is. Click **Next**
+* Click on **Create topic** and then click **Next**
+* In the **Add a description** screen, enter the alarm name as **Pod Restart Count** and click **Next**
 
 ![Container Insights](/images/ContainerInsights10.png)
 
-In **Configure actions** screen, select an existing SNS topic if you already have one, or create a new topic by selecting **Create new topic**, give the SNS topic a name and provide an email address to receive notifications from the topic. Click **Next**
-![Container Insights](/images/ContainerInsights11.jpg)
+* Review the details in the following screen and click **Create alarm**
 
-In the **Add a description** screen, enter a unique name for the alarm and click **Next**
-Click on **Create alarm** in the **Preview and create** screen. CloudWatch will send you a notification whenever the CPU utilization on the worker node goes beyond 70% for a period of 5 minutes
+##### Trigger the alarm
+
+Get the name of the **ecsdemo-frontend** pod using the following command
+
+```
+kubectl get pods
+```
+![Container Insights](/images/ContainerInsights11.png)
+
+Kill the pod using the following command after replacing the placeholder string with the name of the ecsdemo-frontend pod obtained from the command above. 
+Wait for the pod to restart, and then kill it again. Do all this within 5 minutes so the alarm can be triggered.
+
+```
+kubectl exec -it <NAME_OF_THE_ECSDEMO_FRONT_END_POD> -c ecsdemo-frontend -- /bin/sh -c "kill 1"
+```
+
+##### Check alarm status
+Navigate to [CloudWatch Alarms](https://console.aws.amazon.com/cloudwatch/home#alarmsV2:) page and you should be able to see the alarm firing off as shown below
+![Container Insights](/images/ContainerInsights17.png)
+
+If your email is subscribed to the SNS topic, you will also see an email notification as shown below
+![Container Insights](/images/ContainerInsights16.png)

@@ -14,25 +14,27 @@ In this section we will be setting up Container Insights for the ECS Demo app th
 
 ------------------------------------------------------------
 
-#### Setup IAM role
+#### Setup IAM policy
+
 In order for the EKS worker nodes to be able to send logs and metrics to CloudWatch, follow the steps below
 
-* Open the [Amazon EC2 console](https://console.aws.amazon.com/ec2/)
+```
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
+```
+If ROLE_NAME is not set, please review: [this](../../eksctl/test/)
 
-* Select one of the worker node instances and choose the IAM role in the description.
+You could also go to the EC2 console and get the IAM Role the EKS nodes are assuming from there. If you do so, make sure you replace **$ROLE_NAME** in the below command to the name of the role you got from the EC2 console. **_Caution -  This is NOT the Role ARN, but the friendly role name which needs to be used here._**
 
-* On the IAM role page, choose **Attach policies**.
-
-* In the list of policies, select the check box next to **CloudWatchAgentServerPolicy**. If necessary, use the search box to find this policy.
-
-* Choose **Attach policies**
+```
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy --role-name $ROLE_NAME
+```
 
 ------------------------------------------------------------
 
 #### Setup Container Insights
 
 {{< tabs name="Setup Instructions" >}}
-{{{< tab name="LinuxmacOS" include="linuxmacos.md" />}}
+{{{< tab name="Linux / macOS" include="linuxmacos.md" />}}
 {{{< tab name="Windows" include="windowsos.md" />}}
 {{< /tabs >}}
 

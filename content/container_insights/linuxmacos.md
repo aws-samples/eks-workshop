@@ -5,7 +5,7 @@ disableToc: true
 hidden: true
 ---
 
-##### Linux/macOS users
+##### Linux / macOS users
 
 Make sure you replace **<CLUSTER_NAME>** and **<REGION_NAME>** with your EKS cluster name and AWS region the cluster is in.
 

@@ -46,7 +46,7 @@ Ensure **EKS Clusters** is selected in the first dropdown and select the **ekswo
 
 ![Container Insights](/images/ContainerInsights2.png)
 
-You can also view Performance Logs, Application Logs, Control Plane Logs ([when enabled](https://docs.aws.amazon.com/en_pv/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-control-plane-logging.html)), Data Plane Logs and Host Logs by simply selecting the cluster name and clicking on Actions dropdown as shown below
+You can also view Performance Logs, Application Logs, Data Plane Logs and Host Logs by simply selecting the cluster name and clicking on Actions dropdown as shown below
 
 ![Container Insights](/images/ContainerInsights3.png)
 
