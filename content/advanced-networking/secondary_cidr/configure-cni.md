@@ -13,11 +13,7 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ```
 Here is a sample response
 ```
-<<<<<<< HEAD
-amazon-k8s-cni:1.2.1
-=======
 amazon-k8s-cni:1.4.1
->>>>>>> upstream/master
 ```
 Upgrade version to 1.3 if you have an older version
 ```
