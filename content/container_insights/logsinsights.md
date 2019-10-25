@@ -20,7 +20,7 @@ fields kubernetes.pod_name, kubernetes.host
 | stats count_distinct(kubernetes.pod_name) as Number_of_Pods by kubernetes.host  
 ```
 
-This query will return the a table that contains the number of Pods that are running on each EKS worker node.
+This query will return the table that contains the number of Pods that are running on each EKS worker node.
 
 -----------------------------
 
@@ -32,7 +32,7 @@ fields kubernetes.pod_name, kubernetes.host
 | stats count_distinct(kubernetes.pod_name) as Number_of_Pods by kubernetes.host  
 ```
 
-The above query will query will filter the pods with name containing the string **ecsdemo**. Your output should look similar to the one shown below.
+The above query will filter the pods with name containing the string **ecsdemo**. Your output should look similar to the one shown below.
 
 ![Container Insights](/images/ContainerInsights13.png)
 
