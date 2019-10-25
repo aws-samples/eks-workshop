@@ -1,0 +1,41 @@
+#################################################
+# EKSCTL Config for EKSworkshop.com
+# The eksctl config format is still young.
+# Work in progress here: https://github.com/weaveworks/eksctl/issues/508
+# For more examples, see: https://github.com/weaveworks/eksctl/blob/master/examples
+#################################################
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+  version: "1.13"
+
+#vpc:
+#  securityGroup: "sg-0f2ae54eb340e8191"
+#  sharedNodeSecurityGroup: "sg-02a47cee779b317a7"
+#  subnets:
+#    Private:
+#      eu-north-1c:
+#          id: "subnet-065fe8f12d0910d06"
+#          cidr: "10.1.128.0/19"
+#      eu-north-1b:
+#          id: "subnet-06ebc3649c1321fc5"
+#          cidr: "10.1.96.0/19"
+
+iam:
+  serviceRoleARN: "arn:aws:iam::${ACCOUNT_ID}:role/eks-workshop-service-role"
+
+nodeGroups:
+  - name: eksworkshop-ng1
+    desiredCapacity: 3
+#    instanceType: m5.large
+#    privateNetworking: true
+#    securityGroups:
+#      withShared: true
+#      withLocal: false
+#      attachIDs: [sg-0b85ff315ea644478]
+    iam:
+      instanceProfileARN: "arn:aws:iam::${ACCOUNT_ID}:instance-profile/eks-workshop-nodegroup"
+      instanceRoleARN: "arn:aws:iam::${ACCOUNT_ID}:role/eks-workshop-nodegroup"

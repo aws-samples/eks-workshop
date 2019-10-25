@@ -23,4 +23,3 @@ Enter a value for **Token description**, check the **repo** permission scope and
 Copy the **personal access token** and save it in a secure place for the next step
 
 ![Generate New](/images/codepipeline/github_copy_access.png)
-

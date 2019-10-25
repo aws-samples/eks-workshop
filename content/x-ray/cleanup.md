@@ -24,3 +24,7 @@ Delete the X-Ray DaemonSet:
 ```
 kubectl delete -f https://eksworkshop.com/x-ray/daemonset.files/xray-k8s-daemonset.yaml
 ```
+
+```
+aws iam detach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
+```

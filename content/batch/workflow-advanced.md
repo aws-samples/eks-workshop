@@ -23,7 +23,7 @@ spec:
     container:
       image: alpine:latest
       command: ["sh", "-c"]
-      args: ["touch /tmp/message"]
+      args: ["echo '' >> /tmp/message"]
     outputs:
       artifacts:
       - name: chain

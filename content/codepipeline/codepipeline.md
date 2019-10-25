@@ -35,7 +35,7 @@ Open [CodePipeline in the Management Console](https://console.aws.amazon.com/cod
 Click this link to view the details.
 
 {{% notice tip %}}
-If you receive a permissions error similar to **User x is not authorized to perform: codepipeline:ListPipelines...** upon clicking the above link, the CodePipeline console may have opened up in the wrong region.  To correct this, from the **Region** dropdown in the console, choose the region you provisioned the workshop in.  Select Oregon (us-west-2) if you provisioned the workshow per the "Start the workshop at an AWS event" instructions. 
+If you receive a permissions error similar to **User x is not authorized to perform: codepipeline:ListPipelines...** upon clicking the above link, the CodePipeline console may have opened up in the wrong region.  To correct this, from the **Region** dropdown in the console, choose the region you provisioned the workshop in.  Select Oregon (us-west-2) if you provisioned the workshow per the "Start the workshop at an AWS event" instructions.
 {{% /notice %}}
 
 

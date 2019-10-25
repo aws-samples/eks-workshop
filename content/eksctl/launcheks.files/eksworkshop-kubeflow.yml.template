@@ -1,0 +1,20 @@
+##################################################
+# EKSCTL Config for EKSworkshop.com - For Kubeflow
+##################################################
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+availabilityZones: [${AWS_AZS}]
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+  version: "1.13"
+
+nodeGroups:
+  - name: gpu-nodegroup
+    instanceType: p3.8xlarge
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 2
+    volumeSize: 500
+    availabilityZones: [${AWS_AZ}]

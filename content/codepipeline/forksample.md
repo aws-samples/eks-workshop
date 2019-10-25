@@ -19,6 +19,3 @@ Once the repo is forked, you can view it in your your [GitHub repositories](http
 The forked repo will look like:
 
 ![GitHub Fork](/images/codepipeline/github_fork_example.png)
-
-
-

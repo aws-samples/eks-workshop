@@ -9,6 +9,7 @@ weight: 10
 Save the text from following block as **~/environment/healthchecks/readiness-deployment.yaml**. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file **/tmp/healthy** to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods. 
 
 ```
+cat <<EoF > ~/environment/healthchecks/readiness-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,22 +35,22 @@ spec:
             - /tmp/healthy
           initialDelaySeconds: 5
           periodSeconds: 3
-
+EoF
 ```
 
-We will now create a deployment to test readiness probe
+We will now create a deployment to test readiness probe:
 
 ```
 kubectl apply -f ~/environment/healthchecks/readiness-deployment.yaml
 ```
 
-The above command creates a deployment with 3 replicas and readiness probe as described in the beginning
+The above command creates a deployment with 3 replicas and readiness probe as described in the beginning.
 
 ```
 kubectl get pods -l app=readiness-deployment
 ```
 
-The output looks similar to below
+The output looks similar to below:
 
 ```
 
@@ -65,7 +66,7 @@ Let us also confirm that all the replicas are available to serve traffic when a 
 kubectl describe deployment readiness-deployment | grep Replicas:
 ```
 
-The output looks like below
+The output looks like below:
 
 ```
 Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
@@ -99,7 +100,7 @@ We will now check for the replicas that are available to serve traffic when a se
 kubectl describe deployment readiness-deployment | grep Replicas:
 ```
 
-The output looks like below
+The output looks like below:
 
 ```
 Replicas:               3 desired | 3 updated | 3 total | 2 available | 1 unavailable

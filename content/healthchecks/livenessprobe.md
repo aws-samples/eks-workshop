@@ -13,9 +13,10 @@ Use the command below to create a directory
 mkdir -p ~/environment/healthchecks
 ```
 
-Save the manifest as ~/environment/healthchecks/liveness-app.yaml using your favorite editor. You can review the manifest that is described below. In the configuration file, livenessProbe determines how kubelet should check the Container in order to consider whether it is healthy or not. kubelet uses periodSeconds field to do frequent check on the Container. In this case, kubelet checks liveness probe every 5 seconds. initialDelaySeconds field is to tell the kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this Pod and if the handler for the servers /health returns a success code, then the Container is considered healthy. If the handler returns a failure code, the kubelet kills the Container and restarts it.
+Save the manifest as **~/environment/healthchecks/liveness-app.yaml** using your favorite editor. You can review the manifest that is described below. In the configuration file, the *livenessProbe* field determines how kubelet should check the container in order to consider whether it is healthy or not. kubelet uses the periodSeconds field to do frequent check on the Container. In this case, kubelet checks the liveness probe every 5 seconds. The initialDelaySeconds field is used to tell kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this pod and if the handler for the servers /health returns a success code, then the container is considered healthy. If the handler returns a failure code, the kubelet kills the container and restarts it.
 
 ```
+cat <<EoF > ~/environment/healthchecks/liveness-app.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -30,15 +31,16 @@ spec:
         port: 3000
       initialDelaySeconds: 5
       periodSeconds: 5
+EoF
 ```
 
-Let's create the pod using the manifest
+Let's create the pod using the manifest:
 
 ```
 kubectl apply -f ~/environment/healthchecks/liveness-app.yaml
 ```
 
-The above command creates a pod with liveness probe
+The above command creates a pod with liveness probe.
 
 ```
 kubectl get pod liveness-app
@@ -69,13 +71,13 @@ Events:
 
 
 #### Introduce a Failure
-We will run the next command to send a SIGUSR1 signal to the nodejs application. By issuing this command we will send a kill signal to the application process in docker runtime.
+We will run the next command to send a SIGUSR1 signal to the nodejs application. By issuing this command we will send a kill signal to the application process in the docker runtime.
 
 ```
 kubectl exec -it liveness-app -- /bin/kill -s SIGUSR1 1
 ```
 
-Describe the pod after waiting for 15-20 seconds and you will notice kubelet actions of killing the Container and restarting it. 
+Describe the pod after waiting for 15-20 seconds and you will notice the kubelet actions of killing the container and restarting it. 
 ```
 Events:
   Type     Reason                 Age                From                                    Message
@@ -96,7 +98,7 @@ When the nodejs application entered a debug mode with SIGUSR1 signal, it did not
 kubectl get pod liveness-app
 ```
 
-The output looks like below
+The output looks like below:
 
 ```
 NAME           READY     STATUS    RESTARTS   AGE

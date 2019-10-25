@@ -10,7 +10,7 @@ Metadata:
         Parameters:
           - ClusterName
           - ClusterControlPlaneSecurityGroup
-          - NodeInstanceRole
+          - NodeInstanceProfile
           - UseExistingNodeSecurityGroups
           - ExistingNodeSecurityGroups
           - NodeImageId
@@ -43,9 +43,9 @@ Parameters:
     Description: Select 3 subnets where workers can be created.
     Type: List<AWS::EC2::Subnet::Id>
 
-  NodeInstanceRole:
+  NodeInstanceProfile:
     Type: String
-    Description: Use the existing Role for your nodegroup
+    Description: Use the existing Instance Profile ARN for your nodegroup
     Default: ""
 
   KeyName:
@@ -186,7 +186,7 @@ Parameters:
   InstanceTypesOverride:
     Type: String
     Description: "multiple spot instances to override(seperated by comma)"
-    Default: "m4.large,t3.large,t3.xlarge"
+    Default: "m4.large,c4.large,c5.large"
 
   UseExistingNodeSecurityGroups:
     Type: String
@@ -232,13 +232,6 @@ Conditions:
 
 
 Resources:
-  NodeInstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: "/"
-      Roles:
-      - !Ref NodeInstanceRole
-
   NodeSecurityGroup:
     Condition: CreateNewNodeSG
     Type: AWS::EC2::SecurityGroup
@@ -415,7 +408,7 @@ Resources:
                      --resource NodeGroup  \
                      --region ${AWS::Region}
         IamInstanceProfile:
-          Arn: !GetAtt NodeInstanceProfile.Arn
+          Arn: !Ref NodeInstanceProfile
         KeyName: !Ref KeyName
         NetworkInterfaces:
           -

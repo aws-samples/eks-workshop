@@ -8,13 +8,18 @@ We will be deploying Fluentd as a DaemonSet, or one pod per worker node. The flu
 
 In our example, we will create an IAM policy and attach it the the Worker node role.
 
-Collect the Instance Profile and Role NAME from the CloudFormation Stack
+First, we will need to ensure the Role Name our workers use is set in our environment:
+
+```bash
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
-INSTANCE_PROFILE_PREFIX=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
-INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | jq -r '.InstanceProfiles[].InstanceProfileName' | grep $INSTANCE_PROFILE_PREFIX)
-ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | jq -r '.InstanceProfile.Roles[] | .RoleName')
-```
-Create a new IAM Policy and attach it to the Worker Node Role.
+
+If you receive an error or empty response, expand the steps below to export.
+
+{{%expand "Expand here if you need to export the Role Name" %}}
+If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
+{{% /expand %}}
+
 ```
 mkdir ~/environment/iam_policy
 cat <<EoF > ~/environment/iam_policy/k8s-logs-policy.json
@@ -35,6 +40,7 @@ cat <<EoF > ~/environment/iam_policy/k8s-logs-policy.json
     ]
 }
 EoF
+
 aws iam put-role-policy --role-name $ROLE_NAME --policy-name Logs-Policy-For-Worker --policy-document file://~/environment/iam_policy/k8s-logs-policy.json
 ```
 

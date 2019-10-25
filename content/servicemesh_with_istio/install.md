@@ -1,50 +1,58 @@
 ---
 title: "Install Istio"
-date: 2018-11-13T16:36:55+09:00
+date: 2019-03-20T13:36:55+01:00
 weight: 30
 draft: false
 ---
 
-### Install Istio's CRD
-The [Custom Resource Definition, also known as a CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions), is an API resource which allows you to define custom resources. 
+### Define service account for Tiller
+Helm and Tiller are required for the following examples. If you have not installed Helm yet, [please first reference the Helm chapter](/helm_root) before proceeding.
+
+First create a service account for Tiller:
 ```
-kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
 ```
+
+### Install Istio CRDs
+The [Custom Resource Definitions, also known as CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) are API resources which allow you to define custom resources. 
+```
+helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+```
+
+You can check the installation by running:
+```
+kubectl get crds --namespace istio-system | grep 'istio.io'
+```
+This should return around 50 CRDs. 
+
 
 ### Install Istio
-Helm is required for the following examples.  If you have not installed Helm yet, [please first reference the Helm chapter](/helm_root) before proceeding.
+The last step installs Istio's core components:
 
 ```
-kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-
-helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.configValidation=false --set sidecarInjectorWebhook.enabled=false --set grafana.enabled=true --set servicegraph.enabled=true > istio.yaml
-
-kubectl create namespace istio-system
-
-kubectl apply -f istio.yaml
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.configValidation=false --set sidecarInjectorWebhook.enabled=false --set grafana.enabled=true --set servicegraph.enabled=true
 ```
 
-Watch the progress of installation using:
-
+You can verify that the services have been deployed using
 ```
-kubectl get pod -n istio-system -w
+kubectl get svc -n istio-system
 ```
-
-And hit CTRL-C when you're ready to proceed.
+and check the corresponding pods with:
+```
+kubectl get pods -n istio-system
+```
 
 ```
 NAME                                    READY     STATUS      RESTARTS   AGE
-grafana-9cfc9d4c9-csvw7                 1/1       Running     0          3m
-istio-citadel-6d7f9c545b-w7hjs          1/1       Running     0          3m
-istio-cleanup-secrets-vrkm5             0/1       Completed   0          3m
-istio-egressgateway-866885bb49-cz6jr    1/1       Running     0          3m
-istio-galley-6d74549bb9-t8sqb           1/1       Running     0          3m
-istio-grafana-post-install-4bgxv        0/1       Completed   0          3m
-istio-ingressgateway-6c6ffb7dc8-dnmqx   1/1       Running     0          3m
-istio-pilot-685fc95d96-jhfhv            2/2       Running     0          3m
-istio-policy-688f99c9c4-pb558           2/2       Running     0          3m
-istio-security-post-install-5dw8n       0/1       Completed   0          3m
-istio-telemetry-69b794ff59-spkp2        2/2       Running     0          3m
-prometheus-f556886b8-cxb9n              1/1       Running     0          3m
-servicegraph-778f94d6f8-tfmp6           1/1       Running     0          3m
+grafana-7b46bf6b7c-4rh5z                1/1       Running     0          10m
+istio-citadel-75fdb679db-jnn4z          1/1       Running     0          10m
+istio-galley-c864b5c86-sq952            1/1       Running     0          10m
+istio-ingressgateway-668676fbdb-p5c8c   1/1       Running     0          10m
+istio-init-crd-10-zgzn9                 0/1       Completed   0          12m
+istio-init-crd-11-9v626                 0/1       Completed   0          12m
+istio-pilot-f4c98cfbf-v8bss             2/2       Running     0          10m
+istio-policy-6cbbd844dd-ccnph           2/2       Running     1          10m
+istio-telemetry-ccc4df498-pjht7         2/2       Running     1          10m
+prometheus-89bc5668c-f866j              1/1       Running     0          10m
+servicegraph-5d4b49848-qvdtr            1/1       Running     0          10m
 ```
