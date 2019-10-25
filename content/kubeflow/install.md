@@ -16,11 +16,10 @@ curl --silent --location "https://github.com/kubeflow/kubeflow/releases/download
 sudo mv -v /tmp/kfctl /usr/local/bin
 ```
 
-Download Kubeflow configuration file:
+Export Kubeflow configuration file:
 
 ```
-CONFIG=~/environment/kfctl_aws.yaml
-curl -Lo ${CONFIG} https://raw.githubusercontent.com/kubeflow/manifests/v0.7-branch/kfdef/kfctl_aws.0.7.0.yaml
+export CONFIG_URI=https://raw.githubusercontent.com/kubeflow/manifests/v0.7-branch/kfdef/kfctl_aws.0.7.0.yaml
 ```
 #### Customize your configuration
 
@@ -69,7 +68,7 @@ sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG_FILE}
 Apply configuration and deploy Kubeflow on your cluster:
 
 ```
-cd ${KF_DIR}
+rm -rf kustomize
 kfctl apply -V -f ${CONFIG_FILE}
 ```
 
