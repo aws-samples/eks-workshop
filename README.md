@@ -16,6 +16,7 @@ On a mac:
 On Linux:
   - Download from the releases page: https://github.com/gohugoio/hugo/releases/tag/v0.46
   - Extract and save the executable to `/usr/local/bin`
+  - Or, run hugo-deb-install.sh with sudo
 
 #### Clone this repo:
 From wherever you checkout repos:
