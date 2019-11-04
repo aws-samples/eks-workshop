@@ -5,6 +5,7 @@ weight: 50
 ---
 
 ```
+aws iam delete-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker
 kubectl delete -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 kubectl delete -f ~/environment/cluster-autoscaler/nginx.yaml
 kubectl delete hpa,svc php-apache

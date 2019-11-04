@@ -7,7 +7,7 @@ draft: false
 
 ### To create an IAM role for your service accounts with eksctl
 
-You must create an IAM policy that specifies the permissions that you would like the containers in your pods to have. In this workshop we will use AWS maanged policy named "**AmazonS3ReadOnlyAccess**" which allow get and list for all S3 resources.
+You must create an IAM policy that specifies the permissions that you would like the containers in your pods to have. In this workshop we will use AWS managed policy named "**AmazonS3ReadOnlyAccess**" which allow get and list for all S3 resources.
 
 You must also create a role for your service accounts to use before you associate it with a service account. Then you can then attach a specific IAM policy to the role that gives the containers in your pods the permissions you desire.
 
