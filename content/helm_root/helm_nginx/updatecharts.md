@@ -4,7 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 100
 ---
 
-Helm uses a packaging format called [Charts](https://github.com/helm/helm/blob/master/docs/charts.md).  A Chart is a collection of files that describe k8s resources.  
+Helm uses a packaging format called [Charts](https://helm.sh/docs/developing_charts/#charts).  A Chart is a collection of files that describe k8s resources.  
 
 Charts can be simple, describing something like a standalone web server (which is what we are going to create), but they can also be more complex, for example, a chart that represents a full web application stack included web servers, databases, proxies, etc.
 
