@@ -19,7 +19,7 @@ helm install stable/grafana \
     --name grafana \
     --namespace grafana \
     --set persistence.storageClassName="gp2" \
-    --set adminPassword="EKS!sAWSome" \
+    --set adminPassword='EKS!sAWSome' \
     --set datasources."datasources\.yaml".apiVersion=1 \
     --set datasources."datasources\.yaml".datasources[0].name=Prometheus \
     --set datasources."datasources\.yaml".datasources[0].type=prometheus \
