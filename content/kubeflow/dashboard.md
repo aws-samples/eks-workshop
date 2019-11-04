@@ -13,7 +13,7 @@ Get Kubeflow service endpoint:
 kubectl get ingress -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'
 ```
 
-Access the endpoint address in a browser to see Kubeflow dashboard:
+Access the endpoint address in a browser to see Kubeflow dashboard. It could take couple of minutes for Load Balancer to launch and health checks to pass
 
 ![dashboard](/images/kubeflow/dashboard-welcome.png)
 

@@ -18,7 +18,7 @@ cd ~/environment/calico_resources
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/namespace.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/namespace.yaml
 ```
 
 Let's examine our file by running `cat namespace.yaml`.
@@ -42,10 +42,10 @@ We will create frontend and backend [replication controllers](https://kubernetes
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/management-ui.yaml
-wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/backend.yaml
-wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/frontend.yaml
-wget https://eksworkshop.com/calico/stars_policy_demo/create_resources.files/client.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/management-ui.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/backend.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/frontend.yaml
+wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/client.yaml
 ```
 
 `cat management-ui.yaml`:
