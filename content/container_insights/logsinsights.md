@@ -240,5 +240,4 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
     ]
 }
 ```
-
 Learn more about CloudWatch Log querying syntax from the [AWS documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)
