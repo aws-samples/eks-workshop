@@ -63,10 +63,10 @@ You can add the visualization to a CloudWatch Dashboard by clicking on **Actions
 You can easily create a custom dashboard with various types of widgets. Follow the instructions below to create a custom dashboard.
 
 {{% notice info %}}
-The AWS region is set to us-east-1, if your Container Insights metrics are in a region other than "us-east-1", replace "us-east-1" with the appropriate region
+The AWS region is set to us-west-2, if your Container Insights metrics are in a region other than us-west-2, replace "us-west-2" with the appropriate region
 {{% /notice  %}}
 
-* Login to the Amazon CloudWatch Console: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:
+* Login to the Amazon CloudWatch Console: https://console.aws.amazon.com/cloudwatch/home?region=us-west-2#dashboards:
 * Click on the **Create dashboard** button
 * Enter a new **Dashboard name** (e.g., k8s-HealthDashboard_MyClusterName)
 * Click the Create button
@@ -91,7 +91,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
             "height": 6,
             "properties": {
                 "query": "SOURCE '/aws/containerinsights/eksworkshop-eksctl/performance' | filter Type=\"Pod\"\n| stats min(pod_number_of_containers) as Requested, min(pod_number_of_running_containers) as Running, ceil(avg(pod_number_of_containers-pod_number_of_running_containers)) as PodsMissing by Namespace, PodName, kubernetes.pod_name as PodID\n| sort PodsMissing desc\n| limit 50",
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "stacked": false,
                 "title": "Pods Requested vs Running",
                 "view": "table"
@@ -105,7 +105,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
             "height": 6,
             "properties": {
                 "query": "SOURCE '/aws/containerinsights/eksworkshop-eksctl/performance' | filter Type=\"Container\" and ispresent(container_status) and container_status != \"Running\"\n| fields @timestamp as Timestamp, Namespace, PodName, kubernetes.pod_name as PodID, container_status as ContainerStatus, container_status_reason as Reason, container_last_termination_reason as LastTerminationReason\n| sort @timestamp desc\n| limit 50\n",
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "stacked": false,
                 "title": "Failures: Last Container Status (last 50)",
                 "view": "table"
@@ -119,7 +119,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
             "height": 6,
             "properties": {
                 "query": "SOURCE '/aws/containerinsights/eksworkshop-eksctl/performance' | stats max(pod_number_of_container_restarts) as Restarts by PodName, kubernetes.pod_name as PodID\n| filter Type=\"Pod\"\n| sort Restarts desc\n| limit 10\n",
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "stacked": false,
                 "title": "Pod RESTARTS: Top 10",
                 "view": "table"
@@ -132,7 +132,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
             "width": 24,
             "height": 1,
             "properties": {
-                "markdown": "\n# Kubernetes (k8s) Cluster Health Dashboard\n"
+                "markdown": "\n# Kubernetes Cluster Health Dashboard\n"
             }
         },
         {
@@ -143,7 +143,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
             "height": 6,
             "properties": {
                 "query": "SOURCE '/aws/containerinsights/eksworkshop-eksctl/application' | stats count() as CountOfErrors by kubernetes.namespace_name as Namespace, kubernetes.container_name as ContainerName\n| filter stream=\"stderr\"\n| sort CountOfErrors desc\n",
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "stacked": false,
                 "title": "Application Log Errors: Count by container name",
                 "view": "table"
@@ -157,7 +157,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
             "height": 6,
             "properties": {
                 "query": "SOURCE '/aws/containerinsights/eksworkshop-eksctl/performance' | filter Type=\"ContainerFS\"\n| stats floor(avg(container_filesystem_usage)/1024/1024) as StorageUsed_MB, floor(avg(container_filesystem_capacity)/1024/1024) as StorageAvailable_MB, floor(avg(container_filesystem_utilization)*100) as PercentUtilized by Namespace, kubernetes.container_name as ContainerName, InstanceId, device as DeviceMount, EBSVolumeId\n| sort PercentUtilized desc",
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "stacked": false,
                 "title": "Disk Usage by Container Name",
                 "view": "table"
@@ -186,7 +186,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "stat": "Average",
                 "period": 900,
                 "title": "Count of Running Pods",
@@ -209,7 +209,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
                 "metrics": [
                     [ "ContainerInsights", "cluster_node_count", "ClusterName", "eksworkshop-eksctl" ]
                 ],
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "title": "Count of Nodes"
             }
         },
@@ -224,7 +224,7 @@ If you did not name your cluster as **eksworkshop-eksctl**, make sure you replac
                     [ "ContainerInsights", "cluster_failed_node_count", "ClusterName", "eksworkshop-eksctl", { "label": "_" } ]
                 ],
                 "view": "timeSeries",
-                "region": "us-east-1",
+                "region": "us-west-2",
                 "title": "Count of Node Failure Conditions",
                 "stat": "Average",
                 "period": 300,
