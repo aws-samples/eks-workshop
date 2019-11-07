@@ -12,7 +12,7 @@ In this chapter, we will install Kubeflow on Amazon EKS cluster. If you don't ha
 Download 0.7 RC6 release of `kfctl`. This binary will allow you to install Kubeflow on Amazon EKS:
 
 ```
-curl --silent --location "https://github.com/kubeflow/kubeflow/releases/download/v0.7.0-rc.6/kfctl_v0.7.0-rc.5-7-gc66ebff3_linux.tar.gz" | tar xz -C /tmp
+curl --silent --location "https://github.com/kubeflow/kubeflow/releases/download/v0.7.0/kfctl_v0.7.0_linux.tar.gz" | tar xz -C /tmp
 sudo mv -v /tmp/kfctl /usr/local/bin
 ```
 
@@ -78,14 +78,47 @@ Wait for all pods to be in **Running** state (this can take a few minutes):
 kubectl get pods -n kubeflow
 ```
 
-Validate that GPUs are available:
+You should see similar results
 
 ```
-kubectl get nodes "-o=custom-columns=NAME:.metadata.name,MEMORY:.status.allocatable.memory,CPU:.status.allocatable.cpu,GPU:.status.allocatable.nvidia\.com/gpu"
-```
-You should see number of GPU's available in your worker nodes
-```
-NAME                                          MEMORY        CPU   GPU
-ip-192-168-54-93.us-east-2.compute.internal   251641628Ki   32    4
-ip-192-168-68-80.us-east-2.compute.internal   251641628Ki   32    4
+NAME                                                           READY   STATUS    RESTARTS   AGE
+admission-webhook-bootstrap-stateful-set-0                     1/1     Running   0          5m19s
+admission-webhook-deployment-78d899bf68-bszdj                  1/1     Running   0          4m20s
+alb-ingress-controller-6868b86fbf-dwjvm                        1/1     Running   0          5m13s
+application-controller-stateful-set-0                          1/1     Running   0          5m20s
+argo-ui-55b859f7d7-q5t45                                       1/1     Running   0          5m20s
+centraldashboard-75474d6f94-w4smp                              1/1     Running   0          5m19s
+jupyter-web-app-deployment-6c8f4c8997-kjwx7                    1/1     Running   0          5m19s
+katib-controller-7ddd4c8b8c-ddbmd                              1/1     Running   1          5m16s
+katib-db-7b679f6f8c-hlxdn                                      1/1     Running   0          5m16s
+katib-manager-84c4fb876b-g758b                                 1/1     Running   0          5m16s
+katib-ui-5d454c75c7-ghmh2                                      1/1     Running   0          5m16s
+metacontroller-0                                               1/1     Running   0          5m20s
+metadata-db-5dd459cc-64tm6                                     1/1     Running   0          5m18s
+metadata-deployment-b745d8bcf-jfq8l                            1/1     Running   0          5m18s
+metadata-deployment-b745d8bcf-kwn9r                            1/1     Running   0          5m18s
+metadata-envoy-deployment-7ccf5c4f74-kl99k                     1/1     Running   0          5m18s
+metadata-grpc-deployment-6496f66c8c-clbnq                      1/1     Running   5          5m18s
+metadata-grpc-deployment-6496f66c8c-p6vhb                      1/1     Running   5          5m18s
+metadata-ui-78f5b59b56-mdvmv                                   1/1     Running   0          5m18s
+minio-6f48db9cc4-tvmjc                                         1/1     Running   0          5m16s
+ml-pipeline-844645fd-sj8sc                                     1/1     Running   0          5m16s
+ml-pipeline-ml-pipeline-visualizationserver-865894f5f7-bv8mk   1/1     Running   0          5m14s
+ml-pipeline-persistenceagent-66f89b56d9-4s862                  1/1     Running   0          5m15s
+ml-pipeline-scheduledworkflow-57445ddf88-b6np4                 1/1     Running   0          5m15s
+ml-pipeline-ui-5c64b6c666-pczbk                                1/1     Running   0          5m15s
+ml-pipeline-viewer-controller-deployment-7cc8d77468-l8qdz      1/1     Running   0          5m15s
+mpi-operator-5bf8b566b7-92b6n                                  1/1     Running   0          5m13s
+mysql-749f87bff5-zk26s                                         1/1     Running   0          5m15s
+notebook-controller-deployment-6c887454f7-xr5gx                1/1     Running   0          5m17s
+nvidia-device-plugin-daemonset-bhjwh                           1/1     Running   0          5m15s
+nvidia-device-plugin-daemonset-ftcdr                           1/1     Running   0          5m15s
+nvidia-device-plugin-daemonset-fzd8c                           1/1     Running   0          5m15s
+profiles-deployment-67655ddbdd-68h6z                           2/2     Running   0          5m14s
+pytorch-operator-84c58df794-xvdg2                              1/1     Running   0          5m17s
+seldon-operator-controller-manager-0                           1/1     Running   1          5m16s
+spartakus-volunteer-64cb78bbc5-4kb4f                           1/1     Running   0          5m17s
+tensorboard-6544748d94-rpvd5                                   1/1     Running   0          5m17s
+tf-job-operator-db676465c-vl6vh                                1/1     Running   0          5m17s
+workflow-controller-676484d796-t8vjc                           1/1     Running   0          5m19s
 ```
