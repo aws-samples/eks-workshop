@@ -19,7 +19,7 @@ Upgrade version to 1.5 if you have an older version
 ```
 kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
 ```
-Wait untill all the pods are recycled. You can check the status of pods by using this command
+Wait until all the pods are recycled. You can check the status of pods by using this command
 ```
 kubectl get pods -n kube-system -w
 ```
