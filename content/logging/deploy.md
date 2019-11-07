@@ -12,7 +12,14 @@ wget https://eksworkshop.com/logging/deploy.files/fluentd.yml
 Explore the fluentd.yml to see what is being deployed. There is a link at the bottom of this page. The Fluentd log agent configuration is located in the Kubernetes ConfigMap. Fluentd will be deployed as a DaemonSet, i.e. one pod per worker node. In our case, a 3 node cluster is used and so 3 pods will be shown in the output when we deploy.
 
 {{% notice warning %}}
-Update REGION and CLUSTER_NAME environment variables in fluentd.yml as required. They are set to us-west-2 and eksworkshop-eksctl by default.
+Update REGION and CLUSTER_NAME environment variables in fluentd.yml to the ones for your values. Currently, they are set to us-west-2 and eksworkshop-eksctl by default. Adjust this change in the 'env' section of the fluentd.yml file:
+
+        env:
+          - name: REGION
+            value: us-west-2
+          - name: CLUSTER_NAME
+            value: eksworkshop-eksctl
+            
 {{% /notice %}}
 
 ```
