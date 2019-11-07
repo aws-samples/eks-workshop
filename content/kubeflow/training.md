@@ -26,7 +26,8 @@ docker build -t <dockerhub_username>/<repo_name>:<tag_name> .
 Create an S3 bucket where training model will be saved:
 
 ```
-export S3_BUCKET=eks-ml-data
+export HASH=$(< /dev/urandom tr -dc a-z-0-9 | head -c6)
+export S3_BUCKET=$HASH-eks-ml-data
 aws s3 mb s3://$S3_BUCKET --region $AWS_REGION
 ```
 
