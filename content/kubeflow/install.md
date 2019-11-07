@@ -5,7 +5,7 @@ weight: 10
 draft: false
 ---
 
-In this chapter, we will install Kubeflow on Amazon EKS cluster. If you don't have an EKS cluster, please follow instructions from [getting started guide] (/prerequisites) and then launch your EKS cluster using [eksctl](/eksctl) chapter
+In this chapter, we will install Kubeflow on Amazon EKS cluster. If you don't have an EKS cluster, please follow instructions from [getting started guide](/prerequisites) and then launch your EKS cluster using [eksctl](/eksctl) chapter
 
 ### Install Kubeflow on Amazon EKS
 
@@ -59,8 +59,8 @@ export CONFIG_FILE=${KF_DIR}/kfctl_aws.0.7.0.yaml
 Replace EKS Cluster Name, AWS Region and IAM Roles in your $(CONFIG_FILE)
 
 ```
-sed -i -e 's/kubeflow-aws/'"$AWS_CLUSTER_NAME"'/' ${CONFIG_FILE}
 sed -i "s@eksctl-eksworkshop-eksctl-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAME@" ${CONFIG_FILE}
+sed -i -e 's/kubeflow-aws/'"$AWS_CLUSTER_NAME"'/' ${CONFIG_FILE}
 sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG_FILE}
 ```
 #### Deploy Kubeflow

@@ -52,8 +52,8 @@ Check your Worker Node SecurityGroup
 INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text`)
 for i in "${INSTANCE_IDS[@]}"
 do
-	echo "SecurityGroup for EC2 instance $i ..."
-  aws ec2 describe-instances --instance-ids $INSTANCE_IDS | jq -r '.Reservations[].Instances[].SecurityGroups[].GroupId'
+  echo "SecurityGroup for EC2 instance $i ..."
+  aws ec2 describe-instances --instance-ids $i | jq -r '.Reservations[].Instances[].SecurityGroups[].GroupId'
 done  
 ```
 ```
