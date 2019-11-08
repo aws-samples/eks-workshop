@@ -15,3 +15,8 @@ Confirm the eksctl command works:
 ```
 eksctl version
 ```
+
+Enable eksctl bash-completion
+```
+eksctl completion bash >> ~/.bash_completion
+```
