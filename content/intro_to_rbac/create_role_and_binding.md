@@ -10,8 +10,9 @@ As mentioned earlier, we have our new user rbac-user, but its not yet bound to a
 Run the following to unset the environmental variables that define us as rbac-user:
 
 ```
-unset AWS_SECRET_ACCESS_KEY
-unset AWS_ACCESS_KEY_ID
+echo unset AWS_SECRET_ACCESS_KEY > unset_rbacuser_creds.sh
+echo unset AWS_ACCESS_KEY_ID >> unset_rbacuser_creds.sh
+. unset_rbacuser_creds.sh
 ```
 
 To verify we're the admin user again, and no longer rbac-user, issue the following command:
