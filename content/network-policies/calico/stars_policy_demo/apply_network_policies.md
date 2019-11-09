@@ -49,7 +49,7 @@ Again, we can examine our file contents by running: `cat allow-ui.yaml`
 
 ```
 kind: NetworkPolicy
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 metadata:
   namespace: stars
   name: allow-ui
