@@ -57,8 +57,7 @@ You will get similar output
 	}
 }
 ```
-Replace `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in the following command with values received from above output.
-
+Follow the command by replacing appropriate values from previous output
 ```
 export AWS_ACCESS_KEY_ID_VALUE=$(echo -n 'REPLACE_WITH_AccessKeyId' | base64)
 export AWS_SECRET_ACCESS_KEY_VALUE=$(echo -n 'REPLACE_WITH_SecretAccessKey' | base64)
