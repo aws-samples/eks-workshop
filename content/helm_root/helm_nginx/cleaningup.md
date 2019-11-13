@@ -4,9 +4,9 @@ date: 2018-08-07T08:30:11-07:00
 weight: 500
 ---
 
-To remove all the objects that the Helm Chart created, we can use [Helm delete](https://docs.helm.sh/helm/#helm-delete).
+To remove all the objects that the Helm Chart created, we can use [Helm delete](https://v2.helm.sh/docs/helm/#helm-delete).
 
-Before we delete it though, we can verify what we have running via the [Helm list](https://docs.helm.sh/helm/#helm-list) command:
+Before we delete it though, we can verify what we have running via the [Helm list](https://v2.helm.sh/docs/helm/#helm-list) command:
 
 ```
 helm list
