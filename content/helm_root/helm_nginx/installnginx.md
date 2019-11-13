@@ -4,7 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 400
 ---
 
-Installing the Bitnami standalone NGINX web server Chart involves us using the [helm install](https://docs.helm.sh/helm/#helm-install) command.
+Installing the Bitnami standalone NGINX web server Chart involves us using the [helm install](https://v2.helm.sh/docs/helm/#helm-install) command.
 
 When we install using Helm, we need to provide a deployment name, or a random one will be assigned to the deployment automatically.
 
