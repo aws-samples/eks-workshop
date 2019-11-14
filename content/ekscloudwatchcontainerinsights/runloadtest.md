@@ -22,7 +22,7 @@ This command tells Siege to run 200 concurrent connections to your Wordpress sit
 
 Let this test run for 15-20 seconds then you can kill it with ctrl+c in your terminal window. You can let it run for longer but within about 30 seconds you'll max the open connections of the cluster and it will terminate itself. 
 
-<img src="/ekscloudwatchcontainerinsights/img/siegerun.png">
+<img src="/images/ekscwci/siegerun.png">
 
 ## Now let's go view our newly collected metrics! ##
 

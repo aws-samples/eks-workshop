@@ -22,14 +22,14 @@ Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/
 
 Select one of the worker node instances and choose the IAM role in the description.
 
-<img src="/ekscloudwatchcontainerinsights/img/ec2info.png">
+<img src="/images/ekscwci/ec2info.png">
 
 On the IAM role page, choose Attach policies. 
 
-<img src="/ekscloudwatchcontainerinsights/img/attachpolicy.png">
+<img src="/images/ekscwci/attachpolicy.png">
 
 In the list of policies, select the check box next to CloudWatchAgentServerPolicy. If necessary, use the search box to find this policy.
 
-<img src="/ekscloudwatchcontainerinsights/img/attachperm.png">
+<img src="/images/ekscwci/attachperm.png">
 
 Now we can proceed to the actual install of the CloudWatch Insights. 

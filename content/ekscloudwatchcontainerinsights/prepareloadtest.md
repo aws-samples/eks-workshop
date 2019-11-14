@@ -24,7 +24,7 @@ Once downloaded we’ll extract this file and change to the extracted directory.
 tar -xvf siege-latest.tar.gz
 ```
 
-<img src="/ekscloudwatchcontainerinsights/img/siegeextract.png">
+<img src="/images/ekscwci/siegeextract.png">
 
 ```
 cd siege-4.0.4
@@ -43,6 +43,6 @@ Verify Siege is working by typing the below into your terminal window.
 siege --version
 ```
 
-<img src="/ekscloudwatchcontainerinsights/img/siegeversion.png">
+<img src="/images/ekscwci/siegeversion.png">
 
 

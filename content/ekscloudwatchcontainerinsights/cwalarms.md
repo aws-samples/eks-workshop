@@ -48,16 +48,16 @@ Once those items are set, you can click Next at the bottom of the screen.
 
 On the next screen we’ll add a unique name for our alert, and press Next.
 
-<img src="/ekscloudwatchcontainerinsights/img/alertdescription.png">
+<img src="/images/ekscwci/alertdescription.png">
 
 The next screen will show your metric and the conditions. Make sure to click create alarm. 
 
-<img src="/ekscloudwatchcontainerinsights/img/createalarm.png">
+<img src="/images/ekscwci/createalarm.png">
 
 
 After creating your new SNS topic you will need to verify your subscription in your email.
 
-<img src="/ekscloudwatchcontainerinsights/img/snsemail.png">
+<img src="/images/ekscwci/snsemail.png">
 
 <h4> Testing your alarm </h4>
 
@@ -74,7 +74,7 @@ After you let your load test run for a 20-30 seconds it will either complete, or
 
 In a minute or two, you should receive and email about your CPU being in alert. If you don’t verify your SNS topic configuration and that you’ve accepted the subscription to the topic. 
 
-<img src="/ekscloudwatchcontainerinsights/img/sampleemail.png">
+<img src="/images/ekscwci/sampleemail.png">
 
 
 

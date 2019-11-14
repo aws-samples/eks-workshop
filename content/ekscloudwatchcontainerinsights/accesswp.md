@@ -13,19 +13,19 @@ echo Username: user
 ```
 <i><font color="red"> Make sure to adjust the understood-zebu-wordpress to match your version.</font> </i>
 
-<img src="/ekscloudwatchcontainerinsights/img/wplogin.png">
+<img src="/images/ekscwci/wplogin.png">
 
 
 In your favorite browser paste in your Wordpress Admin URL from the Installing Wordpress section.  You should be greeted with the following screen.
 
-<img src="/ekscloudwatchcontainerinsights/img/wploginpage.png">
+<img src="/images/ekscwci/wploginpage.png">
 
 
 Enter your username and password to make sure they work. 
 
 If you are taken to the below screen, you have a successfully running Wordpress install backed by MaiaDB in your EKS Cluster. 
 
-<img src="/ekscloudwatchcontainerinsights/img/wpdashboard.png">
+<img src="/images/ekscwci/wpdashboard.png">
 
 Now that we have verified that the site is working we can continue with getting CloudWatch Container Insights installed on our cluster! 
 

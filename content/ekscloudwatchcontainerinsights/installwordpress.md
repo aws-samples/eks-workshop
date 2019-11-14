@@ -6,7 +6,7 @@ weight: 2
 
 <h3>Install Wordpress to EKS Cluster</h3>
   
-<img src="/ekscloudwatchcontainerinsights/img/wordpresslogo.png">
+<img src="/images/ekscwci/wordpresslogo.png">
 
 We’ll be using the following Wordpress Distribution to install Wordpress to our EKS cluster. To install this we'll be using helm for an easy deployment method. 
 
@@ -20,7 +20,7 @@ helm install stable/wordpress
 
 You will see that this chart does a number of items. Including creating a persistent volume clain in EKS, create a Pod named after the release of Wordpress being installed (at time of this lab creation “understood-zebra” ) Multiple secrets stores and a stateful set. 
  
-<img src="/ekscloudwatchcontainerinsights/img/helminstalloutput.png">
+<img src="/images/ekscwci/helminstalloutput.png">
 
  
 
@@ -43,7 +43,7 @@ You’ll need the URL for your Wordpress site. This is easily accomplished by ru
 ```
 Once ran you’ll get an output like below containing your site URL and Admin logon url. You will need both. 
  
-<img src="/ekscloudwatchcontainerinsights/img/lboutput.png">
+<img src="/images/ekscwci/lboutput.png">
 <i><font color="red"> Your LoadBalncer name will vary, so don’t use the one in the example. </font> <i>
 
  
