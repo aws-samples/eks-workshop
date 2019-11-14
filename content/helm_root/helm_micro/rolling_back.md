@@ -15,10 +15,35 @@ Deploy the updated demo application chart:
 helm upgrade workshop ~/environment/eksdemo
 ```
 
-The rolling upgrade will begin by creating a new nodejs pod with the new image. The new `ecsdemo-nodejs` Pod should fail to pull non-existing image. Run `helm status` command to see the `ImagePullBackOff` error:
+The rolling upgrade will begin by creating a new nodejs pod with the new image. The new `ecsdemo-nodejs` Pod should fail to pull non-existing image. Run `kubectl get pods` to see the `ImagePullBackOff` error.
 
 ```
-helm status workshop
+$ kubectl get pods
+NAME                               READY   STATUS             RESTARTS   AGE
+ecsdemo-crystal-844d84cb86-56gpz   1/1     Running            0          23m
+ecsdemo-crystal-844d84cb86-5vvcg   1/1     Running            0          23m
+ecsdemo-crystal-844d84cb86-d2plf   1/1     Running            0          23m
+ecsdemo-frontend-6df6d9bb9-dpcsl   1/1     Running            0          23m
+ecsdemo-frontend-6df6d9bb9-lzlwh   1/1     Running            0          23m
+ecsdemo-frontend-6df6d9bb9-psg69   1/1     Running            0          23m
+ecsdemo-nodejs-6fdf964f5f-6cnzl    1/1     Running            0          23m
+ecsdemo-nodejs-6fdf964f5f-fbcjv    1/1     Running            0          23m
+ecsdemo-nodejs-6fdf964f5f-v88jn    1/1     Running            0          23m
+ecsdemo-nodejs-7c6575b56c-hrrsp    0/1     ImagePullBackOff   0          15m
+```
+
+Run `helm status` to verify the `LAST DEPLOYED` timestamp. 
+```
+$ helm status workshop
+LAST DEPLOYED: Thu Nov  7 11:11:38 2019
+NAMESPACE: default
+STATUS: DEPLOYED
+...
+```
+This should correspond to the last entry on `helm history`
+
+```
+helm history workshop
 ```
 
 #### Rollback the failed upgrade
