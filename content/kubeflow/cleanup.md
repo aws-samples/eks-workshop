@@ -25,5 +25,5 @@ kfctl delete -V -f ${CONFIG_FILE}
 ```
 Scale the cluster back to previous size
 ```
-eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP-NAME --nodes 3
+eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 3
 ```

@@ -21,8 +21,8 @@ eksworkshop-eksctl      ng-52c1fb5e     2019-11-05T16:22:50Z    3               
 ```
 Currently my cluster has 3 nodes in ng-52c1fb5e nodegroup. In order to scale my cluster to 6, I use this command
 ```
-export NODEGROUP-NAME=ng-52c1fb5e
-eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP-NAME --nodes 6
+export NODEGROUP_NAME=ng-52c1fb5e
+eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 6
 ```
 {{% notice info %}}
 Scaling nodegroup will take 2 - 3 minutes
