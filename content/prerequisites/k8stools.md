@@ -21,7 +21,7 @@ sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleap
 sudo chmod +x /usr/local/bin/kubectl
 ```
 
-#### Install JQ and envsubst
+#### Install jq and envsubst (from GNU gettext utilities)
 ```
 sudo yum -y install jq gettext
 ```
