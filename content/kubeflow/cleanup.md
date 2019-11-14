@@ -18,9 +18,12 @@ aws s3 rb s3://$S3_BUCKET --force --region $AWS_REGION
 # delete aws-secret
 kubectl delete secret/aws-secret
 ```
-
 Run these commands to uninstall Kubeflow from your EKS cluster
 ```
 cd ${KF_DIR}
 kfctl delete -V -f ${CONFIG_FILE}
+```
+Scale the cluster back to previous size
+```
+eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 3
 ```
