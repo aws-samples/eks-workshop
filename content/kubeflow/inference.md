@@ -34,14 +34,29 @@ Port forward inference endpoint for local testing:
 kubectl port-forward `kubectl get pods -l=app=mnist,type=inference -o jsonpath='{.items[0].metadata.name}' --field-selector=status.phase=Running` 8500:8500 &
 ```
 
+#### Install packages
+
+Install `tensorflow` package:
+
+```
+curl -O https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py --user
+pip3 install tensorflow --user
+```
+
 #### Run inference
 
-Use the script [inference_client.py](https://eksworkshop.com/kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
+
+Use the script [inference_client.py](/kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
 
 ```
 curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/inference_client.py
-$ python inference_client.py --endpoint http://localhost:8500/v1/models/mnist:predict
+python inference_client.py --endpoint http://localhost:8500/v1/models/mnist:predict
+```
 
+It will randomly pick one image from test dataset and make prediction.
+
+```
 Data: {"instances": [[[[0.0], [0.0], [0.0], [0.0], [0.0] ... 0.0], [0.0]]]], "signature_name": "serving_default"}
 The model thought this was a Ankle boot (class 9), and it was actually a Ankle boot (class 9)
 ```
