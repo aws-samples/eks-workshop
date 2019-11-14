@@ -69,7 +69,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
-  name: aws-secr
+  name: aws-secret
 type: Opaque
 data:
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_VALUE
