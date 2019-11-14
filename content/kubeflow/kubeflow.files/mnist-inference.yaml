@@ -29,6 +29,9 @@ metadata:
   name: mnist-inference
   namespace: default
 spec:
+  selector:
+    matchLabels:
+      app: mnist
   template:
     metadata:
       labels:
