@@ -15,6 +15,7 @@ Original instructions for this are available at:
 http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_ES_Stream.html
 
 ```
+mkdir ~/environment/iam_policy/
 cat <<EoF > ~/environment/iam_policy/lambda.json
 {
    "Version": "2012-10-17",

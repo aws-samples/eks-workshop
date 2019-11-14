@@ -16,7 +16,7 @@ Let's go over few key features of the Calico manifest:
 
 ```
 kind: DaemonSet
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: calico-node
   namespace: kube-system
