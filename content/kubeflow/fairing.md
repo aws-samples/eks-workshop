@@ -9,7 +9,7 @@ draft: false
 Jupyter notebooks are a great way to author your model creation. You can write the algorithms, train the model and if you need a way to publish the inference endpoint directly from this interface, you can use Kubeflow fairing to do so
 
 #### Create Jupyter notebook server
-Create new notebook server by following [Jupyter notebook chapter] (/kubeflow/jupyter). Before you jump, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) we will use for fairing notebook server. Below screenshot depicts how to use custom image
+Create new notebook server by following [Jupyter notebook chapter] (/kubeflow/jupyter). Before you jump to the link, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) that you will use for fairing notebook server. Below screenshot depicts how to use custom image
 
 ![dashboard](/images/kubeflow/fairing-custom-notebook-server.png)
 
