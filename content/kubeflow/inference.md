@@ -46,7 +46,8 @@ pip3 install tensorflow --user
 
 #### Run inference
 
-Use the script [inference_client.py](/kubeflow/kubeflow.files/inference_client.py) to make prediction request.
+
+Use the script [inference_client.py](/kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
 
 ```
 curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/inference_client.py

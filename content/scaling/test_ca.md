@@ -10,7 +10,7 @@ We will deploy an sample nginx application as a `ReplicaSet` of 1 `Pod`
 
 ```
 cat <<EoF> ~/environment/cluster-autoscaler/nginx.yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-to-scaleout
