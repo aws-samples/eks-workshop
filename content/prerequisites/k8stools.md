@@ -21,9 +21,9 @@ sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleap
 sudo chmod +x /usr/local/bin/kubectl
 ```
 
-#### Install jq and envsubst (from GNU gettext utilities)
+#### Install jq, envsubst (from GNU gettext utilities) and bash-completion
 ```
-sudo yum -y install jq gettext
+sudo yum -y install jq gettext bash-completion
 ```
 
 #### Verify the binaries are in the path and executable
@@ -32,4 +32,9 @@ for command in kubectl jq envsubst
   do
     which $command &>/dev/null && echo "$command in path" || echo "$command NOT FOUND"
   done
+```
+
+#### Enable kubectl bash_completion
+```
+kubectl completion bash >>  ~/.bash_completion
 ```

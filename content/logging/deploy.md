@@ -23,6 +23,7 @@ Update REGION and CLUSTER_NAME environment variables in fluentd.yml to the ones 
 {{% /notice %}}
 
 ```
+sed -e "s/us-west-2/$AWS_REGION/" -i ~/environment/fluentd/fluentd.yml
 kubectl apply -f ~/environment/fluentd/fluentd.yml
 ```
 

@@ -34,7 +34,7 @@ To make it easy to switch back and forth between the admin user you created the 
 
 ```
 cat << EoF > rbacuser_creds.sh
-export AWS_SECRET_ACCESS_KEY=`grep SecretAccessKey /tmp/create_output.json  | awk -F: '{print $2}' | sed 's/,//' | sed 's/^ //g'`
-export AWS_ACCESS_KEY_ID=`grep AccessKeyId /tmp/create_output.json | awk -F: '{print $2}' | sed 's/,//' | sed 's/^ //g'`
+export AWS_SECRET_ACCESS_KEY=$(jq .AccessKey.SecretAccessKey /tmp/create_output.json)
+export AWS_ACCESS_KEY_ID=$(jq .AccessKey.AccessKeyId /tmp/create_output.json)
 EoF
 ```

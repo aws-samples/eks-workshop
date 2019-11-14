@@ -40,15 +40,6 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --alb-ingress-access --region=${AWS_REGION}
 ```
 
-#### If you're planning to run Machine Learning workloads in the Kubeflow chapter, then use the following command instead (note: this launches large p3 instances)
-```
-curl -OL https://eksworkshop.com/eksctl/launcheks.files/eksworkshop-kubeflow.yml.template
-export AWS_AZS=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[*].ZoneName' --output json | tr '\n' ' ' | sed 's/[][]//g')
-export AWS_AZ=$(aws ec2 describe-availability-zones --region=${AWS_REGION} --query 'AvailabilityZones[0].ZoneName' --output json)
-envsubst <eksworkshop-kubeflow.yml.template >eksworkshop-kubeflow.yml
-eksctl create cluster -f eksworkshop-kubeflow.yml
-```
-
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}
