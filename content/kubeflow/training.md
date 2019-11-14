@@ -15,7 +15,7 @@ This chapter explains how to build a training model for [Fashion-MNIST](https://
 
 We will use a pre-built Docker image `seedjeffwan/mnist_tensorflow_keras:1.13.1` for this exercise. This image uses `tensorflow/tensorflow:1.13.1` as the base image. The image has training code and downloads training and test data sets. It also stores the generated model in an S3 bucket.
 
-Alternatively, you can use [Dockerfile](https://eksworkshop.com/kubeflow/kubeflow.files/Dockerfile) to build the image by using the command below. We will skip this step for now
+Alternatively, you can use [Dockerfile](/kubeflow/kubeflow.files/Dockerfile) to build the image by using the command below. We will skip this step for now
 ```
 docker build -t <dockerhub_username>/<repo_name>:<tag_name> .
 ```
