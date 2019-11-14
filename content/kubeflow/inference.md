@@ -36,7 +36,7 @@ kubectl port-forward `kubectl get pods -l=app=mnist,type=inference -o jsonpath='
 
 #### Run inference
 
-Use the script [inference_client.py](/kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
+Use the script [inference_client.py](https://eksworkshop.com/kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
 
 ```
 curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/inference_client.py
