@@ -13,10 +13,9 @@ This chapter explains how to build a training model for [Fashion-MNIST](https://
 
 #### Docker image
 
-You can use a pre-built Docker image `seedjeffwan/mnist_tensorflow_keras:1.13.1`. This image uses `tensorflow/tensorflow:1.13.1` as the base image. The image has training code and downloads training and test data sets. It also stores the generated model in an S3 bucket.
+We will use a pre-built Docker image `seedjeffwan/mnist_tensorflow_keras:1.13.1` for this exercise. This image uses `tensorflow/tensorflow:1.13.1` as the base image. The image has training code and downloads training and test data sets. It also stores the generated model in an S3 bucket.
 
-Alternatively, you can use [Dockerfile](/kubeflow/kubeflow.files/Dockerfile) to build the image:
-
+Alternatively, you can use [Dockerfile](/kubeflow/kubeflow.files/Dockerfile.txt) to build the image by using the command below. We will skip this step for now
 ```
 docker build -t <dockerhub_username>/<repo_name>:<tag_name> .
 ```
@@ -39,13 +38,28 @@ If you want to use an existing bucket in a different region, then make sure to s
 
 AWS credentials are required to save model on S3 bucket. These credentials are stored in EKS cluster as Kubernetes secrets.
 
-Get your AWS access key id and secret access key.
-
-Replace `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in the following command with values specific to your environment.
-
+Create an IAM user 's3user', attach S3 access policy and retrieve temporary credentials
 ```
-export AWS_ACCESS_KEY_ID_VALUE=$(echo -n 'AWS_ACCESS_KEY_ID' | base64)
-export AWS_SECRET_ACCESS_KEY_VALUE=$(echo -n 'AWS_SECRET_ACCESS_KEY' | base64)
+aws iam create-user --user-name s3user
+aws iam attach-user-policy --user-name s3user --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+aws iam create-access-key --user-name s3user| tee /tmp/create_output.json
+```
+You will get similar output
+```
+{
+	"AccessKey": {
+		"UserName": "s3user",
+		"Status": "Active",
+		"CreateDate": "2019-11-08T00:53:25Z",
+		"SecretAccessKey": < AWS Secret Access Key > ,
+		"AccessKeyId": < AWS Access Key >
+	}
+}
+```
+Follow the command by replacing appropriate values from previous output
+```
+export AWS_ACCESS_KEY_ID_VALUE=$(echo -n 'REPLACE_WITH_AccessKeyId' | base64)
+export AWS_SECRET_ACCESS_KEY_VALUE=$(echo -n 'REPLACE_WITH_SecretAccessKey' | base64)
 ```
 
 Apply to EKS cluster:

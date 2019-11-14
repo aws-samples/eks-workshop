@@ -13,13 +13,13 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ```
 Here is a sample response
 ```
-amazon-k8s-cni:1.4.1
+amazon-k8s-cni:1.5.3
 ```
-Upgrade version to 1.3 if you have an older version
+Upgrade version to 1.5 if you have an older version
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
 ```
-Wait till all the pods are recycled. You can check the status of pods by using this command
+Wait until all the pods are recycled. You can check the status of pods by using this command
 ```
 kubectl get pods -n kube-system -w
 ```
@@ -27,23 +27,20 @@ kubectl get pods -n kube-system -w
 
 Edit aws-node configmap and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
 
-Note: You only need to add two lines into configmap
+Note: You only need to set one environment variable in the CNI daemonset configuration:
 ```
-kubectl edit daemonset -n kube-system aws-node
+kubectl set env ds aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
 ```
 ```
-...
-    spec:
-      containers:
-      - env:
-        - name: AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG
-          value: "true"
-        - name: AWS_VPC_K8S_CNI_LOGLEVEL
-          value: DEBUG
-        - name: MY_NODE_NAME
+kubectl describe daemonset aws-node -n kube-system | grep -A5 Environment
+```
+```
+    Environment:
+      AWS_VPC_K8S_CNI_LOGLEVEL:  	  DEBUG
+      AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG: true
+      MY_NODE_NAME:               	  (v1:spec.nodeName)
 ...
 ```
-Save the file and exit your text editor
 
 Terminate worker nodes so that Autoscaling launches newer nodes that come bootstrapped with custom network config
 
