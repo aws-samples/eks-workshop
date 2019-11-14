@@ -86,10 +86,24 @@ metal-v1-769b58d9dc-7q92q   2/2     Running   0          18s
 ```
 
 {{% notice note %}}
-If you don't see the above exact output, and instead see “Terminating” or "Initializing" pods, wait about 10 seconds — (your redeployment is underway), and re-run the command.
+If you don't see the above exact output, and instead see “Terminating” or "Initializing" pods, wait about 10 seconds — (your redeployment is underway), and re-run the command. Run `kubectl get pods -nprod --watch` to see the entire process of initializaing and terminating pods.
 {{% /notice %}}
 
-If we now describe the new dj pod to get more detail:
+```
+$ kubectl get pods -nprod --watch
+NAME                       READY   STATUS        RESTARTS   AGE
+dj-76c74fd9b6-mlmnv        2/2     Running       0          39s
+dj-8d4fc6ccd-vcknl         0/1     Terminating   0          19m
+jazz-v1-76dcdf6695-wn27s   2/2     Running       0          37s
+jazz-v1-f94cdc64d-mvd4l    0/1     Terminating   0          19m
+metal-v1-699bcc5d9-mzc9x   2/2     Running       0          38s
+dj-8d4fc6ccd-vcknl   0/1   Terminating   0     20m
+dj-8d4fc6ccd-vcknl   0/1   Terminating   0     20m
+jazz-v1-f94cdc64d-mvd4l   0/1   Terminating   0     20m
+jazz-v1-f94cdc64d-mvd4l   0/1   Terminating   0     20m
+```
+
+If we now describe the new dj pod to get more detail: `kubectl describe pods/$(kubectl get pods -nprod | grep 'dj-' | awk '{print $1}') -nprod`
 
 ```
 ...
