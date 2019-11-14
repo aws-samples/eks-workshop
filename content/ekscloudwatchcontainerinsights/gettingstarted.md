@@ -8,7 +8,7 @@ After you've completed the prerequisites and Helm is installed and working; We c
 
 For our testing we’ll be deploying Wordpress. We could just use a PHP file on the nodes and run NGINX to test as well, but with this Wordpress install you get experience deploying a Helm chart. And can use the load testing tool to hit various URLs on the Wordpress structure to generate additional network traffic load with multiple concurrent connections. 
 
-<h4> We'll be using the following tools in this lab: </h4>
+#### We'll be using the following tools in this lab: 
 
 - Helm: To install Wordpress on our cluster
 - CloudWatch Container Insights: To collect data from our cluster
@@ -17,7 +17,7 @@ For our testing we’ll be deploying Wordpress. We could just use a PHP file on 
 - CloudWatch Metrics: To set an Alarm for when our EKS cluster is under heavy load 
 
 
-## Lets get started! 
+### Lets get started! 
 
 
 

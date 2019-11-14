@@ -5,7 +5,7 @@ weight: 5
 ---
 
 
-<h4>Installing CloudWatch Container Insights using QuickStart: </h4>
+#### Installing CloudWatch Container Insights using QuickStart: 
 
 We'll be using the QuickStart to make the install simple and easy for the Container Insights. 
 
@@ -21,9 +21,9 @@ curl https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-i
 
 With this quick start it will push the necessary daemon sets to collect the data for CloudWatch Containers Insights.
 
+![alt text](/images/ekscwci/cwdaemon.png "CW Daemon")
 
-<img src="/images/ekscwci/cwdaemon.png">
 
 That's it. It's that simple to install the agent and get it up and running. You can follow the manual steps in the full documentation, but with the Quickstart the deployment of the Daemon is easy and quick! 
 
-## Now onto verifying the data is being collected! ##
+### Now onto verifying the data is being collected! 

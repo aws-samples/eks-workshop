@@ -5,12 +5,12 @@ weight: 7
 ---
 
 
-<h4>Preparing your Load Test </h4>
+#### Preparing your Load Test 
 
 
 Now that we have monitoring enabled we will simulate heavy load to our EKS Cluster hosting our Wordpress install. While generating the load, we can watch CloudWatch Container Insights for the performance metrics. 
 
-<h5>Install Siege for load testing on your Workspace:</h5>
+##### Install Siege for load testing on your Workspace:
 
 Download Siege by running the below command in your Cloud9 terminal.
 
@@ -24,7 +24,8 @@ Once downloaded we’ll extract this file and change to the extracted directory.
 tar -xvf siege-latest.tar.gz
 ```
 
-<img src="/images/ekscwci/siegeextract.png">
+![alt text](/images/ekscwci/siegeextract.png "Extract Siege")
+
 
 ```
 cd siege-4.0.4
@@ -42,7 +43,7 @@ Verify Siege is working by typing the below into your terminal window.
 ```
 siege --version
 ```
+![alt text](/images/ekscwci/siegeversion.png "Siege Version Info")
 
-<img src="/images/ekscwci/siegeversion.png">
 
 
