@@ -2,6 +2,9 @@
 title: "Start the workshop..."
 chapter: true
 weight: 10
+tags: 
+  - kubeflow
+  - appmesh
 ---
 
 # Getting Started

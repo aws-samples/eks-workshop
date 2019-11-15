@@ -2,6 +2,9 @@
 title: "Launch using eksctl"
 chapter: true
 weight: 20
+tags: 
+  - kubeflow
+  - appmesh
 ---
 
 # Launch using [eksctl](https://eksctl.io/)

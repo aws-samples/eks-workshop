@@ -3,6 +3,9 @@ title: "Introduction"
 weight: 5
 chapter: true
 draft: false
+tags: 
+  - kubeflow
+  - appmesh
 ---
 
 # Introduction to Kubernetes
