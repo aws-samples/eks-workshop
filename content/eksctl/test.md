@@ -10,7 +10,7 @@ Confirm your Nodes:
 kubectl get nodes # if we see our 3 nodes, we know we have authenticated correctly
 ```
 
-Export the Worker Role Name for use throughout the workshop
+#### Export the Worker Role Name for use throughout the workshop:
 
 ```bash
 STACK_NAME=$(eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq -r '.[].StackName')
