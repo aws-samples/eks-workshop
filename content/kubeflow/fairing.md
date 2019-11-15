@@ -19,7 +19,7 @@ aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:
 #### Create Jupyter notebook server
 Create new notebook server by following [Jupyter notebook chapter] (/kubeflow/jupyter). Before you jump to the link, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) that you will use for eks-kubeflow-workshop notebook server. Below screenshot depicts how to use custom image
 
-![dashboard](/images/kubeflow/fairing-custom-notebook-server.png)
+![dashboard](/images/kubeflow/eks-kubeflow-workshop-notebook-server.png)
 
 #### Clone the repo
 We will clone Github repo from a Jupyter notebook so that we can readily use authored notebooks in this chapter.
