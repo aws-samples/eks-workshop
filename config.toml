@@ -43,6 +43,11 @@ pygmentsStyle = "tango"
     weight = -110
 
 [[menu.shortcuts]]
+name = "<i class='fas fa-tags'></i> Tags"
+url = "/tags"
+weight = 5
+
+[[menu.shortcuts]]
 name = "<i class='fas fa-bookmark'></i> More Resources"
 url = "/more_resources"
 weight = 10
