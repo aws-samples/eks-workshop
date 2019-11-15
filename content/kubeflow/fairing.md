@@ -8,6 +8,7 @@ draft: false
 
 Jupyter notebooks are a great way to author your model creation. You can write the algorithms, train the model and if you need a way to publish the inference endpoint directly from this interface, you can use Kubeflow fairing to do so
 
+<<<<<<< HEAD
 #### Assign ECR permissions
 
 For this chapter, we will create a training image and store it in ECR. We need to add an IAM policy to Worker nodes so that we can write to ECR. Run below commands in Cloud9 and assign desired permission
@@ -16,6 +17,8 @@ For this chapter, we will create a training image and store it in ECR. We need t
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
 ```
 
+=======
+>>>>>>> 089702670a8b258aa103fa18a7e4ce353f08e406
 #### Create Jupyter notebook server
 Create new notebook server by following [Jupyter notebook chapter] (/kubeflow/jupyter). Before you jump to the link, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) that you will use for fairing notebook server. Below screenshot depicts how to use custom image
 
@@ -35,6 +38,7 @@ Close the notebook tab, go back to the notebook server, select the notebook that
 
 ![dashboard](/images/kubeflow/fairing-shutdown-notebook.png)
 
+<<<<<<< HEAD
 Browse the "eks-kubeflow-workshop" repository and go to fairing introduction notebook (eks-kubeflow-workshop/notebooks/02_Fairing/02_01_fairing_introduction.ipynb). You can either click on the notebook to open or select and click **View**
 
 ![dashboard](/images/kubeflow/fairing-view-introduction-notebook.png)
@@ -43,11 +47,18 @@ Browse the "eks-kubeflow-workshop" repository and go to fairing introduction not
 Starting from here, its important to read notebook instructions carefully. The info provided in the workshop is lightweight and you can use it to ensure desired result. You can complete the exercise by staying in the notebook
 {{% /notice %}}
 
+=======
+Browse the "eks-kubeflow-workshop" repository and go to fairing introduction notebook. You can either click on the notebook to open or select and click **View**
+
+![dashboard](/images/kubeflow/fairing-view-introduction-notebook.png)
+
+>>>>>>> 089702670a8b258aa103fa18a7e4ce353f08e406
 Review the content and click first cell and click **Run**. This will let you install Fairing from Github repository
 
 Wait till it finishes, go to next cell and click **Run**. Here is expected result
 ![dashboard](/images/kubeflow/fairing-install-from-github.png)
 
+<<<<<<< HEAD
 Now that we have fairing installed, we will train a model authored in Python. The model will create a linear regression model that allows us to learn a function or relationship from a given set of continuous data. For example, we are given some data points of x and corresponding y and we need to learn the relationship between them that is called a hypothesis.
 
 In case of linear regression, the hypothesis is a straight line i.e, h(x) = x * weight + b.
@@ -95,3 +106,8 @@ Let's call this prediction endpoint. Remember to replace <endpoint> with your en
 This demonstrates how to build XGBoost model using Fairing and deploy it locally and to remote endpoint.
 
 Run the next steps to cleanup resources from this exercise
+=======
+Now that we have fairing installed, we will train a model authored in Python. **The model is for**
+Run cell 3. Once it completes, run cell 4. This will create a model locally on our notebook
+![dashboard](/images/kubeflow/fairing-train-locally.png)
+>>>>>>> 089702670a8b258aa103fa18a7e4ce353f08e406
