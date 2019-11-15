@@ -1,9 +1,10 @@
 ---
 title: "Introduction"
-weight: 5
+weight: 10
 chapter: true
 draft: false
-tags: 
+tags:
+  - beginner
   - kubeflow
   - appmesh
 ---

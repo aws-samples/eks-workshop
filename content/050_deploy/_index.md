@@ -1,7 +1,9 @@
 ---
 title: "Deploy the Example Microservices"
 chapter: true
-weight: 31
+weight: 50
+tags:
+  - beginner
 ---
 
 # Deploy the Example Microservices

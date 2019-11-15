@@ -1,7 +1,9 @@
 ---
 title: "Deploy the Kubernetes Dashboard"
 chapter: true
-weight: 30
+weight: 40
+tags:
+  - beginner
 ---
 
 # Deploy the Kubernetes Dashboard

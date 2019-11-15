@@ -1,7 +1,9 @@
 ---
 title: "Health Checks"
 chapter: true
-weight: 40
+weight: 70
+tags:
+  - beginner
 ---
 
 # Health Checks

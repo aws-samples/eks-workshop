@@ -1,7 +1,9 @@
 ---
 title: "Intro to RBAC"
 chapter: true
-weight: 31
+weight: 90
+tags:
+  - beginner
 ---
 # Intro to RBAC
 

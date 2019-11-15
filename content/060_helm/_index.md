@@ -1,7 +1,9 @@
 ---
 title: "Helm"
 chapter: true
-weight: 33
+weight: 60
+tags:
+  - beginner
 ---
 
 # Kubernetes Helm

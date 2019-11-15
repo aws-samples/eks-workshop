@@ -1,8 +1,9 @@
 ---
 title: "Launch using eksctl"
 chapter: true
-weight: 20
-tags: 
+weight: 30
+tags:
+  - beginner
   - kubeflow
   - appmesh
 ---
