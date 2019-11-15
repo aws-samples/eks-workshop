@@ -80,9 +80,15 @@ export CONFIG_FILE=${KF_DIR}/kfctl_aws.0.7.0.yaml
 Replace EKS Cluster Name, AWS Region and IAM Roles in your $(CONFIG_FILE)
 
 ```
-sed -i "s@eksctl-eksworkshop-eksctl-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAME@" ${CONFIG_FILE}
+export ROLE_NAME=`aws iam list-roles \
+  | jq -r ".Roles[] \
+  | select(.RoleName \
+  | startswith(\"eksctl-$AWS_CLUSTER_NAME\") and contains(\"NodeInstanceRole\")) \
+  .RoleName"`
+export AWS_REGION=`eksctl get cluster |grep $AWS_CLUSTER_NAME|awk '{print $2}'`
+sed -i -e 's/eksctl-kubeflow-cluster-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx/'"$ROLE_NAME"'/' ${CONFIG_FILE}
 sed -i -e 's/kubeflow-aws/'"$AWS_CLUSTER_NAME"'/' ${CONFIG_FILE}
-sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG_FILE}
+sed -i -e 's/us-west-2/'"$AWS_REGION"'/' ${CONFIG_FILE}
 ```
 #### Deploy Kubeflow
 
