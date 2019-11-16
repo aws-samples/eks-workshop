@@ -1,6 +1,5 @@
 ---
 title: "Introduction"
-pre: "<b>1. </b>"
 weight: 10
 chapter: true
 draft: false
