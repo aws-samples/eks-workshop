@@ -14,11 +14,21 @@ Kubeflow Pipeline is one the core components of the toolkit and gets deployed au
 * An SDK for defining and manipulating pipelines and components.
 * Notebooks for interacting with the system using the SDK.
 
+#### Kubeflow Python SDK
+
+The Kubeflow Pipelines SDK provides a set of Python packages that you can use to specify and run your machine learning (ML) workflows. A pipeline is a description of an ML workflow, including all of the components that make up the steps in the workflow and how the components interact with each other.
+
+This guide tells you how to install the Kubeflow Pipelines SDK which you can use to build machine learning pipelines. You can use the SDK to execute your pipeline, or alternatively you can upload the pipeline to the Kubeflow Pipelines UI for execution.
+
+Open the following notebook and start your experiments.
+![dashboard](/images/kubeflow/pipelines-sdk.png)
+
+#### Mnist classification pipeline using Sagemaker
 [Amazon Sagemaker](https://aws.amazon.com/sagemaker/) is a managed service that enables data scientists and developers to quickly and easily build, train, and deploy machine learning models.
 
 For this exercise, we will build Mnist classification pipeline using Amazon Sagemaker.
 
-#### Assign IAM permissions
+##### Assign IAM permissions
 
 In order to run this exercise, we need two levels of IAM permissions 1) create Kubernetes secrets **aws-secret** with Sagemaker policies. 2) create an IAM execution role for Sagemaker so that the job can assume this role in order to perform Sagemaker actions. Typically in a production environment, you would assign fine-grained permissions depending on the nature of actions you take and leverage tools like [IAM Role for Service Account](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) for securing access to AWS resources but for simplicity we will assign AmazonSageMakerFullAccess IAM policy to both. You can read more about granular policies [here](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
 
@@ -78,11 +88,11 @@ Here is an example of the output
 TeamRole:~/environment $ aws iam get-role --role-name eksworkshop-sagemaker-kfp-role --output text --query 'Role.Arn'
 arn:aws:iam::371348455981:role/eksworkshop-sagemaker-kfp-role
 ```
-#### Run Sagemaker pipeline notebook
+##### Run Sagemaker pipeline notebook
 
 Go to your **eks-kubeflow-workshop** notebook server and browse for Sagemaker pipeline notebook (eks-workshop-notebook/notebooks/05_Kubeflow_Pipeline/05_04_Pipeline_SageMaker.ipynb). If you haven't installed notebook server, review [fairing chapter](https://eksworkshop.com/kubeflow/fairing/#create-jupyter-notebook-server) and finish the [clone the repo](https://eksworkshop.com/kubeflow/fairing/#clone-the-repo) instructions.
 
-Open Sagemaker pipeline notebook  
+Open Sagemaker pipeline notebook
 ![dashboard](/images/kubeflow/pipelines-view-sagemaker-notebook.png)
 
 {{% notice info %}}
