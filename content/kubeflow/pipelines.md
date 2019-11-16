@@ -20,8 +20,12 @@ The Kubeflow Pipelines SDK provides a set of Python packages that you can use to
 
 This guide tells you how to install the Kubeflow Pipelines SDK which you can use to build machine learning pipelines. You can use the SDK to execute your pipeline, or alternatively you can upload the pipeline to the Kubeflow Pipelines UI for execution.
 
-Open the following notebook and start your experiments.
+Open the following notebook(eks-kubeflow-workshop/notebooks/eks-kubeflow-workshop/notebooks/05_Kubeflow_Pipeline/05_01_Pipeline_SDK.ipynb). and start your experiments.
 ![dashboard](/images/kubeflow/pipelines-sdk.png)
+
+{{% notice info %}}
+Starting from here, its important to read notebook instructions carefully. The info provided in the workshop is lightweight and you can use it to ensure desired result. You can complete the exercise by staying in the notebook
+{{% /notice %}}
 
 #### Mnist classification pipeline using Sagemaker
 [Amazon Sagemaker](https://aws.amazon.com/sagemaker/) is a managed service that enables data scientists and developers to quickly and easily build, train, and deploy machine learning models.
