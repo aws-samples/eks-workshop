@@ -95,7 +95,9 @@ Once all the prerequisites steps are completed, let's go through building our pi
 
 Run step 1 to load Kubeflow pipeline SDK. Once that is complete, run step 2 to load sagemaker components
 
+<div data-proofer-ignore>
 Before you run step 3 - create pipeline, replace the value of SAGEMAKER_ROLE_ARN with Sagemaker execution role that we created during [Assign IAM permissions](http://localhost:8080/kubeflow/pipelines/#assign-iam-permissions)
+</div>
 ![dashboard](/images/kubeflow/pipelines-sagemaker-execution-role.png)
 
 After this, go and run next two steps to compile and deploy your pipelines
