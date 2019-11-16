@@ -2,6 +2,7 @@
 title: "CloudWatch Container Insights"
 chapter: true
 weight: 52
+draft: true
 ---
 
 # Configure CloudWatch Container Insights for your EKS cluster
