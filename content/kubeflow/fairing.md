@@ -17,7 +17,7 @@ aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:
 ```
 
 #### Create Jupyter notebook server
-Create new notebook server by following [Jupyter notebook chapter] (/kubeflow/jupyter). Before you jump to the link, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) that you will use for eks-kubeflow-workshop notebook server. Below screenshot depicts how to use custom image
+Create new notebook server by following [Jupyter notebook chapter] (/kubeflow/jupyter). Before you jump to the link, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) that you will use for **eks-kubeflow-workshop** notebook server. Below screenshot depicts how to use custom image
 
 ![dashboard](/images/kubeflow/eks-kubeflow-workshop-notebook-server.png)
 
@@ -35,7 +35,9 @@ Close the notebook tab, go back to the notebook server, select the notebook that
 
 ![dashboard](/images/kubeflow/fairing-shutdown-notebook.png)
 
-Browse the "eks-kubeflow-workshop" repository and go to fairing introduction notebook (eks-kubeflow-workshop/notebooks/02_Fairing/02_01_fairing_introduction.ipynb). You can either click on the notebook to open or select and click **View**
+#### Run fairing introduction notebook
+
+Browse the **"eks-kubeflow-workshop"** repository and go to fairing introduction notebook (eks-kubeflow-workshop/notebooks/02_Fairing/02_01_fairing_introduction.ipynb). You can either click on the notebook to open or select and click **View**
 
 ![dashboard](/images/kubeflow/fairing-view-introduction-notebook.png)
 
@@ -68,7 +70,7 @@ Let's run next cell. Fairing pushes the image to ECR and then deploys the model 
 
 Now that we have demonstrated how to use Fairing to train locally and remotely, let's train and deploy XGBoost model and review an end to end implementation
 
-### Create an End to End deployment using Fairing
+#### Run fairing end to end deployment notebook 
 
 For this exercise, we will use another notebook called **02_06_fairing_e2e.ipynb**
 
