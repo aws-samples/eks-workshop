@@ -9,23 +9,15 @@ In this chapter, we will install Kubeflow on Amazon EKS cluster. If you don't ha
 
 ### Increase cluster size
 
-We need more resources for completing Kubeflow chapters. Let's go and increase the size of our cluster
+We need more resources for completing the Kubeflow chapter of the EKS Workshop.
+First, we'll increase the size of our cluster to 6 nodes:
 
 ```
-eksctl get nodegroups --cluster eksworkshop-eksctl
-```
-Take a note of your nodegroup name and use it to scale your cluster. For ex, here is my nodegroup
-```
-CLUSTER                 NODEGROUP       CREATED                 MIN SIZE        MAX SIZE        DESIRED CAPACITY    INSTANCE TYPE   IMAGE ID
-eksworkshop-eksctl      ng-52c1fb5e     2019-11-05T16:22:50Z    3               3               3          m
-```
-Currently my cluster has 3 nodes in ng-52c1fb5e nodegroup. In order to scale my cluster to 6, I use this command
-```
-export NODEGROUP_NAME=ng-52c1fb5e
+export NODEGROUP_NAME=$(eksctl get nodegroups --cluster eksworkshop-eksctl -o json | jq -r '.[0].Name')
 eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 6
 ```
 {{% notice info %}}
-Scaling nodegroup will take 2 - 3 minutes
+Scaling the nodegroup will take 2 - 3 minutes.
 {{% /notice %}}
 
 ### Install Kubeflow on Amazon EKS

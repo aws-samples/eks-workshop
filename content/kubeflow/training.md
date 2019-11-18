@@ -37,24 +37,13 @@ Create an IAM user 's3user', attach S3 access policy and retrieve temporary cred
 ```
 aws iam create-user --user-name s3user
 aws iam attach-user-policy --user-name s3user --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
-aws iam create-access-key --user-name s3user| tee /tmp/create_output.json
+aws iam create-access-key --user-name s3user > /tmp/create_output.json
 ```
-You will get similar output
+
+Next, record the new user's credentials into environment variables:
 ```
-{
-	"AccessKey": {
-		"UserName": "s3user",
-		"Status": "Active",
-		"CreateDate": "2019-11-08T00:53:25Z",
-		"SecretAccessKey": < AWS Secret Access Key > ,
-		"AccessKeyId": < AWS Access Key >
-	}
-}
-```
-Follow the command by replacing appropriate values from previous output
-```
-export AWS_ACCESS_KEY_ID_VALUE=$(echo -n 'REPLACE_WITH_AccessKeyId' | base64)
-export AWS_SECRET_ACCESS_KEY_VALUE=$(echo -n 'REPLACE_WITH_SecretAccessKey' | base64)
+export AWS_ACCESS_KEY_ID_VALUE=$(jq -r .AccessKey.AccessKeyId /tmp/create_output.json | base64)
+export AWS_SECRET_ACCESS_KEY_VALUE=$(jq -r .AccessKey.SecretAccessKey /tmp/create_output.json | base64)
 ```
 
 Apply to EKS cluster:
@@ -78,7 +67,7 @@ Create pod:
 
 ```
 curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/mnist-training.yaml
-envsubst <mnist-training.yaml | kubectl create -f -
+envsubst < mnist-training.yaml | kubectl create -f -
 ```
 
 This will start a pod which will start the training and save the generated model in S3 bucket. Check status:
