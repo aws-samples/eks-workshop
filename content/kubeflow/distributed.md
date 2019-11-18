@@ -13,7 +13,7 @@ Go to your **eks-kubeflow-workshop** notebook server and browse for distributed 
 
 You can go over basic concepts of distributed training. In addition, we prepare `distributed-tensorflow-job.yaml` and `distributed-pytorch-job.yaml` for you to run distributed training jobs on EKS. You can follow guidance to check job specs, create the jobs and monitor the jobs.
 
-![dashboard](/images/kubeflow/distributed-training-notebook.png)
+![dashboard](/images/kubeflow/distributed-training-notebook.jpg)
 
 {{% notice info %}}
 Starting from here, its important to read notebook instructions carefully. The info provided in the workshop is lightweight and you can use it to ensure desired result. You can complete the exercise by staying in the notebook
