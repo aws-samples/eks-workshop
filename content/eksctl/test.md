@@ -4,7 +4,7 @@ date: 2018-08-07T13:36:57-07:00
 weight: 30
 ---
 #### Test the cluster:
-Confirm your Nodes:
+Confirm your nodes:
 
 ```bash
 kubectl get nodes # if we see our 3 nodes, we know we have authenticated correctly
