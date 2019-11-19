@@ -26,24 +26,14 @@ Run this command from your Cloud9 to assign IAM policy to your worker nodes
 ```
 aws iam create-user --user-name sagemakeruser
 aws iam attach-user-policy --user-name sagemakeruser --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
-aws iam create-access-key --user-name sagemakeruser| tee /tmp/create_output.json
+aws iam create-access-key --user-name sagemakeruser > /tmp/create_output.json
 ```
-You will get similar output
+
+Next, record the new user's credentials into environment variables:
+
 ```
-{
-	"AccessKey": {
-		"UserName": "sagemakeruser",
-		"Status": "Active",
-		"CreateDate": "2019-11-08T00:53:25Z",
-		"SecretAccessKey": < AWS Secret Access Key > ,
-		"AccessKeyId": < AWS Access Key >
-	}
-}
-```
-Follow the command by replacing appropriate values from previous output
-```
-export AWS_ACCESS_KEY_ID_VALUE=$(echo -n 'REPLACE_WITH_AccessKeyId' | base64)
-export AWS_SECRET_ACCESS_KEY_VALUE=$(echo -n 'REPLACE_WITH_SecretAccessKey' | base64)
+export AWS_ACCESS_KEY_ID_VALUE=$(jq -r .AccessKey.AccessKeyId /tmp/create_output.json | base64)
+export AWS_SECRET_ACCESS_KEY_VALUE=$(jq -r .AccessKey.SecretAccessKey /tmp/create_output.json | base64)
 ```
 
 Apply to EKS cluster:
