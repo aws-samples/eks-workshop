@@ -18,7 +18,7 @@ kubectl get pods -nprod -lapp=dj
 
 ```
 NAME                  READY     STATUS    RESTARTS   AGE
-dj-5b445fbdf4-8xkwp   1/1       Running   0          32s
+dj-5b445fbdf4-8xkwp   2/2       Running   0          32s
 ```
 
 Next, we'll exec into the DJ pod returned from the last step:
