@@ -27,7 +27,7 @@ service/jazz-v2 created
 virtualnode.appmesh.k8s.aws/jazz-v2 created
 ```
 
-Next, we'll update the jazz Virtual Service by modifying the route to spread traffic 50/50 across the two versions.  If we take a look at it now, we'll see the current route which points to jazz-v1 100%:
+Next, we'll update the jazz Virtual Service by modifying the route to spread traffic 90/10 across the two versions.  If we take a look at it now, we'll see the current route which points to jazz-v1 100%:
 
 ```
 kubectl describe virtualservice jazz -nprod

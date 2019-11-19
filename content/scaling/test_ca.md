@@ -16,6 +16,9 @@ metadata:
   name: nginx-to-scaleout
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
   template:
     metadata:
       labels:

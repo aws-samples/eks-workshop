@@ -22,7 +22,7 @@ Scaling the nodegroup will take 2 - 3 minutes.
 
 ### Install Kubeflow on Amazon EKS
 
-Download 0.7 RC6 release of `kfctl`. This binary will allow you to install Kubeflow on Amazon EKS:
+Download 0.7 release of `kfctl`. This binary will allow you to install Kubeflow on Amazon EKS:
 
 ```
 curl --silent --location "https://github.com/kubeflow/kubeflow/releases/download/v0.7.0/kfctl_v0.7.0_linux.tar.gz" | tar xz -C /tmp
