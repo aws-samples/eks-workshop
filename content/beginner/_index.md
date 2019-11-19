@@ -1,7 +1,7 @@
 ---
 title: "Beginner"
 chapter: true
-weight: 1
+weight: 50
 tags:
   - beginner
 ---
