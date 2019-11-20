@@ -10,6 +10,8 @@ If you look in the newly created **eksdemo** directory, you'll see several files
 * deployment.yaml: A basic manifest for creating a Kubernetes deployment
 * service.yaml: A basic manifest for creating a service endpoint for your deployment
 * _helpers.tpl: A place to put template helpers that you can re-use throughout the chart
+* ingress.yaml: A basic manifest for creating a Kubernetes ingress object for your service
+* tests/: A folder which contains tests for chart
 
 We're actually going to create our own files, so we'll delete these boilerplate files
 ```
