@@ -19,4 +19,5 @@ eksctl version
 Enable eksctl bash-completion
 ```
 eksctl completion bash >> ~/.bash_completion
+source /etc/profile.d/bash_completion.sh
 ```
