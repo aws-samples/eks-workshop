@@ -170,4 +170,4 @@ STEP               PODNAME                    DURATION  MESSAGE
  └-✔ Golf          teardrop-jfg5w-1687601882  30s       
 ```
 
-Continue to the [Argo Dashboard](/batch/dashboard/) to explore this model further.
+Continue to the [Argo Dashboard](/advanced/410_batch/dashboard/) to explore this model further.

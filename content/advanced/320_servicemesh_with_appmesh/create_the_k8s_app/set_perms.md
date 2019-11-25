@@ -12,7 +12,7 @@ Verify that $ROLE_NAME is defined by running the following command:
 echo $ROLE_NAME
 ```
 
-If this variable is not defined (the above command returns an empty value), please visit [the cluster test chapter](../../../030_eksctl/test) and run through the export role name step.
+If this variable is not defined (the above command returns an empty value), please visit [the cluster test chapter](/030_eksctl/test) and run through the export role name step.
 
 Also be sure you have your region defined.  Verify its set by running the following command:
 

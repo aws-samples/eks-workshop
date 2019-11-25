@@ -11,7 +11,7 @@ draft: false
 
 Argo UI lists the workflows and visualizes each workflow (very handy for our last workflow).
 
-To connect, use the same proxy connection setup in [Deploy the Official Kubernetes Dashboard](/dashboard/dashboard/).
+To connect, use the same proxy connection setup in [Deploy the Official Kubernetes Dashboard](/beginner/040_dashboard/).
 
 {{%expand "Show me the command" %}}
 ```
@@ -39,7 +39,7 @@ To access the Argo Dashboard:
 /api/v1/namespaces/argo/services/argo-ui/proxy/
 ```
 
-You will see the `teardrop` workflow from [Advanced Batch Workflow](/batch/workflow-advanced/). Click on it to see a visualization of the workflow.
+You will see the `teardrop` workflow from [Advanced Batch Workflow](/advanced/410_batch/workflow-advanced/). Click on it to see a visualization of the workflow.
 
 ![Argo Workflow](/images/argo-workflow.png)
 
