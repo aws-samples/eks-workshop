@@ -15,7 +15,7 @@ Now we can access the Kubernetes Dashboard
 
 Open a New Terminal Tab  and enter
 ```
-aws eks get-token --cluster-name eksworkshop-eksctl | jq -r '.status.token'
+aws-iam-authenticator token -i eksworkshop-eksctl --token-only 
 ```
 
 Copy the output of this command and then click the radio button next to
