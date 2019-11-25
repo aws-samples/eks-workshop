@@ -23,7 +23,7 @@ Now that we have tested our template, lets install it.
 helm install --name workshop ~/environment/eksdemo
 ```
 
-Similar to what we saw previously in the [NGINX Helm Chart example](/helm_root/helm_nginx/index.html), an output of the Deployment, Pod, and Service objects are output, similar to:
+Similar to what we saw previously in the [NGINX Helm Chart example](/beginner/060_helm/helm_nginx/index.html), an output of the Deployment, Pod, and Service objects are output, similar to:
 
 ```
 NAME:   workshop

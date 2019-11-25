@@ -6,7 +6,7 @@ draft: false
 ---
 
 ### Define service account for Tiller
-Helm and Tiller are required for the following examples. If you have not installed Helm yet, [please first reference the Helm chapter](/helm_root) before proceeding.
+Helm and Tiller are required for the following examples. If you have not installed Helm yet, [please first reference the Helm chapter](/beginner/060_helm) before proceeding.
 
 First create a service account for Tiller:
 ```

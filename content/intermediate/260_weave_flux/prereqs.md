@@ -12,7 +12,7 @@ We will use **helm** to install Weave Flux and a sample Helm chart. Check to see
 ```
 helm version
 ```
-If `helm` is not found, see [installing helm](/helm_root/helm_intro/install/index.html) for instructions.
+If `helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 
 <br>
 #### Does S3 artifact bucket exist and are IAM service roles created?

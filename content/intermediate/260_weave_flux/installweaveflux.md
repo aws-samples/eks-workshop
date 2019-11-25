@@ -22,7 +22,7 @@ helm ls
 When `tiller` has already been installed, this command should either return a list of helm charts that have already been deployed or nothing.
 
 {{% notice info %}}
-If you get the message *Error: could not find tiller*, see [installing helm](/helm_root/helm_intro/install/index.html) for instructions.
+If you get the message *Error: could not find tiller*, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 {{% /notice %}}
 
 Next, add the Flux chart repository to Helm and install Flux.  
