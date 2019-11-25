@@ -5,7 +5,7 @@ weight: 11
 ---
 
 #### Wrapping Up:
-As you can see it’s fairly easy to get Cloud Watch Container Insights to work, and set alarms for CPU and other metrics. With CloudWatch Container Insights we remove the need to manage and update your own monitoring infrastructure and allow you to use native AWS solutions that you don’t have to manage the platform for.
+As you can see it’s fairly easy to get CloudWatch Container Insights to work, and set alarms for CPU and other metrics. With CloudWatch Container Insights we remove the need to manage and update your own monitoring infrastructure and allow you to use native AWS solutions that you don’t have to manage the platform for.
 
 
 ***

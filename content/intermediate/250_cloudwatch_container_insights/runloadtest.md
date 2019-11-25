@@ -8,7 +8,7 @@ weight: 8
 
 #### Run Siege to Load Test your Wordpress Site:
 
-Now that Siege is setup and running, we're going to generate some load to our Wordpress site.  With that load we can see the metrics change in Cloud Watch Container Insights.
+Now that Siege is setup and running, we're going to generate some load to our Wordpress site.  With that load we can see the metrics change in CloudWatch Container Insights.
 
 From your terminal window in the Siege directory, run the following command.
 

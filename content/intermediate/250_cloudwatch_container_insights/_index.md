@@ -1,5 +1,5 @@
 ---
-title: "EKS Cloud Watch Container Insights"
+title: "EKS CloudWatch Container Insights"
 chapter: true
 weight: 250
 tags:
