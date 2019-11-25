@@ -17,9 +17,18 @@ Select the namespace created in previous step:
 
 ![dashboard](/images/kubeflow/jupyter-select-namespace.png)
 
-This pre-populates the namespace field on the dashboard. Specify a name **myjupyter** for the notebook and change the CPU value to **1.0**:
+This pre-populates the namespace field on the dashboard. Specify a name **myjupyter** for the notebook:
 
-![dashboard](/images/kubeflow/jupyter-name-cpu.png)
+![dashboard](/images/kubeflow/jupyter-enter-notebook-server-name.png)
+
+In the Image section, select the latest **tensorflow-1.x** image whose name ends
+in **cpu** (not gpu) from the dropbown box:
+
+![dashboard](/images/kubeflow/jupyter-select-image.png)
+
+Change the CPU value to **1.0**:
+
+![dashboard](/images/kubeflow/jupyter-select-cpu.png)
 
 Scroll to the bottom, take all other defaults, and click on **LAUNCH**.
 
@@ -52,4 +61,3 @@ This starts the model training and the output is shown on the notebook:
 ![dashboard](/images/kubeflow/jupyter-mnist-training.png)
 
 The first few lines shows that TensorFlow and Keras dataset is downloaded. Training data set is 60k images and test data set is 10k images. Hyperparameters used for the training, outputs from five epochs, and finally the model accuracy is shown.
-

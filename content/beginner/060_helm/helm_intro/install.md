@@ -18,7 +18,7 @@ chmod +x get_helm.sh
 
 {{% notice info %}}
 Once you install helm, the command will prompt you to run 'helm init'. **Do not run 'helm init'.** Follow the instructions to configure helm using **Kubernetes RBAC** and then install tiller as specified below
-If you accidentally run 'helm init', you can safely uninstall tiller by running 'helm reset --force'
+If you accidentally run 'helm init', you can safely uninstall tiller by running `helm reset --force`
 {{% /notice %}}
 
 ### Configure Helm access with RBAC
