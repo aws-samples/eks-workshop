@@ -1,5 +1,5 @@
 ---
-title: "Batch Processing with Argo"
+title: "Batch Processing with Argo Workflow"
 date: 2018-11-18T00:00:00-05:00
 weight: 410
 draft: false
