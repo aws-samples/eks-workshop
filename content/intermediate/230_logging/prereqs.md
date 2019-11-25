@@ -17,7 +17,7 @@ test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not 
 If you receive an error or empty response, expand the steps below to export.
 
 {{%expand "Expand here if you need to export the Role Name" %}}
-If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
+If `ROLE_NAME` is not set, please review: [/030_030_eksctl/test/](/030_030_eksctl/test/)
 {{% /expand %}}
 
 ```

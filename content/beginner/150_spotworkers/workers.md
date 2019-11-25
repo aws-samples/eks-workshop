@@ -21,7 +21,7 @@ test -n "$INSTANCE_PROFILE_ARN" && echo INSTANCE_PROFILE_ARN is "$INSTANCE_PROFI
 Copy the Profile ARN for use as a Parameter in the next step. If you receive an error or empty response, expand the steps below to export.
 
 {{%expand "Expand here if you need to export the Instance Profile ARN" %}}
-If `INSTANCE_PROFILE_ARN` is not set, please review: [/eksctl/test/](/eksctl/test/)
+If `INSTANCE_PROFILE_ARN` is not set, please review: [/030_eksctl/test/](/030_eksctl/test/)
 {{% /expand %}}
 
 ```text

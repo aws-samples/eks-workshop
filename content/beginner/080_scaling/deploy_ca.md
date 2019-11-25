@@ -66,7 +66,7 @@ Ensure `ROLE_NAME` is set in your environment:
 ```
 test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
-If `ROLE_NAME` is not set, please review: [/eksctl/test/](/eksctl/test/)
+If `ROLE_NAME` is not set, please review: [/030_eksctl/test/](/030_eksctl/test/)
 
 ```
 mkdir ~/environment/asg_policy
