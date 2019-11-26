@@ -5,7 +5,7 @@ weight: 10
 draft: false
 ---
 
-In this chapter, we will install Kubeflow on Amazon EKS cluster. If you don't have an EKS cluster, please follow instructions from [getting started guide](/prerequisites) and then launch your EKS cluster using [eksctl](/030_eksctl) chapter
+In this chapter, we will install Kubeflow on Amazon EKS cluster. If you don't have an EKS cluster, please follow instructions from [getting started guide](/020_prerequisites) and then launch your EKS cluster using [eksctl](/030_eksctl) chapter
 
 ### Increase cluster size
 
