@@ -17,7 +17,7 @@ We will use a pre-built Docker image `seedjeffwan/mnist_tensorflow_keras:1.13.1`
 
 Alternatively, you can use [Dockerfile](/kubeflow/kubeflow.files/Dockerfile.txt) to build the image by using the command below. We will skip this step for now
 
-`docker build -t <dockerhub_username>/<repo_name>:<tag_name>.`
+`docker build -t <dockerhub_username>/<repo_name>:<tag_name> .`
 
 #### Create S3 bucket
 
