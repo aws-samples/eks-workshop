@@ -16,7 +16,7 @@ This chapter explains how to use the previously trained model and run inference 
 A model from training was stored in the S3 bucket in previous section. Make sure `S3_BUCKET` and `AWS_REGION` environment variables are set correctly.
 
 ```
-curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/mnist-inference.yaml
+curl -LO https://eksworkshop.com/advanced/420_kubeflow/kubeflow.files/mnist-inference.yaml
 envsubst <mnist-inference.yaml | kubectl apply -f -
 ```
 
@@ -47,10 +47,10 @@ pip3 install tensorflow --user
 #### Run inference
 
 
-Use the script [inference_client.py](/kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
+Use the script [inference_client.py](/advanced/420_kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
 
 ```
-curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/inference_client.py
+curl -LO https://eksworkshop.com/advanced/420_kubeflow/kubeflow.files/inference_client.py
 python inference_client.py --endpoint http://localhost:8500/v1/models/mnist:predict
 ```
 
