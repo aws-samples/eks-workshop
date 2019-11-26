@@ -37,5 +37,5 @@ for command in kubectl jq envsubst
 #### Enable kubectl bash_completion
 ```
 kubectl completion bash >>  ~/.bash_completion
-source /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
 ```
