@@ -4,6 +4,7 @@ chapter: true
 weight: 60
 tags:
   - beginner
+  - CON203
 ---
 
 # Kubernetes Helm

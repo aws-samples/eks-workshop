@@ -8,6 +8,7 @@ tags:
   - advanced
   - operations
   - monitoring
+  - CON206
 ---
 
 # Monitoring using Prometheus and Grafana

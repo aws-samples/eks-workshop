@@ -4,6 +4,7 @@ chapter: true
 weight: 40
 tags:
   - beginner
+  - CON203
 ---
 
 # Deploy the Kubernetes Dashboard

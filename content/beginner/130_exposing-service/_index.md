@@ -4,6 +4,7 @@ chapter: true
 weight: 130
 tags:
   - intermediate
+  - CON203
 ---
 
 # Exposing a Service

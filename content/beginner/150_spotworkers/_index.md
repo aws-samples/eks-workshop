@@ -5,6 +5,7 @@ weight: 150
 draft: false
 tags:
   - intermediate
+  - CON206
 ---
 
 # Using Spot Instances with EKS

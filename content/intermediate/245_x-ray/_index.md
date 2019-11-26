@@ -7,6 +7,7 @@ tags:
   - advanced
   - operations
   - monitoring
+  - CON205
 ---
 
 # Tracing with X-Ray
