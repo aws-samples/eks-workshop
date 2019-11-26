@@ -36,15 +36,11 @@ export CONFIG_URI=https://raw.githubusercontent.com/kubeflow/manifests/v0.7-bran
 ```
 #### Customize your configuration
 
-Set an environment variable for your AWS cluster name, and set the name of the Kubeflow deployment to the same as the cluster name.
-
+Set an environment variable for your AWS cluster name, and Kubeflow deployment to be the same as cluster name. Set the path to the base directory where you want to store Kubeflow deployments. Then set the Kubeflow application directory for this deployment.
 ```
 export AWS_CLUSTER_NAME=eksworkshop-eksctl
 export KF_NAME=${AWS_CLUSTER_NAME}
-```
-Set the path to the base directory where you want to store Kubeflow deployments. Then set the Kubeflow application directory for this deployment.
 
-```
 export BASE_DIR=~/environment
 export KF_DIR=${BASE_DIR}/${KF_NAME}
 ```
@@ -69,13 +65,22 @@ Set an environment variable pointing to your local configuration file
 export CONFIG_FILE=${KF_DIR}/kfctl_aws.0.7.0.yaml
 ```
 
-Replace EKS Cluster Name, AWS Region and IAM Roles in your $(CONFIG_FILE)
-
+Replace EKS Cluster Name and AWS Region in your $(CONFIG_FILE).
 ```
-sed -i "s@eksctl-eksworkshop-eksctl-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAME@" ${CONFIG_FILE}
 sed -i -e 's/kubeflow-aws/'"$AWS_CLUSTER_NAME"'/' ${CONFIG_FILE}
 sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG_FILE}
 ```
+Replace Worker node IAM Roles in your $(CONFIG_FILE). Before we do that, let's check if we have ROLE_NAME in our environment variable
+```
+echo $ROLE_NAME
+```
+If you get an empty response, run the commands from [export the Worker node role](https://eksworkshop.com/eksctl/test/#export-the-worker-role-name-for-use-throughout-the-workshop) and run 'echo $ROLE_NAME' again
+
+Once you get proper response, run next command to replace with $ROLE_NAME
+```
+sed -i "s@eksctl-eksworkshop-eksctl-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx@$ROLE_NAME@" ${CONFIG_FILE}
+```
+
 #### Deploy Kubeflow
 
 Apply configuration and deploy Kubeflow on your cluster:
@@ -85,11 +90,14 @@ rm -rf kustomize
 kfctl apply -V -f ${CONFIG_FILE}
 ```
 
-Wait for all pods to be in **Running** state (this can take a few minutes):
+Run below command to check the status
 
 ```
 kubectl get pods -n kubeflow
 ```
+{{% notice info %}}
+Installing Kubeflow and its toolset may take 2 - 3 minutes. Few pods may initially give Error or CrashLoopBackOff status. Give it some time, they will auto-heal and will come to Running state
+{{% /notice %}}
 
 You should see similar results
 
