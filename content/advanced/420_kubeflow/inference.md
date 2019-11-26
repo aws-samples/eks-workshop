@@ -20,19 +20,24 @@ curl -LO https://eksworkshop.com/advanced/420_kubeflow/kubeflow.files/mnist-infe
 envsubst <mnist-inference.yaml | kubectl apply -f -
 ```
 
-Wait for the containers to start:
+Wait for the containers to start and run the next command to check its status
 
 ```
 kubectl get pods -l app=mnist,type=inference
+```
+You should see similar output
+```
 NAME                    READY   STATUS      RESTARTS   AGE
 mnist-96fb6f577-k8pm6   1/1     Running     0          116s
 ```
 
-Port forward inference endpoint for local testing:
+Now, we are going to use Kubernetes port forward for the inference endpoint to do local testing:
 
 ```
 kubectl port-forward `kubectl get pods -l=app=mnist,type=inference -o jsonpath='{.items[0].metadata.name}' --field-selector=status.phase=Running` 8500:8500 &
 ```
+
+Leave the current terminal running and open new terminal for installing tensorflow
 
 #### Install packages
 

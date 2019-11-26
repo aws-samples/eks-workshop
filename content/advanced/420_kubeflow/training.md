@@ -78,6 +78,9 @@ This will start a pod which will start the training and save the generated model
 
 ```
 kubectl get pods
+```
+You'll see similar output
+```
 NAME              READY   STATUS    RESTARTS   AGE
 mnist-training    1/1     Running   0          2m45s
 ```
