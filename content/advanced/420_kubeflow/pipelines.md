@@ -70,7 +70,7 @@ arn:aws:iam::371348455981:role/eksworkshop-sagemaker-kfp-role
 ```
 #### Run Sagemaker pipeline notebook
 
-Go to your **eks-kubeflow-workshop** notebook server and browse for Sagemaker pipeline notebook (eks-workshop-notebook/notebooks/05_Kubeflow_Pipeline/05_04_Pipeline_SageMaker.ipynb). If you haven't installed notebook server, review [fairing chapter](https://eksworkshop.com/advanced/420_kubeflow/fairing/#create-jupyter-notebook-server) and finish the [clone the repo](https://eksworkshop.com/advanced/420_kubeflow/fairing/#clone-the-repo) instructions.
+Go to your **eks-kubeflow-workshop** notebook server and browse for Sagemaker pipeline notebook (eks-workshop-notebook/notebooks/05_Kubeflow_Pipeline/05_04_Pipeline_SageMaker.ipynb). If you haven't installed notebook server, review [fairing chapter](/advanced/420_kubeflow/fairing/#create-jupyter-notebook-server) and finish the [clone the repo](/advanced/420_kubeflow/fairing/#clone-the-repo) instructions.
 
 Open Sagemaker pipeline notebook  
 ![dashboard](/images/kubeflow/pipelines-view-sagemaker-notebook.png)
@@ -85,7 +85,7 @@ Once all the prerequisites steps are completed, let's go through building our pi
 
 Run step 1 to load Kubeflow pipeline SDK. Once that is complete, run step 2 to load sagemaker components
 
-Before you run step 3 - create pipeline, replace the value of SAGEMAKER_ROLE_ARN with Sagemaker execution role that we created during [Assign IAM permissions](https://eksworkshop.com/advanced/420_kubeflow/pipelines/#assign-iam-permissions)
+Before you run step 3 - create pipeline, replace the value of SAGEMAKER_ROLE_ARN with Sagemaker execution role that we created during [Assign IAM permissions](/advanced/420_kubeflow/pipelines/#assign-iam-permissions)
 ![dashboard](/images/kubeflow/pipelines-sagemaker-execution-role.png)
 
 After this, go and run next two steps to compile and deploy your pipelines
