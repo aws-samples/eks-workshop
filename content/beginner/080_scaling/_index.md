@@ -4,6 +4,7 @@ chapter: true
 weight: 80
 tags:
   - beginner
+  - CON205
 ---
 
 # Implement AutoScaling with HPA and CA

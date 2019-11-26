@@ -7,6 +7,7 @@ tags:
   - advanced
   - operations
   - ci/cd
+  - CON205
 ---
 
 # CI/CD with CodePipeline
