@@ -65,3 +65,10 @@ helm init --service-account tiller
 
 This will install **tiller** into the cluster which gives it access to manage
 resources in your cluster.
+
+Activate helm bash-completion
+
+```
+helm completion bash >> ~/.bash_completion
+. ~/.bash_completion
+```
