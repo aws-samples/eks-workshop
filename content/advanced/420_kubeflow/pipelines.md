@@ -93,7 +93,11 @@ After this, go and run next two steps to compile and deploy your pipelines
 You will receive 2 links, one is for experiments and other is pipeline run.
 ![dashboard](/images/kubeflow/pipelines-deploy.png)
 
-You can click on [View pipeline] to view details of the pipeline
+Click on **here** next to **Experiment link**.
+![dashboard](/images/kubeflow/pipelines-sagemaker-experiment.png)
+
+
+You can click on **View pipeline** to view details of the pipeline
 ![dashboard](/images/kubeflow/pipelines-sagemaker-overview.png)
 
 You can click on pipeline run to examine each steps in the pipeline. Click on sagemaker training job and then click logs tab to see details
