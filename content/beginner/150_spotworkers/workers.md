@@ -51,7 +51,7 @@ Click the **Launch** button to create the CloudFormation stack in the AWS Manage
 
 | Launch template |  |  |
 | ------ |:------:|:--------:|
-| EKS Workers - Spot and On Demand |  {{% cf-launch "amazon-eks-nodegroup-with-mixed-instances.yml?stackName=eksworkshop-nodegroup-0" %}} | {{% cf-download "amazon-eks-nodegroup-with-mixed-instances.yml" %}}  |
+| EKS Workers - Spot and On Demand |  {{< cf-launch "amazon-eks-nodegroup-with-mixed-instances.yml?stackName=eksworkshop-nodegroup-0" >}} | {{< cf-download "amazon-eks-nodegroup-with-mixed-instances.yml" >}}  |
 
 {{% notice tip %}}
 Confirm the region is correct based on where you've deployed your cluster.

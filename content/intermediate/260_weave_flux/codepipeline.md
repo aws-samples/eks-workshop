@@ -18,7 +18,7 @@ Click the **Launch** button to create the CloudFormation stack in the AWS Manage
 
 | Launch template |  |  |
 | ------ |:------:|:--------:|
-| CodePipeline & EKS |  {{% cf-launch "weave_flux_pipeline.cfn.yml" "image-codepipeline" %}} | {{% cf-download "weave_flux_pipeline.cfn.yml" %}}  |
+| CodePipeline & EKS |  {{< cf-launch "weave_flux_pipeline.cfn.yml" "image-codepipeline" >}} | {{< cf-download "weave_flux_pipeline.cfn.yml" >}}  |
 
 After the console is open, enter your GitHub username, personal access token (created in previous step), check the acknowledge box and then click the "Create stack" button located at the bottom of the page.
 
