@@ -38,4 +38,5 @@ for command in kubectl jq envsubst
 ```
 kubectl completion bash >>  ~/.bash_completion
 . /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
 ```

@@ -21,4 +21,5 @@ Enable eksctl bash-completion
 ```
 eksctl completion bash >> ~/.bash_completion
 . /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
 ```
