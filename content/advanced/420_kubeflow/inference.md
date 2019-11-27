@@ -34,10 +34,10 @@ mnist-96fb6f577-k8pm6   1/1     Running     0          116s
 Now, we are going to use Kubernetes port forward for the inference endpoint to do local testing:
 
 ```
-kubectl port-forward `kubectl get pods -l=app=mnist,type=inference -o jsonpath='{.items[0].metadata.name}' --field-selector=status.phase=Running` 8500:8500 &
+kubectl port-forward `kubectl get pods -l=app=mnist,type=inference -o jsonpath='{.items[0].metadata.name}' --field-selector=status.phase=Running` 8500:8500
 ```
 
-Leave the current terminal running and open new terminal for installing tensorflow
+Leave the current terminal running and open a new terminal for installing tensorflow
 
 #### Install packages
 
