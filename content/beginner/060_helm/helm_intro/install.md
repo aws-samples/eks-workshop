@@ -6,6 +6,11 @@ weight: 5
 
 Before we can get started configuring `helm` we'll need to first install the command line tools that you will interact with. To do this run the following.
 
+{{% notice info %}}
+Once you install helm, the command will prompt you to run 'helm init'. **Do not run 'helm init'.** Follow the instructions to configure helm using **Kubernetes RBAC** and then install tiller as specified below
+If you accidentally run 'helm init', you can safely uninstall tiller by running `helm reset --force`
+{{% /notice %}}
+
 ```
 cd ~/environment
 
@@ -15,11 +20,6 @@ chmod +x get_helm.sh
 
 ./get_helm.sh
 ```
-
-{{% notice info %}}
-Once you install helm, the command will prompt you to run 'helm init'. **Do not run 'helm init'.** Follow the instructions to configure helm using **Kubernetes RBAC** and then install tiller as specified below
-If you accidentally run 'helm init', you can safely uninstall tiller by running `helm reset --force`
-{{% /notice %}}
 
 ### Configure Helm access with RBAC
 
@@ -65,3 +65,10 @@ helm init --service-account tiller
 
 This will install **tiller** into the cluster which gives it access to manage
 resources in your cluster.
+
+Activate helm bash-completion
+
+```
+helm completion bash >> ~/.bash_completion
+. ~/.bash_completion
+```
