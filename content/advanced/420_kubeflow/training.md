@@ -9,7 +9,7 @@ draft: false
 
 While Jupyter notebook is good for interactive model training, you may like to package the training code as Docker image and run it in Amazon EKS cluster.
 
-This chapter explains how to build a training model for [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) dataset using TensorFlow and Keras on Amazon EKS. This databset contains 70,000 grayscale images in 10 categories and is meant to be a drop-in replace of [MNIST](https://en.wikipedia.org/wiki/MNIST_database).
+This chapter explains how to build a training model for [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) dataset using TensorFlow and Keras on Amazon EKS. This dataset contains 70,000 grayscale images in 10 categories and is meant to be a drop-in replace of [MNIST](https://en.wikipedia.org/wiki/MNIST_database).
 
 #### Docker image
 
