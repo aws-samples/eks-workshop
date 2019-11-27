@@ -68,6 +68,16 @@ url = "/tags"
 weight = 5
 
 [[menu.shortcuts]]
+name = "<i class='fas fa-chalkboard'></i> AppMesh Workshop"
+url = "https://appmeshworkshop.com"
+weight = 6
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-chalkboard'></i> ECS Workshop"
+url = "https://ecsworkshop.com"
+weight = 7
+
+[[menu.shortcuts]]
 name = "<i class='fas fa-bookmark'></i> More Resources"
 url = "/more_resources"
 weight = 10
