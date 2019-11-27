@@ -98,3 +98,7 @@ Address 1: 10.100.0.10 kube-dns.kube-system.svc.cluster.local
 Name:      my-nginx
 Address 1: 10.100.225.196 my-nginx.default.svc.cluster.local
 ```
+
+```
+exit
+```
