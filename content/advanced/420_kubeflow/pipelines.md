@@ -32,8 +32,8 @@ aws iam create-access-key --user-name sagemakeruser > /tmp/create_output.json
 Next, record the new user's credentials into environment variables:
 
 ```
-export AWS_ACCESS_KEY_ID_VALUE=$(jq -r .AccessKey.AccessKeyId /tmp/create_output.json | base64)
-export AWS_SECRET_ACCESS_KEY_VALUE=$(jq -r .AccessKey.SecretAccessKey /tmp/create_output.json | base64)
+export AWS_ACCESS_KEY_ID_VALUE=$(jq -j .AccessKey.AccessKeyId /tmp/create_output.json | base64)
+export AWS_SECRET_ACCESS_KEY_VALUE=$(jq -j .AccessKey.SecretAccessKey /tmp/create_output.json | base64)
 ```
 
 Apply to EKS cluster:
