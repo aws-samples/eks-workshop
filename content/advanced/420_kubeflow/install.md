@@ -72,9 +72,9 @@ sed -i "s@us-west-2@$AWS_REGION@" ${CONFIG_FILE}
 ```
 Replace Worker node IAM Roles in your $(CONFIG_FILE). Before we do that, let's check if we have ROLE_NAME in our environment variable
 ```
-echo $ROLE_NAME
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
-If you get an empty response, run the commands from [export the Worker node role](https://eksworkshop.com/eksctl/test/#export-the-worker-role-name-for-use-throughout-the-workshop) and run 'echo $ROLE_NAME' again
+If you get ROLE_NAME is not set, run the commands from [export the Worker node role](https://eksworkshop.com/eksctl/test/#export-the-worker-role-name-for-use-throughout-the-workshop) and run the command again
 
 Once you get proper response, run next command to replace with $ROLE_NAME
 ```
