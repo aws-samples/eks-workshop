@@ -11,9 +11,9 @@ We’ll be using the following Wordpress Distribution to install Wordpress to ou
 
 https://github.com/helm/charts/tree/master/stable/wordpress 
 
-In your Cloud9 Workspace terminal you just need to run the following command to deploy wordpress. 
+In your Cloud9 Workspace terminal you just need to run the following command to deploy WordPress. 
 
-```
+```bash
 helm install stable/wordpress --name understood-zebu
 ```
 
@@ -26,18 +26,23 @@ You will see that this chart does a number of items. Including creating a persis
 Once your install is complete you will get an output like the below. This contains important information about how to connect to your Wordpress site. You will need to save your Loadbalancer URL for the load testing portion. 
 
 {{% notice note %}}
-**NOTES:**  
-1. Get the WordPress URL:
-  **NOTE:** It may take a few minutes for the LoadBalancer IP to be available.  
-       Watch the status with: ```'kubectl get svc --namespace default -w understood-zebu-wordpress' ``` *(depending on time of install the Wordpress version can change)*
+It may take a few minutes for the LoadBalancer to be available.
+{{% /notice %}} 
 
-{{% /notice %}}
-#### Getting your Load Balancer Url:
+Watch the status using the following command
+```bash
+kubectl get svc --namespace default -w understood-zebu-wordpress
+``` 
+*(depending on time of install the Wordpress version can change)*
 
-You’ll need the URL for your Wordpress site. This is easily accomplished by running the below from your terminal window. Copy and paste it from the output of your install of Wordpress. 
 
-```
+#### Getting your Load Balancer URL
+
+You’ll need the URL for your WordPress site. This is easily accomplished by running the command below from your terminal window. Copy and paste it from the output of your install of Wordpress. 
+
+```bash
  export SERVICE_IP=$(kubectl get svc --namespace default understood-zebu-wordpress --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+ 
   echo "WordPress URL: http://$SERVICE_IP/"
   echo "WordPress Admin URL: http://$SERVICE_IP/admin"
 ```
@@ -45,6 +50,6 @@ Once ran you’ll get an output like below containing your site URL and Admin lo
  
 
 ![alt text](/images/ekscwci/lboutput.png "LB Output")
-*Your LoadBalncer name will vary, so don’t use the one in the example.*
+*Your LoadBalancer name will vary, so don’t use the one in the example.*
 
  
