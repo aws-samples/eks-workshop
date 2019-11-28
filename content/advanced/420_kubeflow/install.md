@@ -74,7 +74,7 @@ Replace Worker node IAM Roles in your $(CONFIG_FILE). Before we do that, let's c
 ```
 test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
 ```
-If you get ROLE_NAME is not set, run the commands from [export the Worker node role](https://eksworkshop.com/eksctl/test/#export-the-worker-role-name-for-use-throughout-the-workshop) and run the command again
+If you get ROLE_NAME is not set, run the commands from [export the Worker node role](https://eksworkshop.com/030_eksctl/test/#export-the-worker-role-name-for-use-throughout-the-workshop) and run the command again
 
 Once you get proper response, run next command to replace with $ROLE_NAME
 ```
