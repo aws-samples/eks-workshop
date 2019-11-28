@@ -14,10 +14,10 @@ https://github.com/helm/charts/tree/master/stable/wordpress
 In your Cloud9 Workspace terminal you just need to run the following command to deploy wordpress. 
 
 ```
-helm install stable/wordpress 
+helm install stable/wordpress --name understood-zebu
 ```
 
-You will see that this chart does a number of items. Including creating a persistent volume clain in EKS, create a Pod named after the release of Wordpress being installed (at time of this lab creation “understood-zebra” ) Multiple secrets stores and a stateful set. 
+You will see that this chart does a number of items. Including creating a persistent volume claim in EKS, create a Pod named after the release of Wordpress being installed, multiple secrets stores and a stateful set. 
  
 
 ![alt text](/images/ekscwci/helminstalloutput.png "Helm Install Output")
