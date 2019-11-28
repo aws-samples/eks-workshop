@@ -60,7 +60,7 @@ The next object shown created by the Chart is a [Pod](https://kubernetes.io/docs
 To verify the Pod object was successfully deployed, we can run the following command:
 
 ```
-kubectl get pods -l app=mywebserver-nginx
+kubectl get pods -l app.kubernetes.io/name=nginx
 ```
 And you should see output similar to:
 
