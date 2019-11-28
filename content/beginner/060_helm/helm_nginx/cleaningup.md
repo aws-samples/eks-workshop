@@ -34,7 +34,7 @@ release "mywebserver" deleted
 kubectl will also demonstrate that our pods and service are no longer available:
 
 ```
-kubectl get pods -l app=mywebserver-nginx
+kubectl get pods -l app.kubernetes.io/name=nginx
 kubectl get service mywebserver-nginx -o wide
 ```
 
