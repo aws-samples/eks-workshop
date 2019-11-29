@@ -14,13 +14,13 @@ As you can see it’s fairly easy to get CloudWatch Container Insights to work, 
 
 Let's clean up Wordpress so it's not running in your cluster any longer. 
 
-```
-helm delete stable/wordpress
+```bash
+helm delete understood-zebu
 ```
 
 If you are completely done with EKSWorkshop, run the following command to clean up your cluster from your account.
 
-```
+```bash
 eksctl delete cluster --name=eksworkshop-eksctl
 ```
 
