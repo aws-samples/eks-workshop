@@ -9,9 +9,8 @@ Once you have your URL, you can try and Login with the following credentials to 
 
 ```
 echo Username: user
-echo Password: $(kubectl get secret --namespace default understood-zebu-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode
+echo Password: $(kubectl get secret --namespace default understood-zebu-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
 ```
-*Make sure to adjust the understood-zebu-wordpress to match your version.*
 
 ![alt text](/images/ekscwci/wplogin.png "WP Login")
 
