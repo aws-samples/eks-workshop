@@ -51,7 +51,7 @@ kubectl exec mysql-2 -c mysql -- mv /usr/bin/mysql.off /usr/bin/mysql
 ```
 Check the status again to see that both containers are running and healthy
 ```
-$ kubectl get pod -w mysql-2
+$ kubectl get pod mysql-2
 ```
 ```
 NAME      READY     STATUS    RESTARTS   AGE
