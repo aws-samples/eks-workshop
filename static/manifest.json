@@ -3,24 +3,19 @@
     "short_name": "eksworkshop",
     "icons": [
         {
-            "src": "/640px-Amazon_Web_Services_Logo.svg.png",
-            "sizes": "92x92",
+            "src": "/icons/favicon-96x96.png",
+            "sizes": "96x96",
             "type": "image/png"
         },
         {
-            "src": "/640px-Amazon_Web_Services_Logo.svg.png",
-            "sizes": "144x144",
+            "src": "/icons/favicon-196x196.png",
+            "sizes": "196x196",
             "type": "image/png"
-        },
-        {
-            "src": "/640px-Amazon_Web_Services_Logo.svg.png",
-            "sizes": "152x152",
-            "type": "image/png"
-        }        
+        }
     ],
-    "start_url": "/",
+    "start_url": "/index.html",
     "display": "standalone",
     "orientation": "portrait",
-    "background_color": "#f0f2f5",
-    "theme_color": "#96f2d7"
+    "background_color": "#000000",
+    "theme_color": "#000000"
 }
