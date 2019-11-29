@@ -20,9 +20,9 @@ For this exercise, we will build Mnist classification pipeline using Amazon Sage
 
 #### Assign IAM permissions
 
-In order to run this exercise, we need two levels of IAM permissions 1) create Kubernetes secrets **aws-secret** with Sagemaker policies. 2) create an IAM execution role for Sagemaker so that the job can assume this role in order to perform Sagemaker actions. Typically in a production environment, you would assign fine-grained permissions depending on the nature of actions you take and leverage tools like [IAM Role for Service Account](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) for securing access to AWS resources but for simplicity we will assign AmazonSageMakerFullAccess IAM policy to both. You can read more about granular policies [here](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+In order to run this exercise, we need three levels of IAM permissions. 1) create Kubernetes secrets **aws-secret** with Sagemaker policies. We'll use this during pipeline execution to make calls to AWS API's. 2) create an IAM execution role for Sagemaker so that the job can assume this role in order to perform Sagemaker actions. Typically in a production environment, you would assign fine-grained permissions depending on the nature of actions you take and leverage tools like [IAM Role for Service Account](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) for securing access to AWS resources but for simplicity we will assign AmazonSageMakerFullAccess IAM policy to both. You can read more about granular policies [here](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). 3) Assign sagemaker:InvokeEndpoint permission to Worker node IAM role so that we can use this to make predictions once Sagemaker creates the endpoint
 
-Run this command from your Cloud9 to assign IAM policy to your worker nodes
+Run this command from your Cloud9 to create these IAM permissions
 ```
 aws iam create-user --user-name sagemakeruser
 aws iam attach-user-policy --user-name sagemakeruser --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
@@ -52,7 +52,7 @@ data:
 EOF
 ```
 
-Run this command to create Sagemaker execution role
+Run this command to create **Sagemaker execution role**
 ```
 TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"Service\": \"sagemaker.amazonaws.com\" }, \"Action\": \"sts:AssumeRole\" } ] }"
 aws iam create-role --role-name eksworkshop-sagemaker-kfp-role --assume-role-policy-document "$TRUST"
@@ -68,6 +68,26 @@ Here is an example of the output
 TeamRole:~/environment $ aws iam get-role --role-name eksworkshop-sagemaker-kfp-role --output text --query 'Role.Arn'
 arn:aws:iam::371348455981:role/eksworkshop-sagemaker-kfp-role
 ```
+Lastly, let's assign sagemaker:InvokeEndpoint permission to Worker node IAM role
+
+```
+cat <<EoF > ~/environment/sagemaker-invoke.json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:InvokeEndpoint"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EoF
+aws iam put-role-policy --role-name $ROLE_NAME --policy-name sagemaker-invoke-for-worker --policy-document file://~/environment/sagemaker-invoke.json
+```
+
 #### Run Sagemaker pipeline notebook
 
 Go to your **eks-kubeflow-workshop** notebook server and browse for Sagemaker pipeline notebook (eks-workshop-notebook/notebooks/05_Kubeflow_Pipeline/05_04_Pipeline_SageMaker.ipynb). If you haven't installed notebook server, review [fairing chapter](/advanced/420_kubeflow/fairing/#create-jupyter-notebook-server) and finish the [clone the repo](/advanced/420_kubeflow/fairing/#clone-the-repo) instructions.
@@ -109,4 +129,4 @@ After few minutes you'll see the training job completes and then creates a model
 Now, let's run prediction against this endpoint. You can safely ignore the permissions note because we have already taken care of this earlier. Install boto3 and then change the endpoint name to the name you received in previous step
 ![dashboard](/images/kubeflow/pipelines-sagemaker-predictions.png)
 
-You'll receive predictions as depicted above if you have a successful model
+You'll receive predictions as depicted above
