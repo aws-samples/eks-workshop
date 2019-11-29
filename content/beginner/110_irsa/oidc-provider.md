@@ -24,7 +24,7 @@ If your eksctl version is lower than 0.5.1, use [Installing or Upgrading eksctl]
 * Create your OIDC identity provider for your cluster
 
 ```
-eksctl utils associate-iam-oidc-provider --name eksworkshop-eksctl --approve
+eksctl utils associate-iam-oidc-provider --cluster eksworkshop-eksctl --approve
 ```
 
 > [ℹ]  using region {AWS_REGION}<br>[ℹ]  will create IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "{AWS_REGION}"<br>[✔]  created IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "{AWS_REGION}"
