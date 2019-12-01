@@ -8,8 +8,7 @@ draft: false
 Now that we have completed all the necessary configuration to run a Pod with IAM role. We will deploy sample Pod to the cluster, and run a test command to see whether it works correctly or not.
 
 ```
-curl -LO https://eksworkshop.com/irsa/deploy.files/iam-pod.yaml
-
+curl -LO https://eksworkshop.com/beginner/110_irsa/deploy.files/iam-pod.yaml
 kubectl apply -f iam-pod.yaml
 ```
 
