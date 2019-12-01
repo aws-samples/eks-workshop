@@ -9,9 +9,6 @@ draft: false
 To delete the resources used in this chapter: 
 ```
 kubectl delete -f ~/environment/run-my-nginx.yaml
-kubectl delete -f ~/environment/pod-with-node-affinity.yaml
-kubectl delete -f ~/environment/redis-with-node-affinity.yaml
-kubectl delete -f ~/environment/web-with-node-affinity.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.0.0/docs/examples/2048/2048-deployment.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.0.0/docs/examples/2048/2048-service.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.0.0/docs/examples/2048/2048-ingress.yaml
