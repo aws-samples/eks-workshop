@@ -85,6 +85,12 @@ NAME              READY   STATUS    RESTARTS   AGE
 mnist-training    1/1     Running   0          2m45s
 ```
 
+> Note: If your `mnist-training` fail for some reason, please copy our trained model to your bucket by running following command, this will unblock your inference experiment in the next chapter.
+
+```
+aws s3 sync s3://reinvent-opn401/mnist/tf_saved_model  s3://$S3_BUCKET/mnist/tf_saved_model
+```
+
 {{%expand "Expand here to see complete logs" %}}
 ```
 kubectl logs mnist-training -f
@@ -143,13 +149,13 @@ Colocations handled automatically by placer.
 train_images.shape: (60000, 28, 28, 1), of float64
 test_images.shape: (10000, 28, 28, 1), of float64
 _________________________________________________________________
-Layer (type)                 Output Shape              Param #   
+Layer (type)                 Output Shape              Param #
 =================================================================
-Conv1 (Conv2D)               (None, 13, 13, 8)         80        
+Conv1 (Conv2D)               (None, 13, 13, 8)         80
 _________________________________________________________________
-flatten (Flatten)            (None, 1352)              0         
+flatten (Flatten)            (None, 1352)              0
 _________________________________________________________________
-Softmax (Dense)              (None, 10)                13530     
+Softmax (Dense)              (None, 10)                13530
 =================================================================
 Total params: 13,610
 Trainable params: 13,610
