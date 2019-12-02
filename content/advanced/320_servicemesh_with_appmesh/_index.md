@@ -2,6 +2,9 @@
 title: "Service Mesh with App Mesh"
 date: 2018-08-07T08:30:11-07:00
 weight: 320
+aliases:
+    - /mesh/
+    - /appmesh/
 tags:
   - advanced
   - operations
