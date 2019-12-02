@@ -116,11 +116,13 @@ You will receive 2 links, one is for experiments and other is pipeline run.
 Click on **here** next to **Experiment link**.
 ![dashboard](/images/kubeflow/pipelines-sagemaker-experiment.png)
 
-
 You can click on **View pipeline** to view details of the pipeline
 ![dashboard](/images/kubeflow/pipelines-sagemaker-overview.png)
 
-You can click on pipeline run to examine each steps in the pipeline. Click on sagemaker training job and then click logs tab to see details
+You can click on **Experiments**, **All runs**, **mnist-classification-pipeline** to examine each steps in the pipeline. 
+![dashboard](/images/kubeflow/pipelines-sagemaker-experiment-run.png)
+
+Click on sagemaker training job and then click logs tab to see details
 ![dashboard](/images/kubeflow/pipelines-run-logs.png)
 
 After few minutes you'll see the training job completes and then creates a model. After this step, batch transformation runs and then finally model is deployed using Sagemaker inference. Make a note of Sagemaker endpoint so that we can run prediction to validate our model
