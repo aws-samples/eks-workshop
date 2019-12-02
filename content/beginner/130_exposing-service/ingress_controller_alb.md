@@ -16,7 +16,6 @@ Download the AWS ALB Ingress controller YAML into a local file:
 curl -sS "https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.0.0/docs/examples/alb-ingress-controller.yaml" > alb-ingress-controller.yaml
 ```
 Edit the AWS ALB Ingress controller YAML to include the clusterName of the Kubernetes (or) Amazon EKS cluster.
-Edit the –cluster-name flag to be the real name of our Kubernetes (or) Amazon EKS cluster.
 You can check the Name of the Cluster with the CLI
 ```
 aws eks list-clusters
@@ -29,6 +28,8 @@ Output
                     ]
 }
 ```
+Edit the ```–cluster-name``` flag to be the real name of our Kubernetes (or) Amazon EKS cluster in your ```alb-ingress-controller.yaml``` file. In this case, our cluster name was ```eksworkshop-eksctl``` as apparent from the output.
+
 Deploy the AWS ALB Ingress controller YAML:
 ```
 kubectl apply -f alb-ingress-controller.yaml
