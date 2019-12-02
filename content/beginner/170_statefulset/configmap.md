@@ -11,7 +11,7 @@ weight: 10
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/templates
-wget https://eksworkshop.com/statefulset/configmap.files/mysql-configmap.yml
+wget https://eksworkshop.com/beginner/170_statefulset/configmap.files/mysql-configmap.yml
 
 ```
 Check the configuration of mysql-configmap.yml file by following command.

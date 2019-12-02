@@ -8,8 +8,8 @@ Let's see how we can allow directional traffic from client to frontend and backe
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/directional_traffic.files/backend-policy.yaml
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/directional_traffic.files/frontend-policy.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/directional_traffic.files/backend-policy.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/directional_traffic.files/frontend-policy.yaml
 ```
 
 Let's examine this backend policy with `cat backend-policy.yaml`:

@@ -12,7 +12,7 @@ Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 mkdir ~/environment/templates
 cd ~/environment/templates
-wget https://eksworkshop.com/statefulset/storageclass.files/mysql-storageclass.yml
+wget https://eksworkshop.com/beginner/170_statefulset/storageclass.files/mysql-storageclass.yml
 ```
 Check the configuration of mysql-storageclass.yml file by following command.
 ```

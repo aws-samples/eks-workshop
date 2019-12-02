@@ -9,7 +9,7 @@ weight: 15
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/templates
-wget https://eksworkshop.com/statefulset/services.files/mysql-services.yml
+wget https://eksworkshop.com/beginner/170_statefulset/services.files/mysql-services.yml
 ```
 Check the configuration of mysql-services.yml by following command.
 ```

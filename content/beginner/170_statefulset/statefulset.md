@@ -10,7 +10,7 @@ StatefulSet consists of serviceName, replicas, template and volumeClaimTemplates
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/templates
-wget https://eksworkshop.com/statefulset/statefulset.files/mysql-statefulset.yml
+wget https://eksworkshop.com/beginner/170_statefulset/statefulset.files/mysql-statefulset.yml
 ```
 Create statefulset "mysql" by following command.
 ```
