@@ -24,8 +24,10 @@ rm -vf ${HOME}/.aws/credentials
 We should configure our aws cli with our current region as default:
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+export AWS_REGION= # set this to the region specified for your event
+```
 
+```
 echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
 echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
