@@ -5,6 +5,8 @@ weight: 60
 tags:
   - beginner
   - CON203
+  - CON205
+  - CON206
 ---
 
 # Kubernetes Helm
