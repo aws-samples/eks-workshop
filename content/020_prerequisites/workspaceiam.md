@@ -21,12 +21,22 @@ any existing credentials file:
 rm -vf ${HOME}/.aws/credentials
 ```
 
-We should configure our aws cli with our current region as default:
+We should configure our aws cli with our current region as default.
+
+{{% notice info %}}
+If you are [at an AWS event](https://eksworkshop.com/020_prerequisites/aws_event/), ask your instructor which **AWS region** to use.
+{{% /notice %}}
+
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-export AWS_REGION= # set this to the region specified for your event
+export AWS_REGION= # for aws hosted event, set this to the region specified by your instructor
 ```
 
+Check if AWS_REGION is set to desired region
+```
+test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || echo AWS_REGION is not set
+```
+Let's save these into bash_profile
 ```
 echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
 echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
@@ -62,8 +72,8 @@ If the _Arn_ contains the role name from above and an Instance ID, you may proce
 
 ```output
 {
-    "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Account": "123456789012",
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/eksworkshop-admin/i-01234567890abcdef"
 }
 ```
@@ -74,8 +84,8 @@ If the _Arn contains `TeamRole`, `MasterRole`, or does not match the role name o
 
 ```output
 {
-    "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Account": "123456789012",
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/MasterRole"
 }
 ```
