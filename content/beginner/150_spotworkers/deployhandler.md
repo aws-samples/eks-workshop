@@ -7,7 +7,7 @@ draft: false
 
 In this section, we will prepare our cluster to handle Spot interruptions.
 
-If the available On-Demand capacity of a particular instance type is depleted, the Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things. We will deploy a pod on each spot instance to detect and redeploy applications elsewhere in the cluster.
+If the available On-Demand capacity of a particular instance type is deleted, the Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things. We will deploy a pod on each spot instance to detect and redeploy applications elsewhere in the cluster.
 
 The first thing that we need to do is deploy the [AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler) on each Spot Instance. This will monitor the EC2 metadata service on the instance for an interruption notice.
 The termination handler consists of a `ServiceAccount`, `ClusterRole`, `ClusterRoleBinding`, and a `DaemonSet`.
