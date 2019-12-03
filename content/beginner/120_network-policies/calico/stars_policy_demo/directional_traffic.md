@@ -3,7 +3,7 @@ title: "Allow Directional Traffic"
 date: 2018-08-07T08:30:11-07:00
 weight: 4
 ---
-Let's see how we can allow directional traffic from client to frontend and backend.
+Let's see how we can allow directional traffic from client to frontend, and from frontend to backend.
 
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
