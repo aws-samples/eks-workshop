@@ -52,7 +52,7 @@ The first object shown in this output is a [Deployment](https://kubernetes.io/do
 You can inspect this Deployment object in more detail by running the following command:
 
 ```
-kubectl describe deployment mywebserver-nginx
+kubectl describe deployment mywebserver
 ```
 
 The next object shown created by the Chart is a [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/).  A Pod is a group of one or more containers.
