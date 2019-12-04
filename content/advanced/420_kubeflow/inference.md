@@ -56,7 +56,7 @@ Use the script [inference_client.py](/advanced/420_kubeflow/kubeflow.files/infer
 
 ```
 curl -LO https://eksworkshop.com/advanced/420_kubeflow/kubeflow.files/inference_client.py
-python inference_client.py --endpoint http://localhost:8500/v1/models/mnist:predict
+python3 inference_client.py --endpoint http://localhost:8500/v1/models/mnist:predict
 ```
 
 It will randomly pick one image from test dataset and make prediction.
