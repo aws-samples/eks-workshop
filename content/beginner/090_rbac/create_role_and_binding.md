@@ -22,13 +22,13 @@ aws sts get-caller-identity
 
 The output should show the user is no longer rbac-user:
 
-```
+{{< output >}}
 {
 "Account": <AWS Account ID>,
 "UserId": <AWS User ID>,
 "Arn": "arn:aws:iam::<your AWS account ID>:assumed-role/eksworkshop-admin/i-123456789"
 }
-```
+{{< /output >}}
 
 Now that we're the admin user again, we'll create a role called pod-reader that provides list, get, and watch access for pods and deployments, but only for the rbac-test namespace.  Run the following to create this role:
 

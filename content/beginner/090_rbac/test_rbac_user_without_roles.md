@@ -20,7 +20,7 @@ aws sts get-caller-identity
 
 You should see something similar to below, where we're now making API calls as rbac-user:
 
-```
+{{< output >}}
 
 {
 "Account": <AWS Account ID>,
@@ -28,7 +28,7 @@ You should see something similar to below, where we're now making API calls as r
 "Arn": "arn:aws:iam::<AWS Account ID>:user/rbac-user"
 }
 
-```
+{{< /output >}}
 
 Now that we're making calls in the context of the rbac-user, lets quickly make a request to get all pods:
 
@@ -38,9 +38,9 @@ kubectl get pods -n rbac-test
 
 You should get a response back similar to:
 
-```
+{{< output >}}
 No resources found.  Error from server (Forbidden): pods is forbidden: User "rbac-user" cannot list resource "pods" in API group "" in the namespace "rbac-test"
-```
+{{< /output >}}
 
 We already created the rbac-user, so why did we get that error?  
 

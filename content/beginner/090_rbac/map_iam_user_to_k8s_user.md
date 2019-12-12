@@ -29,7 +29,7 @@ cat aws-auth.yaml
 
 And the output should reflect that rolearn and userarn populated, similar to:
 
-```
+{{< output >}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -39,7 +39,7 @@ data:
   mapUsers: |
     - userarn: arn:aws:iam::123456789:user/rbac-user
       username: rbac-user
-```
+{{< /output >}}
 
 Next, apply the ConfigMap to apply this mapping to the system:
 

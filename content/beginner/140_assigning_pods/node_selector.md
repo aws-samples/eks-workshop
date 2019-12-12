@@ -14,13 +14,13 @@ Run kubectl get nodes to get the names of your cluster’s nodes.
 kubectl get nodes
 ```
 Output will be like 
-```
+{{< output >}}
 NAME                                           STATUS    ROLES     AGE       VERSION
 ip-192-168-15-64.us-west-2.compute.internal    Ready     <none>    8d        v1.12.7
 ip-192-168-38-150.us-west-2.compute.internal   Ready     <none>    8d        v1.12.7
 ip-192-168-86-147.us-west-2.compute.internal   Ready     <none>    7d23h     v1.12.7
 ip-192-168-92-222.us-west-2.compute.internal   Ready     <none>    8d        v1.12.7
-```
+{{< /output >}}
 Pick out the one that you want to add a label to, and then run 
 ```
 kubectl label nodes <node-name> <label-key>=<label-value> 
@@ -37,16 +37,16 @@ You can verify that it worked by re-running kubectl get nodes --show-labels and 
 kubectl get nodes --show-labels
 ```
 Output will be like
-```
+{{< output >}}
 NAME                                           STATUS    ROLES     AGE       VERSION   LABELS
 ip-192-168-15-64.us-west-2.compute.internal    Ready     <none>    8d        v1.12.7   alpha.eksctl.io/cluster-name=eksworkshop-eksctl,alpha.eksctl.io/instance-id=i-064fdae0afd3cbe8b,alpha.eksctl.io/nodegroup-name=ng-cd62916d,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.large,beta.kubernetes.io/os=linux,disktype=ssd,failure-domain.beta.kubernetes.io/region=us-west-2,failure-domain.beta.kubernetes.io/zone=us-west-2d,kubernetes.io/hostname=ip-192-168-15-64.us-west-2.compute.internal
 ip-192-168-38-150.us-west-2.compute.internal   Ready     <none>    8d        v1.12.7   alpha.eksctl.io/cluster-name=eksworkshop-eksctl,alpha.eksctl.io/instance-id=i-0420598c17da0a4b4,alpha.eksctl.io/nodegroup-name=ng-cd62916d,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.large,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=us-west-2,failure-domain.beta.kubernetes.io/zone=us-west-2c,kubernetes.io/hostname=ip-192-168-38-150.us-west-2.compute.internal
 ip-192-168-86-147.us-west-2.compute.internal   Ready     <none>    7d23h     v1.12.7   alpha.eksctl.io/cluster-name=eksworkshop-eksctl,alpha.eksctl.io/instance-id=i-02e33f4429c64e628,alpha.eksctl.io/nodegroup-name=ng-cd62916d,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.large,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=us-west-2,failure-domain.beta.kubernetes.io/zone=us-west-2b,kubernetes.io/hostname=ip-192-168-86-147.us-west-2.compute.internal
 ip-192-168-92-222.us-west-2.compute.internal   Ready     <none>    8d        v1.12.7   alpha.eksctl.io/cluster-name=eksworkshop-eksctl,alpha.eksctl.io/instance-id=i-02eadff5d2af1ce12,alpha.eksctl.io/nodegroup-name=ng-cd62916d,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.large,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=us-west-2,failure-domain.beta.kubernetes.io/zone=us-west-2b,kubernetes.io/hostname=ip-192-168-92-222.us-west-2.compute.internal
-```
+{{< /output >}}
 #### Add a nodeSelector field to your pod configuration
 Take whatever pod config file you want to run, and add a nodeSelector section to it, like this. For example, if this is my pod config:
-```
+{{< output >}}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -57,7 +57,7 @@ spec:
   containers:
   - name: nginx
     image: nginx
-```
+{{< /output >}}
 Then add a nodeSelector like so:
 ```
 cat <<EoF > ~/environment/pod-nginx.yaml
@@ -85,8 +85,8 @@ And the Pod will get scheduled on the node that you attached the label to. You c
 kubectl get pods -o wide
 ```
 And looking at the “NODE” that the Pod was assigned to
-```
+{{< output >}}
 NAME      READY     STATUS    RESTARTS   AGE       IP              NODE                                          NOMINATED NODE
 nginx     1/1       Running   0          12s       192.168.10.13   ip-192-168-15-64.us-west-2.compute.internal   <none>
-```
+{{< /output >}}
 

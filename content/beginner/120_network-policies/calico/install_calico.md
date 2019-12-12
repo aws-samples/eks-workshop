@@ -14,7 +14,7 @@ Let's go over few key features of the Calico manifest:
 
 1) We see an annotation throughout; [annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) are a way to attach **non-identifying** metadata to objects. This metadata is not used internally by Kubernetes, so they cannot be used to identify within k8s. Instead, they are used by external tools and libraries. Examples of annotations include build/release timestamps, client library information for debugging, or fields managed by a network policy like Calico in this case.
 
-```
+{{< output >}}
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
@@ -41,7 +41,7 @@ spec:
         # if it ever gets evicted.
         *scheduler**.alpha.kubernetes.io/critical-pod: ''*
         ...
-```
+{{< /output >}}
 In contrast, [Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) in Kubernetes are intended to be used to specify **identifying** attributes for objects. They are used by selector queries or with label selectors. Since they are used internally by Kubernetes the structure of keys and values is constrained, to optimize queries.
 
 
@@ -56,10 +56,10 @@ A taint consists of a key, a value for it and an effect, which can be:
 Like taints, tolerations also have a key value pair and an effect, with the addition of operator.
 Here in the Calico manifest, we see tolerations has just one attribute: **Operator = exists**. This means the key value pair is omitted and the toleration will match any taint, ensuring it runs on all nodes.
 
-```
+{{< output >}}
  tolerations:
       - operator: Exists
-```
+{{< /output >}}
 Watch the kube-system daemon sets and wait for the calico-node daemon set to have the DESIRED number of pods in the READY state.
 
 ```
@@ -67,10 +67,10 @@ kubectl get daemonset calico-node --namespace=kube-system
 ```
 Expected Output:
 
-```
+{{< output >}}
 NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
 calico-node   3         3         3       3            3           <none>          38s
-```
+{{< /output >}}
 
 
 

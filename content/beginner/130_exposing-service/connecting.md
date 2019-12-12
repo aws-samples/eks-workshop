@@ -46,20 +46,20 @@ kubectl apply -f ~/environment/run-my-nginx.yaml
 kubectl get pods -l run=my-nginx -o wide
 ```
 The output being something like this:
-```
+{{< output >}}
 NAME                        READY     STATUS    RESTARTS   AGE       IP               NODE                                           NOMINATED NODE
 my-nginx-756f645cd7-gsl4g   1/1       Running   0          63s       192.168.59.188   ip-192-168-38-150.us-west-2.compute.internal   <none>
 my-nginx-756f645cd7-t8b6w   1/1       Running   0          63s       192.168.79.210   ip-192-168-92-222.us-west-2.compute.internal   <none>
-```
+{{< /output >}}
 Check your pods’ IPs:
 ```
 kubectl get pods -l run=my-nginx -o yaml | grep podIP
 ```
 Output being like:
-```
+{{< output >}}
     podIP: 192.168.59.188
     podIP: 192.168.79.210
-```
+{{< /output >}}
 
 
 #### Creating a Service
@@ -72,24 +72,24 @@ You can create a Service for your 2 nginx replicas with kubectl expose:
 kubectl expose deployment/my-nginx
 ```
 Output:
-```
+{{< output >}}
 service/my-nginx exposed
-```
+{{< /output >}}
 
 This specification will create a Service which targets TCP port 80 on any Pod with the run: my-nginx label, and expose it on an abstracted Service port (targetPort: is the port the container accepts traffic on, port: is the abstracted Service port, which can be any port other pods use to access the Service). View Service API object to see the list of supported fields in service definition. Check your Service:
 ```
 kubectl get svc my-nginx
 ```
 
-```
+{{< output >}}
 NAME       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 my-nginx   ClusterIP   10.100.225.196   <none>        80/TCP    25s
-```
+{{< /output >}}
 As mentioned previously, a Service is backed by a group of Pods. These Pods are exposed through endpoints. The Service’s selector will be evaluated continuously and the results will be POSTed to an Endpoints object also named my-nginx. When a Pod dies, it is automatically removed from the endpoints, and new Pods matching the Service’s selector will automatically get added to the endpoints. Check the endpoints, and note that the IPs are the same as the Pods created in the first step:
 ```
 kubectl describe svc my-nginx
 ```
-```
+{{< output >}}
 Name:              my-nginx
 Namespace:         default
 Labels:            run=my-nginx
@@ -102,7 +102,7 @@ TargetPort:        80/TCP
 Endpoints:         192.168.59.188:80,192.168.79.210:80
 Session Affinity:  None
 Events:            <none>
-```
+{{< /output >}}
 
 You should now be able to curl the nginx Service on <CLUSTER-IP>:<PORT> from any node in your cluster. Note that the Service IP is completely virtual, it never hits the wire. Let's try that
 ```
@@ -113,7 +113,7 @@ To go into the cluster and then try with the ClusterIP:
 wget -q -O - 10.100.225.196
 ```
 The output will be
-```
+{{< output >}}
 <!DOCTYPE html>
 <html>
 <head>
@@ -139,5 +139,5 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-```
+{{< /output >}}
 To exit, just make a ctrl+D

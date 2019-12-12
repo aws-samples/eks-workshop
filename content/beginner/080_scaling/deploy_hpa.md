@@ -20,7 +20,7 @@ Return to the terminal in the Cloud9 Environment
 kubectl get apiservice v1beta1.metrics.k8s.io -o yaml
 ```
 If all is well, you should see a status message similar to the one below in the response
-```
+{{< output >}}
 status:
   conditions:
   - lastTransitionTime: 2018-10-15T15:13:13Z
@@ -28,6 +28,6 @@ status:
     reason: Passed
     status: "True"
     type: Available
-```
+{{< /output >}}
 
 #### We are now ready to scale a deployed application

@@ -71,11 +71,11 @@ Let's apply this
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
 And check if it worked with `kubectl get pods -o wide`
-```
+{{< output >}}
 NAME                 READY     STATUS    RESTARTS   AGE       IP               NODE                                          NOMINATED NODE
 nginx                1/1       Running   0          35m       192.168.10.13    ip-192-168-15-64.us-west-2.compute.internal   <none>
 with-node-affinity   1/1       Running   0          29s       192.168.14.121   ip-192-168-15-64.us-west-2.compute.internal   <none>
-```
+{{< /output >}}
 Now let's try to put the affinity in another node
 We are going to put the label in a different node so first, let's clean the label and delete the Pod.
 ```
@@ -88,11 +88,11 @@ kubectl label nodes ip-192-168-86-147.us-west-2.compute.internal azname=az1
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
 And check if it works with `kubectl get pods -o wide` 
-```
+{{< output >}}
 NAME                 READY     STATUS    RESTARTS   AGE       IP               NODE                                           NOMINATED NODE
 nginx                1/1       Running   0          43m       192.168.10.13    ip-192-168-15-64.us-west-2.compute.internal    <none>
 with-node-affinity   1/1       Running   0          42s       192.168.68.249   ip-192-168-86-147.us-west-2.compute.internal   <none>
-```
+{{< /output >}}
 
 You can see the operator In being used in the example. The new node affinity syntax supports the following operators: `In, NotIn, Exists, DoesNotExist, Gt, Lt`. You can use `NotIn` and `DoesNotExist` to achieve node anti-affinity behavior.
 

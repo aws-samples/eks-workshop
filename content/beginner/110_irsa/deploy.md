@@ -12,23 +12,23 @@ curl -LO https://eksworkshop.com/beginner/110_irsa/deploy.files/iam-pod.yaml
 kubectl apply -f iam-pod.yaml
 ```
 
-* Make sure your pod is in **Running** status
+##### Make sure your pod is in **Running** status:
 
 ```
 kubectl get pod
 ```
 
-| NAME | READY | STATUS | RESTARTS | AGE |
-| ---- | ----- | ------ | -------- | --- |
-| eks-iam-test-7fb8c5ffb8-fdr6c | 1/1 | Running | 0 | 5m23s |
+{{< output >}}
+eks-iam-test-7fb8c5ffb8-fdr6c  1/1  Running  0  5m23s
+{{< /output >}}
 
-* Get into the Pod
+##### Get into the Pod:
 
 ```
 kubectl exec -it <place Pod Name> /bin/bash
 ```
 
-* Manually Call sts:AssumeRoleWithWebIdentity, and you will see AccessKeyId, SecretAccessKey information if configuration is set appropriately
+##### Manually Call sts:AssumeRoleWithWebIdentity, and you will see AccessKeyId, SecretAccessKey information if configuration is set appropriately
 
 ```
 aws sts assume-role-with-web-identity \
@@ -38,18 +38,20 @@ aws sts assume-role-with-web-identity \
 --duration-seconds 1000
 ```
 
-* Run awscli to see if it retrives list of Amazon S3 buckets
+##### Run awscli to see if it retrives list of Amazon S3 buckets:
 
 ```
 aws s3 ls
 ```
 
-* Run awscli to see if it retrives list of Amazon EC2 instances which does not have privileges in the allocated IAM policy
+##### Run awscli to see if it retrives list of Amazon EC2 instances which does not have privileges in the allocated IAM policy:
 
 ```
 aws ec2 describe-instances --region us-west-2
 ```
 
-You will get this error message.
+##### You will get this error message:
 
-> An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation.
+{{< output >}}
+An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation.
+{{< /output >}}

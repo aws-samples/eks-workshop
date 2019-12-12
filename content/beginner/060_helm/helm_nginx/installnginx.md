@@ -21,7 +21,7 @@ helm install --name mywebserver bitnami/nginx
 
 Once you run this command, the output confirms the types of k8s objects that were created as a result:
 
-```
+{{< output >}}
 NAME:   mywebserver
 LAST DEPLOYED: Tue Nov 13 19:55:25 2018
 NAMESPACE: default
@@ -41,7 +41,7 @@ mywebserver-nginx-85985c8466-tczst  0/1    ContainerCreating  0         0s
 
 NAME               AGE
 mywebserver-nginx  0s
-```
+{{< /output >}}
 
 {{% notice info %}}
 In the following **kubectl** command examples, it may take a minute or two for each of these objects' **DESIRED** and **CURRENT** values to match; if they don't match on the first try, wait a few seconds, and run the command again to check the status.
@@ -64,10 +64,10 @@ kubectl get pods -l app.kubernetes.io/name=nginx
 ```
 And you should see output similar to:
 
-```
+{{< output >}}
 NAME                                 READY     STATUS    RESTARTS   AGE
 mywebserver-nginx-85985c8466-tczst   1/1       Running   0          10s
-```
+{{< /output >}}
 
 The third object that this Chart creates for us is a [Service](https://kubernetes.io/docs/concepts/services-networking/service/)  The Service enables us to contact this NGINX web server from the Internet, via an Elastic Load Balancer (ELB).  
 
@@ -79,10 +79,10 @@ kubectl get service mywebserver-nginx -o wide
 
 That should output something similar to:
 
-```
+{{< output >}}
 NAME                TYPE           CLUSTER-IP      EXTERNAL-IP                                                              
 mywebserver-nginx   LoadBalancer   10.100.223.99   abc123.amazonaws.com
-```
+{{< /output >}}
 
 Copy the value for **EXTERNAL-IP**, open a new tab in your web browser, and paste it in.
 {{% notice info %}}

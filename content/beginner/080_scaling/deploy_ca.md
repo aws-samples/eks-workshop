@@ -43,7 +43,7 @@ Using the file browser on the left, open cluster_autoscaler.yml
 
 Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, update AWS_REGION value to reflect the region you are using and **Save** the file.
 
-```
+{{< output >}}
 command:
   - ./cluster-autoscaler
   - --v=4
@@ -54,7 +54,7 @@ command:
 env:
   - name: AWS_REGION
     value: us-east-1
-```
+{{< /output >}}
 This command contains all of the configuration for the Cluster Autoscaler. The primary config is the `--nodes` flag. This specifies the minimum nodes **(2)**, max nodes **(8)** and **ASG Name**.
 
 Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods.
