@@ -4,7 +4,7 @@ date: 2018-09-18T16:01:14-05:00
 weight: 5
 ---
 
-```
+{{< output "linenos=true" >}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,7 +34,8 @@ spec:
         ports:
         - containerPort: 3000
           protocol: TCP
-```
+{{< /output >}}
+
 In the sample file above, we describe the service and  *how* it should be deployed.
 We will write this description to the kubernetes api using kubectl, and kubernetes
 will ensure our preferences are met as the application is deployed.

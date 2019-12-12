@@ -22,25 +22,31 @@ kubectl version --short
 If your EKS cluster version is lower or not match with above, [updating an Amazon EKS Cluster](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) in the User Guide
 {{% /notice %}}
 
-* You must use at least version 1.16.232 of the AWS CLI to receive the proper output from this command. 
+##### You must use at least version 1.16.232 of the AWS CLI to receive the proper output from this command:
 
 ```
 aws --version
 ```
 
-> aws-cli/1.16.238 Python/2.7.16 Linux/4.14.133-88.112.amzn1.x86_64 botocore/1.12.228
+{{< output >}}
+aws-cli/1.16.238 Python/2.7.16 Linux/4.14.133-88.112.amzn1.x86_64 botocore/1.12.228
+{{< /output >}}
 
 {{% notice info %}}
 If your aws cli version is lower than 1.16.232, use [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the User Guide
 {{% /notice %}}
 
-* Retrieve OpenID Connect issuer URL
+##### Retrieve OpenID Connect issuer URL:
+
+
 
 ```
 aws eks describe-cluster --name eksworkshop-eksctl --query cluster.identity.oidc.issuer --output text
 ```
-  <div data-proofer-ignore>
-    https://oidc.eks.{AWS_REGION}.amazonaws.com/id/D48675832CA65BD10A532F59741CF90B
-  </div>
+<div data-proofer-ignore>
+{{< output >}}
+https://oidc.eks.{AWS_REGION}.amazonaws.com/id/D48675832CA65BD10A532F59741CF90B
+{{< /output >}}
+</div>
 
 

@@ -12,10 +12,10 @@ You should have ENIConfig CRD already installed with latest CNI version (1.3+). 
 kubectl get crd
 ```
 You should see response similar to this
-```
+{{< output >}}
 NAME                               CREATED AT
 eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
-```
+{{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
 kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
@@ -38,7 +38,7 @@ Check the AZ's and Subnet IDs for these subnets. Make note of AZ info as you wil
 ```
 aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'Subnets[*].[CidrBlock,SubnetId,AvailabilityZone]' --output table
 ```
-```
+{{< output >}}
 --------------------------------------------------------------
 |                       DescribeSubnets                      |
 +-----------------+----------------------------+-------------+
@@ -46,7 +46,7 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 |  100.64.64.0/19 |  subnet-0692cd08cc4df9b6a  |  us-east-2c |
 |  100.64.0.0/19  |  subnet-04f960ffc8be6865c  |  us-east-2b |
 +-----------------+----------------------------+-------------+
-```
+{{< /output >}}
 Check your Worker Node SecurityGroup
 ```
 INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text`)
@@ -56,7 +56,7 @@ do
   aws ec2 describe-instances --instance-ids $i | jq -r '.Reservations[].Instances[].SecurityGroups[].GroupId'
 done  
 ```
-```
+{{< output >}}
 SecurityGroup for EC2 instance i-03ea1a083c924cd78 ...
 sg-070d03008bda531ad
 sg-06e5cab8e5d6f16ef
@@ -66,7 +66,7 @@ sg-06e5cab8e5d6f16ef
 SecurityGroup for EC2 instance i-048e5ec8815e5ea8a ...
 sg-070d03008bda531ad
 sg-06e5cab8e5d6f16ef
-```
+{{< /output >}}
 Create custom resource **group1-pod-netconfig.yaml** for first subnet (100.64.0.0/19). Replace the SubnetId and SecuritGroupIds with the values from above. Here is how it looks with the configuration values for my environment
 
 Note: We are using same SecurityGroup for pods as your Worker Nodes but you can change these and use custom SecurityGroups for your Pod Networking
@@ -90,7 +90,7 @@ Check the instance details using this command as you will need AZ info when you 
 ```
 aws ec2 describe-instances --filters "Name=tag:Name,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`Name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table   
 ```
-```
+{{< output >}}
 ------------------------------------------------------------------------------------------------------------------------------------------
 |                                                            DescribeInstances                                                           |
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
@@ -98,7 +98,7 @@ aws ec2 describe-instances --filters "Name=tag:Name,Values=eksworkshop*" --query
 |  ip-192-168-71-211.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2a |  192.168.71.211 |  18.221.77.249 |
 |  ip-192-168-33-135.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2b |  192.168.33.135 |  13.59.167.90  |
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
-```
+{{< /output >}}
 
 Apply the CRD's
 ```
@@ -116,7 +116,7 @@ Be sure to annotate the instance with config that matches correct AZ. For ex, in
 kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
 ```
 As an example, here is what I would run in my environment
-```
+{{< output >}}
 kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
-```
+{{< /output >}}
 You should now see secondary IP address from extended CIDR assigned to annotated nodes.

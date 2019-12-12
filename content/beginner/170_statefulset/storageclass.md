@@ -19,7 +19,7 @@ Check the configuration of mysql-storageclass.yml file by following command.
 cat ~/environment/templates/mysql-storageclass.yml
 ```
 You can see provisioner is kubernetes.io/aws-ebs and type is gp2 specified as a parameter. 
-```
+{{< output >}}
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
@@ -30,7 +30,7 @@ parameters:
 reclaimPolicy: Delete
 mountOptions:
 - debug
-```
+{{< /output >}}
 
 Create storageclass "mysql-gp2" by following command. 
 ```
@@ -38,7 +38,7 @@ kubectl create -f ~/environment/templates/mysql-storageclass.yml
 ```
 
 We will specify "mysql-gp2" as the storageClassName in volumeClaimTemplates at "Create StatefulSet" section later.
-```
+{{< output >}}
 volumeClaimTemplates:
   - metadata:
       name: data
@@ -48,6 +48,6 @@ volumeClaimTemplates:
       resources:
         requests:
           storage: 10Gi
-```
+{{< /output >}}
 
 {{%attachments title="Related files" pattern=".yml"/%}}

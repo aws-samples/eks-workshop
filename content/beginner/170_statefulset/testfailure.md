@@ -13,12 +13,12 @@ This command renames the /usr/bin/mysql command so that readiness probe can't fi
 ```
 kubectl get pod mysql-2
 ```
-```
+{{< output >}}
 NAME      READY     STATUS    RESTARTS   AGE
 mysql-2   1/2       Running   0          12m
-```
+{{< /output >}}
 **mysql-read** load balancer detects failures and takes action by not sending traffic to the failed container, @@server_id 102. You can check this by the loop running in separate window from previous section. The loop shows the following output.
-```
+{{< output >}}
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
@@ -44,19 +44,19 @@ mysql-2   1/2       Running   0          12m
 +-------------+---------------------+
 |         100 | 2018-11-14 13:00:49 |
 +-------------+---------------------+
-```
+{{< /output >}}
 Revert back to its initial state at the previous terminal.
 ```
 kubectl exec mysql-2 -c mysql -- mv /usr/bin/mysql.off /usr/bin/mysql
 ```
 Check the status again to see that both containers are running and healthy
 ```
-$ kubectl get pod mysql-2
+kubectl get pod mysql-2
 ```
-```
+{{< output >}}
 NAME      READY     STATUS    RESTARTS   AGE
 mysql-2   2/2       Running   0          5h
-```
+{{< /output >}}
 The loop in another terminal is now showing @@server_id 102 is back and all three servers are running.
 Press Ctrl+C to stop watching.
 #### Failed pod
@@ -64,14 +64,14 @@ To simulate a failed pod, delete mysql-2 pod by following command.
 ```
 kubectl delete pod mysql-2
 ```
-```
+{{< output >}}
 pod "mysql-2" deleted
-```
+{{< /output >}}
 StatefulSet controller recognizes failed pod and creates a new one to maintain the number of replicas with them same name and link to the same PersistentVolumeClaim.
 ```
-$ kubectl get pod -w mysql-2
+kubectl get pod -w mysql-2
 ```
-```
+{{< output >}}
 NAME      READY     STATUS        RESTARTS   AGE
 mysql-2   2/2       Terminating   0          1d
 mysql-2   0/2       Terminating   0         1d
@@ -85,6 +85,6 @@ mysql-2   0/2       PodInitializing   0         11s
 mysql-2   1/2       Running   0         12s
 mysql-2   2/2       Running   0         16s
 
-```
+{{< /output >}}
 Press Ctrl+C to stop watching.
 

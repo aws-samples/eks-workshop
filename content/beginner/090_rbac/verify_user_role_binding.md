@@ -23,10 +23,10 @@ kubectl get pods -n rbac-test
 
 The output should be similar to:
 
-```
+{{< output >}}
 NAME                    READY     STATUS    RESTARTS   AGE
 nginx-55bd7c9fd-kmbkf   1/1       Running   0          23h
-```
+{{< /output >}}
 
 Try running the same command again, but outside of the rbac-test namespace:
 
@@ -35,9 +35,9 @@ kubectl get pods -n kube-system
 ```
 
 You should get an error similar to:
-```
+{{< output >}}
 No resources found.
 Error from server (Forbidden): pods is forbidden: User "rbac-user" cannot list resource "pods" in API group "" in the namespace "kube-system"
-```
+{{< /output >}}
 
 Because the role you are bound to does not give you access to any namespace other than rbac-test.

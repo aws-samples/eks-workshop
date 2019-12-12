@@ -14,10 +14,10 @@ helm list
 
 You should see output similar to below, which show that mywebserver is installed:
 
-```
+{{< output >}}
 NAME            REVISION        UPDATED                         STATUS          CHART           APP VERSION     
 mywebserver     1               Tue Nov 13 19:55:25 2018        DEPLOYED        nginx-1.1.2     1.14.1          
-```
+{{< /output >}}
 
 It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to delete this deployment.  To delete:
 
@@ -27,9 +27,9 @@ helm delete --purge mywebserver
 
 And you should be met with the output:
 
-```
+{{< output >}}
 release "mywebserver" deleted
-```
+{{< /output >}}
 
 kubectl will also demonstrate that our pods and service are no longer available:
 

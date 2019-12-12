@@ -7,7 +7,7 @@ Now that we've seen that all the traffic is being allowed in the cluster, let's 
 
 The YAML fragment that defines such a policy can be seen below
 
-```
+{{< output >}}
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -15,7 +15,7 @@ metadata:
 spec:
   podSelector:
     matchLabels: {}
-```
+{{< /output >}}
 
 Now create a file called _default-deny.yaml_ with the above contents and install it in your cluster using kubectl.
 

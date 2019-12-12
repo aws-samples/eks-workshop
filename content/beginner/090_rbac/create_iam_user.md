@@ -18,7 +18,7 @@ aws iam create-access-key --user-name rbac-user | tee /tmp/create_output.json
 
 By running the previous step, you should get a response similar to:
 
-```
+{{< output >}}
 {
 	"AccessKey": {
 		"UserName": "rbac-user",
@@ -28,7 +28,7 @@ By running the previous step, you should get a response similar to:
 		"AccessKeyId": < AWS Access Key >
 	}
 }
-```
+{{< /output >}}
 
 To make it easy to switch back and forth between the admin user you created the cluster with, and this new rbac-user, run the following command to create a script that when sourced, sets the active user to be rbac-user:
 

@@ -21,13 +21,13 @@ You can check the Name of the Cluster with the CLI
 aws eks list-clusters
 ```
 Output
-```
+{{< output >}}
 {
         "clusters": [
                 "eksworkshop-eksctl"
                     ]
 }
-```
+{{< /output >}}
 Edit the ```–cluster-name``` flag to be the real name of our Kubernetes (or) Amazon EKS cluster in your ```alb-ingress-controller.yaml``` file. In this case, our cluster name was ```eksworkshop-eksctl``` as apparent from the output.
 
 Deploy the AWS ALB Ingress controller YAML:
@@ -39,14 +39,14 @@ Verify that the deployment was successful and the controller started:
 kubectl logs -n kube-system $(kubectl get po -n kube-system | egrep -o alb-ingress[a-zA-Z0-9-]+)
 ```
 You should be able to see the following output:
-```
+{{< output >}}
 -------------------------------------------------------------------------------
 AWS ALB Ingress controller
   Release:    v1.0.0
   Build:      git-c25bc6c5
   Repository: https://github.com/kubernetes-sigs/aws-alb-ingress-controller
 -------------------------------------------------------------------------------
-```
+{{< /output >}}
 #### Deploy Sample Application
 Now let’s deploy a sample 2048 game into our Kubernetes cluster and use the Ingress resource to expose it to traffic:
 
@@ -67,8 +67,8 @@ After few seconds, verify that the Ingress resource is enabled:
 kubectl get ingress/2048-ingress -n 2048-game
 ```
 You should be able to see the following output:
-```
+{{< output >}}
 NAME         HOSTS         ADDRESS         PORTS   AGE
 2048-ingress   *    DNS-Name-Of-Your-ALB    80     3m
-```
+{{< /output >}}
 Open a browser. Copy and paste your “DNS-Name-Of-Your-ALB”. You should be to access your newly deployed 2048 game – have fun!

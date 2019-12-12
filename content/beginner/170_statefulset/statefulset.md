@@ -23,19 +23,19 @@ kubectl get -w statefulset
 ```
 It will take few minutes for pods to initialize and have statefulset created.
 **DESIRED** is the replicas number you define at StatefulSet.
-```
+{{< output >}}
 NAME      DESIRED   CURRENT   AGE
 mysql     3         1         8s
 mysql     3         2         59s
 mysql     3         3         2m
 mysql     3         3         3m
-```
+{{< /output >}}
 Open another Cloud9 Terminal and watch the progress of pods creation using the following command. 
 ```
 kubectl get pods -l app=mysql --watch
 ```
 You can see ordered, graceful deployment with a stable, unique name for each pod.
-```
+{{< output >}}
 NAME      READY     STATUS     RESTARTS   AGE
 mysql-0   0/2       Init:0/2   0          30s
 mysql-0   0/2       Init:1/2   0         35s
@@ -60,7 +60,7 @@ mysql-2   0/2       Init:1/2   0         43s
 mysql-2   0/2       PodInitializing   0         50s
 mysql-2   1/2       Running   0         52s
 mysql-2   2/2       Running   0         56s
-```
+{{< /output >}}
 Press Ctrl+C to stop watching.
 
 Check the dynamically created PVC by following command.
@@ -68,11 +68,11 @@ Check the dynamically created PVC by following command.
 kubectl get pvc -l app=mysql
 ```
 You can see data-mysql-0,1,2 are created by STORAGECLASS mysql-gp2.
-```
+{{< output >}}
 NAME           STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 data-mysql-0   Bound     pvc-83e9dfeb-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            1d
 data-mysql-1   Bound     pvc-977e7806-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            1d
 data-mysql-2   Bound     pvc-b3009b02-e721-11e8-86c5-069628ef0c9c   10Gi       RWO            mysql-gp2            1d
-```
+{{< /output >}}
 (Optional) Check 10Gi 3 EBS volumes are created across availability zones at your AWS console.
 {{%attachments title="Related files" pattern=".yml"/%}}

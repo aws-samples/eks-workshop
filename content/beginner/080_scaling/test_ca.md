@@ -52,7 +52,7 @@ Some pods will be in the `Pending` state, which triggers the cluster-autoscaler 
 kubectl get pods -o wide --watch
 ```
 
-```
+{{< output >}}
 NAME                                 READY     STATUS    RESTARTS   AGE
 
 nginx-to-scaleout-7cb554c7d5-2d4gp   0/1       Pending   0          11s
@@ -66,7 +66,7 @@ nginx-to-scaleout-7cb554c7d5-6l84p   0/1       Pending   0          11s
 nginx-to-scaleout-7cb554c7d5-7vp7l   0/1       Pending   0          12s
 nginx-to-scaleout-7cb554c7d5-86pr6   0/1       Pending   0          12s
 nginx-to-scaleout-7cb554c7d5-88ttw   0/1       Pending   0          12s
-```
+{{< /output >}}
 
 View the cluster-autoscaler logs
 ```
