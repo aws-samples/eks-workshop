@@ -29,7 +29,7 @@ If you are [at an AWS event](https://eksworkshop.com/020_prerequisites/aws_event
 
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-export AWS_REGION= # for aws hosted event, set this to the region specified by your instructor
+export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
 ```
 
 Check if AWS_REGION is set to desired region
@@ -38,6 +38,8 @@ test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || echo AWS_REGION is 
 ```
 Let's save these into bash_profile
 ```
+=======
+
 echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
 echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
