@@ -12,9 +12,9 @@ kubectl create -f 4_create_initial_mesh_components/mesh.yaml
 
 You should see output similar to:
 
-```
+{{< output >}}
 mesh.appmesh.k8s.aws/dj-app created
-```
+{{< /output >}}
 
 Since an App Mesh mesh is a custom resource, we can also use kubectl to view it via the get command.  Running the below command:
 
@@ -24,10 +24,10 @@ kubectl get meshes -nprod
 
 yields:
 
-```
+{{< output >}}
 NAME     AGE
 dj-app   1h
-```
+{{< /output >}}
 
 And similarly, as is the case for any of the custom resources we'll be interacting with in this tutorial, you can also view AWS App Mesh resources via the AWS CLI to list meshes:
 
@@ -36,8 +36,7 @@ aws appmesh list-meshes
 ```
 
 which would output:
-
-```
+{{< output >}}
 {
     "meshes": [
         {
@@ -46,7 +45,7 @@ which would output:
         }
     ]
 }
-```
+{{< /output >}}
 
 or for example, to describe a mesh:
 
@@ -55,8 +54,7 @@ aws appmesh describe-mesh --mesh-name dj-app
 ```
 
 would output:
-
-```
+{{< output >}}
 {
     "mesh": {
         "status": {
@@ -72,5 +70,4 @@ would output:
         }
     }
 }
-
-```
+{{< /output >}}

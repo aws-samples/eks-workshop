@@ -11,13 +11,12 @@ kubectl get pods -nprod
 ```
 
 yields:
-
-```
+{{< output >}}
 NAME                        READY   STATUS    RESTARTS   AGE
 dj-5b445fbdf4-qf8sv         1/1     Running   0          3h
 jazz-v1-644856f4b4-mshnr    1/1     Running   0          3h
 metal-v1-84bffcc887-97qzw   1/1     Running   0          3h
-```
+{{< /output >}}
 
 and to take a closer look:
 
@@ -26,8 +25,7 @@ kubectl describe pods/dj-5b445fbdf4-qf8sv -nprod
 ```
 
 yields:
-
-```
+{{< output >}}
 ...
 Containers:
   dj:
@@ -38,7 +36,7 @@ Containers:
     Host Port:      0/TCP
     State:          Running
 ...
-```
+{{< /output >}}
 
 The injector controller we installed earlier watches for new pods to be created, and ensures any new pods that are created in the prod namespace are injected with the App Mesh sidecar.  Since our dj pods were already running before the injector was created, we'll force them to be recreated, this time with the sidecars auto-injected into them.
 
@@ -51,14 +49,12 @@ kubectl get pods -nprod
 ```
 
 The output will be the pod names:
-
-
-```
+{{< output >}}
 NAME                        READY   STATUS    RESTARTS   AGE
 dj-5b445fbdf4-qf8sv         1/1     Running   0          3h
 jazz-v1-644856f4b4-mshnr    1/1     Running   0          3h
 metal-v1-84bffcc887-97qzw   1/1     Running   0          3h
-```
+{{< /output >}}
 
 Note that under the READY column, we see 1/1, which indicates one container is running for each pod.  
 
@@ -71,26 +67,26 @@ kubectl patch deployment jazz-v1 -nprod -p "{\"spec\":{\"template\":{\"metadata\
 ```
 
 Once again, get the pods:
-
 ```
 kubectl get pods -nprod
 ```
 
 Now note how we see 2/2 under READY, which indicates two container for each pod are running:
-
-```
+{{< output >}}
 NAME                        READY   STATUS    RESTARTS   AGE
 dj-6cfb85cdd9-z5hsp         2/2     Running   0          10m
 jazz-v1-79d67b4fd6-hdrj9    2/2     Running   0          16s
 metal-v1-769b58d9dc-7q92q   2/2     Running   0          18s
-```
+{{< /output >}}
 
 {{% notice note %}}
 If you don't see the above exact output, and instead see “Terminating” or "Initializing" pods, wait about 10 seconds — (your redeployment is underway), and re-run the command. Run `kubectl get pods -nprod --watch` to see the entire process of initializaing and terminating pods.
 {{% /notice %}}
 
 ```
-$ kubectl get pods -nprod --watch
+kubectl get pods -nprod --watch
+```
+{{< output >}}
 NAME                       READY   STATUS        RESTARTS   AGE
 dj-76c74fd9b6-mlmnv        2/2     Running       0          39s
 dj-8d4fc6ccd-vcknl         0/1     Terminating   0          19m
@@ -101,11 +97,13 @@ dj-8d4fc6ccd-vcknl   0/1   Terminating   0     20m
 dj-8d4fc6ccd-vcknl   0/1   Terminating   0     20m
 jazz-v1-f94cdc64d-mvd4l   0/1   Terminating   0     20m
 jazz-v1-f94cdc64d-mvd4l   0/1   Terminating   0     20m
-```
+{{< /output >}}
 
-If we now describe the new dj pod to get more detail: `kubectl describe pods/$(kubectl get pods -nprod | grep 'dj-' | awk '{print $1}') -nprod`
-
+If we now describe the new dj pod to get more detail: 
 ```
+kubectl describe pods/$(kubectl get pods -nprod | grep 'dj-' | awk '{print $1}') -nprod`
+```
+{{< output >}}
 ...
 Containers:
   dj:
@@ -116,6 +114,6 @@ Containers:
     Container ID:   docker://2bd0dc0707f80d436338fce399637dcbcf937eaf95fed90683eaaf5187fee43a
     Image:          111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.8.0.2-beta
     ...
-```
+{{< /output >}}
 
 We'll see that both the original container, and the auto-injected sidecar will both be running for any new pods created in the prod namespace.

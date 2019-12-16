@@ -20,7 +20,7 @@ Next, run the create.sh script:
 
 Output should look similar to:
 
-```
+{{< output >}}
 namespace/appmesh-inject created
 creating certs in tmpdir /var/folders/02/qfw6pbm501xbw4scnk20w80h0_xvht/T/tmp.LFO95khQ
 Generating RSA private key, 2048 bit long modulus
@@ -51,6 +51,6 @@ NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 aws-app-mesh-inject   ClusterIP   10.100.165.254   <none>        443/TCP   16s
 NAME                                   READY   STATUS    RESTARTS   AGE
 aws-app-mesh-inject-5d84d8c96f-gc6bl   1/1     Running   0          16s
-```
+{{< /output >}}
 
 If you're seeing the above output, the injector controller has been installed correctly.
