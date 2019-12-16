@@ -29,7 +29,7 @@ If you are [at an AWS event](https://eksworkshop.com/020_prerequisites/aws_event
 
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-export AWS_REGION= # for aws hosted event, set this to the region specified by your instructor
+export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
 ```
 
 Check if AWS_REGION is set to desired region
@@ -38,6 +38,8 @@ test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || echo AWS_REGION is 
 ```
 Let's save these into bash_profile
 ```
+=======
+
 echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
 echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
@@ -62,30 +64,30 @@ aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME --qu
 -->
 
 The output assumed-role name should contain:
-```
+{{< output >}}
 eksworkshop-admin
-```
+{{< /output >}}
 
 #### VALID
 
 If the _Arn_ contains the role name from above and an Instance ID, you may proceed.
 
-```output
+{{< output >}}
 {
     "Account": "123456789012",
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/eksworkshop-admin/i-01234567890abcdef"
 }
-```
+{{< /output >}}
 
 #### INVALID
 
 If the _Arn contains `TeamRole`, `MasterRole`, or does not match the role name output above, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
 
-```output
+{{< output >}}
 {
     "Account": "123456789012",
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
     "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/MasterRole"
 }
-```
+{{< /output >}}

@@ -25,7 +25,7 @@ helm install --name workshop ~/environment/eksdemo
 
 Similar to what we saw previously in the [NGINX Helm Chart example](/beginner/060_helm/helm_nginx/index.html), an output of the Deployment, Pod, and Service objects are output, similar to:
 
-```
+{{< output >}}
 NAME:   workshop
 LAST DEPLOYED: Fri Nov 16 21:42:00 2018
 NAMESPACE: default
@@ -55,5 +55,5 @@ ecsdemo-frontend-67876457f6-rb6rg  0/1    ContainerCreating  0         0s
 ecsdemo-nodejs-c458bf55d-994cq     0/1    ContainerCreating  0         0s
 ecsdemo-nodejs-c458bf55d-9qtbm     0/1    ContainerCreating  0         0s
 ecsdemo-nodejs-c458bf55d-s9zkh     0/1    ContainerCreating  0         0s
+{{< /output >}}
 
-```

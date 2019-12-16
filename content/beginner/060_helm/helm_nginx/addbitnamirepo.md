@@ -22,13 +22,13 @@ helm search bitnami
 
 Which results in:
 
-```
+{{< output >}}
 NAME                                    CHART VERSION   APP VERSION             DESCRIPTION                                                 
 bitnami/bitnami-common                  0.0.3           0.0.1                   Chart with...        
 bitnami/apache                          2.1.2           2.4.37                  Chart for Apache...                              
 bitnami/cassandra                       0.1.0           3.11.3                  Apache Cassandra...
 ...
-```
+{{< /output >}}
 
 Search once again for NGINX:
 
@@ -38,12 +38,12 @@ helm search nginx
 
 Now we are seeing more NGINX options, across both repositories:
 
-```
+{{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION                                                 
 bitnami/nginx                           1.1.2           1.14.1          Chart for the nginx server                                  
 bitnami/nginx-ingress-controller        2.1.4           0.20.0          Chart for the nginx Ingress...                    
 stable/nginx-ingress                    0.31.0          0.20.0          An nginx Ingress controller ...
-```
+{{< /output >}}
 
 Or even search the Bitnami repo, just for NGINX:
 
@@ -53,11 +53,11 @@ helm search bitnami/nginx
 
 Which narrows it down to NGINX on Bitnami:
 
-```
+{{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION                           
 bitnami/nginx                           1.1.2           1.14.1          Chart for the nginx server            
 bitnami/nginx-ingress-controller        2.1.4           0.20.0          Chart for the nginx Ingress...
-```
+{{< /output >}}
 
 In both of those last two searches, we see
 

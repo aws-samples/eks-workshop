@@ -19,7 +19,7 @@ Check the configuration of mysql-configmap.yml file by following command.
 cat ~/environment/templates/mysql-configmap.yml
 ```
 ConfigMap stores master.cnf, slave.cnf and pass them when initializing master and slave pods defined in statefulset. **master.cnf** is for the MySQL master pod which has binary log option (log-bin) to provides a record of the data changes to be sent to slave servers and **slave.cnf** is for slave pods which has super-read-only option.
-```
+{{< output >}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -35,7 +35,7 @@ data:
     # Apply this config only on slaves.
     [mysqld]
     super-read-only
-```
+{{< /output >}}
 
 Create configmap "mysql-config" by following command.
 ```

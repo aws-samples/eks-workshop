@@ -105,6 +105,10 @@ As you can see, all the 3 replicas of the web-server are automatically co-locate
 
 ```
 kubectl get pods -o wide
+```
+
+{{< output >}}
+
 NAME                           READY     STATUS    RESTARTS   AGE       IP           NODE
 redis-cache-1450370735-6dzlj   1/1       Running   0          8m        10.192.4.2   kube-node-3
 redis-cache-1450370735-j2j96   1/1       Running   0          8m        10.192.2.2   kube-node-1
@@ -112,4 +116,4 @@ redis-cache-1450370735-z73mh   1/1       Running   0          8m        10.192.3
 web-server-1287567482-5d4dz    1/1       Running   0          7m        10.192.2.3   kube-node-1
 web-server-1287567482-6f7v5    1/1       Running   0          7m        10.192.4.3   kube-node-3
 web-server-1287567482-s330j    1/1       Running   0          7m        10.192.3.2   kube-node-2
-```
+{{< /output >}}

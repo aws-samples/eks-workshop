@@ -22,10 +22,10 @@ helm repo update
 
 And you should see something similar to:
 
-```
+{{< output >}}
 Hang tight while we grab the latest from your chart repositories...
 ...Successfully got an update from the "stable" chart repository
 Update Complete. ⎈ Happy Helming!⎈
-```
+{{< /output >}}
 
 Next, we'll search for the NGINX web server Chart.

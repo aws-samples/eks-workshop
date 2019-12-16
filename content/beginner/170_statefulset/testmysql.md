@@ -20,20 +20,20 @@ kubectl run mysql-client --image=mysql:5.7 -it --rm --restart=Never --\
   mysql -h mysql-read -e "SELECT * FROM test.messages"
 ```
 The output should look like this.
-```
+{{< output >}}
 +--------------------------+
 | message                  |
 +--------------------------+
 | hello, from mysql-client |
 +--------------------------+
-```
+{{< /output >}}
 To test load balancing across slaves, run the following command.
 ```
 kubectl run mysql-client-loop --image=mysql:5.7 -i -t --rm --restart=Never --\
    bash -ic "while sleep 1; do mysql -h mysql-read -e 'SELECT @@server_id,NOW()'; done"
 ```
 Each MySQL instance is assigned a unique identifier, and it can be retrieved using @@server_id. It will print the server id serving the request and the timestamp.
-```
+{{< output >}}
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
@@ -59,5 +59,5 @@ Each MySQL instance is assigned a unique identifier, and it can be retrieved usi
 +-------------+---------------------+
 |         101 | 2018-11-14 12:45:01 |
 +-------------+---------------------+
-```
+{{< /output >}}
 Leave this open in a separate window while you test failure in the next section.

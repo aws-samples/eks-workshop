@@ -47,17 +47,17 @@ kubectl get pod liveness-app
 ```
 The output looks like below. Notice the ***RESTARTS***
 
-```
+{{< output >}}
 NAME           READY     STATUS    RESTARTS   AGE
 liveness-app   1/1       Running   0          11s
-```
+{{< /output >}}
 
 The `kubectl describe` command will show an event history which will show any probe failures or restarts.
 ```bash
 kubectl describe pod liveness-app
 ```
 
-```text
+{{< output >}}
 Events:
   Type    Reason                 Age   From                                    Message
   ----    ------                 ----  ----                                    -------
@@ -67,8 +67,7 @@ Events:
   Normal  Pulled                 37s   kubelet, ip-192-168-18-63.ec2.internal  Successfully pulled image "brentley/ecsdemo-nodejs"
   Normal  Created                37s   kubelet, ip-192-168-18-63.ec2.internal  Created container
   Normal  Started                37s   kubelet, ip-192-168-18-63.ec2.internal  Started container
-```
-
+{{< /output >}}
 
 #### Introduce a Failure
 We will run the next command to send a SIGUSR1 signal to the nodejs application. By issuing this command we will send a kill signal to the application process in the docker runtime.
@@ -78,7 +77,7 @@ kubectl exec -it liveness-app -- /bin/kill -s SIGUSR1 1
 ```
 
 Describe the pod after waiting for 15-20 seconds and you will notice the kubelet actions of killing the container and restarting it. 
-```
+{{< output >}}
 Events:
   Type     Reason                 Age                From                                    Message
   ----     ------                 ----               ----                                    -------
@@ -90,7 +89,7 @@ Events:
   Normal   Created                0s (x2 over 1m)    kubelet, ip-192-168-18-63.ec2.internal  Created container
   Normal   Started                0s (x2 over 1m)    kubelet, ip-192-168-18-63.ec2.internal  Started container
   Normal   Killing                0s                 kubelet, ip-192-168-18-63.ec2.internal  Killing container with id docker://liveness:Container failed liveness probe.. Container will be killed and recreated.
-```
+{{< /output >}}
 
 When the nodejs application entered a debug mode with SIGUSR1 signal, it did not respond to the health check pings and kubelet killed the container. The container was subject to the default restart policy.
 
@@ -100,10 +99,10 @@ kubectl get pod liveness-app
 
 The output looks like below:
 
-```
+{{< output >}}
 NAME           READY     STATUS    RESTARTS   AGE
 liveness-app   1/1       Running   1          12m
-```
+{{< /output >}}
 
 #### Challenge:
 **How can we check the status of the container health checks?**
@@ -116,7 +115,7 @@ You can also use `kubectl logs` to retrieve logs from a previous instantiation o
 ```bash
 kubectl logs liveness-app --previous
 ```
-```text
+{{< output >}}
 <Output omitted>
 Example app listening on port 3000!
 ::ffff:192.168.43.7 - - [20/Nov/2018:22:53:01 +0000] "GET /health HTTP/1.1" 200 16 "-" "kube-probe/1.10"
@@ -124,5 +123,5 @@ Example app listening on port 3000!
 ::ffff:192.168.43.7 - - [20/Nov/2018:22:53:11 +0000] "GET /health HTTP/1.1" 200 17 "-" "kube-probe/1.10"
 Starting debugger agent.
 Debugger listening on [::]:5858
-```
+{{< /output >}}
 {{% /expand %}}

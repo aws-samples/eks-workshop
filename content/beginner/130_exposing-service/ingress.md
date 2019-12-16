@@ -18,7 +18,7 @@ An Ingress does not expose arbitrary ports or protocols. Exposing services other
 
 #### The Ingress Resource
 A minimal ingress resource example:
-```
+{{< output >}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -33,7 +33,7 @@ spec:
         backend:
           serviceName: test
           servicePort: 80
-```
+{{< /output >}}
 As with all other Kubernetes resources, an Ingress needs apiVersion, kind, and metadata fields.
 Ingress frequently uses annotations to configure some options depending on the Ingress controller, an example of which is the rewrite-target annotation. Different Ingress controller support different annotations. Review the documentation for your choice of Ingress controller to learn which annotations are supported.
 
