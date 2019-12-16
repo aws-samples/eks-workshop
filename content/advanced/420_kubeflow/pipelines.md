@@ -64,10 +64,10 @@ aws iam get-role --role-name eksworkshop-sagemaker-kfp-role --output text --quer
 At the end of the script, you will get the arn of IAM role generated. Make a note of this role as you will need it during pipeline creation step
 
 Here is an example of the output
-```
+{{< output >}}
 TeamRole:~/environment $ aws iam get-role --role-name eksworkshop-sagemaker-kfp-role --output text --query 'Role.Arn'
 arn:aws:iam::371348455981:role/eksworkshop-sagemaker-kfp-role
-```
+{{< /output >}}
 Lastly, let's assign sagemaker:InvokeEndpoint permission to Worker node IAM role
 
 ```

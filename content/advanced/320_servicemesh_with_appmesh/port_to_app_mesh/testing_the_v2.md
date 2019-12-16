@@ -11,11 +11,10 @@ kubectl get pods -nprod -l app=dj
 ```
 
  Output should be similar to:
-
-```
+{{< output >}}
 NAME                  READY     STATUS    RESTARTS   AGE
 dj-5b445fbdf4-8xkwp   1/1       Running   0          32s
-```
+{{< /output >}}
 
 Next, we'll exec into the DJ pod, and make a curl request to the virtual service jazz, simulating what would happen if code running in the same pod made a request to the metal service by entering the following:
 
@@ -24,10 +23,9 @@ kubectl exec -nprod -it <your-dj-pod-name> -c dj bash
 ```
 
  Output should be similar to:
-
-```
+{{< output >}}
 root@dj-5b445fbdf4-8xkwp:/usr/src/app#
-```
+{{< /output >}}
 
 Now that we have a root prompt into the DJ pod, we'll issue our curl request to the jazz virtual service:
 
@@ -36,14 +34,14 @@ while [ 1 ]; do curl http://metal.prod.svc.cluster.local:9080/;echo; done
 ```
 
 Output should loop about 50/50 between the v1 and v2 versions of the metal service, similar to:
-```
+{{< output >}}
 ...
 ["Megadeth","Judas Priest"]
 ["Megadeth (Los Angeles, California)","Judas Priest (West Bromwich, England)"]
 ["Megadeth","Judas Priest"]
 ["Megadeth (Los Angeles, California)","Judas Priest (West Bromwich, England)"]
 ...
-```
+{{< /output >}}
 
 Hit CTRL-C to stop the looping.
 
@@ -54,8 +52,7 @@ while [ 1 ]; do curl http://jazz.prod.svc.cluster.local:9080/;echo; done
 ```
 
 Output should loop about in a 90/10 ratio between the v1 and v2 versions of the jazz service, similar to:
-
-```
+{{< output >}}
 ...
 ["Astrud Gilberto","Miles Davis"]
 ["Astrud Gilberto","Miles Davis"]
@@ -63,7 +60,7 @@ Output should loop about in a 90/10 ratio between the v1 and v2 versions of the 
 ["Astrud Gilberto (Bahia, Brazil)","Miles Davis (Alton, Illinois)"]
 ["Astrud Gilberto","Miles Davis"]
 ...
-```
+{{< /output >}}
 
 Hit CTRL-C to stop the looping, and type exit to exit the pod's shell.
 

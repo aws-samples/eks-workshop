@@ -55,7 +55,7 @@ kubectl get pod,svc
 
 Should look similar to:
 
-```
+{{< output >}}
 NAME                              READY     STATUS    RESTARTS   AGE
 details-v1-64558cf56b-dxbx2       2/2       Running   0          14s
 productpage-v1-5b796957dd-hqllk   2/2       Running   0          14s
@@ -70,7 +70,7 @@ kubernetes    ClusterIP   10.100.0.1       <none>        443/TCP    138d
 productpage   ClusterIP   10.100.222.154   <none>        9080/TCP   17s
 ratings       ClusterIP   10.100.1.63      <none>        9080/TCP   17s
 reviews       ClusterIP   10.100.255.157   <none>        9080/TCP   17s
-```
+{{< /output >}}
 
 Next we'll define the virtual service and ingress gateway:
 

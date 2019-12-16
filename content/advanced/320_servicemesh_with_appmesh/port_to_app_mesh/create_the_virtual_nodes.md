@@ -23,14 +23,14 @@ kubectl create -f 4_create_initial_mesh_components/nodes_representing_virtual_se
 
 You should see output similar to:
 
-```
+{{< output >}}
 virtualnode.appmesh.k8s.aws/metal created
 virtualnode.appmesh.k8s.aws/jazz created
-```
+{{< /output >}}
 
 If you open the YAML up in your favorite editor, you'll notice a few things about these Virtual Nodes.  They're both similar, but for purposes of this tutorial, let's examine just the metal.prod.svc.cluster.local VirtualNode:
 
-```
+{{< output >}}
 apiVersion: appmesh.k8s.aws/v1beta1
 kind: VirtualNode
 metadata:
@@ -45,9 +45,8 @@ spec:
   serviceDiscovery:
     dns:
       hostName: metal.prod.svc.cluster.local
-
 ...
-```
+{{< /output >}}
 
 According to this YAML, we see that this Virtual Node points to a service (spec.serviceDiscovery.dns.hostName: metal.prod.svc.cluster.local) that listens on a given port for requests (spec.listeners.portMapping.port: 9080).
 
@@ -58,16 +57,15 @@ kubectl create -nprod -f 4_create_initial_mesh_components/nodes_representing_phy
 ```
 
 Output should be similar to:
-
-```
+{{< output >}}
 virtualnode.appmesh.k8s.aws/dj created
 virtualnode.appmesh.k8s.aws/jazz-v1 created
 virtualnode.appmesh.k8s.aws/metal-v1 created
-```
+{{< /output >}}
 
 If you view the YAML we used to create the above Virtual Nodes, you'll notice jazz-v1 and metal-v1 are very similar (aside from name) to the previous metal and jazz Virtual Nodes we created earlier.  The one key difference is to be found in the dj Virtual Node, which contains a backends attribute:
 
-```
+{{< output >}}
 apiVersion: appmesh.k8s.aws/v1beta1
 kind: VirtualNode
 metadata:
@@ -87,7 +85,7 @@ spec:
         virtualServiceName: jazz.prod.svc.cluster.local
     - virtualService:
         virtualServiceName: metal.prod.svc.cluster.local
-```
+{{< /output >}}
 
 The backend attribute specifies that dj is allowed to make requests to the jazz and metal Virtual Services only.
 
@@ -98,12 +96,11 @@ kubectl get virtualnodes -nprod
 ```
 
 yielding:
-
-```
+{{< output >}}
 NAME            AGE
 dj              6m
 jazz            3h
 jazz-v1         6m
 metal           3h
 metal-v1        6m
-```
+{{< /output >}}
