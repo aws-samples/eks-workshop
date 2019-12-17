@@ -42,7 +42,7 @@ and check the corresponding pods with:
 kubectl get pods -n istio-system
 ```
 
-```
+{{< output >}}
 NAME                                    READY     STATUS      RESTARTS   AGE
 grafana-7b46bf6b7c-4rh5z                1/1       Running     0          10m
 istio-citadel-75fdb679db-jnn4z          1/1       Running     0          10m
@@ -55,4 +55,4 @@ istio-policy-6cbbd844dd-ccnph           2/2       Running     1          10m
 istio-telemetry-ccc4df498-pjht7         2/2       Running     1          10m
 prometheus-89bc5668c-f866j              1/1       Running     0          10m
 servicegraph-5d4b49848-qvdtr            1/1       Running     0          10m
-```
+{{< /output >}}

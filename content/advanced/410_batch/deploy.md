@@ -16,7 +16,7 @@ kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.2.1/manifests/install.yaml
 ```
 
-```output
+{{< output >}}
 namespace/argo created
 customresourcedefinition.apiextensions.k8s.io/workflows.argoproj.io created
 serviceaccount/argo created
@@ -32,7 +32,7 @@ configmap/workflow-controller-configmap created
 service/argo-ui created
 deployment.apps/argo-ui created
 deployment.apps/workflow-controller created
-```
+{{< /output >}}
 
 To use advanced features of Argo for this demo, create a RoleBinding to grant admin privileges to the 'default' service account.
 

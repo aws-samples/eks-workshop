@@ -14,9 +14,9 @@ kubectl apply -f 1_create_the_initial_architecture/1_prod_ns.yaml
 
 Output should be similar to:
 
-```
+{{< output >}}
 namespace/prod created
-```
+{{< /output >}}
 
 Now that we have the prod namespace created, we'll deploy the DJ App (dj, metal, and jazz microservices) into it.
 
@@ -28,11 +28,11 @@ kubectl apply -nprod -f 1_create_the_initial_architecture/1_initial_architecture
 
 Output should be similar to:
 
-```
+{{< output >}}
 deployment.apps "dj" created
 deployment.apps "metal-v1" created
 deployment.apps "jazz-v1" created
-```
+{{< /output >}}
 
 Create the services that front these deployments by issuing the following command:
 
@@ -42,11 +42,11 @@ kubectl apply -nprod -f 1_create_the_initial_architecture/1_initial_architecture
 
 Output should be similar to:
 
-```
+{{< output >}}
 service "dj" created
 service "metal-v1" created
 service "jazz-v1" created
-```
+{{< /output >}}
 
 Let's verify everything has been setup correctly by getting all resources from the prod namespace.  Issue this command:
 
@@ -56,7 +56,7 @@ kubectl get all -nprod
 
 Output should display dj, jazz, and metal pods, services, deployments, and replica sets, similar to:
 
-```
+{{< output >}}
 NAME                            READY   STATUS    RESTARTS   AGE
 pod/dj-5b445fbdf4-qf8sv         1/1     Running   0          1m
 pod/jazz-v1-644856f4b4-mshnr    1/1     Running   0          1m
@@ -76,7 +76,6 @@ NAME                                  DESIRED   CURRENT   READY   AGE
 replicaset.apps/dj-5b445fbdf4         1         1         1       1m
 replicaset.apps/jazz-v1-644856f4b4    1         1         1       1m
 replicaset.apps/metal-v1-84bffcc887   1         1         1       1m
-
-```
+{{< /output >}}
 
 Once you've verified all resources have been created correctly in the prod namespace, next we'll test out this initial version of the DJ App.

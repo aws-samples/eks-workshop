@@ -22,20 +22,20 @@ kubectl label namespace prod appmesh.k8s.aws/sidecarInjectorWebhook=enabled
 
 Output should be similar to:
 
-```
+{{< output >}}
 namespace/prod labeled
-```
+{{< /output >}}
 Next, we'll verify the Injector Controller is running:
 
 ```
 kubectl get pods -nappmesh-inject
 ```
-You should see output similar to:
 
-```
+You should see output similar to:
+{{< output >}}
 NAME                                   READY   STATUS    RESTARTS   AGE
 aws-app-mesh-inject-78c59cc699-9jrb4   1/1     Running   0          1h
-```
+{{< /output >}}
 
 
 With the injector portion of the setup complete, lets move on to creating the App Mesh components.

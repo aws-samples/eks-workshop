@@ -49,7 +49,7 @@ The workflow should _relatively_ look like a teardrop, and provide a live status
 
 This details basic information about the job, and includes a link to the Logs. The Hotel job logs list the job dependency chain and the current `whalesay`, and should look similar to:
 
-```output
+{{< output >}}
 Chain:
 Alpha
 Bravo
@@ -70,6 +70,6 @@ ____________________
       \______ o          __/
        \    \        __/
          \____\______/
-```
+{{< /output >}}
 
 Explore the other jobs in the workflow to see each job's status and logs.
