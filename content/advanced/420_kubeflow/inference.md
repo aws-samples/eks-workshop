@@ -61,7 +61,7 @@ python3 inference_client.py --endpoint http://localhost:8500/v1/models/mnist:pre
 
 It will randomly pick one image from test dataset and make prediction.
 
-```
+{{< output >}}
 Data: {"instances": [[[[0.0], [0.0], [0.0], [0.0], [0.0] ... 0.0], [0.0]]]], "signature_name": "serving_default"}
 The model thought this was a Ankle boot (class 9), and it was actually a Ankle boot (class 9)
-```
+{{< /output >}}

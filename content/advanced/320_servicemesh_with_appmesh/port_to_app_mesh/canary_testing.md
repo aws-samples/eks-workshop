@@ -20,12 +20,11 @@ kubectl apply -nprod -f 5_canary/jazz_v2.yaml
 ```
 
 Output should be similar to:
-
-```
+{{< output >}}
 deployment.apps/jazz-v2 created
 service/jazz-v2 created
 virtualnode.appmesh.k8s.aws/jazz-v2 created
-```
+{{< /output >}}
 
 Next, we'll update the jazz Virtual Service by modifying the route to spread traffic 90/10 across the two versions.  If we take a look at it now, we'll see the current route which points to jazz-v1 100%:
 
@@ -34,8 +33,7 @@ kubectl describe virtualservice jazz -nprod
 ```
 
 yields:
-
-```
+{{< output >}}
 Name:         jazz.prod.svc.cluster.local
 Namespace:    prod
 Labels:       <none>
@@ -65,8 +63,7 @@ Spec:
 Status:
   Conditions:
 Events:  <none>
-
-```
+{{< /output >}}
 
 We apply the updated service definition:
 
@@ -81,8 +78,7 @@ kubectl describe virtualservice jazz -nprod
 ```
 
 as 90/10:
-
-```
+{{< output >}}
 Name:         jazz.prod.svc.cluster.local
 Namespace:    prod
 Labels:       <none>
@@ -114,7 +110,7 @@ Spec:
 Status:
   Conditions:
 Events:  <none>
-```
+{{< /output >}}
 
 We perform the same steps to deploy metal-v2.  Rollout the v2 deployments, services, and Virtual Nodes with a single YAML file:
 
@@ -123,12 +119,11 @@ kubectl apply -nprod -f 5_canary/metal_v2.yaml
 ```
 
 Output should be similar to:
-
-```
+{{< output >}}
 deployment.apps/metal-v2 created
 service/metal-v2 created
 virtualnode.appmesh.k8s.aws/metal-v2 created
-```
+{{< /output >}}
 
 Update the metal Virtual Service by modifying the route to spread traffic 50/50 across the two versions:
 
@@ -142,8 +137,7 @@ And when we describe the Virtual Service again, we see the updated route:
 kubectl describe virtualservice metal -nprod
 ```
 yields:
-
-```
+{{< output >}}
 Name:         metal.prod.svc.cluster.local
 Namespace:    prod
 Labels:       <none>
@@ -175,6 +169,6 @@ Spec:
 Status:
   Conditions:
 Events:  <none>
-```
+{{< /output >}}
 
 Now that the v2's are deployed, let's test them out.

@@ -34,7 +34,7 @@ You can also run workflow specs directly using kubectl but the argo CLI provides
 argo submit --watch workflow-whalesay.yaml
 ```
 
-```output
+{{< output >}}
 Name:                whalesay-2kfxb
 Namespace:           default
 ServiceAccount:      default
@@ -46,7 +46,7 @@ Duration:            3 seconds
 
 STEP               PODNAME         DURATION  MESSAGE
  ✔ whalesay-2kfxb  whalesay-2kfxb  2s        
-```
+{{< /output >}}
 Make a note of the workflow's name from your output (It should be similar to whalesay-xxxxx).
 
 Confirm the output by running the following command, substituting name of your workflow for "whalesay-xxxxx":
@@ -55,7 +55,7 @@ Confirm the output by running the following command, substituting name of your w
 argo logs whalesay-xxxxx
 ```
 
-```output
+{{< output >}}
  ___________________________ 
 < This is an Argo Workflow! >
  --------------------------- 
@@ -70,4 +70,4 @@ argo logs whalesay-xxxxx
        \______ o          __/            
         \    \        __/             
           \____\______/   
-```
+{{< /output >}}

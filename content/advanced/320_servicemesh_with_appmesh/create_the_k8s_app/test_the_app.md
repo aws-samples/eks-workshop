@@ -14,10 +14,10 @@ kubectl get pods -nprod -l app=dj
 
  Output should be similar to:
 
-```
+{{< output >}}
 NAME                  READY     STATUS    RESTARTS   AGE
 dj-5b445fbdf4-8xkwp   1/1       Running   0          32s
-```
+{{< /output >}}
 
 Next, we'll exec into the DJ pod:
 
@@ -27,9 +27,9 @@ kubectl exec -nprod -it <your-dj-pod-name> bash
 
  Output should be similar to:
 
-```
+{{< output >}}
 root@dj-5b445fbdf4-8xkwp:/usr/src/app#
-```
+{{< /output >}}
 
 Now that we have a root prompt into the DJ pod, we'll issue a curl request to the jazz-v1 backend service:
 
@@ -38,11 +38,9 @@ curl jazz-v1.prod.svc.cluster.local:9080;echo
 ```
 
 Output should be similar to:
-
-```
+{{< output >}}
 ["Astrud Gilberto","Miles Davis"]
-
-```
+{{< /output >}}
 
 Try it again, but issue the command to the metal-v1.prod.svc.cluster.local backend on port 9080:
 
@@ -52,14 +50,14 @@ curl metal-v1.prod.svc.cluster.local:9080;echo
 
  You should get a list of heavy metal bands back:
 
-```
+{{< output >}}
 ["Megadeth","Judas Priest"]
-```
+{{< /output >}}
 
 When you're done exploring this vast world of music, hit CTRL-D, or type exit to exit the container's shell:
 
-```
+{{< output >}}
 root@dj-779566bbf6-cqpxt:/usr/src/app# exit
 command terminated with exit code 1
 $
-```
+{{< /output >}}

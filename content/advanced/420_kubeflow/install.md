@@ -100,8 +100,7 @@ Installing Kubeflow and its toolset may take 2 - 3 minutes. Few pods may initial
 {{% /notice %}}
 
 You should see similar results
-
-```
+{{< output >}}
 NAME                                                           READY   STATUS    RESTARTS   AGE
 admission-webhook-bootstrap-stateful-set-0                     1/1     Running   0          5m19s
 admission-webhook-deployment-78d899bf68-bszdj                  1/1     Running   0          4m20s
@@ -142,4 +141,4 @@ spartakus-volunteer-64cb78bbc5-4kb4f                           1/1     Running  
 tensorboard-6544748d94-rpvd5                                   1/1     Running   0          5m17s
 tf-job-operator-db676465c-vl6vh                                1/1     Running   0          5m17s
 workflow-controller-676484d796-t8vjc                           1/1     Running   0          5m19s
-```
+{{< /output >}}

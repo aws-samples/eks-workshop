@@ -47,10 +47,10 @@ If you receive an error or empty response, expand the steps below to export.
 If `ROLE_NAME` is not set, please review: [/030_eksctl/test/](/030_eksctl/test/)
 {{% /expand %}}
 
-```text
+{{< output >}}
 # Example Output
 ROLE_NAME is eks-workshop-nodegroup
-```
+{{< /output >}}
 
 Create and policy and attach to the worker node role.
 
