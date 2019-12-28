@@ -71,7 +71,7 @@ arn:aws:iam::371348455981:role/eksworkshop-sagemaker-kfp-role
 Lastly, let's assign sagemaker:InvokeEndpoint permission to Worker node IAM role
 
 ```
-cat <<EoF > ~/environment/sagemaker-invoke.json
+cat <<EoF > sagemaker-invoke.json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -85,7 +85,7 @@ cat <<EoF > ~/environment/sagemaker-invoke.json
     ]
 }
 EoF
-aws iam put-role-policy --role-name $ROLE_NAME --policy-name sagemaker-invoke-for-worker --policy-document file://~/environment/sagemaker-invoke.json
+aws iam put-role-policy --role-name $ROLE_NAME --policy-name sagemaker-invoke-for-worker --policy-document file://sagemaker-invoke.json
 ```
 
 #### Run Sagemaker pipeline notebook
