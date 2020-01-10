@@ -7,13 +7,10 @@ draft: false
 
 Now we are ready to use Weave Flux to deploy the hello world application into our Amazon EKS cluster.  To do this we will clone our GitHub config repository (k8s-config) and then commit Kubernetes manifests to deploy. 
 
-{{% notice info %}}
-Update the username (YOURUSER) below to match your GitHub user name.
-{{% /notice %}}
 
 ```
 cd ..
-git clone https://github.com/YOURUSER/k8s-config.git     
+git clone https://github.com/${YOURUSER}/k8s-config.git     
 cd k8s-config
 mkdir charts namespaces releases workloads
 ```

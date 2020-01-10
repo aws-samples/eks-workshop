@@ -41,7 +41,7 @@ Click `Save`
 
 Using the file browser on the left, open cluster_autoscaler.yml
 
-Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, update AWS_REGION value to reflect the region you are using and **Save** the file.
+Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, update **AWS_REGION** value to reflect the region you are using and **Save** the file.
 
 {{< output >}}
 command:

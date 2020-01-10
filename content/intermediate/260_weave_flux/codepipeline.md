@@ -37,12 +37,8 @@ If you receive a permissions error similar to **User x is not authorized to perf
 
 Currently the image build is likely failed because we have no code in our repository.  We will add a sample application to our GitHub repo (eks-example).  Clone the repo substituting your GitHub user name.  
 
-{{% notice info %}}
-Update the username (YOURUSER) below to match your GitHub user name.
-{{% /notice %}}
-
 ```
-git clone https://github.com/YOURUSER/eks-example.git
+git clone https://github.com/${YOURUSER}/eks-example.git
 cd eks-example
 ```
 
