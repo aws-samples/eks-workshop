@@ -25,6 +25,12 @@ When `tiller` has already been installed, this command should either return a li
 If you get the message *Error: could not find tiller*, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 {{% /notice %}}
 
+> In the following steps, your Git user name will be required. Without this information, the resulting pipeline will not function as expected. Set this as an environment variable to reuse in the next commands:
+
+```bash
+YOURUSER=yourgitusername
+```
+
 Next, add the Flux chart repository to Helm and install Flux.  
 
 {{% notice info %}}
@@ -37,7 +43,7 @@ helm repo add fluxcd https://charts.fluxcd.io
 helm upgrade -i flux \
 --set helmOperator.create=true \
 --set helmOperator.createCRD=false \
---set git.url=git@github.com:YOURUSER/k8s-config \
+--set git.url=git@github.com:${YOURUSER}/k8s-config \
 --namespace flux \
 fluxcd/flux
 ```
