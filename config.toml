@@ -101,3 +101,11 @@ weight = 40
 [outputs]
 home = [ "HTML", "JSON"]
 page = [ "HTML" ]
+
+[languages]
+  [languages.en]
+    weight = 1
+    url = "/"
+  [languages.ko]
+    weight = 2
+    url = "/ko"
