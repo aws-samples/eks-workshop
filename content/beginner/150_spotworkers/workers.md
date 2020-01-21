@@ -55,14 +55,14 @@ The creation of the workers will take about 3 minutes.
 Confirm that the new nodes joined the cluster correctly. You should see 2 more nodes added to the cluster.
 
 ```bash
-kubectl get nodes
+kubectl get nodes --sort-by=.metadata.creationTimestamp
 ```
 
 ![All Nodes](/images/spotworkers/spot_get_nodes.png)
 You can use the node-labels to identify the lifecycle of the nodes.
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
+kubectl get nodes --label-columns=lifecycle --selector=lifecycle=Ec2Spot
 ```
 
 The output of this command should return 2 nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**.
@@ -72,7 +72,7 @@ The output of this command should return 2 nodes. At the end of the node output,
 Now we will show all nodes with the **lifecycle=OnDemand**. The output of this command should return multiple nodes as configured in `eksctl` YAMl template.
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=OnDemand
+kubectl get nodes --label-columns=lifecycle --selector=lifecycle=OnDemand
 ```
 
 ![OnDemand Output](/images/spotworkers/spot_get_od.png)
