@@ -1,5 +1,5 @@
 ---
-title: "Add EC2 Workers - On-Demand and Spot"
+title: "Add EC2 Workers - Spot"
 date: 2018-08-07T11:05:19-07:00
 weight: 10
 draft: false
