@@ -4,7 +4,7 @@ date: 2018-08-07T12:32:40-07:00
 weight: 20
 draft: false
 ---
-{{% notice %}}
+{{% notice info %}}
 
 We need `Helm` to deploy the `AWS Node Termination Handler`, see [installing Helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 
