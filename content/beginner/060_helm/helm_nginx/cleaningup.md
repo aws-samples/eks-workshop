@@ -22,7 +22,7 @@ mywebserver     1               Tue Nov 13 19:55:25 2018        DEPLOYED        
 It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to delete this deployment.  To delete:
 
 ```
-helm delete --purge mywebserver
+helm delete mywebserver
 ```
 
 And you should be met with the output:
