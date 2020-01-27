@@ -20,32 +20,32 @@ NAME      READY     STATUS    RESTARTS   AGE
 mysql-2   1/2       Running   0          12m
 {{< /output >}}
 
-**mysql-read** load balancer detects failures and takes action by not sending traffic to the failed container, `@@server_id 102`. You can check this by the loop running in separate window from previous section. The loop shows the following output.
+**mysql-read** load balancer detects failures and takes action by not sending traffic to the failed container, `@@server_id 102`. You can check this by the loop running in the separate window from previous section. The loop shows the following output.
 {{< output >}}
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         101 | 2018-11-14 13:00:45 |
+|         101 | 2020-01-25 17:32:19 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         100 | 2018-11-14 13:00:46 |
+|         100 | 2020-01-25 17:32:20 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         101 | 2018-11-14 13:00:47 |
+|         101 | 2020-01-25 17:32:21 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         100 | 2018-11-14 13:00:48 |
+|         100 | 2020-01-25 17:32:22 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         100 | 2018-11-14 13:00:49 |
+|         100 | 2020-01-25 17:32:23 |
 +-------------+---------------------+
 {{< /output >}}
 
@@ -79,21 +79,21 @@ kubectl -n mysql get pod mysql-2 -w
 ```
 
 {{< output >}}
-NAME      READY     STATUS        RESTARTS   AGE
-mysql-2   2/2       Terminating   0          1d
-mysql-2   0/2       Terminating   0         1d
-mysql-2   0/2       Terminating   0         1d
-mysql-2   0/2       Terminating   0         1d
-mysql-2   0/2       Pending   0         0s
-mysql-2   0/2       Pending   0         0s
-mysql-2   0/2       Init:0/2   0         0s
-mysql-2   0/2       Init:1/2   0         10s
-mysql-2   0/2       PodInitializing   0         11s
-mysql-2   1/2       Running   0         12s
-mysql-2   2/2       Running   0         16s
+NAME      READY   STATUS        RESTARTS   AGE
+mysql-2   2/2     Terminating   0          15m
+mysql-2   0/2     Terminating   0          16m
+mysql-2   0/2     Terminating   0          16m
+mysql-2   0/2     Terminating   0          16m
+mysql-2   0/2     Pending       0          0s
+mysql-2   0/2     Pending       0          0s
+mysql-2   0/2     Init:0/2      0          0s
+mysql-2   0/2     Init:1/2      0          11s
+mysql-2   0/2     PodInitializing   0          12s
+mysql-2   1/2     Running           0          13s
+mysql-2   2/2     Running           0          18s
 {{< /output >}}
 
-{{% notice note %}}
+{{% notice tip %}}
 Press Ctrl+C to stop watching.
 {{% /notice %}}
 

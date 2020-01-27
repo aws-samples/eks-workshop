@@ -5,7 +5,7 @@ metadata:
 provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
 parameters:
   type: gp2
-  encrypted: 'true' #EBS volumes will always be encrypted
+  encrypted: 'true' # EBS volumes will always be encrypted by default
 reclaimPolicy: Delete
 mountOptions:
 - debug

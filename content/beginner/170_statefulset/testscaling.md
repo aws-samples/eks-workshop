@@ -8,7 +8,7 @@ More slaves can be added to the MySQL Cluster to increase read capacity. This ca
 kubectl -n mysql scale statefulset mysql --replicas=5
 ```
 
-You can see the message that `statefulset` "mysql" scaled.
+You can see the message that `StatefulSet` "mysql" scaled.
 {{< output >}}
 statefulset "mysql" scaled
 {{< /output >}}
@@ -38,32 +38,32 @@ You will see 5 servers are running.
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         100 | 2020-01-26 02:32:43 |
+|         100 | 2020-01-25 02:32:43 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         102 | 2020-01-26 02:32:44 |
+|         102 | 2020-01-25 02:32:44 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         101 | 2020-01-26 02:32:45 |
+|         101 | 2020-01-25 02:32:45 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         103 | 2020-01-26 02:32:46 |
+|         103 | 2020-01-25 02:32:46 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         104 | 2020-01-26 02:32:47 |
+|         104 | 2020-01-25 02:32:47 |
 +-------------+---------------------+
 +-------------+---------------------+
 | @@server_id | NOW()               |
 +-------------+---------------------+
-|         103 | 2020-01-26 02:32:48 |
+|         103 | 2020-01-25 02:32:48 |
 +-------------+---------------------+
 {{< /output >}}
 
@@ -87,7 +87,7 @@ Scale down replicas to 3 by following command.
 kubectl -n mysql  scale statefulset mysql --replicas=3
 ```
 
-You can see statefulset "mysql" scaled
+You can see StatefulSet "mysql" scaled
 {{< output >}}
 statefulset "mysql" scaled
 {{< /output >}}
@@ -106,7 +106,7 @@ mysql-1   2/2       Running   0          1d
 mysql-2   2/2       Running   0          35m
 {{< /output >}}
 
-Check 2 PVCs(data-mysql-3, data-mysql-4) still exist by following command.
+Check `data-mysql-3`, `data-mysql-4` PVCs still exist by following command.
 ```sh
 kubectl -n mysql  get pvc -l app=mysql
 ```
@@ -127,15 +127,16 @@ Change the reclaim policy of the `PersistentVolume` associated with `PersistentV
 
 {{% expand "Expand here to see the solution"%}}
 Change the reclaim policy:
+
+Find the PersistentVolume attached to the PersistentVolumeClaim `data-mysql-3`
 ```sh
-# Find the PersistentVolume attached to the PersistentVolumeClaim data-mysql-3
 export pv=$(kubectl -n mysql  get pvc data-mysql-3 -o json | jq --raw-output '.spec.volumeName')
+echo data-mysql-3 PersistentVolume name: ${pv}
+```
 
-echo PersistentVolume data-mysql-3: ${pv}
-
-# Now update the ReclaimPolicy
+Now update the ReclaimPolicy
+```sh
 kubectl -n mysql patch pv ${pv} -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
-
 ```
 
 Verify the ReclaimPolicy with this command.

@@ -81,7 +81,7 @@ Check the dynamically created PVC by following command.
 kubectl -n mysql get pvc -l app=mysql
 ```
 
-You can see data-mysql-0,1,2 are created by the STORAGECLASS `mysql-gp2`.
+We can see `data-mysql-0`,`data-mysql-1`, and `data-mysql-2` have been created with the STORAGECLASS `mysql-gp2`.
 {{< output >}}
 NAME           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 data-mysql-0   Bound    pvc-2a9bb222-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RWO            mysql-gp2      22m
@@ -89,5 +89,10 @@ data-mysql-1   Bound    pvc-47076f1d-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RW
 data-mysql-2   Bound    pvc-6b3d6667-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RWO            mysql-gp2      20m
 {{< /output >}}
 
-Same information from the AWS console.
+And now the same information from the EC2 console.
+
+{{% notice tip %}}
+We can see the EBS volumes have been automatically encrypted by the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/)
+{{% /notice %}}
+
 ![EBS_volume](/images/statefulset/ebs_volume.png)

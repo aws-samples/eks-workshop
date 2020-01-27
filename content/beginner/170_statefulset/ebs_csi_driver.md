@@ -39,17 +39,19 @@ Run the command below to verify the policy has been attached to the worker nodes
 ```sh
 aws iam list-attached-role-policies \
   --region ${AWS_REGION} \
-  --role-name ${ROLE_NAME} | awk '/PolicyName/&&/'${EBS_CNI_POLICY_NAME}'/'
+  --role-name ${ROLE_NAME} | grep '"PolicyName": "Amazon_EBS_CSI_Driver"'
 ```
+
 The output should look like this.
 {{< output >}}
-"PolicyName": "Amazon_EBS_CSI_Driver",
+    "PolicyName": "Amazon_EBS_CSI_Driver",
 {{< /output >}}
 
 Finally, we can deploy the driver.
 ```sh
 kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
 ```
+
 {{< output >}}
 serviceaccount/ebs-csi-controller-sa created
 clusterrole.rbac.authorization.k8s.io/ebs-external-attacher-role created
