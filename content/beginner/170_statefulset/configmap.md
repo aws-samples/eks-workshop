@@ -48,7 +48,7 @@ data:
     super-read-only
 {{< /output >}}
 
-Create `the ConfigMap` "mysql-config".
+Create "mysql-config" `ConfigMap`.
 ```sh
 kubectl create -f ~/environment/templates/mysql-configmap.yml
 ```
