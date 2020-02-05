@@ -15,7 +15,7 @@ Now we can access the Kubernetes Dashboard
 
 Open a New Terminal Tab  and enter
 ```
-aws eks get-token --cluster-name eksworkshop-eksctl | jq -r '.status.token'
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
 ```
 
 Copy the output of this command and then click the radio button next to
