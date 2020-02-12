@@ -23,17 +23,21 @@ To do this, we need a simple web server in the same VPC as your EKS cluster, but
   * Create (or use an existing) SSH key
   * Launch and then ssh into the instance (either directly or via the console)
   * Install you favorite webseerver using the platform's package tool. As an example in the case of the Amazon Linux, AMI, you might use yum to install httpd and start it:
-  '''
+  
+  ```
   yum update -y
+  
   yum install httpd -y
+  
   service httpd start
+  
   chkconfig httpd on
-  '''
+  ```
   * Install a static file that will be used as the test target:
-  '''
+  ```
   cd /var/www/html
   echo "<html><body>Welcome to Setec Astronomy</body></html>" > index.html
-  '''
+  ```
 
 # Is the website reachable?
 
