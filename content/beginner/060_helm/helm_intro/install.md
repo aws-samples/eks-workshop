@@ -14,7 +14,7 @@ Before we can deploy [charts](https://helm.sh/docs/topics/charts/) with `Helm` w
 
 To create a new service account manifest:
 ```bash
-cat <<EoF > ~/environment/heml-rbac.yaml
+cat <<EoF > ~/environment/helm-rbac.yaml
 ---
 apiVersion: v1
 kind: ServiceAccount
