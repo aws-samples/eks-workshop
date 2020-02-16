@@ -73,3 +73,20 @@ helm completion bash >> ~/.bash_completion
 . /etc/profile.d/bash_completion.sh
 . ~/.bash_completion
 ```
+
+Couple of more steps are needed to make helm set up work properly.
+The first step is to define the cluster-role binding for tiller for namespace kube-system.
+
+
+```
+kubectl create clusterrolebinding tiller-cluster-rule
+--clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+```
+
+The second step is to perform a patch deployment of this change. These two are needed to install helm charts in the cluster.
+
+```
+ kubectl patch deploy --namespace kube-system tiller-deploy -p
+'{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+
+```
