@@ -7,10 +7,13 @@ weight: 10
 ### Deploy the Metrics Server
 Metrics Server is a cluster-wide aggregator of resource usage data. These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
 
-```
-helm install stable/metrics-server \
-    --name metrics-server \
-    --version 2.0.4 \
+```sh
+#create the metrics-service namespace first
+kubectl create namespace metrics
+
+helm install metrics-server \
+    stable/metrics-server \
+    --version 2.9.0 \
     --namespace metrics
 ```
 ### Confirm the Metrics API is available.
