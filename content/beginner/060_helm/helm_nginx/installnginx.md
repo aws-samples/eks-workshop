@@ -14,33 +14,28 @@ When we install using Helm, we need to provide a deployment name, or a random on
 **HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment. Consult the [helm install](https://helm.sh/docs/using_helm/#install-an-example-chart) documentation or run the ```helm install --help``` command to figure out the syntax
 
 {{%expand "Expand here to see the solution" %}}
-```
-helm install --name mywebserver bitnami/nginx
+```sh
+helm install mywebserver bitnami/nginx
 ```
 {{% /expand %}}
 
 Once you run this command, the output confirms the types of k8s objects that were created as a result:
 
 {{< output >}}
-NAME:   mywebserver
-LAST DEPLOYED: Tue Nov 13 19:55:25 2018
+NAME: mywebserver
+LAST DEPLOYED: Tue Feb 18 16:13:34 2020
 NAMESPACE: default
-STATUS: DEPLOYED
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Get the NGINX URL:
 
-RESOURCES:
-==> v1beta1/Deployment
-NAME               AGE
-mywebserver-nginx  0s
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w mywebserver-nginx'
 
-==> v1/Pod(related)
-
-NAME                                READY  STATUS             RESTARTS  AGE
-mywebserver-nginx-85985c8466-tczst  0/1    ContainerCreating  0         0s
-
-==> v1/Service
-
-NAME               AGE
-mywebserver-nginx  0s
+  export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+  echo "NGINX URL: http://$SERVICE_IP/"
 {{< /output >}}
 
 {{% notice info %}}
