@@ -13,18 +13,6 @@ First, install the Flux Custom Resource Definition:
 kubectl apply -f https://raw.githubusercontent.com/fluxcd/flux/helm-0.10.1/deploy-helm/flux-helm-release-crd.yaml
 ```
 
-Check that Tiller is installed. 
-
-```
-helm ls
-```
-
-When `tiller` has already been installed, this command should either return a list of helm charts that have already been deployed or nothing.
-
-{{% notice info %}}
-If you get the message *Error: could not find tiller*, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
-{{% /notice %}}
-
 > In the following steps, your Git user name will be required. Without this information, the resulting pipeline will not function as expected. Set this as an environment variable to reuse in the next commands:
 
 ```bash
@@ -73,4 +61,3 @@ Copy the provided key and add that as a deploy key in the GitHub repository.
  * Click **Add Key**
 
 Now Flux is configured and should be ready to pull configuration.  
-

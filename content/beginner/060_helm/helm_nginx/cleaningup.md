@@ -4,9 +4,12 @@ date: 2018-08-07T08:30:11-07:00
 weight: 500
 ---
 
-To remove all the objects that the Helm Chart created, we can use [Helm delete](https://v2.helm.sh/docs/helm/#helm-delete).
+To remove all the objects that the Helm Chart created, we can use [Helm
+uninstall](https://helm.sh/docs/helm/helm_uninstall/).
 
-Before we delete it though, we can verify what we have running via the [Helm list](https://v2.helm.sh/docs/helm/#helm-list) command:
+Before we uninstall our application, we can verify what we have running via the
+[Helm list](https://helm.sh/docs/helm/helm_list/) command:
+
 ```sh
 helm list
 ```
@@ -17,7 +20,9 @@ NAME            NAMESPACE       REVISION        UPDATED                         
 mywebserver     default         1               2020-02-18 16:13:34.832849312 +0000 UTC deployednginx-5.1.5     1.16.1
 {{< /output >}}
 
-It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to delete this deployment.  To delete:
+It was a lot of fun; we had some great times sending HTTP back and forth, but
+now its time to delete this deployment.  To delete:
+
 ```sh
 helm uninstall mywebserver
 ```

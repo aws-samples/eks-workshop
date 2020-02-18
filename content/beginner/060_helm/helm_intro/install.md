@@ -5,13 +5,11 @@ weight: 5
 ---
 # Install the Helm CLI
 
-Before we can get started configuring `Helm` we'll need to first install the command line tools that you will interact with. To do this run the following.
-```sh
-cd ~/environment
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod 700 get_helm.sh
+Before we can get started configuring Helm, we'll need to first install the
+command line tools that you will interact with. To do this, run the following:
 
-./get_helm.sh
+```sh
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 ```
 
 We can verify the version
@@ -19,17 +17,24 @@ We can verify the version
 helm version --short
 ```
 
-Now that the `Helm Client` successfully installed, we can add the stable repo.
+Let's configure our first Chart repository. Chart repositories are similar to
+APT or yum repositories that you might be familiar with on Linux, or Taps for
+Homebrew on macOS.
+
+Download the `stable` repository so we have something to start with:
+
 ```sh
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
 
-Once this is installed, we will be able to list the charts you can install
+Once this is installed, we will be able to list the charts you can install:
+
 ```sh
 helm search repo stable
 ```
 
-Finally, let's activate `Helm` bash-completion
+Finally, let's configure Bash completion for the `helm` command:
+
 ```sh
 helm completion bash >> ~/.bash_completion
 . /etc/profile.d/bash_completion.sh

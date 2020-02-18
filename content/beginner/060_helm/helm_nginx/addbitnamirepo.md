@@ -4,9 +4,13 @@ date: 2018-08-07T08:30:11-07:00
 weight: 300
 ---
 
-In the last slide, we saw that NGINX offers many different products via the default Helm Chart repository, but the NGINX standalone web server is not one of them.
+In the last slide, we saw that nginx offers many different products via the
+default Helm Chart repository, but the nginx standalone web server is not one of
+them.
 
-After a quick web search, we discover that there is a Chart for the NGINX standalone web server available via the [Bitnami Chart repository](https://github.com/bitnami/charts).
+After a quick web search, we discover that there is a Chart for the nginx
+standalone web server available via the [Bitnami Chart
+repository](https://github.com/bitnami/charts).
 
 To add the `Bitnami Chart repo` to our local list of searchable charts:
 
@@ -36,7 +40,7 @@ Search once again for nginx
 helm search repo nginx
 ```
 
-Now we are seeing more NGINX options, across both repositories:
+Now we are seeing more nginx options, across both repositories:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION
@@ -46,13 +50,13 @@ stable/nginx-ingress                    1.30.3          0.28.0          An nginx
 ...
 {{< /output >}}
 
-Or even search the Bitnami repo, just for NGINX:
+Or even search the Bitnami repo, just for nginx:
 
 ```sh
 helm search repo bitnami/nginx
 ```
 
-Which narrows it down to NGINX on Bitnami:
+Which narrows it down to nginx on Bitnami:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION
