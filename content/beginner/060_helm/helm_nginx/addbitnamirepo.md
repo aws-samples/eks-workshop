@@ -17,46 +17,46 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 Once that completes, we can search all Bitnami Charts:
 
 ```
-helm search bitnami
+helm search repo bitnami
 ```
 
 Which results in:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION             DESCRIPTION                                                 
-bitnami/bitnami-common                  0.0.3           0.0.1                   Chart with...        
-bitnami/apache                          2.1.2           2.4.37                  Chart for Apache...                              
-bitnami/cassandra                       0.1.0           3.11.3                  Apache Cassandra...
+bitnami/bitnami-common                  0.0.8           0.0.8                   Chart with...        
+bitnami/apache                          4.3.3           1.10.9                  Chart for Apache...                              
+bitnami/cassandra                       5.0.2           3.11.6                  Apache Cassandra...
 ...
 {{< /output >}}
 
 Search once again for NGINX:
 
 ```
-helm search nginx
+helm search repo nginx
 ```
 
 Now we are seeing more NGINX options, across both repositories:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION                                                 
-bitnami/nginx                           1.1.2           1.14.1          Chart for the nginx server                                  
-bitnami/nginx-ingress-controller        2.1.4           0.20.0          Chart for the nginx Ingress...                    
-stable/nginx-ingress                    0.31.0          0.20.0          An nginx Ingress controller ...
+bitnami/nginx                           5.1.6           1.16.1          Chart for the nginx server                                  
+bitnami/nginx-ingress-controller        5.3.4           0.29.0          Chart for the nginx Ingress...                    
+stable/nginx-ingress                    1.30.3          0.28.0          An nginx Ingress controller ...
 {{< /output >}}
 
 Or even search the Bitnami repo, just for NGINX:
 
 ```
-helm search bitnami/nginx
+helm search repo bitnami/nginx
 ```
 
 Which narrows it down to NGINX on Bitnami:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION                           
-bitnami/nginx                           1.1.2           1.14.1          Chart for the nginx server            
-bitnami/nginx-ingress-controller        2.1.4           0.20.0          Chart for the nginx Ingress...
+bitnami/nginx                           5.1.6           1.16.1          Chart for the nginx server            
+bitnami/nginx-ingress-controller        5.3.4           0.29.0          Chart for the nginx Ingress...
 {{< /output >}}
 
 In both of those last two searches, we see

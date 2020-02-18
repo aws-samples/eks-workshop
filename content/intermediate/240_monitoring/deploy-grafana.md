@@ -15,8 +15,7 @@ balancer for the service.
 
 ```
 kubectl create namespace grafana
-helm install stable/grafana \
-    --name grafana \
+helm install grafana stable/grafana \
     --namespace grafana \
     --set persistence.storageClassName="gp2" \
     --set adminPassword='EKS!sAWSome' \
