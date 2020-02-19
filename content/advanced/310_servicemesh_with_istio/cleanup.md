@@ -32,7 +32,7 @@ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
 To remove Istio
 
 ```
-helm delete --purge istio
-helm delete --purge istio-init
+helm uninstall istio --namespace istio-system
+helm uninstall istio-init --namespace istio-system
 ```
 

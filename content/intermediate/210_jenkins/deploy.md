@@ -16,7 +16,7 @@ manage the drift as you need to update releases
 #### Install Jenkins
 
 ```
-helm install stable/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer --name cicd
+helm install cicd stable/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer
 ```
 
 The output of this command will give you some additional information such as the
