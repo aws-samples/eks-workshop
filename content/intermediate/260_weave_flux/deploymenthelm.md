@@ -106,7 +106,7 @@ Use your pod name below for **kubectl logs**
 kubectl get pods -n flux
 kubectl logs flux-5bd7fb6bb6-4sc78 -n flux
 
-helm ls
+helm list
 kubectl get all -n nginx
 ```
 

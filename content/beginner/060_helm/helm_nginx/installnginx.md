@@ -4,28 +4,38 @@ date: 2018-08-07T08:30:11-07:00
 weight: 400
 ---
 
-Installing the Bitnami standalone NGINX web server Chart involves us using the [helm install](https://v2.helm.sh/docs/helm/#helm-install) command.
+Installing the Bitnami standalone NGINX web server Chart involves us using the [helm install](https://v3.helm.sh/docs/helm/helm_install/) command.
 
 When we install using Helm, we need to provide a deployment name, or a random one will be assigned to the deployment automatically.
 
 #### Challenge:
 **How can you use Helm to deploy the bitnami/nginx chart?**
 
-**HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment. Consult the [helm install](https://helm.sh/docs/using_helm/#install-an-example-chart) documentation or run the ```helm install --help``` command to figure out the syntax
+**HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart and specify the name **mywebserver** for the Kubernetes deployment. Consult the [helm install](https://v3.helm.sh/docs/intro/quickstart/#install-an-example-chart) documentation or run the ```helm install --help``` command to figure out the syntax
 
 {{%expand "Expand here to see the solution" %}}
 ```
-helm install --name mywebserver bitnami/nginx
+helm install mywebserver bitnami/nginx
 ```
 {{% /expand %}}
 
 Once you run this command, the output confirms the types of k8s objects that were created as a result:
 
 {{< output >}}
-NAME:   mywebserver
-LAST DEPLOYED: Tue Nov 13 19:55:25 2018
+NAME: mywebserver
+LAST DEPLOYED: Tue Feb 18 22:02:13 2020
 NAMESPACE: default
-STATUS: DEPLOYED
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Get the NGINX URL:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w mywebserver-nginx'
+
+  export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+  echo "NGINX URL: http://$SERVICE_IP/"
 
 RESOURCES:
 ==> v1beta1/Deployment

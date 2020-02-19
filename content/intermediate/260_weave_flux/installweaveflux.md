@@ -13,16 +13,16 @@ First, install the Flux Custom Resource Definition:
 kubectl apply -f https://raw.githubusercontent.com/fluxcd/flux/helm-0.10.1/deploy-helm/flux-helm-release-crd.yaml
 ```
 
-Check that Tiller is installed. 
+Check that Helm is installed. 
 
 ```
-helm ls
+helm list
 ```
 
-When `tiller` has already been installed, this command should either return a list of helm charts that have already been deployed or nothing.
+This command should either return a list of helm charts that have already been deployed or nothing.
 
 {{% notice info %}}
-If you get the message *Error: could not find tiller*, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
+If you get an error message, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 {{% /notice %}}
 
 > In the following steps, your Git user name will be required. Without this information, the resulting pipeline will not function as expected. Set this as an environment variable to reuse in the next commands:
@@ -31,21 +31,28 @@ If you get the message *Error: could not find tiller*, see [installing helm](/be
 YOURUSER=yourgitusername
 ```
 
+First, create the flux Kubernetes namespace
+
+```
+kubectl create namespace flux
+```
+
+
 Next, add the Flux chart repository to Helm and install Flux.  
 
 {{% notice info %}}
 Update the Git URL below to match your user name and Kubernetes configuration manifest repository.
 {{% /notice %}}
 
+
 ```
 helm repo add fluxcd https://charts.fluxcd.io
 
-helm upgrade -i flux \
+helm upgrade -i flux fluxcd/flux \
 --set helmOperator.create=true \
 --set helmOperator.createCRD=false \
 --set git.url=git@github.com:${YOURUSER}/k8s-config \
---namespace flux \
-fluxcd/flux
+--namespace flux
 ```
 
 Watch the install and confirm everything starts.  There should be 3 pods.  

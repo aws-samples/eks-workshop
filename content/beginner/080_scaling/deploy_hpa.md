@@ -7,11 +7,16 @@ weight: 10
 ### Deploy the Metrics Server
 Metrics Server is a cluster-wide aggregator of resource usage data. These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
 
+First, create the `metrics` namespace
 ```
-helm install stable/metrics-server \
-    --name metrics-server \
-    --version 2.0.4 \
-    --namespace metrics
+kubectl create namespace metrics
+```
+Now deploy the metrics server
+
+```
+helm install metrics-server stable/metrics-server \
+    --version=2.8.8 \
+    --namespace=metrics 
 ```
 ### Confirm the Metrics API is available.
 
@@ -23,7 +28,7 @@ If all is well, you should see a status message similar to the one below in the 
 {{< output >}}
 status:
   conditions:
-  - lastTransitionTime: 2018-10-15T15:13:13Z
+  - lastTransitionTime: "2020-02-18T21:33:26Z"
     message: all checks passed
     reason: Passed
     status: "True"

@@ -7,5 +7,5 @@ weight: 60
 To delete the workshop release, run:
 
 ```
-helm del --purge workshop
+helm uninstall workshop
 ```

@@ -39,9 +39,9 @@ Run `helm status workshop` to verify the `LAST DEPLOYED` timestamp.
 helm status workshop
 ```
 {{< output >}}
-LAST DEPLOYED: Thu Nov  7 11:11:38 2019
+LAST DEPLOYED: Tue Feb 18 22:14:00 2020
 NAMESPACE: default
-STATUS: DEPLOYED
+STATUS: deployed
 ...
 {{< /output >}}
 This should correspond to the last entry on `helm history workshop`
