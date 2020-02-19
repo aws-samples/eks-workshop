@@ -80,4 +80,3 @@ Copy the provided key and add that as a deploy key in the GitHub repository.
  * Click **Add Key**
 
 Now Flux is configured and should be ready to pull configuration.  
-

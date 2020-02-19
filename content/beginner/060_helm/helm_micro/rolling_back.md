@@ -17,7 +17,7 @@ helm upgrade workshop ~/environment/eksdemo
 
 The rolling upgrade will begin by creating a new nodejs pod with the new image. The new `ecsdemo-nodejs` Pod should fail to pull non-existing image. Run `kubectl get pods` to see the `ImagePullBackOff` error.
 
-```
+```sh
 kubectl get pods
 ```
 {{< output >}}
@@ -35,7 +35,7 @@ ecsdemo-nodejs-7c6575b56c-hrrsp    0/1     ImagePullBackOff   0          15m
 {{< /output >}}
 
 Run `helm status workshop` to verify the `LAST DEPLOYED` timestamp. 
-```
+```sh
 helm status workshop
 ```
 {{< output >}}
@@ -44,9 +44,10 @@ NAMESPACE: default
 STATUS: deployed
 ...
 {{< /output >}}
+
 This should correspond to the last entry on `helm history workshop`
 
-```
+```sh
 helm history workshop
 ```
 
@@ -56,7 +57,7 @@ Now we are going to rollback the application to the previous working release rev
 
 First, list Helm release revisions:
 
-```
+```sh
 helm history workshop
 ```
 
@@ -69,6 +70,23 @@ helm rollback workshop 1
 
 Validate `workshop` release status with:
 
-```
+```sh
 helm status workshop
 ```
+
+Verify that the error is gone
+```sh
+kubectl get pods
+```
+{{< output >}}
+NAME                               READY   STATUS             RESTARTS   AGE
+ecsdemo-crystal-844d84cb86-56gpz   1/1     Running            0          23m
+ecsdemo-crystal-844d84cb86-5vvcg   1/1     Running            0          23m
+ecsdemo-crystal-844d84cb86-d2plf   1/1     Running            0          23m
+ecsdemo-frontend-6df6d9bb9-dpcsl   1/1     Running            0          23m
+ecsdemo-frontend-6df6d9bb9-lzlwh   1/1     Running            0          23m
+ecsdemo-frontend-6df6d9bb9-psg69   1/1     Running            0          23m
+ecsdemo-nodejs-6fdf964f5f-6cnzl    1/1     Running            0          23m
+ecsdemo-nodejs-6fdf964f5f-fbcjv    1/1     Running            0          23m
+ecsdemo-nodejs-6fdf964f5f-v88jn    1/1     Running            0          23m
+{{< /output >}}

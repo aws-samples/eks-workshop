@@ -6,6 +6,6 @@ weight: 60
 
 To delete the workshop release, run:
 
-```
+```sh
 helm uninstall workshop
 ```
