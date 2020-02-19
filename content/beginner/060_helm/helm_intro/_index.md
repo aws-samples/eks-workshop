@@ -6,7 +6,9 @@ weight: 60
 
 # Install Helm on EKS
 
-[Helm](https://helm.sh/) is a package manager and application management tool for Kubernetes that packages multiple Kubernetes resources into a single logical deployment unit called **Chart**.
+[Helm](https://helm.sh/) is a package manager and application management tool
+for Kubernetes that packages multiple Kubernetes resources into a single logical
+deployment unit called a **Chart**.
 
 Helm helps you to:
 

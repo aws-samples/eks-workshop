@@ -10,7 +10,7 @@ On a mac:
 `brew install hugo`
 
 On Linux:
-  - Download from the releases page: https://github.com/gohugoio/hugo/releases/tag/v0.46
+  - Download from the releases page: https://github.com/gohugoio/hugo/releases/tag/v0.64.1
   - Extract and save the executable to `/usr/local/bin`
 
 #### Clone this repo:
