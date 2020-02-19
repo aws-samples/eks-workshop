@@ -21,6 +21,7 @@ You can see the **mysql** service is for DNS resolution so that when pods are pl
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: mysql
   name: mysql
   labels:
     app: mysql
@@ -37,6 +38,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: mysql
   name: mysql-read
   labels:
     app: mysql

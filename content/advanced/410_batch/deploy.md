@@ -12,7 +12,7 @@ Argo run in its own namespace and deploys as a CustomResourceDefinition.
 Deploy the Controller and UI.
 
 ```bash
-kubectl create ns argo
+kubectl create namespace argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.2.1/manifests/install.yaml
 ```
 

@@ -106,17 +106,15 @@ Use your pod name below for **kubectl logs**
 kubectl get pods -n flux
 kubectl logs flux-5bd7fb6bb6-4sc78 -n flux
 
-helm ls
+helm list
 kubectl get all -n nginx
 ```
 
 If this doesn't deploy, check to ensure helm was initialized.  Also, look at the Flux Helm operator to see if there are any errors.  
 
 ```
-kubectl get pods -n kube-system | grep tiller
 kubectl get pods -n flux
 kubectl logs flux-helm-operator-df5746688-84kw8 -n flux
 ```
 
 You've now seen how Weave Flux can enable a GitOps approach to deployment. 
-
