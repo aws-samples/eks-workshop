@@ -4,22 +4,21 @@ date: 2018-08-07T08:30:11-07:00
 weight: 200
 ---
 
-To list all Charts in all added repositories, run the `helm search repo`
-command.
+Now that our repository Chart list has been updated, we can [search for
+Charts](https://helm.sh/docs/helm/helm_search/).
 
-```sh
+To list all Charts:
+
+```
 helm search repo
 ```
 
 That should output something similar to:
 {{< output >}}
-NAME                                    CHART VERSION   APP VERSION             DESCRIPTION
-stable/acs-engine-autoscaler            2.2.2           2.1.1                   DEPRECATED Scales worker nodes within agent pools
-stable/aerospike                        0.3.2           v4.5.0.5                A Helm chart for Aerospike in Kubernetes
-stable/airflow                          6.0.1           1.10.4                  Airflow is a platform to programmatically autho...
-stable/ambassador                       5.3.1           0.86.1                  A Helm chart for Datawire Ambassador
-
- ...
+NAME                                    CHART VERSION   APP VERSION                     DESCRIPTION
+stable/acs-engine-autoscaler            2.2.2           2.1.1                           Scales worker...
+stable/aerospike                        0.3.2           v4.5.0.5                        A Helm chart...
+...
 {{< /output >}}
 
 You can see from the output that it dumped the list of all Charts we have added.
@@ -33,10 +32,10 @@ helm search repo nginx
 That results in:
 {{< output >}}
 NAME                            CHART VERSION   APP VERSION     DESCRIPTION
-stable/nginx-ingress            1.30.3          0.28.0          An nginx Ingress controller that uses ConfigMap...
-stable/nginx-ldapauth-proxy     0.1.3           1.13.5          nginx proxy with ldapauth
-stable/nginx-lego               0.3.1                           Chart for nginx-ingress-controller and kube-lego
-stable/gcloud-endpoints         0.1.2           1               DEPRECATED Develop, deploy, protect and monitor...
+stable/nginx-ingress            1.30.3          0.28.0          An nginx Ingress ...
+stable/nginx-ldapauth-proxy     0.1.3           1.13.5          nginx proxy ...
+stable/nginx-lego               0.3.1                           Chart for...
+stable/gcloud-endpoints         0.1.2           1               DEPRECATED Develop...
 ...
 {{< /output >}}
 

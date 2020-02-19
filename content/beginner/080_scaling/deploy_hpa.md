@@ -8,7 +8,7 @@ weight: 10
 Metrics Server is a cluster-wide aggregator of resource usage data. These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
 
 ```sh
-#create the metrics-service namespace first
+# create the metrics-service namespace first
 kubectl create namespace metrics
 
 helm install metrics-server \
@@ -26,7 +26,7 @@ If all is well, you should see a status message similar to the one below in the 
 {{< output >}}
 status:
   conditions:
-  - lastTransitionTime: 2018-10-15T15:13:13Z
+  - lastTransitionTime: "2020-02-18T21:33:26Z"
     message: all checks passed
     reason: Passed
     status: "True"

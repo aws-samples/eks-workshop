@@ -12,7 +12,7 @@ After a quick web search, we discover that there is a Chart for the nginx
 standalone web server available via the [Bitnami Chart
 repository](https://github.com/bitnami/charts).
 
-To add the `Bitnami Chart repo` to our local list of searchable charts:
+To add the Bitnami Chart repo to our local list of searchable charts:
 
 ```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -28,9 +28,9 @@ Which results in:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION             DESCRIPTION
-bitnami/bitnami-common                  0.0.8           0.0.8                   Chart with custom templates used in Bitnami cha...
-bitnami/airflow                         4.3.3           1.10.9                  Apache Airflow is a platform to programmaticall...
-bitnami/apache                          7.3.5           2.4.41                  Chart for Apache HTTP Server
+bitnami/bitnami-common                  0.0.8           0.0.8                   Chart with...
+bitnami/apache                          4.3.3           1.10.9                  Chart for Apache...
+bitnami/cassandra                       5.0.2           3.11.6                  Apache Cassandra...
 ...
 {{< /output >}}
 
@@ -44,10 +44,9 @@ Now we are seeing more nginx options, across both repositories:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION
-bitnami/nginx                           5.1.5           1.16.1          Chart for the nginx server
-bitnami/nginx-ingress-controller        5.3.4           0.29.0          Chart for the nginx Ingress controller
-stable/nginx-ingress                    1.30.3          0.28.0          An nginx Ingress controller that uses ConfigMap...
-...
+bitnami/nginx                           5.1.6           1.16.1          Chart for the nginx server
+bitnami/nginx-ingress-controller        5.3.4           0.29.0          Chart for the nginx Ingress...
+stable/nginx-ingress                    1.30.3          0.28.0          An nginx Ingress controller ...
 {{< /output >}}
 
 Or even search the Bitnami repo, just for nginx:
@@ -60,8 +59,8 @@ Which narrows it down to nginx on Bitnami:
 
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION
-bitnami/nginx                           5.1.5           1.16.1          Chart for the nginx server
-bitnami/nginx-ingress-controller        5.3.4           0.29.0          Chart for the nginx Ingress controller
+bitnami/nginx                           5.1.6           1.16.1          Chart for the nginx server
+bitnami/nginx-ingress-controller        5.3.4           0.29.0          Chart for the nginx Ingress...
 {{< /output >}}
 
 In both of those last two searches, we see

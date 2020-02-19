@@ -32,9 +32,35 @@ Pod, and Service objects are output, similar to:
 
 {{< output >}}
 NAME: workshop
-LAST DEPLOYED: Tue Feb 18 18:15:04 2020
+LAST DEPLOYED: Tue Feb 18 22:11:37 2020
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
+
+
+RESOURCES:
+==> v1/Service
+NAME              AGE
+ecsdemo-crystal   0s
+ecsdemo-frontend  0s
+ecsdemo-nodejs    0s
+
+==> v1/Deployment
+ecsdemo-crystal   0s
+ecsdemo-frontend  0s
+ecsdemo-nodejs    0s
+
+==> v1/Pod(related)
+
+NAME                               READY  STATUS             RESTARTS  AGE
+ecsdemo-crystal-764b9cb9bc-4dwqt   0/1    ContainerCreating  0         0s
+ecsdemo-crystal-764b9cb9bc-hcb62   0/1    ContainerCreating  0         0s
+ecsdemo-crystal-764b9cb9bc-vl7nr   0/1    ContainerCreating  0         0s
+ecsdemo-frontend-67876457f6-2xrtb  0/1    ContainerCreating  0         0s
+ecsdemo-frontend-67876457f6-bfnc5  0/1    ContainerCreating  0         0s
+ecsdemo-frontend-67876457f6-rb6rg  0/1    ContainerCreating  0         0s
+ecsdemo-nodejs-c458bf55d-994cq     0/1    ContainerCreating  0         0s
+ecsdemo-nodejs-c458bf55d-9qtbm     0/1    ContainerCreating  0         0s
+ecsdemo-nodejs-c458bf55d-s9zkh     0/1    ContainerCreating  0         0s
 {{< /output >}}

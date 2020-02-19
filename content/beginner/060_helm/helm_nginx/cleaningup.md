@@ -16,20 +16,19 @@ helm list
 
 You should see output similar to below, which show that mywebserver is installed:
 {{< output >}}
-NAME            NAMESPACE       REVISION        UPDATED                                 STATUS  CHART           APP VERSION
-mywebserver     default         1               2020-02-18 16:13:34.832849312 +0000 UTC deployednginx-5.1.5     1.16.1
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+mywebserver     default         1               2020-02-18 22:02:13.844416354 +0100 CET deployed        nginx-5.1.6     1.16.1
 {{< /output >}}
 
-It was a lot of fun; we had some great times sending HTTP back and forth, but
-now its time to delete this deployment.  To delete:
+It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to uninstall this deployment.  To uninstall:
 
-```sh
+```
 helm uninstall mywebserver
 ```
 
 And you should be met with the output:
 {{< output >}}
-release "mywebserver" deleted
+release "mywebserver" uninstalled
 {{< /output >}}
 
 kubectl will also demonstrate that our pods and service are no longer available:

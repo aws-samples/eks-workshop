@@ -39,4 +39,11 @@ Finally, let's configure Bash completion for the `helm` command:
 helm completion bash >> ~/.bash_completion
 . /etc/profile.d/bash_completion.sh
 . ~/.bash_completion
+source <(helm completion bash)
+```
+
+Add official Helm Chart Repository
+
+```
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
 ```

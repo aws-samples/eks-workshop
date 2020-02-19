@@ -17,8 +17,8 @@ to generate a name for you.
 #### Challenge:
 **How can you use Helm to deploy the bitnami/nginx chart?**
 
-**HINT:** Use the **helm** utility to **install** the **bitnami/nginx** chart
-and specify the name **mywebserver** for the Kubernetes deployment. Consult the
+**HINT:** Use the `helm` utility to `install` the `bitnami/nginx` chart
+and specify the name `mywebserver` for the Kubernetes deployment. Consult the
 [helm install](https://helm.sh/docs/intro/quickstart/#install-an-example-chart)
 documentation or run the `helm install --help` command to figure out the
 syntax.
@@ -34,20 +34,34 @@ that were created as a result:
 
 {{< output >}}
 NAME: mywebserver
-LAST DEPLOYED: Tue Feb 18 16:13:34 2020
+LAST DEPLOYED: Tue Feb 18 22:02:13 2020
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-Get the nginx URL:
+Get the NGINX URL:
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        Watch the status with: 'kubectl get svc --namespace default -w
-        mywebserver-nginx'
+        Watch the status with: 'kubectl get svc --namespace default -w mywebserver-nginx'
 
   export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
-  echo "nginx URL: http://$SERVICE_IP/"
+  echo "NGINX URL: http://$SERVICE_IP/"
+
+RESOURCES:
+==> v1beta1/Deployment
+NAME               AGE
+mywebserver-nginx  0s
+
+==> v1/Pod(related)
+
+NAME                                READY  STATUS             RESTARTS  AGE
+mywebserver-nginx-85985c8466-tczst  0/1    ContainerCreating  0         0s
+
+==> v1/Service
+
+NAME               AGE
+mywebserver-nginx  0s
 {{< /output >}}
 
 {{% notice info %}}
@@ -104,7 +118,7 @@ NAME                TYPE           CLUSTER-IP      EXTERNAL-IP
 mywebserver-nginx   LoadBalancer   10.100.223.99   abc123.amazonaws.com
 {{< /output >}}
 
-Copy the value for **EXTERNAL-IP**, open a new tab in your web browser, and
+Copy the value for `EXTERNAL-IP`, open a new tab in your web browser, and
 paste it in.
 
 {{% notice info %}}
