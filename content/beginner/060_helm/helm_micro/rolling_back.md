@@ -35,9 +35,11 @@ ecsdemo-nodejs-7c6575b56c-hrrsp    0/1     ImagePullBackOff   0          15m
 {{< /output >}}
 
 Run `helm status workshop` to verify the `LAST DEPLOYED` timestamp. 
+
 ```sh
 helm status workshop
 ```
+
 {{< output >}}
 LAST DEPLOYED: Tue Feb 18 22:14:00 2020
 NAMESPACE: default
@@ -75,9 +77,11 @@ helm status workshop
 ```
 
 Verify that the error is gone
+
 ```sh
 kubectl get pods
 ```
+
 {{< output >}}
 NAME                               READY   STATUS             RESTARTS   AGE
 ecsdemo-crystal-844d84cb86-56gpz   1/1     Running            0          23m

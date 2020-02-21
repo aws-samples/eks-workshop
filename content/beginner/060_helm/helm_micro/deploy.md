@@ -15,8 +15,8 @@ installing the Chart:
 ```sh
 helm install --debug --dry-run workshop ~/environment/eksdemo
 ```
-Confirm that the values created by the template look correct.
 
+Confirm that the values created by the template look correct.
 
 #### Deploy the chart
 
