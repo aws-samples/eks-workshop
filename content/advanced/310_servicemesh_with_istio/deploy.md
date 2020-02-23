@@ -5,14 +5,38 @@ weight: 40
 draft: false
 ---
 
-Now that we have all the resources installed for Istio, we will use sample application called BookInfo to review key capabilities of the service mesh such as intelligent routing, and review telemetry data using Prometheus & Grafana.
+## The Envoy Sidecar
 
-### Sample Apps
+As mentioned during the Istio architecture overview, in order to take advantage of all of Istio’s features pods must be running an Istio sidecar proxy.
 
+Istio offers two ways injecting the Istio sidecar into a pod:
 
-![Sample Apps](/images/servicemesh-deploy1.png)
+* **Manually** using the `istioctl` command.
 
-The Bookinfo application is broken into four separate microservices:
+  Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
+
+* **Automatically** using the Istio sidecar injector.
+
+    You will still need to manually enable Istio in each namespace that you want to be managed by Istio.
+
+{{% notice note %}}
+We will install the Bookinfo application inside its own namespace and allow Istio to automatically inject the Sidecar Proxy.
+{{% /notice %}}
+
+```bash
+kubectl create namespace bookinfo
+kubectl label namespace bookinfo istio-injection=enabled
+
+ kubectl get ns bookinfo --show-labels
+```
+
+Now, we can deploy a vanilla definition of the Bookinfo application inside the its own namespace, and the Mutating Webhook will alter the definition of any pod it sees to include the Envoy sidecar container.
+
+## Architecture of the Bookinfo application
+
+![Sample Apps](/images/istio/istio_bookinfo_architecture.png)
+
+The `Bookinfo` application is broken into four separate microservices:
 
 * <span style="color:orange">**productpage**</span>
   * The productpage microservice calls the details and reviews microservices to populate the page.
@@ -37,66 +61,63 @@ There are 3 versions of the <span style="color:orange">*reviews*</span> micros
 * Version v3
   * calls the ratings service, and displays each rating as 1 to 5 <span style="color:red">**red stars**</span>.
 
----
+## Deploy the Sample Apps
 
-### Deploy Sample Apps
+Now we will deploy the Bookinfo application to review key capabilities of `Istio` such as intelligent routing, and review telemetry data using `Prometheus` and `Grafana`.
 
-Deploy sample apps by manually injecting istio proxy and confirm pods, services are running correctly
-
-```
-kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
-```
-
-The output from
-
-```
-kubectl get pod,svc
+```bash
+kubectl -n bookinfo apply \
+  -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/platform/kube/bookinfo.yaml
 ```
 
-Should look similar to:
+Let's verify the deployment
+
+```bash
+kubectl -n bookinfo get pod,svc
+```
 
 {{< output >}}
-NAME                              READY     STATUS    RESTARTS   AGE
-details-v1-64558cf56b-dxbx2       2/2       Running   0          14s
-productpage-v1-5b796957dd-hqllk   2/2       Running   0          14s
-ratings-v1-777b98fcc4-5bfr8       2/2       Running   0          14s
-reviews-v1-866dcb7ff-k69jm        2/2       Running   0          14s
-reviews-v2-6d7959c9d-5ppnc        2/2       Running   0          14s
-reviews-v3-7ddf94f545-m7vls       2/2       Running   0          14s
+NAME                                 READY   STATUS    RESTARTS   AGE
+pod/details-v1-c5b5f496d-p24pr       2/2     Running   0          15s
+pod/productpage-v1-c7765c886-6gt9c   2/2     Running   0          15s
+pod/ratings-v1-f745cf57b-jkhfn       2/2     Running   0          15s
+pod/reviews-v1-75b979578c-g6jct      2/2     Running   0          15s
+pod/reviews-v2-597bf96c8f-x2nnb      2/2     Running   0          15s
+pod/reviews-v3-54c6c64795-m544j      2/2     Running   0          15s
 
-NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-details       ClusterIP   10.100.102.153   <none>        9080/TCP   17s
-kubernetes    ClusterIP   10.100.0.1       <none>        443/TCP    138d
-productpage   ClusterIP   10.100.222.154   <none>        9080/TCP   17s
-ratings       ClusterIP   10.100.1.63      <none>        9080/TCP   17s
-reviews       ClusterIP   10.100.255.157   <none>        9080/TCP   17s
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/details       ClusterIP   10.100.180.109   <none>        9080/TCP   15s
+service/productpage   ClusterIP   10.100.80.194    <none>        9080/TCP   15s
+service/ratings       ClusterIP   10.100.158.101   <none>        9080/TCP   15s
+service/reviews       ClusterIP   10.100.12.229    <none>        9080/TCP   15s
 {{< /output >}}
 
-Next we'll define the virtual service and ingress gateway:
+Now we'll define the virtual service and ingress gateway.
 
-```
-kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-```
-
-Next, we'll query the DNS name of the ingress gateway and use it to connect via the browser.
-
-```
-kubectl get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n istio-system ; echo
+```bash
+kubectl -n bookinfo \
+ apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
 
+Next we'll query the DNS name of the ingress gateway and use it to connect via the browser.
+
+```bash
+echo $(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+```
+
+{{% notice note %}}
 This may take a minute or two, first for the Ingress to be created, and secondly for the Ingress to hook up with the services it exposes.
-
-To test, do the following:
-
-1. Open a new browser tab
-2. Paste the DNS endpoint returned from the previous ```get service istiogateway``` command
-3. Add /productpage to the end of that DNS endpoint
-4. Hit enter to retrieve the page.
-
-{{% notice info %}}
-Remember to add **/productpage** to the end of the URI in the browser to see the sample webpage!
 {{% /notice %}}
 
-![Sample Apps](/images/servicemesh-deploy2.png)
+To verify that the application is reachable, run the command below, click on the link and choose open.
 
-Click reload multiple times to see how the layout and content of the reviews changes as differnt versions (v1, v2, v3) of the app are called.
+```bash
+export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+echo "http://${GATEWAY_URL}/productpage"
+```
+
+![Bookinfo](/images/istio/istio_bookinfo_1.png)
+
+{{% notice info %}}
+Click reload multiple times to see how the layout and content of the reviews changes as different versions (v1, v2, v3) of the app are called.
+{{% /notice %}}
