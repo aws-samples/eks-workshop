@@ -4,7 +4,7 @@ chapter: true
 weight: 80
 ---
 
-# Deploy Example Microservices Using Helm
+## Deploy Example Microservices Using Helm
 
 In this chapter, we will demonstrate how to deploy microservices using a custom
 Helm Chart, instead of doing everything manually using `kubectl`.

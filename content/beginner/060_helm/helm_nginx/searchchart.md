@@ -9,7 +9,7 @@ Charts](https://helm.sh/docs/helm/helm_search/).
 
 To list all Charts:
 
-```
+```sh
 helm search repo
 ```
 
