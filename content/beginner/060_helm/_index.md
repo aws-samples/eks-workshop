@@ -11,9 +11,13 @@ tags:
 
 # Helm
 
-{{% notice note %}}
+{{% notice info %}}
 This tutorial has been updated for Helm v3. In version 3, the Tiller component
 was removed, which simplified operations and improved security.
+{{% /notice %}}
+
+{{% notice note %}}
+If you need to migrate from Helm v2 to v3 [click here for the official documentation](https://helm.sh/blog/migrate-from-helm-v2-to-helm-v3/).
 {{% /notice %}}
 
 [Helm](https://helm.sh/) is a package manager for Kubernetes that packages

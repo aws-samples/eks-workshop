@@ -22,7 +22,7 @@ mywebserver     default         1               2020-02-18 22:02:13.844416354 +0
 
 It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to uninstall this deployment.  To uninstall:
 
-```
+```sh
 helm uninstall mywebserver
 ```
 
