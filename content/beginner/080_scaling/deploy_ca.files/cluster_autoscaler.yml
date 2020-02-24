@@ -120,7 +120,7 @@ spec:
     spec:
       serviceAccountName: cluster-autoscaler
       containers:
-        - image: k8s.gcr.io/cluster-autoscaler:v1.2.2
+        - image: k8s.gcr.io/cluster-autoscaler:v${AUTOSCALER_VERSION}
           name: cluster-autoscaler
           resources:
             limits:
@@ -138,7 +138,7 @@ spec:
             - --nodes=2:8:<AUTOSCALING GROUP NAME>
           env:
             - name: AWS_REGION
-              value: us-west-2
+              value: <AWS_REGION_NAME>
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt
