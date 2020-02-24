@@ -21,10 +21,10 @@ Let's configure our first Chart repository. Chart repositories are similar to
 APT or yum repositories that you might be familiar with on Linux, or Taps for
 Homebrew on macOS.
 
-Download the `stable` repository so we have something to start with:
+Add official Helm Chart Repository
 
-```sh
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+```
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
 ```
 
 Once this is installed, we will be able to list the charts you can install:
@@ -42,8 +42,3 @@ helm completion bash >> ~/.bash_completion
 source <(helm completion bash)
 ```
 
-Add official Helm Chart Repository
-
-```
-helm repo add stable https://kubernetes-charts.storage.googleapis.com
-```
