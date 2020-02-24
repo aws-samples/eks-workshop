@@ -5,51 +5,54 @@ weight: 60
 draft: false
 ---
 
-### Collecting new telemetry data
+## Collecting new telemetry data
 
-Next, download a YAML file to hold configuration for the new metric and log stream that Istio will generate and collect automatically.
-
-```
-curl -LO https://eksworkshop.com/advanced/310_servicemesh_with_istio/deploy.files/istio-telemetry.yaml
-
-kubectl apply -f istio-telemetry.yaml
+```bash
+kubectl apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/telemetry/metrics.yaml
 ```
 
 Make sure Prometheus and Grafana are running
 
-```
-kubectl -n istio-system get svc prometheus
-
-kubectl -n istio-system get svc grafana
+```bash
+kubectl -n istio-system get svc prometheus grafana
 ```
 
-Setup port-forwarding for Grafana by executing the following command:
+{{< output >}}
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+prometheus   ClusterIP   10.100.3.219     <none>        9090/TCP   14h
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+grafana      ClusterIP   10.100.211.214   <none>        3000/TCP   14h
+{{< /output >}}
 
-```
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 8080:3000 &
+Open a new terminal tab and setup port-forwarding for Grafana by executing the following command
+
+```bash
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 8080:3000
 ```
 
 Open the Istio Dashboard via the Grafana UI
 
-1. In your Cloud9 environment, click **Preview / Preview Running Application**
-1. Scroll to **the end of the URL** and append:
+* In your Cloud9 environment, click **Preview / Preview Running Application**
+* Scroll to **the end of the URL** and append:
 
+```bash
+dashboard/db/istio-mesh-dashboard
 ```
-/dashboard/db/istio-mesh-dashboard
-```
 
-Open a new terminal tab and enter to send a traffic to the mesh
+* Click the 'Pop Out Into New Window' button
 
-```
-export SMHOST=$(kubectl get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname} ' -n istio-system)
+![Grafana FullScreen](/images/istio/istio_grafana_fullscreen.png)
 
-SMHOST="$(echo -e "${SMHOST}" | tr -d '[:space:]')"
+Open a new terminal tab and use these commands to send a traffic to the mesh
 
-while true; do curl -o /dev/null -s "${SMHOST}/productpage"; done
+```bash
+export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+watch --interval 1 curl -s -I -XGET "http://${GATEWAY_URL}/productpage"
 ```
 
 You will see that the traffic is evenly spread between <span style="color:orange">reviews:v1</span> and <span style="color:blue">reviews:v3</span>
 
-![Grafana Dashabord](/images/servicemesh-visualize1.png)
+![Grafana Dashboard](/images/istio/istio_grafana1.png)
 
 We encourage you to explore other Istio dashboards that are available by clicking the **Istio Mesh Dashboard** menu on top left of the page, and selecting a different dashboard.

@@ -3,7 +3,7 @@ title: "Install Helm CLI"
 date: 2018-08-07T08:30:11-07:00
 weight: 5
 ---
-# Install the Helm CLI
+## Install the Helm CLI
 
 Before we can get started configuring Helm, we'll need to first install the
 command line tools that you will interact with. To do this, run the following:
@@ -13,6 +13,7 @@ curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 
 ```
 
 We can verify the version
+
 ```sh
 helm version --short
 ```
@@ -40,10 +41,4 @@ helm completion bash >> ~/.bash_completion
 . /etc/profile.d/bash_completion.sh
 . ~/.bash_completion
 source <(helm completion bash)
-```
-
-Add official Helm Chart Repository
-
-```
-helm repo add stable https://kubernetes-charts.storage.googleapis.com
 ```
