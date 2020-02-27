@@ -7,11 +7,11 @@ draft: false
 
 Deploying a microservice-based application in an Istio service mesh allows one to externally control service monitoring and tracing, request (version) routing, resiliency testing, security and policy enforcement, and more in a consistent manner across the services, and the application.
 
-Before you can use Istio to control the Bookinfo version routing, you'll need to define the available versions, called <span style="color:orange">**subsets**</span>, in [destination rules](samples/bookinfo/platform/kube/bookinfo.yaml).
+Before you can use Istio to control the Bookinfo version routing, you'll need to define the available versions, called [**subsets**](https://istio.io/docs/reference/config/networking/destination-rule/#Subset).
 
-{{% notice info %}}
-Service versions (a.k.a. subsets) - In a continuous deployment scenario, for a given service, there can be distinct subsets of instances running different variants of the application binary. These variants are not necessarily different API versions. They could be iterative changes to the same service, deployed in different environments (prod, staging, dev, etc.). Common scenarios where this occurs include A/B testing, canary rollouts, etc. The choice of a particular version can be decided based on various criterion (headers, url, etc.) and/or by weights assigned to each version. Each service has a default version consisting of all its instances.
-{{% /notice %}}
+## Service versions (a.k.a. subsets)
+
+In a continuous deployment scenario, for a given service, there can be distinct subsets of instances running different variants of the application binary. These variants are not necessarily different API versions. They could be iterative changes to the same service, deployed in different environments (prod, staging, dev, etc.). Common scenarios where this occurs include A/B testing, canary rollouts, etc. The choice of a particular version can be decided based on various criterion (headers, url, etc.) and/or by weights assigned to each version. Each service has a default version consisting of all its instances.
 
 ```bash
 kubectl -n bookinfo apply \
@@ -26,7 +26,7 @@ kubectl -n bookinfo get destinationrules -o yaml
 
 ## Route traffic to one version of a service
 
-To route to one version only, we apply virtual services that set the default version for the microservices. In this case, the virtual services will route all traffic to <span style="color:orange">**reviews:v1**</span> of the microservice.
+To route to one version only, we apply virtual services that set the default version for the microservices. In this case, the virtual services will route all traffic to `reviews:v1` of the microservice.
 
 ```bash
 kubectl -n bookinfo \
@@ -58,7 +58,7 @@ Try now to reload the page multiple times, and note how only version 1 of review
 
 Next, we'll change the route configuration so that all traffic from a specific user is routed to a specific service version.
 
-In this case, all traffic from a user named <span style="color:orange">*Jason*</span> will be routed to the service <span style="color:orange">**reviews:v2**</span>.
+In this case, all traffic from a user named <span style="color:orange">*Jason*</span> will be routed to the service `reviews:v2`.
 
 ```bash
 kubectl -n bookinfo \
