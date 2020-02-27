@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: alb-ingress-controller
+  name: alb-ingress-controller
+  namespace: fargate
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alb-ingress-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alb-ingress-controller
+    spec:
+      serviceAccountName: alb-ingress-controller
+      containers:
+      - name: alb-ingress-controller
+        image: docker.io/amazon/aws-alb-ingress-controller:v1.1.4
+        args:
+        - --ingress-class=alb
+        - --cluster-name=eksworkshop-eksctl
+        - --aws-vpc-id=YOUR_VPC_ID
+        - --aws-region=YOUR_AWS_REGION
+
+
+
+

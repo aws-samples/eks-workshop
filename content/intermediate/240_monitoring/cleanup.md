@@ -5,10 +5,8 @@ weight: 25
 draft: false
 ---
 
-#### Delete Prometheus and grafana
+#### Uninstall Prometheus and Grafana
 ```
-helm delete prometheus
-helm del --purge prometheus
-helm delete grafana
-helm del --purge grafana
+helm uninstall prometheus --namespace prometheus
+helm uninstall grafana --namespace grafana
 ```
