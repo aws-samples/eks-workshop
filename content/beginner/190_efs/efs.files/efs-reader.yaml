@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: efs-reader
+  namespace: storage
+spec:
+  containers:
+  - name: efs-reader
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do sleep 5; done"]
+    volumeMounts:
+    - name: efs-pvc
+      mountPath: /shared
+  volumes:
+  - name: efs-pvc
+    persistentVolumeClaim:
+      claimName: efs-storage-claim
