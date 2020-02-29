@@ -5,12 +5,33 @@ weight: 40
 draft: false
 ---
 
-When you're done experimenting and want to delete all resources created during this tutorial, you can uninstall the components by running 'kubectl delete ...' , along with de-install scripts for the injector.  
+## Delete DJ App
 
-For ease of use, these commands have all been packaged into the cleanup script, which can be run via:
-
-```
-./cleanup.sh
+```bash
+kubectl delete namespace prod
 ```
 
-The above script will not delete any nodes in your k8s cluster.
+## Uninstall the Helm Charts
+
+```bash
+helm -n appmesh-system delete appmesh-inject
+helm -n appmesh-system delete appmesh-controller
+```
+
+## Delete mesh
+
+```bash
+aws appmesh delete-mesh --mesh-name dj-app
+```
+
+## Delete the AWS App Mesh namespace
+
+```bash
+kubectl delete namespace appmesh-system
+```
+
+## Delete AWS App Mesh CRDs
+
+```bash
+kubectl delete -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/appmesh-controller/crds/crds.yaml
+```

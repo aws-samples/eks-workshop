@@ -12,12 +12,11 @@ Based on our first App Mesh-enabled architecture, our physical service dj will m
 
 ![App Mesh](/images/app_mesh_ga/135-v1-mesh.png)
 
-
 Since there will be five services involved in this configuration, we'll need to define five Virtual Nodes.
 
 We'll first define the Virtual Nodes that will represent our virtual jazz and metal services.  To define these services as App Mesh Virtual Nodes, enter the following:
 
-```
+```bash
 kubectl create -f 4_create_initial_mesh_components/nodes_representing_virtual_services.yaml
 ```
 
@@ -48,12 +47,12 @@ spec:
 ...
 {{< /output >}}
 
-According to this YAML, we see that this Virtual Node points to a service (spec.serviceDiscovery.dns.hostName: metal.prod.svc.cluster.local) that listens on a given port for requests (spec.listeners.portMapping.port: 9080).
+According to this YAML, we see that this Virtual Node points to a service (`spec.serviceDiscovery.dns.hostName: metal.prod.svc.cluster.local`) that listens on a given port for requests (`spec.listeners.portMapping.port: 9080`).
 
-We'll finish up creating the dj, metal-v1, and jazz-v1 Virtual Nodes next.  Run the following command:
+We'll finish up creating the `dj`, `metal-v1`, and `jazz-v1` Virtual Nodes next. Run the following command:
 
-```
-kubectl create -nprod -f 4_create_initial_mesh_components/nodes_representing_physical_services.yaml
+```bash
+kubectl create -f 4_create_initial_mesh_components/nodes_representing_physical_services.yaml
 ```
 
 Output should be similar to:
@@ -87,20 +86,20 @@ spec:
         virtualServiceName: metal.prod.svc.cluster.local
 {{< /output >}}
 
-The backend attribute specifies that dj is allowed to make requests to the jazz and metal Virtual Services only.
+The backend attribute specifies that `dj` is allowed to make requests to the `jazz` and `metal` Virtual Services only.
 
 We've now created five Virtual Nodes which can be view with the following command:
 
-```
-kubectl get virtualnodes -nprod
+```bash
+kubectl -n prod get virtualnodes
 ```
 
 yielding:
 {{< output >}}
-NAME            AGE
-dj              6m
-jazz            3h
-jazz-v1         6m
-metal           3h
-metal-v1        6m
+NAME       AGE
+dj         39s
+jazz       3m59s
+jazz-v1    39s
+metal      3m59s
+metal-v1   39s
 {{< /output >}}
