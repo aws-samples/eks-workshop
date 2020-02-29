@@ -2,6 +2,7 @@
 title: "Set Permissions"
 date: 2018-08-07T08:30:11-07:00
 weight: 30
+hidden: true
 ---
 
 Next, we'll setup the workers to have the correct permissions to run App Mesh API calls.

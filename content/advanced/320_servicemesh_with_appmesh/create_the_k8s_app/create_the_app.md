@@ -8,74 +8,48 @@ Let's create the DJ App!
 
 To create the prod namespace, issue the following command:
 
-```
-kubectl apply -f 1_create_the_initial_architecture/1_prod_ns.yaml
+```bash
+kubectl apply -n prod \
+  -f 1_create_the_initial_architecture/1_prod_ns.yaml
 ```
 
-Output should be similar to:
+The output should be similar to:
 
 {{< output >}}
 namespace/prod created
 {{< /output >}}
 
-Now that we have the prod namespace created, we'll deploy the DJ App (dj, metal, and jazz microservices) into it.
+Now that we have the prod namespace created, we'll deploy the DJ App (`dj`, `metal`, and `jazz` microservices) and create the services that front these deployments
 
-Create the DJ App deployment in the prod namespace by issuing the following command:
-
+```bash
+kubectl apply -n prod \
+  -f 1_create_the_initial_architecture/1_initial_architecture_deployment.yaml \
+  -f 1_create_the_initial_architecture/1_initial_architecture_services.yaml
 ```
-kubectl apply -nprod -f 1_create_the_initial_architecture/1_initial_architecture_deployment.yaml
+
+We can verify the deployed objects
+
+```bash
+kubectl -n prod get pods,deploy,service
 ```
 
-Output should be similar to:
+Output should look like this
 
 {{< output >}}
-deployment.apps "dj" created
-deployment.apps "metal-v1" created
-deployment.apps "jazz-v1" created
-{{< /output >}}
+NAME                           READY   STATUS    RESTARTS   AGE
+pod/dj-8d4fc6ccd-ntjnq         1/1     Running   0          7s
+pod/jazz-v1-f94cdc64d-ql9rw    1/1     Running   0          7s
+pod/metal-v1-654d4858f-dqjjx   1/1     Running   0          7s
 
-Create the services that front these deployments by issuing the following command:
-
-```
-kubectl apply -nprod -f 1_create_the_initial_architecture/1_initial_architecture_services.yaml
-```
-
-Output should be similar to:
-
-{{< output >}}
-service "dj" created
-service "metal-v1" created
-service "jazz-v1" created
-{{< /output >}}
-
-Let's verify everything has been setup correctly by getting all resources from the prod namespace.  Issue this command:
-
-```
-kubectl get all -nprod
-```
-
-Output should display dj, jazz, and metal pods, services, deployments, and replica sets, similar to:
-
-{{< output >}}
-NAME                            READY   STATUS    RESTARTS   AGE
-pod/dj-5b445fbdf4-qf8sv         1/1     Running   0          1m
-pod/jazz-v1-644856f4b4-mshnr    1/1     Running   0          1m
-pod/metal-v1-84bffcc887-97qzw   1/1     Running   0          1m
+NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.extensions/dj         1/1     1            1           7s
+deployment.extensions/jazz-v1    1/1     1            1           7s
+deployment.extensions/metal-v1   1/1     1            1           7s
 
 NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/dj         ClusterIP   10.100.247.180   <none>        9080/TCP   15s
-service/jazz-v1    ClusterIP   10.100.157.174   <none>        9080/TCP   15s
-service/metal-v1   ClusterIP   10.100.187.186   <none>        9080/TCP   15s
-
-NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/dj         1         1         1            1           1m
-deployment.apps/jazz-v1    1         1         1            1           1m
-deployment.apps/metal-v1   1         1         1            1           1m
-
-NAME                                  DESIRED   CURRENT   READY   AGE
-replicaset.apps/dj-5b445fbdf4         1         1         1       1m
-replicaset.apps/jazz-v1-644856f4b4    1         1         1       1m
-replicaset.apps/metal-v1-84bffcc887   1         1         1       1m
+service/dj         ClusterIP   10.100.11.220    <none>        9080/TCP   7s
+service/jazz-v1    ClusterIP   10.100.7.223     <none>        9080/TCP   7s
+service/metal-v1   ClusterIP   10.100.174.186   <none>        9080/TCP   7s
 {{< /output >}}
 
 Once you've verified all resources have been created correctly in the prod namespace, next we'll test out this initial version of the DJ App.
