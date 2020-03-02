@@ -11,6 +11,12 @@ draft: false
 kubectl delete namespace prod
 ```
 
+## Delete the dj-app mesh
+
+```bash
+kubectl delete meshes dj-app
+```
+
 ## Uninstall the Helm Charts
 
 ```bash
@@ -18,20 +24,14 @@ helm -n appmesh-system delete appmesh-inject
 helm -n appmesh-system delete appmesh-controller
 ```
 
-## Delete mesh
+## Delete AWS App Mesh CRDs
 
 ```bash
-aws appmesh delete-mesh --mesh-name dj-app
+kubectl delete -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/appmesh-controller/crds/crds.yaml
 ```
 
 ## Delete the AWS App Mesh namespace
 
 ```bash
 kubectl delete namespace appmesh-system
-```
-
-## Delete AWS App Mesh CRDs
-
-```bash
-kubectl delete -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/appmesh-controller/crds/crds.yaml
 ```

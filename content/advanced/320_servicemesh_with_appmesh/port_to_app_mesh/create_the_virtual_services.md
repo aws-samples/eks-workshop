@@ -19,9 +19,10 @@ virtualservice.appmesh.k8s.aws/jazz.prod.svc.cluster.local created
 virtualservice.appmesh.k8s.aws/metal.prod.svc.cluster.local created
 {{< /output >}}
 
-If we inspect the YAML we just applied, we'll see that we've created two VirtualService resources, where requests made to `jazz.prod.svc.cluster.local` will be intercepted by `AWS App Mesh`, and routed to the Virtual Node `jazz-v1`.
+If we inspect the YAML we just applied, we'll see that we've created two VirtualService resources:
 
-Similarly, requests made to `metal.prod.svc.cluster.local` will be routed to the Virtual Node metal-v1:
+* Requests made to `jazz.prod.svc.cluster.local` will routed to the `VirtualNode` `jazz-v1`.
+* Requests made to `metal.prod.svc.cluster.local` will be routed to the `VirtualNode` `metal-v1`.
 
 {{< output >}}
 apiVersion: appmesh.k8s.aws/v1beta1

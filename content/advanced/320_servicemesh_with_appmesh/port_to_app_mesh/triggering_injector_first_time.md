@@ -18,6 +18,10 @@ jazz-v1-f94cdc64d-ql9rw    1/1     Running   0          115m
 metal-v1-654d4858f-dqjjx   1/1     Running   0          115m
 {{< /output >}}
 
+{{% notice note %}}
+Note that under the **READY** column, we see 1/1, which indicates one container is running for each pod.
+{{% /notice %}}
+
 and to take a closer look:
 
 ```bash
@@ -39,32 +43,17 @@ Containers:
 ...
 {{< /output >}}
 
-The injector controller we installed earlier watches for **new** pods to be created, and ensures any new pods that are created in the prod namespace are injected with the App Mesh sidecar.
+The injector controller we installed earlier watches for **new** pods to be created, and ensures any new pods that are created in the prod namespace are injected with sidecar.
 
-Since our dj pods were already running before the injector was created, we'll force them to be recreated, this time with the sidecars auto-injected into them.
+Since our pods were already running before the injector was created, we'll force them to be recreated, this time with the sidecars auto-injected into them.
 
 In production, there are more graceful ways to do this, but for the purpose of this tutorial, an easy way to have the deployment recreate the pods in an innocuous fashion is to patch into the deployment a simple date annotation.
 
-To do that with our current deployment, first we get all the prod namespace pod names:
-
-```bash
-kubectl get pods -nprod
-```
-
-The output will be the pod names:
-{{< output >}}
-NAME                        READY   STATUS    RESTARTS   AGE
-dj-5b445fbdf4-qf8sv         1/1     Running   0          3h
-jazz-v1-644856f4b4-mshnr    1/1     Running   0          3h
-metal-v1-84bffcc887-97qzw   1/1     Running   0          3h
-{{< /output >}}
-
-Note that under the READY column, we see 1/1, which indicates one container is running for each pod.  
-
-Next, run the following commands  to add a date label to each dj, jazz-v1, and metal-1 deployment, forcing the pods to be recreated:
+We will run these commands to add a date label to `dj`, `jazz-v1`, and `metal-1` deployment
 
 ```bash
 export TIMESTAMP=$(date +%s)
+
 kubectl -n prod patch deployment dj \
   -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"${TIMESTAMP}\"}}}}}"
 kubectl -n prod patch deployment metal-v1 \
@@ -79,7 +68,8 @@ Once again, get the pods:
 kubectl -n prod get pods
 ```
 
-Now note how we see 2/2 under READY, which indicates two container for each pod are running:
+Now note how we see 2/2 under READY, which indicates two container for each pod are running
+
 {{< output >}}
 NAME                        READY   STATUS    RESTARTS   AGE
 dj-6cfb85cdd9-z5hsp         2/2     Running   0          10m
@@ -113,7 +103,7 @@ If we now describe the new `dj` pod to get more detail:
 ```bash
 export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
 
-kubectl -n prod describe pods/${DJ_POD_NAME}
+kubectl -n prod describe ${DJ_POD_NAME}
 ```
 
 {{< output >}}

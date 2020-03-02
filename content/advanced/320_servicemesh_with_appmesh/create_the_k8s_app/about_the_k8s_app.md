@@ -1,7 +1,7 @@
 ---
 title: "About DJ App"
 date: 2018-08-07T08:30:11-07:00
-weight: 50
+weight: 30
 ---
 
 ## Architecture
@@ -16,11 +16,10 @@ This application is composed of three microservices:
 
 ![DJ App without App Mesh](/images/app_mesh_ga/125-v1-no-mesh.png)
 
-The `dj` service makes requests to either the `jazz` or `metal` backends for artist lists.
+The `dj` service makes requests to either the `jazz` or `metal` backends for artist lists:
 
-If the `dj` service requests from the jazz backend, musical artists such as _Miles Davis_ or _Astrud Gilberto_ will be returned.
-
-Requests made to the `metal` backend may return artists such as _Judas Priest_ or _Megadeth_.
+* Requests made to the `jazz` backend may return artists such as _Miles Davis_ or _Astrud Gilberto_.
+* Requests made to the `metal` backend may return artists such as _Judas Priest_ or _Megadeth_.
 
 ## Challenge
 
@@ -35,5 +34,3 @@ We're going to demonstrate how `AWS App Mesh` can be used to simplify this archi
 When we're done, our app will look more like the following:
 
 ![DJ App with App Mesh](/images/app_mesh_ga/155-v2-with-mesh-and-cp.png)
-
-Seven total services with App Mesh sidecars proxying traffic, and the App Mesh control plane managing the sidecars' configuration rulesets.

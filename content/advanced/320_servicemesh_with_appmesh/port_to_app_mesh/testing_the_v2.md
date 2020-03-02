@@ -4,7 +4,9 @@ date: 2018-08-07T08:30:11-07:00
 weight: 100
 ---
 
-To test if its working as expected, we'll exec into the DJ pod and make a curl request to the virtual service `jazz`, simulating what would happen if code running in the same pod made a request to the `metal` service by entering the following
+## Connect to the  `dj` container
+
+To test if its working as expected, we'll exec into the `dj` container inside the `dj`pod.
 
 ```bash
 export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
@@ -17,7 +19,9 @@ kubectl -n prod exec -it ${DJ_POD_NAME} -c dj bash
 root@dj-5b445fbdf4-8xkwp:/usr/src/app#
 {{< /output >}}
 
-Now that we have a root prompt into the DJ pod, we'll issue our curl request to the jazz virtual service:
+## Test canary between metal-v1 and metal-v2
+
+We'll issue our curl request to the metal virtual service:
 
 ```bash
 while true; do
@@ -27,7 +31,7 @@ while true; do
 done
 ```
 
-Output should loop about 50/50 between the v1 and v2 versions of the metal service, similar to:
+Output should loop about **50/50** between the v1 and v2 versions of the metal service, similar to:
 {{< output >}}
 ...
 ["Megadeth","Judas Priest"]
@@ -37,9 +41,11 @@ Output should loop about 50/50 between the v1 and v2 versions of the metal servi
 ...
 {{< /output >}}
 
-Hit CTRL-C to stop the looping.
+Hit *CTRL-C* to stop the looping.
 
-We'll next perform a similar test, but against the jazz service.  Issue a curl request to the jazz virtual service from within the dj pod:
+## Test canary between jazz-v1 and jazz-v2
+
+We'll next perform a similar test, but against the `jazz` virtual service.
 
 ```bash
 while true; do
@@ -49,7 +55,7 @@ while true; do
 done
 ```
 
-Output should loop about in a 90/10 ratio between the v1 and v2 versions of the jazz service, similar to:
+Output should loop about in a **90/10** ratio between the v1 and v2 versions of the jazz service, similar to:
 {{< output >}}
 ...
 ["Astrud Gilberto","Miles Davis"]
@@ -60,6 +66,6 @@ Output should loop about in a 90/10 ratio between the v1 and v2 versions of the 
 ...
 {{< /output >}}
 
-Hit CTRL-C to stop the looping, and type exit to exit the pod's shell.
+Hit *CTRL-C* to stop the looping, and type exit to quit the container's shell.
 
 Congrats on implementing the DJ App onto App Mesh!

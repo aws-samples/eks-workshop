@@ -50,15 +50,19 @@ virtualnodes.appmesh.k8s.aws       2020-02-29T02:43:15Z
 virtualservices.appmesh.k8s.aws    2020-02-29T02:43:15Z
 {{< /output >}}
 
-Next, we'll setup the `appmesh-controller` pods to have the correct permissions to run App Mesh API calls.
+Next, we will attach the IAM Policy `AWSAppMeshFullAccess` to the `appmesh-controller`.
 
-Create IRSA for appmesh-controller
+{{% notice tip %}}
+if you are new to the `IAM Roles for Service Accounts (IRSA)` concept, [Click here](/beginner/110_irsa/) for me information.
+{{% /notice %}}
 
 ```bash
+# Create your OIDC identity provider for the cluster
 eksctl utils associate-iam-oidc-provider \
   --cluster eksworkshop-eksctl \
   --approve
 
+# Create an IAM role for the appmesh-controller service account
 eksctl create iamserviceaccount \
   --cluster eksworkshop-eksctl \
   --namespace appmesh-system \
@@ -68,11 +72,7 @@ eksctl create iamserviceaccount \
   --approve
 ```
 
-{{% notice tip %}}
-By creating the IAM Roles for Service Accounts (IRSA) we are able to only apply the policy to the appmesh-controller. [Click here](/beginner/110_irsa/) for me information on IRSA.
-{{% /notice %}}
-
-Finally we can use Helm to deploy the appmesh-controller
+Finally we will use `Helm` to deploy the appmesh-controller
 
 ```bash
 helm upgrade -i appmesh-controller eks/appmesh-controller \
@@ -84,7 +84,7 @@ helm upgrade -i appmesh-controller eks/appmesh-controller \
 
 ## Install the Sidecar Injector
 
-We will use helm to deploy the injector and create the mesh at install time.
+We will use `Helm` to deploy the injector and create the mesh at install time.
 
 {{% notice info %}}
 We will use `dj-app` as the mesh name
@@ -123,6 +123,8 @@ service/appmesh-inject   ClusterIP   10.100.13.21   <none>        443/TCP   91s
 
 Finally we can verify that the mesh has been created:
 
+* Using the awscli
+
 ```bash
 aws appmesh list-meshes | jq '.meshes[].meshName'
 ```
@@ -131,7 +133,7 @@ aws appmesh list-meshes | jq '.meshes[].meshName'
 "dj-app"
 {{< /output >}}
 
-or using kubectl
+* Or using kubectl
 
 ```bash
 kubectl -n prod get meshes

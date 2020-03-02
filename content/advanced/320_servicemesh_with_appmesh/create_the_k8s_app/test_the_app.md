@@ -4,22 +4,12 @@ date: 2018-08-07T08:30:11-07:00
 weight: 70
 ---
 
-To test what we've just created, we'll exec into the DJ pod, and curl out to the `jazz-v1` and `metal-v1` backends.
+To test what we've just created, we will:
 
-First, we get the name of our DJ pod by listing all pods with the dj app selector:
+* Exec into the `dj` pod
+* curl out to the `jazz-v1` and `metal-v1` backends.
 
-```bash
-kubectl get pods -n prod -l app=dj
-```
-
- Output should be similar to:
-
-{{< output >}}
-NAME                 READY   STATUS    RESTARTS   AGE
-dj-8d4fc6ccd-ntjnq   1/1     Running   0          5m13s
-{{< /output >}}
-
-Next, we'll exec into the DJ pod:
+First we will exec into the pod
 
 ```bash
 export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')

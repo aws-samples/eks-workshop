@@ -6,7 +6,9 @@ weight: 60
 
 Let's create the DJ App!
 
-To create the prod namespace, issue the following command:
+![dj app 1](/images/app_mesh_ga/djapp-1.png)
+
+To create the `prod` namespace, issue the following command
 
 ```bash
 kubectl apply -n prod \
@@ -19,7 +21,7 @@ The output should be similar to:
 namespace/prod created
 {{< /output >}}
 
-Now that we have the prod namespace created, we'll deploy the DJ App (`dj`, `metal`, and `jazz` microservices) and create the services that front these deployments
+Now that we have created the namespace, we'll deploy the DJ App (`dj`, `metal`, and `jazz` microservices) and the services that front them.
 
 ```bash
 kubectl apply -n prod \

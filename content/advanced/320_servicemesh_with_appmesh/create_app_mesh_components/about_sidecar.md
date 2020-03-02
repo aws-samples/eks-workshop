@@ -6,7 +6,7 @@ weight: 30
 
 As decoupled logic, an App Mesh sidecar container must run alongside each pod in the DJ App deployment.  
 
-![App Mesh](/images/app_mesh_ga/101-side-car-proxy.png)
+![App Mesh](/images/app_mesh_ga/djapp-2.png)
 
 This can be setup in few different ways:
 
