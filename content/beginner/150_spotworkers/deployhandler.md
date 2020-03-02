@@ -30,9 +30,10 @@ By default, the **aws-node-termination-handler** will run on all of your nodes (
 ```bash
 helm repo add eks https://aws.github.io/eks-charts
 
-helm install aws-node-termination-handler eks/aws-node-termination-handler \
+helm upgrade --install aws-node-termination-handler \
              --namespace kube-system \
-             --set nodeSelector.lifecycle=Ec2Spot
+             --set nodeSelector.lifecycle=Ec2Spot \
+              eks/aws-node-termination-handler
 ```
 
 Verify that the pods are only running on node with label `lifecycle=Ec2Spot`
