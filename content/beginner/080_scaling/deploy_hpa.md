@@ -11,7 +11,7 @@ Metrics Server is a cluster-wide aggregator of resource usage data. These metric
 # create the metrics-service namespace first
 kubectl create namespace metrics
 
-helm install metrics-server \
+helm install --name metrics-server \
     stable/metrics-server \
     --version 2.9.0 \
     --namespace metrics
