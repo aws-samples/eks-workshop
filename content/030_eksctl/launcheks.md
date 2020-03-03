@@ -20,7 +20,7 @@ Run the command below and validate that your _Arn_ contains `eksworkshop-admin`a
 aws sts get-caller-identity
 ```
 
-```json
+```output
 {
     "Account": "123456789012",
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
