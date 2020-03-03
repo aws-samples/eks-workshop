@@ -9,13 +9,18 @@ weight: 20
 **DO NOT PROCEED** with this step unless you have [validated the IAM role](/020_prerequisites/workspaceiam/#validate-the-iam-role) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
 {{% /notice %}}
 
-#### Challenge:
+#### Challenge
+
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
-Run `aws sts get-caller-identity` and validate that your _Arn_ contains `eksworkshop-admin`and an Instance Id.
+Run the command below and validate that your _Arn_ contains `eksworkshop-admin`and an Instance Id.
 
-```output
+```bash
+aws sts get-caller-identity
+```
+
+```json
 {
     "Account": "123456789012",
     "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
@@ -29,8 +34,14 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
 
 ### Create an EKS cluster
-```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --managed --alb-ingress-access --region=${AWS_REGION}
+
+```bash
+eksctl create cluster \
+    --name=eksworkshop-eksctl \
+    --nodes=3 \
+    --managed \
+    --alb-ingress-access \
+    --region=${AWS_REGION}
 ```
 
 {{% notice info %}}
