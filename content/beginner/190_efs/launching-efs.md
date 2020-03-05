@@ -27,7 +27,7 @@ Now, create an EFS file system.
 FILE_SYSTEM_ID=$(aws efs create-file-system | jq --raw-output '.FileSystemId')
 ```
 
-Check the <b>LifeCycleState</b> of the file system using the following command and wait until it changes from <b>creating</b> to <b>available</b> before you proceed to the next step.
+Check the **LifeCycleState** of the file system using the following command and wait until it changes from **creating** to **available** before you proceed to the next step.
 ```
 aws efs describe-file-systems --file-system-id $FILE_SYSTEM_ID
 ```
@@ -47,9 +47,9 @@ done
 ```
 
 {{% notice info %}}
-When eksctl provisions your VPC and EKS cluster, it assigns the following tags to all public subnets in the cluster VPC. The above command leverages these tags to identify the public subnets.<br/>
-<i>kubernetes.io/cluster/eksworkshop-eksctl = shared<br/>
-kubernetes.io/role/elb = 1</i>
+When eksctl provisions your VPC and EKS cluster, it assigns the following tags to all public subnets in the cluster VPC. The above command leverages these tags to identify the public subnets.  
+*kubernetes.io/cluster/eksworkshop-eksctl = shared*  
+*kubernetes.io/role/elb = 1*
 {{% /notice %}}
 
 Check the <b>LifeCycleState</b> of the mount targets using the following command and wait until it changes from <b>creating</b> to <b>available</b> before you proceed to the next step. You may also check on the status of mount targets from the EFS Dashboard on the AWS Management Console. Select the file system you just created and then click on **Manage network access** to see the mount targets.

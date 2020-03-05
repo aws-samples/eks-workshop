@@ -5,7 +5,7 @@ weight: 11
 draft: false
 ---
 
-When an EFS file system is first created, there is only one root directory at /. We will have to first create a sub-directory under this root within the EFS file system. The EFS Provisioner will create child directories under this sub-directory to back each PersistentVolume it provisions (more ton this in the following sections).
+When an EFS file system is first created, there is only one root directory at /. We will have to first create a sub-directory under this root within the EFS file system. The EFS Provisioner will create child directories under this sub-directory to back each PersistentVolume it provisions (more on this in the following sections).
 
 In order to do that, you will first launch an EC2 instance of type t2.micro in the EKS cluster VPC using Amazon Linux 2 AMI and allow inbound access to that instance on port 22 so that you may SSH into it. Make sure you are using the latest AMI for your AWS Region.
 ```
@@ -15,7 +15,7 @@ SECURITY_GROUP_ID=$(aws ec2 create-security-group --group-name $SECURITY_GROUP_N
 aws ec2 authorize-security-group-ingress --group-id $SECURITY_GROUP_ID --protocol tcp --port 22 --cidr 0.0.0.0/0
 ```
 ```
-IMAGE_ID=ami-0e38b48473ea57778  
+IMAGE_ID=$(aws ec2 describe-images --owners amazon --filters 'Name=name,Values=amzn2-ami-hvm-2.0.????????.?-x86_64-gp2' 'Name=state,Values=available' --query 'reverse(sort_by(Images, &CreationDate))[:1].ImageId' --output text) 
 INSTANCE_ID=$(aws ec2 run-instances \
 --image-id $IMAGE_ID \
 --count 1 \
@@ -33,9 +33,9 @@ ssh -i ~/.ssh/id_rsa ec2-user@$IP_ADDRESS
 ```
 
 {{% notice info %}}
-The DNS name of your EFS file system is constructed using the following convention:</br>
-<i>file-system-id</i>.efs.<i>aws-region</i>.amazonaws.com</br>
-For example,</br>
+The DNS name of your EFS file system is constructed using the following convention:  
+*file-system-id*.efs.*aws-region*.amazonaws.com  
+For example,  
 fs-dc13f9a4.efs.us-east-2.amazonaws.com
 {{% /notice %}}
 
@@ -44,7 +44,7 @@ After you SSH into the EC2 instance, set an environment variable with its value 
 EFS_FILE_SYSTEM_DNS_NAME=file-system-id.efs.aws-region.amazonaws.com
 ```
 
-Execute the following set of commands which will mount the root directory of the EFS file system, identified by the file system DNS name, on to the <b>efs-mount-point</b> local directory of the EC2 instance and then create a sub-directory named <b>data</b> under the root directory of the EFS file system. 
+Execute the following set of commands which will mount the root directory of the EFS file system, identified by the file system DNS name, on to the **efs-mount-point** local directory of the EC2 instance and then create a sub-directory named **data** under the root directory of the EFS file system. 
  ```
 sudo mkdir efs-mount-point
 sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport \
