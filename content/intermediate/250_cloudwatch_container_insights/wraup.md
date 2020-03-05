@@ -18,14 +18,4 @@ Let's clean up Wordpress so it's not running in your cluster any longer.
 helm uninstall understood-zebu
 ```
 
-If you are completely done with EKSWorkshop, run the following command to clean up your cluster from your account.
-
-```bash
-eksctl delete cluster --name=eksworkshop-eksctl
-```
-
-{{% notice tip %}}
-Without the `--wait` flag, this will only issue a delete operation to the cluster's CloudFormation stack and won't wait for its deletion. The `nodegroup` will have to complete the deletion process before the EKS cluster can be deleted. The total process will take approximately 15 minutes, and can be monitored via the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/home).
-{{% /notice %}}
-
 ## Thank you for using CloudWatch Container Insights!
