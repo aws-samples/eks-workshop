@@ -5,9 +5,9 @@ weight: 20
 draft: false
 ---
 
-## Login into Grafana
+## Log in to Grafana
 
-Login into Grafana dashboard using credentials supplied during configuration.
+Log in to Grafana dashboard using credentials supplied during configuration.
 
 You will notice that **'Install Grafana'** & **'create your first data source'** are already completed. We will import community created dashboard for this tutorial.
 
