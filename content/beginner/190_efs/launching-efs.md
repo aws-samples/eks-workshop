@@ -32,7 +32,7 @@ Check the **LifeCycleState** of the file system using the following command and 
 aws efs describe-file-systems --file-system-id $FILE_SYSTEM_ID
 ```
 
-The EKS cluster that you created comprises worker nodes that are resident in the public subnets of the cluster VPC. Each public subnet resides in a different Availability Zone. As mentioned earlier, worker nodes connect to an EFS file system by using a mount target. It is best to create a mount target in each the EKS cluster VPC's Availability Zones so that worker node across your EKS cluster can all have access to the file system.  
+The EKS cluster that you created comprises worker nodes that are resident in the public subnets of the cluster VPC. Each public subnet resides in a different Availability Zone. As mentioned earlier, worker nodes connect to an EFS file system by using a mount target. It is best to create a mount target in each of the EKS cluster VPC's Availability Zones so that worker nodes across your EKS cluster can all have access to the file system.  
 
 The following set of commands identifies the public subnets in your cluster VPC and creates a mount target in each one of them as well as associate that mount target with the security group you created above.
 ```
@@ -52,7 +52,7 @@ When eksctl provisions your VPC and EKS cluster, it assigns the following tags t
 *kubernetes.io/role/elb = 1*
 {{% /notice %}}
 
-Check the <b>LifeCycleState</b> of the mount targets using the following command and wait until it changes from <b>creating</b> to <b>available</b> before you proceed to the next step. You may also check on the status of mount targets from the EFS Dashboard on the AWS Management Console. Select the file system you just created and then click on **Manage network access** to see the mount targets.
+Check the <b>LifeCycleState</b> of the mount targets using the following command and wait until it changes from <b>creating</b> to <b>available</b> before you proceed to the next step. It will take a few minutes for all the mount targets to transition to **available** state. You may also check on the status of mount targets from the EFS Dashboard on the AWS Management Console. Select the file system you just created and then click on **Manage network access** to see the mount targets.
 ```
 aws efs describe-mount-targets --file-system-id $FILE_SYSTEM_ID | jq --raw-output '.MountTargets[].LifeCycleState'
 ```

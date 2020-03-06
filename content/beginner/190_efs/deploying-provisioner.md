@@ -60,7 +60,7 @@ At the command shell within the pod, run the following command.
 ```
 ls -al /efs-mount
 ```
-A sub-directory would have been created under **/efs-mount** to back the PV resource listed above. The name of this directory, which in this case is *efs-storage-claim-pvc-8e470e71-5a24-11ea-9a37-0a95e5bfd098*, is constructed based on the name and ID attributes of the corresponding PVC. Whenever a new instance of PVC is created, the EFS Provisioner will dynamically create a PV instance as well as create a child directory under **/data** directory of the EFS file system to back that PV. There is always a one-to-one correspondance between a PV and a PVC. 
+A sub-directory would have been created under **/efs-mount** to back the PV resource listed above. The name of this directory, which in this example is *efs-storage-claim-pvc-8e470e71-5a24-11ea-9a37-0a95e5bfd098*, is constructed based on the name and ID attributes of the corresponding PVC. Whenever a new instance of PVC is created, the EFS Provisioner will dynamically create a PV instance as well as create a child directory under **/data** directory of the EFS file system to back that PV. There is always a one-to-one correspondance between a PV and a PVC. 
 
 Hit **Ctrl^D** to exit out of the pod back to your CLI.
 
