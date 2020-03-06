@@ -26,6 +26,11 @@ containers:
   - --aws-region=YOUR_AWS_REGION
 {{< /output >}}
 
+The VPC ID of your EKS cluster may be obtained using the following command.
+```
+CLUSTER_NAME=eksworkshop-eksctl
+aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text
+```
 Make sure that the cluster name in <b>alb-ingress-controller.yaml</b> matches that of the output when you execute the following command.
 ```
 aws eks list-clusters
@@ -58,3 +63,4 @@ nginx-app-57d5474b4b-ccs9x                1/1     Running   0          52m
 nginx-app-57d5474b4b-khzpw                1/1     Running   0          52m
 {{< /output >}}
 
+Wait until the STATUS of the ALB Ingress Controller pod changes from **Pending** to **Running** before you proceed to the next step.

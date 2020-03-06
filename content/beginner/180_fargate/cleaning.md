@@ -8,7 +8,7 @@ draft: false
 ### Cleaning up
 To delete the resources used in this chapter: 
 ```
-cd ~/environment
+cd ~/environment/fargate
 kubectl delete -f nginx-ingress.yaml
 kubectl delete -f alb-ingress-controller.yaml 
 kubectl delete -f rbac-role.yaml 
