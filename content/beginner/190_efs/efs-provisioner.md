@@ -21,5 +21,5 @@ With the above setup, EKS resources such as **Deployments, CronJobs, StatefulSet
 ![ConfigMap](/images/efs-provisioner/deployment.png)
 
 {{% notice info %}}
-If different sets of microservices in your deployment need to share different directories, then you need to create a new instance of a PersistentVolumeClaim for each shared directory. The corresponding PersistentVolume will be backed by a new child directory created under the top-level directory on the same EFS file system. There is no need to provision a new instance of an EFS file system unless your data isolation requirements demand as such.
+If different sets of microservices in your deployment need to share different directories, then you need to create a new instance of a PersistentVolumeClaim for each shared directory. The corresponding PersistentVolume will be backed by a new child directory created under the top-level directory **/data** on the same EFS file system. There is no need to provision a new instance of an EFS file system unless your data isolation requirements demand as such.
 {{% /notice %}}
