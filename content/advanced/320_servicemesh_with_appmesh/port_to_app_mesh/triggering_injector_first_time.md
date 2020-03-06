@@ -103,7 +103,7 @@ If we now describe the new `dj` pod to get more detail:
 ```bash
 export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
 
-kubectl -n prod describe ${DJ_POD_NAME}
+kubectl -n prod describe pod ${DJ_POD_NAME}
 ```
 
 {{< output >}}
