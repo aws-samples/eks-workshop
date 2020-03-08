@@ -5,20 +5,29 @@ weight: 10
 draft: false
 ---
 
-{{% notice warning %}}
-AWS Fargate with Amazon EKS is currently only available in the following Regions: **us-east-1**, **us-east-2**, **ap-northeast-1**, **eu-west-1**. Pods running on Fargate are supported on EKS clusters beginning with Kubernetes version 1.14 and platform version `eks.5`.
-{{% /notice  %}}
+AWS Fargate with Amazon EKS is currently only available in the following Regions:
+
+| Region Name | Region |
+|---|---|
+| US East (Ohio) | us-east-2 |
+| US East (N. Virginia) | us-east-1 |
+| Asia Pacific (Tokyo) | ap-northeast-1 |
+| EU (Ireland) | eu-west-1 |
 
 Run this command to verify if AWS Fargate with Amazon EKS is available in the Region you choose to deploy your Amazon EKS cluster.
 
 ```bash
 if [ $AWS_REGION = "us-east-1" ] || [ $AWS_REGION = "us-east-2" ] || [ $AWS_REGION = "ap-northeast-1" ] || [ $AWS_REGION = "eu-west-1" ] ; then
-  clear
-  echo -e "AWS Fargate with Amazon EKS is \033[0;32mavailable\033[0m in ${AWS_REGION}."
+  echo -e "\033[0;32mAWS Fargate with Amazon EKS is available in your Region."
   echo "You can continue this lab."
 else
-  clear
-  echo -e "AWS Fargate with Amazon EKS is \033[0;31mnot yet available\033[0m in ${AWS_REGION}."
-  echo "Please deploy deploy your cluster in one of the regions mentionned above"
+  echo -e "\033[0;31mAWS Fargate with Amazon EKS is not yet available in your Region."
+  echo "Deploy your cluster in one of the Regions mentionned above"
 fi
 ```
+
+{{% notice warning %}}
+Don't continue the lab unless the output is:
+*AWS Fargate with Amazon EKS is available in your Region.
+You can continue this lab*.
+{{% /notice %}}

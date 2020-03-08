@@ -5,45 +5,54 @@ weight: 12
 draft: false
 ---
 
-#### Deploying Pods to Fargate 
-Next, you will deploy the NGINX pods into Fargate by executing the following commands.
-```
+#### Deploying Pods to Fargate
+
+Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object.
+
+```bash
+export ALB_INGRESS_VERSION="v1.1.5"
+
 mkdir -p ~/environment/fargate
 cd ~/environment/fargate
-wget https://eksworkshop.com/beginner/180_fargate/fargate.files/nginx-deployment.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-service.yaml
 ```
 
-```
-kubectl apply -f nginx-deployment.yaml
-```
-Check the status of the pods by running the next command and you should see the following output
+You can check if a Deployment has completed
 
-```
-kubectl get pods -n fargate
+```bash
+kubectl -n 2048-game rollout status deployment 2048-deployment
 ```
 
-Output: 
+Output:
 {{< output >}}
-NAME                         READY   STATUS    RESTARTS   AGE
-nginx-app-57d5474b4b-ccs9x   1/1     Running   0          61s
-nginx-app-57d5474b4b-khzpw   1/1     Running   0          61s
+Waiting for deployment "2048-deployment" rollout to finish: 0 of 5 updated replicas are available...
+Waiting for deployment "2048-deployment" rollout to finish: 1 of 5 updated replicas are available...
+Waiting for deployment "2048-deployment" rollout to finish: 2 of 5 updated replicas are available...
+Waiting for deployment "2048-deployment" rollout to finish: 3 of 5 updated replicas are available...
+Waiting for deployment "2048-deployment" rollout to finish: 4 of 5 updated replicas are available...
+deployment "2048-deployment" successfully rolled out
 {{< /output >}}
-
-The STATUS of the pods will change from <b>Pending</b> to <b>ContainerCreating</b> to ultimately <b>Running</b>.
 
 Next, run the following command to list all the nodes in the EKS cluster and you should see output as follows:
 
-```
+```bash
 kubectl get nodes
 ```
 
-Output: 
+Output:
 {{< output >}}
-fargate-ip-192-168-138-130.ec2.internal   Ready    <none>   100s   v1.14.8-eks
-fargate-ip-192-168-169-166.ec2.internal   Ready    <none>   99s    v1.14.8-eks
-ip-192-168-36-165.ec2.internal            Ready    <none>   8d     v1.14.7-eks-1861c5
-ip-192-168-5-177.ec2.internal             Ready    <none>   27h    v1.14.7-eks-1861c5
-ip-192-168-91-68.ec2.internal             Ready    <none>   27h    v1.14.7-eks-1861c5
+NAME                                                    STATUS   ROLES    AGE    VERSION
+fargate-ip-192-168-120-12.us-east-2.compute.internal    Ready    <none>   20s    v1.14.8-eks
+fargate-ip-192-168-132-199.us-east-2.compute.internal   Ready    <none>   40s    v1.14.8-eks
+fargate-ip-192-168-144-26.us-east-2.compute.internal    Ready    <none>   33s    v1.14.8-eks
+fargate-ip-192-168-150-117.us-east-2.compute.internal   Ready    <none>   37s    v1.14.8-eks
+fargate-ip-192-168-170-212.us-east-2.compute.internal   Ready    <none>   40s    v1.14.8-eks
+ip-192-168-28-190.us-east-2.compute.internal            Ready    <none>   4d6h   v1.14.8-eks-b8860f
+ip-192-168-49-141.us-east-2.compute.internal            Ready    <none>   4d6h   v1.14.8-eks-b8860f
+ip-192-168-65-160.us-east-2.compute.internal            Ready    <none>   4d6h   v1.14.8-eks-b8860f
 {{< /output >}}
 
-If your cluster has any worker nodes, they will be listed with a name starting wit the <b>ip-</b> prefix. In addition to the worker nodes, if any, there will now be two additional “fargate” nodes listed. These are merely kubelets from the microVMs in which your NGINX pods are running under Fargate, posing as nodes to the EKS Control Plane. This is how the EKS Control Plane stays aware of the Fargate infrastructure under which the pods it orchestrates are running. There will be a “fargate” node added to the cluster for each pod deployed on Fargate.
+If your cluster has any worker nodes, they will be listed with a name starting wit the **ip-** prefix. In addition to the worker nodes, if any, there will now be two additional “fargate” nodes listed. These are merely kubelets from the microVMs in which your NGINX pods are running under Fargate, posing as nodes to the EKS Control Plane. This is how the EKS Control Plane stays aware of the Fargate infrastructure under which the pods it orchestrates are running. There will be a “fargate” node added to the cluster for each pod deployed on Fargate.
