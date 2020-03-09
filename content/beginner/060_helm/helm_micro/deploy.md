@@ -6,30 +6,38 @@ weight: 30
 
 #### Use the dry-run flag to test our templates
 
-To test the syntax and validity of the Chart without actually deploying it, we'll use the dry-run flag.
+To test the syntax and validity of the Chart without actually deploying it,
+we'll use the `--dry-run` flag.
 
-The following command will build and output the rendered templates without installing the Chart:
+The following command will build and output the rendered templates without
+installing the Chart:
 
 ```sh
-helm install --debug --dry-run --name workshop ~/environment/eksdemo
+helm install --debug --dry-run workshop ~/environment/eksdemo
 ```
+
 Confirm that the values created by the template look correct.
 
-
 #### Deploy the chart
-Now that we have tested our template, lets install it.
 
-```
-helm install --name workshop ~/environment/eksdemo
+Now that we have tested our template, let's install it.
+
+```sh
+helm install workshop ~/environment/eksdemo
 ```
 
-Similar to what we saw previously in the [NGINX Helm Chart example](/beginner/060_helm/helm_nginx/index.html), an output of the Deployment, Pod, and Service objects are output, similar to:
+Similar to what we saw previously in the [nginx Helm Chart
+example](/beginner/060_helm/helm_nginx/index.html), an output of the Deployment,
+Pod, and Service objects are output, similar to:
 
 {{< output >}}
-NAME:   workshop
-LAST DEPLOYED: Fri Nov 16 21:42:00 2018
+NAME: workshop
+LAST DEPLOYED: Tue Feb 18 22:11:37 2020
 NAMESPACE: default
-STATUS: DEPLOYED
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+
 
 RESOURCES:
 ==> v1/Service
@@ -56,4 +64,3 @@ ecsdemo-nodejs-c458bf55d-994cq     0/1    ContainerCreating  0         0s
 ecsdemo-nodejs-c458bf55d-9qtbm     0/1    ContainerCreating  0         0s
 ecsdemo-nodejs-c458bf55d-s9zkh     0/1    ContainerCreating  0         0s
 {{< /output >}}
-

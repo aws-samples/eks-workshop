@@ -7,32 +7,39 @@ draft: false
 
 To cleanup, follow the below steps.
 
-To remove telemetry configuration / port-forward process
+Terminate any `kubectl port-forward` or `watch` processes
 
-```
-kubectl delete -f istio-telemetry.yaml
-```
-
-To remove the application virtual services / destination rules
-
-```
-kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
-
-kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
+```bash
+killall kubectl
+killall watch
 ```
 
-To remove the gateway / application
+When you’re finished experimenting with the `Bookinfo` sample, uninstall and clean it up using the following instructions
 
-```
-kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml
+```bash
+export NAMESPACE="bookinfo"
 
-kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
-```
+${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/platform/kube/cleanup.sh
 
-To remove Istio
-
-```
-helm delete --purge istio
-helm delete --purge istio-init
+kubectl delete ns bookinfo
 ```
 
+`istioctl` will delete:
+
+* The RBAC permissions
+* The `istio-system` namespace
+* All resources hierarchically under it
+
+{{% notice info %}}
+you can ignore the errors for non-existent resources because they may have been deleted hierarchically.
+{{% /notice %}}
+
+```bash
+istioctl manifest generate --set profile=demo | kubectl delete -f -
+```
+
+Finally, we can remove the Istio version variable from `.bash_profile`
+
+```bash
+sed -i '/ISTIO_VERSION/d' ${HOME}/.bash_profile
+```

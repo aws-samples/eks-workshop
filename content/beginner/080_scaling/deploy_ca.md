@@ -19,6 +19,14 @@ cd ~/environment/cluster-autoscaler
 wget https://eksworkshop.com/beginner/080_scaling/deploy_ca.files/cluster_autoscaler.yml
 ```
 
+Populate the manifest file with the most-up-to-date Cluster Autoscaler image version for the actual Kubernetes version in EKS.
+
+```
+export K8S_VERSION=$(kubectl version --short | grep 'Server Version:' | sed 's/[^0-9.]*\([0-9.]*\).*/\1/' | cut -d. -f1,2)
+export AUTOSCALER_VERSION=$(curl -s "https://api.github.com/repos/kubernetes/autoscaler/releases" | grep '"tag_name":' | sed -s 's/.*-\([0-9][0-9\.]*\).*/\1/' | grep -m1 ${K8S_VERSION})
+echo "$(envsubst < cluster_autoscaler.yml)" > cluster_autoscaler.yml
+```
+
 ### Configure the ASG
 We will need to provide the name of the Autoscaling Group that we want CA to manipulate. Collect the name of the Auto Scaling Group (ASG) containing your worker nodes. Record the name somewhere. We will use this later in the manifest file.
 
@@ -41,7 +49,7 @@ Click `Save`
 
 Using the file browser on the left, open cluster_autoscaler.yml
 
-Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, update AWS_REGION value to reflect the region you are using and **Save** the file.
+Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, insert the **AWS_REGION** value by replacing the `<AWS_REGION_NAME>` placeholder to reflect the region you are using and **Save** the file.
 
 {{< output >}}
 command:

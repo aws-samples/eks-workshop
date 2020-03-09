@@ -23,7 +23,7 @@ aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
 
 ```bash
 kubectl delete -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.2.1/manifests/install.yaml
-kubectl delete ns argo
+kubectl delete namespace argo
 ```
 
 #### Cleanup Kubernetes Job

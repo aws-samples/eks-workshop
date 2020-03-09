@@ -24,7 +24,7 @@ Alternatively, you can use [Dockerfile](/advanced/420_kubeflow/kubeflow.files/Do
 Create an S3 bucket where training model will be saved:
 
 ```
-export HASH=$(< /dev/urandom tr -dc a-z-0-9 | head -c6)
+export HASH=$(< /dev/urandom tr -dc a-z0-9 | head -c6)
 export S3_BUCKET=$HASH-eks-ml-data
 aws s3 mb s3://$S3_BUCKET --region $AWS_REGION
 ```

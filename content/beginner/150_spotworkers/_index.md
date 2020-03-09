@@ -4,7 +4,7 @@ chapter: true
 weight: 150
 draft: false
 tags:
-  - intermediate
+  - beginner
   - CON206
 ---
 
