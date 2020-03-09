@@ -20,6 +20,8 @@ and attaching volumes to the EC2 worker nodes that comprise the cluster.
 First, let's download the policy JSON document, and create an IAM Policy from it:
 
 ```sh
+mkdir ~/environment/ebs_csi_driver
+cd ~/environment/ebs_csi_driver
 curl -sSL -o ebs-cni-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v0.4.0/docs/example-iam-policy.json
 
 export EBS_CNI_POLICY_NAME="Amazon_EBS_CSI_Driver"
@@ -35,14 +37,14 @@ export EBS_CNI_POLICY_ARN=$(aws --region ${AWS_REGION} iam list-policies --query
 ## Configure IAM Role for Service Account
 
 Next, we'll ask `eksctl` to create an IAM Role that contains the IAM Policy we
-created, and associate it with a Kubernetes Service Account that will be used
-by the CSI Driver Pods:
+created, and associate it with a Kubernetes Service Account called
+`ebs-csi-controller-irsa` that will be used by the CSI Driver:
 
 ```sh
 eksctl utils associate-iam-oidc-provider --region=$AWS_REGION --cluster=eksworkshop-eksctl --approve
 
 eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
-  --name ebs-csi-driver \
+  --name ebs-csi-controller-irsa \
   --namespace kube-system \
   --attach-policy-arn $EBS_CNI_POLICY_ARN \
   --override-existing-serviceaccounts \
@@ -56,15 +58,10 @@ Finally, we can deploy the driver.
 First, we'll need to download a few files.  Run:
 
 ```sh
-cd ~/environment
-mkdir ebs_csi_driver
-curl -sSLO https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/beginner/170_statefulset/ebs_csi_driver.files/kustomization.yml
-curl -sSLO https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/beginner/170_statefulset/ebs_csi_driver.files/serviceaccount.yaml.tmpl
-
-# Fill in AWS account ID in template
-export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-envsubst < ~/environment/ebs_csi_driver/serviceaccount.yaml.tmpl \
-         > ~/environment/ebs_csi_driver/serviceaccount.yaml
+cd ~/environment/ebs_csi_driver
+for file in kustomization.yml deployment.yml attacher-binding.yml provisioner-binding.yml; do
+  curl -sSLO https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/beginner/170_statefulset/ebs_csi_driver.files/$file
+done
 ```
 
 To complete the deployment:
