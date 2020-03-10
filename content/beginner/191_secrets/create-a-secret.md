@@ -18,7 +18,7 @@ Output:
 namespace/secretslab created
 {{< /output >}}
 
-Create a text file contianing your secret:
+Create a text file containing your secret:
 ```bash
 echo -n "am i safe?" > ./test-creds
 ```
