@@ -29,10 +29,45 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
 
 ### Create an EKS cluster
+
+Display your KMS ARN for use in creating the EKS Cluster
+```bash
+echo $MASTER_ARN
 ```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --managed --alb-ingress-access --region=${AWS_REGION}
+Output: 
+{{< output >}}
+arn:aws:kms:us-east-1:1234567890:key/ee729324-19d8-4305-9cc4-e123456789
+{{< /output >}}
+
+Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
+
+```
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  # Change this value
+  region: Your AWS Region
+
+managedNodeGroups:
+- name: nodegroup
+  desiredCapacity: 3
+  iam:
+    withAddonPolicies:
+      albIngress: true
+
+secretsEncryption:
+  # Change this value
+  keyARN: Your KMS CMK ARN
 ```
 
+Next, use the file you created as the input for the eksctl cluster creation as follows:
+
+```
+eksctl create cluster -f eksworkshop.yaml
+```
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}
