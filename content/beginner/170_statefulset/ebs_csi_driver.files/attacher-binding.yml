@@ -1,0 +1,3 @@
+- op: replace
+  path: /subjects/0/name
+  value: ebs-csi-controller-irsa

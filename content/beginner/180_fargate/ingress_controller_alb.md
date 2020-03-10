@@ -5,62 +5,65 @@ weight: 14
 draft: false
 ---
 
-### ALB Ingress Controller
-Download the deployment manifest for AWS ALB Ingress controller into a local YAML file.
-```
-cd ~/environment/fargate
-wget https://eksworkshop.com/beginner/180_fargate/fargate.files/alb-ingress-controller.yaml
+### Helm
+
+We will use **Helm** to install the ALB Ingress Controller.
+
+Check to see if `helm` is installed:
+
+```bash
+helm version
 ```
 
-Edit the file <b>alb-ingress-controller.yaml</b>, replacing the placeholder variables <b>YOUR_VPC_ID</b> and <b>YOUR_AWS_REGION</b> with values pertaining to the VPC ID and AWS Region of your environment.
+{{% notice info %}}
+If `Helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
+{{% /notice %}}
 
-Output
-{{< output >}}
-containers:
-- name: alb-ingress-controller
-  image: docker.io/amazon/aws-alb-ingress-controller:v1.1.4
-  args:
-  - --ingress-class=alb
-  - --cluster-name=eksworkshop-eksctl
-  - --aws-vpc-id=YOUR_VPC_ID
-  - --aws-region=YOUR_AWS_REGION
-{{< /output >}}
+Add helm incubator repository
 
-The VPC ID of your EKS cluster may be obtained using the following command.
-```
-CLUSTER_NAME=eksworkshop-eksctl
-aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text
-```
-Make sure that the cluster name in <b>alb-ingress-controller.yaml</b> matches that of the output when you execute the following command.
-```
-aws eks list-clusters
-```
-Output:
-{{< output >}}
-{
-    "clusters": [
-        "eksworkshop-eksctl"
-    ]
-}
-{{< /output >}}
-
-
-Save your changes and run the following command to deploy the ingress controller.
-```
-kubectl apply -f alb-ingress-controller.yaml
+```bash
+helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 ```
 
-Execute the following command and you will see the list of all pods running under Fargate
+```bash
+# Get the VPC ID
+export VPC_ID=$(aws eks describe-cluster --name eksworkshop-eksctl --query "cluster.resourcesVpcConfig.vpcId" --output text)
+
+
+helm --namespace 2048-game install 2048-game \
+  incubator/aws-alb-ingress-controller \
+  --set image.tag=${ALB_INGRESS_VERSION} \
+  --set awsRegion=${AWS_REGION} \
+  --set awsVpcID=${VPC_ID} \
+  --set rbac.create=false \
+  --set rbac.serviceAccountName=alb-ingress-controller \
+  --set clusterName=eksworkshop-eksctl
 ```
-kubectl get pods -n fargate
+
+Execute the following command to watch the progress by looking at the deployment status:
+
+```bash
+kubectl -n 2048-game rollout status \
+  deployment 2048-game-aws-alb-ingress-controller
 ```
 
 Output:
 {{< output >}}
-NAME                                      READY   STATUS    RESTARTS   AGE
-alb-ingress-controller-68896c8c99-pdmtg   1/1     Running   0          5s
-nginx-app-57d5474b4b-ccs9x                1/1     Running   0          52m
-nginx-app-57d5474b4b-khzpw                1/1     Running   0          52m
+Waiting for deployment "2048-game-aws-alb-ingress-controller" rollout to finish: 0 of 1 updated replicas are available...
+deployment "2048-game-aws-alb-ingress-controller" successfully rolled out
 {{< /output >}}
 
-Wait until the STATUS of the ALB Ingress Controller pod changes from **Pending** to **Running** before you proceed to the next step.
+```bash
+kubectl get pods -n 2048-game
+```
+
+Output:
+{{< output >}}
+NAME                                                    READY   STATUS    RESTARTS   AGE
+2048-deployment-7f77b47f7-fvrqj                         1/1     Running   0          17m
+2048-deployment-7f77b47f7-pvjpk                         1/1     Running   0          17m
+2048-deployment-7f77b47f7-pvlmv                         1/1     Running   0          17m
+2048-deployment-7f77b47f7-q66n9                         1/1     Running   0          17m
+2048-deployment-7f77b47f7-x6sjc                         1/1     Running   0          17m
+2048-game-aws-alb-ingress-controller-569d6cbfc8-nfh6c   1/1     Running   0          69s
+{{< /output >}}
