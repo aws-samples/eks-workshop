@@ -33,6 +33,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
 
 ```
+cat << EOF > eksworkshop.yaml
 ---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -50,6 +51,7 @@ managedNodeGroups:
 
 secretsEncryption:
   keyARN: ${MASTER_ARN}
+EOF
 ```
 ---
 apiVersion: eksctl.io/v1alpha5

@@ -9,6 +9,7 @@ draft: false
 Create a YAML file (podconsumingsecret.yaml) with the following pod definition:
 
 ```
+cat << EOF > podconsumingsecret.yaml
 ---
 apiVersion: v1
 kind: Pod
@@ -30,6 +31,7 @@ spec:
   - name: sec
     secret:
       secretName: test-creds
+EOF
 ```
 
 Deploy the pod on your EKS cluster:
@@ -52,7 +54,7 @@ Output:
 am i safe?
 {{< /output >}}
 
-Let's see if the CloudTrail event for our secret retrieval is now visible. If you go to CloudTrail you should see a record available if you search for the Event type ```Decrypt``` with output similar to the following screenshot. If the event hasn't shown up yet, wait a few minutes and try again.
+Let's see if the CloudTrail event for our secret retrieval is now visible. If you go to [CloudTrail](https://console.aws.amazon.com/cloudtrail/home?events&#/events?EventName=Decrypt) you should see a record available if you search for the Event type ```Decrypt``` with output similar to the following screenshot. If the event hasn't shown up yet, wait a few minutes and try again.
 
 ![cloudtrail-kms](/images/cloudtrail-proof-1-1024x528.png)
 
