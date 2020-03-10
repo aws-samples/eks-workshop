@@ -50,5 +50,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: alb-ingress-controller
-    namespace: fargate
+    namespace: 2048-game
 
