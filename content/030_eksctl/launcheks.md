@@ -53,26 +53,10 @@ secretsEncryption:
   keyARN: ${MASTER_ARN}
 EOF
 ```
----
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: eksworkshop-eksctl
-  # Change this value
-  region: Your AWS Region
-
-managedNodeGroups:
-- name: nodegroup
-  desiredCapacity: 3
-  iam:
-    withAddonPolicies:
-      albIngress: true
 
 Next, use the file you created as the input for the eksctl cluster creation.
 
 ```
-echo "$(envsubst < eksworkshop.yaml)" > eksworkshop.yaml && \
 eksctl create cluster -f eksworkshop.yaml
 ```
 {{% notice info %}}
