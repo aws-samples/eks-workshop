@@ -18,3 +18,9 @@ export MASTER_ARN=$(aws kms describe-key --key-id alias/eksworkshop --query KeyM
 ```
 
 We set the MASTER_ARN environment variable to make it easier to refer to the KMS key later.
+
+Now, let's save the MASTER_ARN environment variable into the bash_profile
+
+```bash
+echo "export MASTER_ARN=${MASTER_ARN}" | tee -a ~/.bash_profile
+```

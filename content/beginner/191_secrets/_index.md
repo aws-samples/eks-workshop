@@ -1,7 +1,7 @@
 ---
 title: "Encrypting Secrets with AWS Key Management Service (KMS) Keys"
 chapter: true
-weight: 190
+weight: 191
 tags:
   - beginner
 ---

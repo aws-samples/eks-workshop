@@ -55,3 +55,5 @@ am i safe?
 Let's see if the CloudTrail event for our secret retrieval is now visible. If you go to CloudTrail you should see a record available if you search for the Event type ```Decrypt``` with output similar to the following screenshot. If the event hasn't shown up yet, wait a few minutes and try again.
 
 ![cloudtrail-kms](/images/cloudtrail-proof-1-1024x528.png)
+
+On the next screen, you will perform the cleanup operations for this lab.
