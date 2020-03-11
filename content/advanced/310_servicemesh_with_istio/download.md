@@ -8,11 +8,12 @@ draft: false
 Before we can get started configuring Istio we’ll need to first install the command line tools that you will interact with. To do this run the following.
 
 {{% notice info %}}
-We will use istio version 1.4.5.
+We will use Istio's latest release version.
 {{% /notice %}}
 
 ```bash
-echo 'export ISTIO_VERSION="1.4.5"' >> ${HOME}/.bash_profile
+echo 'export ISTIO_VERSION='$(curl -L -s https://api.github.com/repos/istio/istio/releases | grep tag_name | sed "s/ *\"tag_name\": *\"\\(.*\\)\",*/\\1/" | grep -v -E "(alpha|beta|rc)\.[0-9]$" | sort -t"." -k 1,1 -k 2,2 -k 3,3 -k 4,4 | tail -n 1) >> ${HOME}/.bash_profile
+
 source ${HOME}/.bash_profile
 ```
 
