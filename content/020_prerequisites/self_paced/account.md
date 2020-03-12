@@ -26,3 +26,9 @@ as an IAM user with administrator access to the AWS account:
 
 1. Take note of the login URL and save:
 ![Login URL](/images/iam-4-save-url.png)
+
+Once you have completed the step above, you can head straight to 
+
+[**Create a Workspace step by step**](/020_prerequisites/step-by-step/workspace/)
+*or*
+[**Create a Workspace automatically**](/020_prerequisites/automatic_cloud9/workspace/)

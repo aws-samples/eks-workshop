@@ -22,4 +22,8 @@ Click on **AWS Console** on dashboard.
 
 Take the defaults and click on **Open AWS Console**. This will open AWS Console in a new browser tab.
 
-Once you have completed the step above, you can head straight to [**Create a Workspace**](/020_prerequisites/workspace/)
+Once you have completed the step above, you can head straight to 
+
+[**Create a Workspace step by step**](/020_prerequisites/step-by-step/workspace/)
+*or*
+[**Create a Workspace automatically**](/020_prerequisites/automatic_cloud9/workspace/)
