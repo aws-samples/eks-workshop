@@ -54,14 +54,6 @@ aws sts get-caller-identity
 
 ```
 
-<!--
-First, get the IAM role name from the AWS CLI.
-```bash
-INSTANCE_PROFILE_NAME=`basename $(aws ec2 describe-instances --filters Name=tag:Name,Values=aws-cloud9-${C9_PROJECT}-${C9_PID} | jq -r '.Reservations[0].Instances[0].IamInstanceProfile.Arn' | awk -F "/" "{print $2}")`
-aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME --query "InstanceProfile.Roles[0].RoleName" --output text
-```
--->
-
 The output assumed-role name should contain:
 {{< output >}}
 eksworkshop-admin

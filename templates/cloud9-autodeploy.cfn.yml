@@ -1,0 +1,381 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation template for various workshops. Creates a Cloud9
+  bootstraps the instance.
+Parameters:
+  WSC9InstanceType:
+    Description: Workshop Cloud9 instance type
+    Type: String
+    Default: t3.small
+    AllowedValues:
+      - t3.small
+    ConstraintDescription: Must be a valid Cloud9 instance type
+  WSC9vpccidr:
+    Description: Workshop Cloud9 VPC CIDR CidrBlock
+    Type: String
+    Default: 10.0.0.0/24
+  WSC9vpcSubNet:
+    Description: Workshop Cloud9 Subnet
+    Type: String
+    Default: 10.0.0.0/25
+  WSC9EnvType: 
+    Description: Environment type.
+    Default: awsaccount
+    Type: String
+    AllowedValues:
+      - awsaccount
+    ConstraintDescription: must specify eventengine or awsaccount.
+Conditions: 
+  CreateEventEngineResources: !Equals [ !Ref WSC9EnvType, eventengine ]
+Resources:
+
+########### NETWORK ############
+  WSC9VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref WSC9vpccidr
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+
+  WSC9PubSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: WSC9VPC
+      AvailabilityZone:
+        Fn::Join:
+        - ''
+        - - Ref: AWS::Region
+          - a
+      CidrBlock: !Ref WSC9vpcSubNet
+      MapPublicIpOnLaunch: 'true'
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+
+  WSC9InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+
+  WSC9GatewayToInternet:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: WSC9VPC
+      InternetGatewayId:
+        Ref: WSC9InternetGateway
+
+  WSC9PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    DependsOn: WSC9GatewayToInternet
+    Properties:
+      VpcId:
+        Ref: WSC9VPC
+
+  WSC9PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: WSC9PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: WSC9InternetGateway
+
+  WSC9PubSubnetRTAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: WSC9PubSubnet
+      RouteTableId:
+        Ref: WSC9PublicRouteTable
+
+################## PERMISSIONS AND ROLES #################
+  WSC9Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: eksworkshop-admin
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+            - ssm.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AdministratorAccess
+      Path: "/"
+
+  WSC9LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName:
+          Fn::Join:
+          - ''
+          - - WSC9LambdaPolicy-
+            - Ref: AWS::Region
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - cloudformation:DescribeStacks
+            - cloudformation:DescribeStackEvents
+            - cloudformation:DescribeStackResource
+            - cloudformation:DescribeStackResources
+            - ec2:DescribeInstances
+            - ec2:AssociateIamInstanceProfile
+            - ec2:ModifyInstanceAttribute
+            - ec2:ReplaceIamInstanceProfileAssociation
+            - iam:ListInstanceProfiles
+            - iam:PassRole
+            Resource: "*"
+
+################## LAMBDA BOOTSTRAP FUNCTION ################
+
+  WSC9BootstrapInstanceLambda:
+    Description: Bootstrap Cloud9 instance
+    Type: Custom::WSC9BootstrapInstanceLambda
+    DependsOn:
+    - WSC9BootstrapInstanceLambdaFunction
+    - WSC9Instance
+    - WSC9InstanceProfile
+    - WSC9LambdaExecutionRole
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+      ServiceToken:
+        Fn::GetAtt:
+        - WSC9BootstrapInstanceLambdaFunction
+        - Arn
+      REGION:
+        Ref: AWS::Region
+      StackName:
+        Ref: AWS::StackName
+      EnvironmentId:
+        Ref: WSC9Instance
+      LabIdeInstanceProfileName:
+        Ref: WSC9InstanceProfile
+      LabIdeInstanceProfileArn:
+        Fn::GetAtt:
+        - WSC9InstanceProfile
+        - Arn
+
+  WSC9BootstrapInstanceLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+      Handler: index.lambda_handler
+      Role:
+        Fn::GetAtt:
+        - WSC9LambdaExecutionRole
+        - Arn
+      Runtime: python3.6
+      MemorySize: 256
+      Timeout: '600'
+      Code:
+        ZipFile: |
+          from __future__ import print_function
+          import boto3
+          # import loggings
+          import json
+          import os
+          import time
+          import traceback
+          import cfnresponse
+          
+          # logger = logging.getLogger()
+          # logger.setLevel(logging.INFO)
+          
+          def lambda_handler(event, context):
+              # logger.info('event: {}'.format(event))
+              # logger.info('context: {}'.format(context))
+              responseData = {}
+          
+              if event['RequestType'] == 'Create':
+                  try:
+                      # Open AWS clients
+                      ec2 = boto3.client('ec2')
+          
+                      # Get the InstanceId of the Cloud9 IDE
+                      instance = ec2.describe_instances(Filters=[{'Name': 'tag:Name','Values': ['aws-cloud9-'+event['ResourceProperties']['StackName']+'-'+event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]
+                      # logger.info('instance: {}'.format(instance))
+          
+                      # Create the IamInstanceProfile request object
+                      iam_instance_profile = {
+                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn'],
+                          'Name': event['ResourceProperties']['LabIdeInstanceProfileName']
+                      }
+                      # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
+          
+                      # Wait for Instance to become ready before adding Role
+                      instance_state = instance['State']['Name']
+                      # logger.info('instance_state: {}'.format(instance_state))
+                      while instance_state != 'running':
+                          time.sleep(5)
+                          instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])
+                          # logger.info('instance_state: {}'.format(instance_state))
+          
+                      # attach instance profile
+                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
+                      # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      r_ec2 = boto3.resource('ec2')
+  
+                      responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
+                      
+                  except Exception as e:
+                      # logger.error(e, exc_info=True)
+                      responseData = {'Error': traceback.format_exc(e)}
+                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
+################## SSM BOOTSRAP HANDLER ###############
+  WSC9OutputBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+
+  WSC9SSMDocument: 
+    Type: AWS::SSM::Document
+    Properties: 
+      Tags:
+        - Key: Environment
+          Value: AWS Workshop
+      Content: Yaml
+      DocumentType: Command
+      Content: 
+        schemaVersion: '2.2'
+        description: Bootstrap Cloud9 Instance
+        mainSteps:
+        - action: aws:runShellScript
+          name: WSC9bootstrap
+          inputs:
+            runCommand:
+            - "#!/bin/bash"
+            - date
+            - echo LANG=en_US.utf-8 >> /etc/environment
+            - echo LC_ALL=en_US.UTF-8 >> /etc/environment
+            - . /home/ec2-user/.bashrc
+            - yum -y remove aws-cli; yum -y install sqlite telnet jq strace tree gcc glibc-static python3 python3-pip gettext bash-completion
+            - echo '=== CONFIGURE default python version ==='
+            - PATH=$PATH:/usr/bin
+            - alternatives --set python /usr/bin/python3.6
+            - echo '=== INSTALL and CONFIGURE default software components ==='
+            - sudo -H -u ec2-user bash -c "pip install --user -U boto boto3 botocore awscli"
+            - echo '=== CONFIGURE kubecrtl and setting ENVIRONMENT VARS ==='
+            - curl --silent --location -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+            - chmod +x /usr/bin/kubectl
+            - sudo -H -u ec2-user bash -c "kubectl completion bash >>  ~/.bash_completion"
+            - sudo -H -u ec2-user bash -c ". /etc/profile.d/bash_completion.sh"
+            - sudo -H -u ec2-user bash -c ". ~/.bash_completion"
+            - echo '=== CONFIGURE eksctl and setting ENVIRONMENT VARS ==='
+            - curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+            - mv /tmp/eksctl /usr/bin
+            - sudo -H -u ec2-user bash -c "eksctl completion bash >> ~/.bash_completion"
+            - sudo -H -u ec2-user bash -c ". /etc/profile.d/bash_completion.sh"
+            - sudo -H -u ec2-user bash -c ". ~/.bash_completion"
+            - echo '=== FIX Docker Install ==='
+            - grep -qxF 'cgroup /sys/fs/cgroup cgroup defaults 0 0' /etc/fstab || echo 'cgroup /sys/fs/cgroup cgroup defaults 0 0' >> /etc/fstab
+            - mount -a
+            - echo '=== CONFIGURE awscli and setting ENVIRONMENT VARS ==='
+            - echo "complete -C '/usr/bin/aws_completer' aws" >> /home/ec2-user/.bashrc
+            - mkdir /home/ec2-user/.aws
+            - echo '[default]' > /home/ec2-user/.aws/config
+            - echo 'output = json' >> /home/ec2-user/.aws/config
+            - chmod 600 /home/ec2-user/.aws/config && chmod 600 /home/ec2-user/.aws/credentials
+            - echo 'PATH=$PATH:/usr/local/bin' >> /home/ec2-user/.bashrc
+            - echo 'export PATH' >> /home/ec2-user/.bashrc
+            - echo '=== Configure SSH Keys for later use'
+            - sudo -H -u ec2-user bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ''"
+            - sudo -H -u ec2-user bash -c "aws ec2 import-key-pair --key-name 'eksworkshop' --public-key-material file://~/.ssh/id_rsa.pub"
+            - echo '=== CLEANING /home/ec2-user ==='
+            - for f in cloud9; do rm -rf /home/ec2-user/$f; done
+            - chown -R ec2-user:ec2-user /home/ec2-user/
+            - echo '=== PREPARE REBOOT in 1 minute with at ==='
+            - FILE=$(mktemp) && echo $FILE && echo '#!/bin/bash' > $FILE && echo 'reboot -f --verbose' >> $FILE && at now + 1 minute -f $FILE
+            - echo "Bootstrap completed with return code $?"
+  
+  WSC9BootstrapAssoziation: 
+    Type: AWS::SSM::Association
+    DependsOn: WSC9OutputBucket 
+    Properties: 
+      Name: !Ref WSC9SSMDocument
+      OutputLocation: 
+        S3Location:
+          OutputS3BucketName: !Ref WSC9OutputBucket
+          OutputS3KeyPrefix: bootstrapoutput
+      Targets:
+        - Key: tag:SSMBootstrap
+          Values:
+          - Active
+
+################## INSTANCE #####################
+  WSC9InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: WSC9Role
+
+  WSC9Instance:
+    Description: "-"
+    DependsOn: WSC9BootstrapAssoziation
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      Description: AWS Cloud9 instance for Workshops
+      AutomaticStopTimeMinutes: 3600
+      InstanceType:
+        Ref: WSC9InstanceType
+      Name:
+        Ref: AWS::StackName
+      SubnetId:
+        Ref: WSC9PubSubnet
+      OwnerArn: !If [CreateEventEngineResources, !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey", !Ref "AWS::NoValue" ]
+      Tags: 
+        - 
+          Key: SSMBootstrap
+          Value: Active
+        - 
+          Key: Environment
+          Value: AWS Workshop
+
+Outputs: 
+  Cloud9IDE:
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: AWS::Region
+        - ".console.aws.amazon.com/cloud9/ide/"
+        - Ref: WSC9Instance
+        - "?region="
+        - Ref: AWS::Region
