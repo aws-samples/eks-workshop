@@ -49,7 +49,7 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 {{< /output >}}
 Check your Worker Node SecurityGroup
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text`)
+INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text`)
 for i in "${INSTANCE_IDS[@]}"
 do
   echo "SecurityGroup for EC2 instance $i ..."
@@ -88,7 +88,7 @@ Similarly, create custom resource **group3-pod-netconfig.yaml** for third subnet
 
 Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
 ```
-aws ec2 describe-instances --filters "Name=tag:Name,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`Name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table   
+aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`eks:nodegroup-name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table  
 ```
 {{< output >}}
 ------------------------------------------------------------------------------------------------------------------------------------------

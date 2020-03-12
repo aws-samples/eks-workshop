@@ -14,4 +14,4 @@ This can be setup in few different ways:
 
 * After installing the deployment, we could patch the deployment to include the sidecar container specs.  Upon applying this patch, the old pods would be torn down, and the new pods would come up with the sidecar.
 
-* Finally, we can implement the `AWS App Mesh Controller`, which watches for new pods to be created, and automatically adds the sidecar data to the pods as they are deployed.
+* Finally, we can implement the `AWS App Mesh Sidecar Injector`, which watches for new pods to be created, and automatically adds the sidecar data to the pods as they are deployed.
