@@ -314,9 +314,6 @@ Resources:
             - chmod 600 /home/ec2-user/.aws/config
             - echo 'PATH=$PATH:/usr/local/bin' >> /home/ec2-user/.bashrc
             - echo 'export PATH' >> /home/ec2-user/.bashrc
-            - echo '=== Configure SSH Keys for later use'
-            - sudo -H -u ec2-user bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ''"
-            - sudo -H -u ec2-user bash -c "AWS_REGION=`curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region` && /usr/local/bin/aws ec2 import-key-pair --key-name 'eksworkshop' --public-key-material file://~/.ssh/id_rsa.pub"
             - echo '=== CLEANING /home/ec2-user ==='
             - for f in cloud9; do rm -rf /home/ec2-user/$f; done
             - chown -R ec2-user:ec2-user /home/ec2-user/
