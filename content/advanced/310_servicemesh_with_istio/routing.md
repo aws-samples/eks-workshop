@@ -5,11 +5,11 @@ weight: 50
 draft: false
 ---
 
+## Create the default destination rules
+
 Deploying a microservice-based application in an Istio service mesh allows one to externally control service monitoring and tracing, request (version) routing, resiliency testing, security and policy enforcement, and more in a consistent manner across the services, and the application.
 
 Before you can use Istio to control the Bookinfo version routing, you'll need to define the available versions, called [**subsets**](https://istio.io/docs/reference/config/networking/destination-rule/#Subset).
-
-## Service versions (a.k.a. subsets)
 
 In a continuous deployment scenario, for a given service, there can be distinct subsets of instances running different variants of the application binary. These variants are not necessarily different API versions. They could be iterative changes to the same service, deployed in different environments (prod, staging, dev, etc.). Common scenarios where this occurs include A/B testing, canary rollouts, etc. The choice of a particular version can be decided based on various criterion (headers, url, etc.) and/or by weights assigned to each version. Each service has a default version consisting of all its instances.
 
