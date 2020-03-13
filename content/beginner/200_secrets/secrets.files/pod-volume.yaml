@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-volume
+  namespace: octank
+spec:
+  containers:
+  - name: database
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "echo cat /etc/data/DATABASE_USER;cat /etc/data/DATABASE_USER; echo; echo cat /etc/data/DATABASE_PASSWORD; cat /etc/data/DATABASE_PASSWORD; echo; while true; do sleep 1; done"]
+    volumeMounts:
+    - name: secret-volume
+      mountPath: "/etc/data"
+      readOnly: true
+  volumes:
+  - name: secret-volume
+    secret:
+      secretName: database-credentials
+      items:
+      - key: username
+        path: DATABASE_USER 
+      - key: password
+        path: DATABASE_PASSWORD   
+
