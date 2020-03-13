@@ -5,13 +5,11 @@ weight: 12
 draft: false
 ---
 
-[Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) provides a mechanism to encrypt a Secret object so that it is safe to store - even to a public repository. A SealedSecret can be decrypted only by the controller running in the Kubernetes cluster and nobody else is able to obtain the original Secret from a SealedSecret.
-
+#### How it Works
 Sealed Secrets is composed of two parts:
 - A cluster-side controller
 - A client-side utility called *kubeseal*
 
-#### How it Works
 Upon startup, the controller looks for a cluster-wide private/public key pair, and generates a new 4096 bit RSA key pair if not found. The private key is persisted in a Secret object in the same namespace as that of the controller. The public key portion of this is made publicly available to anyone wanting to use SealedSecrets with this cluster.
 
 During encryption, each value in the original Secret is symmetrically encrypted using AES-256 with a randomly-generated session key. The session key is then asymmetrically encrypted with the controller's public key using SHA256 and the original Secret's namespace/name as the input parameter. The output of the encryption process is a string that is constructed as follows:  

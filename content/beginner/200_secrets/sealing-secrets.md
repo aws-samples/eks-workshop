@@ -110,9 +110,9 @@ database-credentials   Opaque   2      4m18s
 
 Redeploy the pod that reads from the above Secret and verfiy that the keys have been exposed as environment variables with the correct literal values.
 ```
-kubectl delete pod database-variable -n octank
+kubectl delete pod pod-variable -n octank
 kubectl apply -f pod-variable.yaml 
-kubectl logs database-variable -n octank
+kubectl logs pod-variable -n octank
 ```
 Output:
 {{< output >}}
@@ -120,4 +120,4 @@ DATABASE_USER = admin
 DATABASE_PASSWROD = Tru5tN0!
 {{< /output >}}
 
-The YAML file, **sealed-secret.yaml**, that pertains to the SealedSecret is safe to be stored in a Git repository along with YAML manifests pertaining to other Kubernetes resources such as DaeonSets, Deployments, ConfigMaps etc. deployed in the cluster. You can then use a [GitOps workflow](https://www.weave.works/technologies/gitops/) to manage the deployment of these resources to your cluster. The YAML file, **secret.yaml**, that pertains to the Secret may be deleted becaue it is never used in any subsequent workflows.
+The YAML file, **sealed-secret.yaml**, that pertains to the SealedSecret is safe to be stored in a Git repository along with YAML manifests pertaining to other Kubernetes resources such as DaemonSets, Deployments, ConfigMaps etc. deployed in the cluster. You can then use a [GitOps workflow](https://www.weave.works/technologies/gitops/) to manage the deployment of these resources to your cluster. The YAML file, **secret.yaml**, that pertains to the Secret may be deleted becaue it is never used in any subsequent workflows.
