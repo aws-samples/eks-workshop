@@ -17,26 +17,21 @@ To do this, we need a simple web server in the same VPC as your EKS cluster, but
 
 * Go into your EC2 console and create an EC2 instances
   * A t2-micro is more than sufficient
-  * An Amazon Linux AMI, SSD Volume is easy
+  * Do not forget to associate a public IP adress for simplicity
+  * Keep EBS settings as default
   * Tag it so you can easily find it later
-  * Set up a security group for the instance and allow inbound from *any* on port 80.  Call it something like *protect-sa-sg*
-  * Create (or use an existing) SSH key
-  * Launch and then ssh into the instance (either directly or via the console)
-  * Install you favorite webseerver using the platform's package tool. As an example in the case of the Amazon Linux, AMI, you might use yum to install httpd and start it:
+  * Set up a security group for the instance and allow inbound TCP:80 and TCP:22 from 0.0.0.0/0. Call the security group `protect-sa-sg`
+  * Use the `eksworkshop` SSH key you imported earlier
+  * Launch and make a note of public and private ip addresses of the instance
+  * Ssh into the instance either via Cloud9 by running `ssh ec2-user@<public-ip> -i ~/.ssh/id_rsa` or via the AWS Console by clicking 'Connect'->'EC2 Instance Connect`
+  * Run the following commands to install httpd and create a basic web page:
   
   ```
-  yum update -y
-  
-  yum install httpd -y
-  
-  service httpd start
-  
-  chkconfig httpd on
-  ```
-  * Install a static file that will be used as the test target:
-  ```
-  cd /var/www/html
-  echo "<html><body>Welcome to Setec Astronomy</body></html>" > index.html
+  sudo yum update -y
+  sudo yum install httpd -y
+  sudo service httpd start
+  sudo chkconfig httpd on
+  echo "<html><body>Welcome to Setec Astronomy</body></html>" | sudo tee /var/www/html/index.html
   ```
 
 # Is the website reachable?
@@ -45,13 +40,13 @@ Let's launch a busybox pod in the cluster and do a curl to the IP address of the
 
 ```
 kubectl run -it test1 --image=busybox -- sh
-\ # wget -O - http://<your_ec2_instance_private_IP_here>
+wget -O - http://<your_ec2_instance_private_IP_here>
 ```
 
 You should see your text.  Now exit from the busybox container, but note the instructions on how to re-attach to it, we'll need that later.
 
 ```
-\ # exit
+exit
 Session ended, resume using 'kubectl attach test1-cd46f75fd-fts4r -c test1 -i -t' command when the pod is running
 ```
 
@@ -59,22 +54,22 @@ Next, let's repeat the same again, only this time with test2:
 
 ```
 kubectl run -it test2 --image=busybox -- sh
-\ # wget -O - http://<your_ec2_instance_private_IP_here>
-\ # exit
+wget -O - http://<your_ec2_instance_private_IP_here>
+exit
 Session ended, resume using 'kubectl attach test2-766c48655b-hr8zj -c test2 -i -t' command when the pod is running
 ```
 
 # Tighten up the Security Groups
 
-First of all, let's create a new security group in the VPC, called *allow-sa-sg*.
+First of all, let's create a new security group in the VPC, called `allow-sa-sg`.
 
-Next, change the *protect-sa-sg* security group to only allow inbound traffic for port 80 from the *allow-sa-sg* security group members.
+Next, change the `protect-sa-sg` security group to only allow inbound TCP traffic for port 80 from the `allow-sa-sg` security group members.
 
-Once that is done, get the Security Group identifiers (*i.e.* sg-xxxxxxxxxxx) for the *allow-sa-sg* security group.  You can do this by listing the VPC's security groups in the VPC console.
+Once that is done, get the Security Group identifiers (*i.e.* sg-xxxxxxxxxxx) for the `allow-sa-sg` security group.  You can do this by listing the VPC's security groups in the VPC console.
 
 ![](/images/sg-list.png)
 
-Now annotate the *test1* pod with the *allow-sa-sg* security group.
+Now annotate the `test1` pod with the `allow-sa-sg` security group.
 
 ```
 kubectl annotate pod <test1 pod name> aws.tigera.io/security-groups='["sg-xxxxxx"]'
