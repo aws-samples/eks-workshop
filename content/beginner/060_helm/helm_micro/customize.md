@@ -22,7 +22,7 @@ rm ~/environment/eksdemo/Chart.yaml
 rm ~/environment/eksdemo/values.yaml
 ```
 
-Create a new Chart.yaml file which will describe the chart
+Run the following code block to create a new Chart.yaml file which will describe the chart
 
 ```sh
 cat <<EoF > ~/environment/eksdemo/Chart.yaml
@@ -81,7 +81,7 @@ Under `spec.template.spec.containers.image`, replace the image with the correct 
 
 #### Create a values.yaml file with our template defaults
 
-This file will populate our `template directives` with default values.
+Run the following code block to populate our `template directives` with default values.
 
 ```sh
 cat <<EoF > ~/environment/eksdemo/values.yaml
