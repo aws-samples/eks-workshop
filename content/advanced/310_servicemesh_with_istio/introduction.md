@@ -24,7 +24,7 @@ The following diagram shows the different components that make up each plane:
 
 ![Istio Architecture](/images/istio/istio_architecture.svg)
 
-* <span style="color:orange">**Envoy**</span>
+* <span style="color:orange">**Envoy Proxy**</span>
   * Processes the inbound/outbound traffic from inter-service and service-to-external-service transparently.
 
 * <span style="color:orange">**Pilot**</span>

@@ -92,7 +92,12 @@ spec:
         subset: v1
 {{< /output >}}
 
-To test, click **Sign in** from the top right corner of the page, and login using **jason** as user name with a blank password. You will only see `reviews:v2` all the time. Others will see `reviews:v1`.
+To test:
+
+- Click **Sign in** from the top right corner of the page.
+- Log in using **jason** as user name with a blank password.
+
+You will only see `reviews:v2` all the time. Others will see `reviews:v1`.
 
 ## Injecting an HTTP delay fault
 
@@ -136,6 +141,8 @@ spec:
 
 Logout, then click **Sign in** from the top right corner of the page, using **jason** as the user name with a blank password. You will see the delays and it ends up display error for reviews. Others will see reviews without error.
 
+![istio timeout error](/images/istio/istio_bookinfo_timeout_error.png)
+
 The timeout between the `productpage` and the reviews service is 6 seconds - coded as 3s + 1 retry for 6s total.
 
 To test for another resiliency, we will introduce an HTTP abort to the ratings microservices for the test user jason. The page will immediately display the “<span style="color:orange">*Ratings service is currently unavailable*</span>”
@@ -178,7 +185,11 @@ spec:
 
 To test, click **Sign in** from the top right corner of the page and login using **jason** for the user name with a blank password. As **jason** you will see the error message.
 
+![istio timeout error 2](/images/istio/istio_bookinfo_timeout_error2.png)
+
 Others (not logged in as **jason**) will see no error message.
+
+![istio timeout no error](/images/istio/istio_bookinfo_timeout_no_error.png)
 
 ## Traffic Shifting
 
