@@ -41,6 +41,7 @@ data:
 
 You can now deploy this Secret to your EKS cluster.
 ```
+kubectl create namespace octank
 kubectl apply -f secret.yaml
 ```
 
