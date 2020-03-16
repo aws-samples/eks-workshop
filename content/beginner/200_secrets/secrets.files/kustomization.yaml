@@ -1,0 +1,8 @@
+namespace: octank
+secretGenerator:
+- name: database-credentials
+  literals:
+  - username=admin
+  - password=Tru5tN0!
+generatorOptions:
+  disableNameSuffixHash: true
