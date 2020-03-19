@@ -37,7 +37,7 @@ deployment.apps/workflow-controller created
 To use advanced features of Argo for this demo, create a RoleBinding to grant admin privileges to the 'default' service account.
 
 {{% notice warning %}}
-This is for demo purposes only. In any other environment, you should use [Workflow RBAC](https://argoproj.github.io/docs/argo/docs/workflow-rbac.html) to set appropriate permissions.
+This is for demo purposes only. In any other environment, you should use [Workflow RBAC](https://github.com/argoproj/argo/blob/master/docs/workflow-rbac.md) to set appropriate permissions.
 {{% /notice %}}
 
 ```bash
