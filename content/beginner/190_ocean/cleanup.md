@@ -31,3 +31,7 @@ If your wish to make further use of your Spot Organization (to connect your real
 {{% /notice %}}
 <img src="/images/ocean/chat.png" alt="Chat window" />
 
+Finally, to detach your AWS cloud account from the platform, you need to delete the IAM Role created via CFN during the account connection stage. Browse to the AWS IAM Console, go to Roles under Access Management, Search for "spotinst-iam-stack" and delete the role.
+
+<img src="/images/ocean/delete_role.png" alt="Delete IAM Role" width="700"/>
+
