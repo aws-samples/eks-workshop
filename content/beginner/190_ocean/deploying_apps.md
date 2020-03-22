@@ -11,11 +11,11 @@ In this section we will launch a test deployment and see how Ocean handles diffe
 ### Easily Run Multiple Workload Types In One Cluster
 The challenge of running multiple workload types on the same Kubernetes cluster is applying a unique configuration to each one of the workloads in a heterogeneous environment. When your worker nodes are managed in a standard EKS cluster, usually every workload is managed separately in a different Auto-scaling group.
 
-With Spotinst Ocean, you can define custom "launch specifications" which  allow you to configure multiple workload types on the same Ocean Cluster. As part of those launch specs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group and Root Volume size, which will be used for the nodes that serve your matching pods. This additional layer of orchestration ensures the ability to run any type of workload on the same Ocean Cluster.
+With Ocean, you can define custom "launch specifications" which  allow you to configure multiple workload types on the same Ocean Cluster. As part of those launch specs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group and Root Volume size, which will be used for the nodes that serve your matching pods. This additional layer of orchestration ensures the ability to run any type of workload on the same Ocean Cluster.
 
 Let's see how this works:
 
-1. Navigate to your Ocean Cluster within the Spotinst Console, then click on the Actions menu on the top right and select "Launch Specifications".
+1. Navigate to your Ocean Cluster within the Spot Console, then click on the Actions menu on the top right and select "Launch Specifications".
 <img src="/images/ocean/actions_launch_specs.png" alt="Actions - Launch Specs" />
 
 2. Here you can see the "Default Launch Specification" which represents the initial configuration that the Ocean cluster was created with. To add a new configuration, click the "Add Launch Specification" button on the top right.
@@ -39,7 +39,7 @@ Now we will run a deployment that will show us how Ocean scales up and automatic
 
 Below is an example yaml with 3 test desployments. 
 
-The first test deployment, named `od` uses a selector for the `env: dev` label, and will require On-Demand instances via the `spotinst.io/node-lifecycle: od` label. You can read more about using built in Spotinst Labels [here](https://api.spotinst.com/ocean/concepts/ocean-cloud/spotinst-labels-taints/). The second deployment, named `dev` will also require the `env: dev` label, while the third one, named `test` should run on instances labeled `env: test`. 
+The first test deployment, named `od` uses a selector for the `env: dev` label, and will require On-Demand instances via the `spotinst.io/node-lifecycle: od` label. You can read more about using built in labels [here](https://api.spotinst.com/ocean/concepts/ocean-cloud/spotinst-labels-taints/). The second deployment, named `dev` will also require the `env: dev` label, while the third one, named `test` should run on instances labeled `env: test`. 
 
 ```
 cat <<EoF > test_deployments.yaml

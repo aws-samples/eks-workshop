@@ -7,7 +7,7 @@ draft: false
 
 ### Kubernetes Workload Cost Showback
 
-Spotinst Ocean provides you with advanced Cost Analysis for your EKS cluster, with detailed showback which delivers visibility down to the application level. 
+Ocean provides you with advanced Cost Analysis for your EKS cluster, with detailed showback which delivers visibility down to the application level. 
 
 Found under Cost Analysis tab of the Ocean Console, the data can be aggregated in several ways:
 

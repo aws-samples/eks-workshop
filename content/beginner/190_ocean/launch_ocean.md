@@ -33,8 +33,8 @@ In this section we will create a new Ocean cluster, associated with your existin
  <img src="/images/ocean/compute_settings.png" alt="Compute Settings" width="700"/>
 
 ### Step 4: Connectivity Configuration
- - Create a **Spotinst token** with the "Generate Token" link, or use an existing one.
- - Install the **Spotinst Controller** pod. Learn more about the Spotinst Controller Pod and Ocean’s anatomy [here](https://api.spotinst.com/ocean/concepts/ocean-cloud/introduction/#ocean-anatomy).
+ - Create a **token** with the "Generate Token" link, or use an existing one.
+ - Install the **Controller pod**. Learn more about the Controller Pod and Ocean’s anatomy [here](https://api.spotinst.com/ocean/concepts/ocean-cloud/introduction/#ocean-anatomy).
  - Click **Test Connectivity** to ensure the controller's functionality.
  - Once the connectivity test is successful, click **Next** to proceed to the Review screen.
  <img src="/images/ocean/connectivity.png" alt="Connectivity" width="700"/>

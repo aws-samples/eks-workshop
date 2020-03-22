@@ -8,7 +8,7 @@ draft: false
 ### Right Size Pod Requirements For Optimal Resource Allocation
 One of the challenging tasks of managing containerized clusters is estimating your Pods’ resource requirements in terms of vCPU and memory. Even if development teams manage to achieve an accurate estimate of their application’s resource consumption, chances are that these measurements will vary in a production environment.
 
-Spotinst Ocean’s Right Sizing feature compares the CPU & Memory requests of your Pods to their actual consumption in production. After analyzing the difference, Ocean provides resizing recommendations to improve the resource configuration of the Deployments.
+Ocean’s Right Sizing feature compares the CPU & Memory requests of your Pods to their actual consumption in production. After analyzing the difference, Ocean provides resizing recommendations to improve the resource configuration of the Deployments.
 
 <img src="/images/ocean/rightsizing.png" alt="Right Sizing" width="700"/>
 
