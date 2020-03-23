@@ -21,7 +21,7 @@ Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 mkdir -p ~/environment/backup-restore
 cd ~/environment/backup-restore
-wget https://eksworkshop.com/beginner/200_backup-and-restore/backupandrestore.files/storageclass.yaml
+wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/storageclass.yaml
 ```
 ```
 kubectl apply -f storageclass.yaml
@@ -37,8 +37,8 @@ kubectl create secret generic mysql-pass --from-literal=password=velerodemo -n s
 
 ```
 cd ~/environment/backup-restore
-wget https://eksworkshop.com/beginner/210_backup-and-restore/backupandrestore.files/mysql-deployment.yaml
-wget https://eksworkshop.com/beginner/210_backup-and-restore/backupandrestore.files/wordpress-deployment.yaml
+wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/mysql-deployment.yaml
+wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/wordpress-deployment.yaml
 ```
 
 Deploy MySQL and Wordpress

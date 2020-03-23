@@ -4,7 +4,8 @@ chapter: true
 weight: 210
 draft: false
 tags:
-  - beginner
+  - intermediate
+  - operations
 ---
 
 # Backup and Restore EKS using Velero
