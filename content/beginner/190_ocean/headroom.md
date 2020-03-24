@@ -6,7 +6,7 @@ draft: false
 ---
 
 ### Keeping Scale-Up Proactive
-One of the key features of the Ocean Autoscaler, is the ability to maintain a dynamic buffer of spare capacity called Headroom. The buffer is algorithmically tailored to meet the actual requirements of the incoming containerized workloads which enables immediate pod scheduling. This is perfect for workloads that make use of HPA, and helps prevent pending pods, making scale-up a proactive process.
+One of the key features of the Ocean Autoscaler, is the ability to maintain a dynamic buffer of spare capacity called Headroom. The buffer is algorithmically tailored to meet the actual requirements of the incoming containerized workloads which enables immediate pod scheduling. This is perfect for workloads that make use of Horizontal Pod Autoscaler, and helps prevent pending pods which scale scale-out of worker nodes a proactive process, instead of the reactive nature of Kubernetes Cluster-Autoscaler.
 
 Headroom is configurable via the Ocean Cluster's "Actions" menu, under "Customize Scaling":
 <img src="/images/ocean/actions_customize_scaling.png" alt="Actions - Customize Scaling" />
