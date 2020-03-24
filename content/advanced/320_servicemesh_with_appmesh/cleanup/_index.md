@@ -14,7 +14,7 @@ kubectl delete namespace prod
 ## Delete the dj-app mesh
 
 ```bash
-kubectl delete meshes dj-app
+kubectl delete meshes appmesh
 ```
 
 ## Uninstall the Helm Charts
