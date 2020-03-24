@@ -31,7 +31,7 @@ Now, you will link your AWS account in order to enable the Spot platform to mana
 
 1. Make sure you are **logged in** to the [Console](https://console.spotinst.com/)
 2. Select **Amazon Web Services** as the cloud provider.
- <img src="/images/ocean/select_cloud_provider.png" alt="Select Cloud Provider" width="700"/>
+**Please provide a screenshot with only the AWS logo**
 
  {{% notice tip %}}
 Prior to connecting your AWS account, you can access a preview of the console, by clicking on “Get a Console Walkthrough“.
