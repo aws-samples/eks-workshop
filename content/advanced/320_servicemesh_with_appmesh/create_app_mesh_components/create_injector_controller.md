@@ -126,7 +126,7 @@ Finally we can verify that the mesh has been created:
 * Using the awscli
 
 ```bash
-aws appmesh list-meshes | jq '.meshes[].meshName'
+aws app mesh list-meshes | jq '.meshes[].meshName'
 ```
 
 {{< output >}}
