@@ -9,7 +9,7 @@ In this section we will launch a test deployment and see how Ocean handles diffe
 
 
 ### Easily Run Multiple Workload Types In One Cluster
-The challenge of running multiple workload types on the same Kubernetes cluster is applying a unique configuration to each one of the workloads in a heterogeneous environment. When your worker nodes are managed in a standard EKS cluster, usually every workload is managed separately in a different Auto-scaling group.
+The challenge of running multiple workload types (**examples? data stores? cache? ML training?**) on the same Kubernetes cluster is applying a unique configuration to each one of the workloads in a heterogeneous environment. When your worker nodes are managed in a standard EKS cluster, usually every workload **type** is managed separately in a different Auto-scaling group.
 
 With Ocean, you can define custom "launch specifications" which  allow you to configure multiple workload types on the same Ocean Cluster. As part of those launch specs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group and Root Volume size, which will be used for the nodes that serve your matching pods. This additional layer of orchestration ensures the ability to run any type of workload on the same Ocean Cluster.
 
@@ -129,7 +129,7 @@ Let's apply these Deployments and watch Ocean's Autoscaler in action:
 kubectl apply -f test_deployments.yaml
 ```
 
-At this point Ocean will scale up to meet the demands of the deplotments. You will notice that autoscaling happens fast, and instance sizes will be optimized for efficient bin packing of resources. We expect to see at least 3 instances:
+At this point Ocean will scale up to meet the demands of the deployments. You will notice that autoscaling happens fast, and instance sizes will be optimized for efficient bin packing of resources. We expect to see at least 3 instances:
 
  - Two instances from the `Dev Environment` launch specification, On-Demand and Spot.
  - One Spot instance from the `Test Environment` launch specification.
@@ -148,7 +148,7 @@ ip-192-168-86-147.us-west-2.compute.internal   Ready     <none>    8m28s     v1.
 ip-192-168-92-222.us-west-2.compute.internal   Ready     <none>    8m9s      v1.14.8-eks-b8860f
 {{< /output >}}
 
-In additinon, the scale up activity should be logged in the Ocean Cluster's log tab:
+In addition, the scale up activity should be logged in the Ocean Cluster's log tab:
 <img src="/images/ocean/scale_up_log.png" alt="Scale up log"/>
 
 Clicking on "view details" will open up a window with additional information about the scaling activity:
