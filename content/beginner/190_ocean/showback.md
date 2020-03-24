@@ -12,7 +12,7 @@ Ocean provides you with advanced Cost Analysis for your EKS cluster, with detail
 Found under Cost Analysis tab of the Ocean Console, the data can be aggregated in several ways:
 
  - Namespace: With namespaces being used to create logical groupings within a cluster, this is a very straightforward way to identify which environment, team or other grouping is responsible for the associated cost. This cost analysis option will show you both the aggregated spend per namespace as well as a breakdown of spend by deployments and other K8s objects within that namespace.
- - Namespace/Resource Label: This  option shows a spend breakdown of namespaces or k8s resrources that have been given a specific label key. 
+ - Namespace/Resource Label: This  option shows a spend breakdown of namespaces or K8s resrources that have been given a specific label key. 
  - Namespace/Resource Annotaion: Similar to Label filtering, Ocean can aggregate cost analysis for namespaces and resources that have been annotated with a particular key.
 
 <img src="/images/ocean/showback.png" alt="Showback" width="700"/>
