@@ -1,5 +1,5 @@
 ---
-title: "KMS Custom Key Store"
+title: "AWS KMS and Custom Key Store"
 date: 2019-04-09T00:00:00-03:00
 weight: 5
 draft: false
@@ -8,20 +8,25 @@ draft: false
 
 #### Considerations for your AWS KMS CMK
 
-Before we get to the lab exercise, we wanted to take some time to discuss options for generating your AWS KMS CMK. Your security requirements may dictate one of the following items about the key material you use for encryption:
+Before we get to the lab exercise, we wanted to take some time to discuss options for generating your AWS KMS CMK. AWS KMS provides you with two alternatives to store your CMK. Your security requirements may dictate which alternative is suitable for your workloads on Amazon EKS. 
+
+##### Custom Key Store (CMK stored within AWS CloudHSM)
+For most users, the default AWS KMS key store, which is protected by FIPS 140-2 validated cryptographic modules, fulfills their security requirements. There is no need to add an extra layer of maintenance responsibility or a dependency on an additional service.
+
+However, you might consider creating a custom key store if your organization has any of the following requirements:
 
 * The key material cannot be stored in a shared environment.
 * The key material must be backed up in multiple AWS Regions.
 * The key material must be subject to a secondary, independent audit path.
-* The hardware security module (HSM) that generates and stores key material must be certified at FIPS 140-2 Level 3.
+* The hardware security module (HSM) that generates and stores key material must be certified at [FIPS 140-2 Level 3](https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html).
 
 If any of these requirements apply to you, consider using AWS CloudHSM with AWS KMS to create a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
 
 #### Challenge:
-**Which level validation does the default KMS HSM have?**
+**What level of FIPS 140-2 cryptographic validation does the AWS KMS HSM hold?**
 
 {{%expand "Expand here to see the solution" %}}
-The KMS HSMs are validated at Level 2 overall. You can read more about that [here](https://aws.amazon.com/blogs/security/aws-key-management-service-now-offers-fips-140-2-validated-cryptographic-modules-enabling-easier-adoption-of-the-service-for-regulated-workloads/)
+The AWS KMS HSMs are validated at Level 2 overall. You can read more about that [here](https://aws.amazon.com/blogs/security/aws-key-management-service-now-offers-fips-140-2-validated-cryptographic-modules-enabling-easier-adoption-of-the-service-for-regulated-workloads/)
 
 FIPS 140-2 Level 2 validation is sufficient for many use cases, but check with your security and compliance teams to verify.
 {{% /expand %}}
@@ -30,8 +35,7 @@ FIPS 140-2 Level 2 validation is sufficient for many use cases, but check with y
 Keep in mind that the KMS Custom Key Store functionality makes use of a minimum of two AWS CloudHSM instances.
 {{% /notice %}}
 
-
-
+#### Cost
 Aside from compliance considerations, your team will want to consider the cost of using this feature. For comparison, I will list the cost of using a CMK created with the default KMS functionality. Then, I will list of the cost of using a CMK created with the custom key store functionality.
 
 ##### KMS Standard (Monthly Cost)
