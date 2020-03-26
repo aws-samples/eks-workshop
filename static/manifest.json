@@ -1,0 +1,21 @@
+{
+    "name": "eksworkshop",
+    "short_name": "eksworkshop",
+    "icons": [
+        {
+            "src": "/icons/favicon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/favicon-196x196.png",
+            "sizes": "196x196",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#000000",
+    "theme_color": "#000000"
+}

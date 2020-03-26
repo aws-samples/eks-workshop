@@ -1,84 +1,50 @@
 ---
-title: "Add EC2 Workers - On-Demand and Spot"
+title: "Add EC2 Workers - Spot"
 date: 2018-08-07T11:05:19-07:00
 weight: 10
 draft: false
 ---
+We have our EKS Cluster and worker nodes already, but we need some Spot Instances configured as workers. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use `eksctl` to launch new worker nodes that will connect to the EKS cluster.
 
-We have our EKS Cluster and worker nodes already, but we need some Spot Instances configured as workers. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to launch new worker
-nodes that will connect to the EKS cluster.
-
-This template will create a single ASG that leverages the latest feature to mix multiple instance types and purchase as a single K8s nodegroup. Check out this blog: [New – EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/tw/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/) for details.
-
-#### Retrieve the Worker Node Instance Profile ARN
-
-First, we will need to ensure the ARN Name our workers use is set in our environment:
+But first, we will add a new label to the OnDemand worker nodes
 
 ```bash
-test -n "$INSTANCE_PROFILE_ARN" && echo INSTANCE_PROFILE_ARN is "$INSTANCE_PROFILE_ARN" || echo INSTANCE_PROFILE_ARN is not set
+kubectl label nodes --all 'lifecycle=OnDemand'
 ```
 
-Copy the Profile ARN for use as a Parameter in the next step. If you receive an error or empty response, expand the steps below to export.
+#### Create Spot worker nodes
 
-{{%expand "Expand here if you need to export the Instance Profile ARN" %}}
-If `INSTANCE_PROFILE_ARN` is not set, please review: [/eksctl/test/](/eksctl/test/)
-{{% /expand %}}
-
-```text
-# Example Output
-INSTANCE_PROFILE_ARN is arn:aws:iam::123456789101:instance-profile/eksctl-eksworkshop-eksctl-nodegroup-ng-abcd1234-NodeInstanceProfile-ABCDEF1234
-```
-
-#### Retrieve the Security Group Name
-We also need to collect the ID of the security group used with the existing worker nodes.
+We are now ready to create new worker nodes.
 
 ```bash
-STACK_NAME=$(aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep eksctl-eksworkshop-eksctl-nodegroup)
-SG_ID=$(aws cloudformation describe-stack-resources --stack-name $STACK_NAME --logical-resource-id SG | jq -r '.StackResources[].PhysicalResourceId')
-echo $SG_ID
+cat << EoF > ~/environment/eks-workshop-ng-spot.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eksworkshop-eksctl 
+  region: ${AWS_REGION}
+nodeGroups:
+  - name: ng-spot
+    labels:
+      lifecycle: Ec2Spot
+    taints:
+      spotInstance: true:PreferNoSchedule
+    minSize: 2
+    maxSize: 5
+    instancesDistribution: # At least two instance types should be specified
+      instanceTypes:
+        - m4.large
+        - c4.large
+        - c5.large
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 0 # all the instances will be spot instances
+      spotInstancePools: 2
+EoF
+
+eksctl create nodegroup -f ~/environment/eks-workshop-ng-spot.yaml
 ```
 
-```text
-# Example Output
-sg-0d9fb7e709dff5675
-```
-
-#### Launch the CloudFormation Stack
-
-We will launch the CloudFormation template as a new set of worker nodes, but it's also possible to update the nodegroup CloudFormation stack created by the *eksctl* tool.
-
-Click the **Launch** button to create the CloudFormation stack in the AWS Management Console.
-
-| Launch template |  |  |
-| ------ |:------:|:--------:|
-| EKS Workers - Spot and On Demand |  {{% cf-launch "amazon-eks-nodegroup-with-mixed-instances.yml?stackName=eksworkshop-nodegroup-0" %}} | {{% cf-download "amazon-eks-nodegroup-with-mixed-instances.yml" %}}  |
-
-{{% notice tip %}}
-Confirm the region is correct based on where you've deployed your cluster.
-{{% /notice %}}
-Once the console is open you will need to configure the missing parameters. Use the table below for guidance.
-
-| Parameter | Value |
-|-----------|-------|
-|Stack Name: | eksworkshop-spot-workers |
-|Cluster Name: | eksworkshop-eksctl (or whatever you named your cluster) |
-|ClusterControlPlaneSecurityGroup: | Select from the dropdown. It will contain your cluster name and the words **'ControlPlaneSecurityGroup'** |
-|NodeInstanceProfile: | Use the Instance Profile ARN that copied in the step above. (e.g.eks-workshop-nodegroup)
-|UseExistingNodeSecurityGroups: | Leave as **'Yes'** |
-|ExistingNodeSecurityGroups: | Use the SG name that copied in the step above. (e.g. sg-0123456789abcdef)
-|NodeImageId: | Visit this [**link**](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and select the non-GPU image for your region - **Check for empty spaces in copy/paste**|
-|KeyName: | SSH Key Pair created earlier or any valid key will work |
-|NodeGroupName: | Leave as **spotworkers** |
-|VpcId: | Select your workshop VPC from the dropdown |
-|Subnets: | Select the 3 **private** subnets for your workshop VPC from the dropdown |
-|BootstrapArgumentsForOnDemand: | `--kubelet-extra-args --node-labels=lifecycle=OnDemand` |
-|BootstrapArgumentsForSpotFleet: | `--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'` |
-
-#### What's going on with Bootstrap Arguments?
-
-The EKS Bootstrap.sh script is packaged into the EKS Optimized AMI that we are using, and only requires a single input, the **EKS Cluster name**. The bootstrap script supports setting any `kubelet-extra-args` at runtime. We have configured **node-labels** so that kubernetes knows what type of nodes we have provisioned. We set the **lifecycle** for the nodes as **OnDemand** or **Ec2Spot**. We are also [tainting](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) with **PreferNoSchedule** to prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
-
-You can leave the rest of the default parameters as is and continue through the remaining CloudFormation screens. Check the box next to **I acknowledge that AWS CloudFormation might create IAM resources** and click **Create**
+During the creation of the Node Group, we have configured a **node-label** so that kubernetes knows what type of nodes we have provisioned. We set the **lifecycle** for the nodes as **Ec2Spot**. We are also [tainting](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) with **PreferNoSchedule** to prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
 
 {{% notice info %}}
 The creation of the workers will take about 3 minutes.
@@ -86,27 +52,27 @@ The creation of the workers will take about 3 minutes.
 
 #### Confirm the Nodes
 
-Confirm that the new nodes joined the cluster correctly. You should see 2-3 more nodes added to the cluster.
+Confirm that the new nodes joined the cluster correctly. You should see 2 more nodes added to the cluster.
 
 ```bash
-kubectl get nodes
+kubectl get nodes --sort-by=.metadata.creationTimestamp
 ```
 
 ![All Nodes](/images/spotworkers/spot_get_nodes.png)
-You can use the node-labels to identify the lifecycle of the nodes
+You can use the node-labels to identify the lifecycle of the nodes.
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
+kubectl get nodes --label-columns=lifecycle --selector=lifecycle=Ec2Spot
 ```
 
-The output of this command should return 2 nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**
+The output of this command should return 2 nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**.
 
 ![Spot Output](/images/spotworkers/spot_get_spot.png)
 
-Now we will show all nodes with the **lifecycle=OnDemand**. The output of this command should return 1 node as configured in our CloudFormation template.
+Now we will show all nodes with the **lifecycle=OnDemand**. The output of this command should return multiple nodes as configured in `eksctl` YAMl template.
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=OnDemand
+kubectl get nodes --label-columns=lifecycle --selector=lifecycle=OnDemand
 ```
 
 ![OnDemand Output](/images/spotworkers/spot_get_od.png)

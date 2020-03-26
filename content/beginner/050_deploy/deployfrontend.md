@@ -4,7 +4,10 @@ date: 2018-09-18T17:40:09-05:00
 weight: 30
 ---
 
-Let’s bring up the Ruby Frontend!
+#### Challenge:
+**Let’s bring up the Ruby Frontend!**
+
+{{%expand "Expand here to see the solution" %}}
 
 Copy/Paste the following commands into your Cloud9 workspace:
 
@@ -18,3 +21,4 @@ We can watch the progress by looking at the deployment status:
 ```
 kubectl get deployment ecsdemo-frontend
 ```
+{{% /expand %}}

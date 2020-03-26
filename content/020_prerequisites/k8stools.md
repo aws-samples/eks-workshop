@@ -15,10 +15,17 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 
 #### Install kubectl
 ```
-sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.13.7/bin/linux/amd64/kubectl
+sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
 
 
 sudo chmod +x /usr/local/bin/kubectl
+```
+#### Install aws-iam-authenticator
+```
+sudo curl --silent --location -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+
+
+sudo chmod +x /usr/local/bin/aws-iam-authenticator
 ```
 
 #### Install jq, envsubst (from GNU gettext utilities) and bash-completion
@@ -37,5 +44,6 @@ for command in kubectl jq envsubst
 #### Enable kubectl bash_completion
 ```
 kubectl completion bash >>  ~/.bash_completion
-source /etc/profile.d/bash_completion.sh
+. /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
 ```

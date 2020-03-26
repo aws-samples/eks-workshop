@@ -12,9 +12,9 @@ Run this command to find CNI version
 kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
 ```
 Here is a sample response
-```
+{{< output >}}
 amazon-k8s-cni:1.5.3
-```
+{{< /output >}}
 Upgrade version to 1.5 if you have an older version
 ```
 kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
@@ -34,13 +34,13 @@ kubectl set env ds aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=tr
 ```
 kubectl describe daemonset aws-node -n kube-system | grep -A5 Environment
 ```
-```
+{{< output >}}
     Environment:
       AWS_VPC_K8S_CNI_LOGLEVEL:  	  DEBUG
       AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG: true
       MY_NODE_NAME:               	  (v1:spec.nodeName)
 ...
-```
+{{< /output >}}
 
 Terminate worker nodes so that Autoscaling launches newer nodes that come bootstrapped with custom network config
 
@@ -49,7 +49,7 @@ Use caution before you run the next command because it terminates all worker nod
 {{% /notice %}}
 
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text` )
+INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text` )
 for i in "${INSTANCE_IDS[@]}"
 do
 	echo "Terminating EC2 instance $i ..."

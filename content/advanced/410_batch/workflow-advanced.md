@@ -147,7 +147,7 @@ Run the workflow.
 argo submit --watch teardrop.yaml
 ```
 
-```output
+{{< output >}}
 Name:                teardrop-jfg5w
 Namespace:           default
 ServiceAccount:      default
@@ -168,6 +168,6 @@ STEP               PODNAME                    DURATION  MESSAGE
  ├-✔ Echo          teardrop-jfg5w-4165010455  31s       
  ├-✔ Hotel         teardrop-jfg5w-2342859904  4s        
  └-✔ Golf          teardrop-jfg5w-1687601882  30s       
-```
+{{< /output >}}
 
-Continue to the [Argo Dashboard](/batch/dashboard/) to explore this model further.
+Continue to the [Argo Dashboard](/advanced/410_batch/dashboard/) to explore this model further.

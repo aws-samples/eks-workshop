@@ -11,21 +11,31 @@ You must create an IAM policy that specifies the permissions that you would like
 
 You must also create a role for your service accounts to use before you associate it with a service account. Then you can then attach a specific IAM policy to the role that gives the containers in your pods the permissions you desire.
 
-* Get ARN for AmazonS3ReadOnlyAccess
+##### Get ARN for AmazonS3ReadOnlyAccess:
 
 ```
 aws iam list-policies --query 'Policies[?PolicyName==`AmazonS3ReadOnlyAccess`].Arn'
 ```
 
-> "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+{{< output >}}
+"arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+{{< /output >}}
 
-* Create an IAM role for your service accounts
+##### Create an IAM role for your service accounts:
 
 ```
 eksctl create iamserviceaccount --name iam-test --namespace default --cluster eksworkshop-eksctl --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess --approve --override-existing-serviceaccounts
 ```
 
-> [ℹ]  using region {AWS_REGION}<br>[ℹ]  1 iamserviceaccount (default/iam-test) was included (based on the include/exclude rules)<br>[!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set<br>[ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "default/iam-test", create serviceaccount "default/iam-test" } }<br>[ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"<br>[ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"<br>[ℹ]  created serviceaccount "default/iam-test"
+{{< output >}}
+[ℹ]  using region {AWS_REGION}
+[ℹ]  1 iamserviceaccount (default/iam-test) was included (based on the include/exclude rules)
+[!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+[ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "default/iam-test", create serviceaccount "default/iam-test" } }
+[ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
+[ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
+[ℹ]  created serviceaccount "default/iam-test"
+{{< /output >}}
 
 
 {{% notice info %}}

@@ -4,7 +4,8 @@ chapter: true
 weight: 150
 draft: false
 tags:
-  - intermediate
+  - beginner
+  - CON206
 ---
 
 # Using Spot Instances with EKS

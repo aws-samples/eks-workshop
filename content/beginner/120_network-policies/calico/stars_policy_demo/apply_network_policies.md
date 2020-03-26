@@ -8,12 +8,12 @@ In a production level cluster, it is not secure to have open pod to pod communic
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
 ```
 
 Let's examine our file by running `cat default-deny.yaml`.
 
-```
+{{< output >}}
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -21,7 +21,7 @@ metadata:
 spec:
   podSelector:
     matchLabels: {}
-```
+{{< /output >}}
 
 Let's go over the network policy. Here we see the podSelector does not have any matchLabels, essentially blocking all the pods from accessing it.
 
@@ -41,13 +41,13 @@ Create two new network policies.
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui.yaml
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui-client.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui-client.yaml
 ```
 
 Again, we can examine our file contents by running: `cat allow-ui.yaml`
 
-```
+{{< output >}}
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -61,10 +61,10 @@ spec:
         - namespaceSelector:
             matchLabels:
               role: management-ui
-```
+{{< /output >}}
 
 `cat allow-ui-client.yaml`
-```
+{{< output >}}
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -78,7 +78,7 @@ spec:
         - namespaceSelector:
             matchLabels:
               role: management-ui
-```
+{{< /output >}}
 
 #### Challenge:
 **How do we apply our network policies to allow the traffic we want?**

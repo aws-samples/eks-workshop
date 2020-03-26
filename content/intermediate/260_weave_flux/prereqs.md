@@ -12,7 +12,7 @@ We will use **helm** to install Weave Flux and a sample Helm chart. Check to see
 ```
 helm version
 ```
-If `helm` is not found, see [installing helm](/helm_root/helm_intro/install/index.html) for instructions.
+If `helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 
 <br>
 #### Does S3 artifact bucket exist and are IAM service roles created?
@@ -31,19 +31,19 @@ aws s3 mb s3://eksworkshop-${ACCOUNT_ID}-codepipeline-artifacts
 
 cd ~/environment
 
-wget https://eksworkshop.com/weave_flux/iam.files/cpAssumeRolePolicyDocument.json
+wget https://eksworkshop.com/intermediate/260_weave_flux/iam.files/cpAssumeRolePolicyDocument.json
 
 aws iam create-role --role-name eksworkshop-CodePipelineServiceRole --assume-role-policy-document file://cpAssumeRolePolicyDocument.json 
 
-wget https://eksworkshop.com/weave_flux/iam.files/cpPolicyDocument.json
+wget https://eksworkshop.com/intermediate/260_weave_flux/iam.files/cpPolicyDocument.json
 
 aws iam put-role-policy --role-name eksworkshop-CodePipelineServiceRole --policy-name codepipeline-access --policy-document file://cpPolicyDocument.json
 
-wget https://eksworkshop.com/weave_flux/iam.files/cbAssumeRolePolicyDocument.json
+wget https://eksworkshop.com/intermediate/260_weave_flux/iam.files/cbAssumeRolePolicyDocument.json
 
 aws iam create-role --role-name eksworkshop-CodeBuildServiceRole --assume-role-policy-document file://cbAssumeRolePolicyDocument.json 
 
-wget https://eksworkshop.com/weave_flux/iam.files/cbPolicyDocument.json
+wget https://eksworkshop.com/intermediate/260_weave_flux/iam.files/cbPolicyDocument.json
 
 aws iam put-role-policy --role-name eksworkshop-CodeBuildServiceRole --policy-name codebuild-access --policy-document file://cbPolicyDocument.json
 ```

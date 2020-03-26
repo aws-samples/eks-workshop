@@ -6,7 +6,7 @@ weight: 5
 Clean up the demo by deleting the namespaces:
 
 ```
-kubectl delete ns client stars management-ui
+kubectl delete namespace client stars management-ui
 ```
 
 <!---

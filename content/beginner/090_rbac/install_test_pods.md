@@ -22,7 +22,7 @@ kubectl get all -n rbac-test
 
 Output should be similar to:
 
-```
+{{< output >}}
 NAME                       READY   STATUS    RESTARTS   AGE
 pod/nginx-5c7588df-8mvxx   1/1     Running   0          48s
 
@@ -31,4 +31,4 @@ deployment.apps/nginx   1/1     1            1           48s
 
 NAME                             DESIRED   CURRENT   READY   AGE
 replicaset.apps/nginx-5c7588df   1         1         1       48s
-```
+{{< /output >}}

@@ -18,17 +18,17 @@ cd ~/environment/calico_resources
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/namespace.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/namespace.yaml
 ```
 
 Let's examine our file by running `cat namespace.yaml`.
 
-```
+{{< output >}}
 kind: Namespace
 apiVersion: v1
 metadata:
   name: stars
-```
+{{< /output >}}
 
 Create a namespace called stars:
 
@@ -42,15 +42,16 @@ We will create frontend and backend [replication controllers](https://kubernetes
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/calico_resources
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/management-ui.yaml
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/backend.yaml
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/frontend.yaml
-wget https://eksworkshop.com/network-policies/calico/stars_policy_demo/create_resources.files/client.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/management-ui.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/backend.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/frontend.yaml
+wget https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/client.yaml
 ```
 
-`cat management-ui.yaml`:
-
 ```
+cat management-ui.yaml
+```
+{{< output >}}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -89,7 +90,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 9001
-```
+{{< /output >}}
 
 Create a management-ui namespace, with a management-ui service and replication controller within that namespace:
 
@@ -99,7 +100,7 @@ kubectl apply -f management-ui.yaml
 
 `cat backend.yaml` to see how the backend service is built:
 
-```
+{{< output >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -134,11 +135,11 @@ spec:
         - --urls=http://frontend.stars:80/status,http://backend.stars:6379/status,http://client.client:9000/status
         ports:
         - containerPort: 6379
-```
+{{< /output >}}
 
 Let's examine the frontend service with `cat frontend.yaml`:
 
-```
+{{< output >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -173,7 +174,7 @@ spec:
         - --urls=http://frontend.stars:80/status,http://backend.stars:6379/status,http://client.client:9000/status
         ports:
         - containerPort: 80
-```
+{{< /output >}}
 
 Create frontend and backend replication controllers and services within the stars namespace:
 
@@ -185,7 +186,7 @@ kubectl apply -f frontend.yaml
 Lastly, let's examine how the client namespace, and a client service for a replication controller.
 are built. `cat client.yaml`:
 
-```
+{{< output >}}
 kind: Namespace
 apiVersion: v1
 metadata:
@@ -226,7 +227,7 @@ spec:
     targetPort: 9000
   selector:
     role: client
-```
+{{< /output >}}
 
 Apply the client configuraiton.
 
@@ -236,11 +237,11 @@ kubectl apply -f client.yaml
 Check their status, and wait for all the pods to reach the Running status:
 
 ```
-$ kubectl get pods --all-namespaces
+kubectl get pods --all-namespaces
 ```
 Your output should look like this:
 
-```
+{{< output >}}
 NAMESPACE       NAME                                                  READY   STATUS    RESTARTS   AGE
 client          client-nkcfg                                          1/1     Running   0          24m
 kube-system     aws-node-6kqmw                                        1/1     Running   0          50m
@@ -258,7 +259,7 @@ kube-system     kube-proxy-wzlqg                                      1/1     Ru
 management-ui   management-ui-wzvz4                                   1/1     Running   0          24m
 stars           backend-tkjrx                                         1/1     Running   0          24m
 stars           frontend-q4r84                                        1/1     Running   0          24m
-```
+{{< /output >}}
 
 {{% notice note %}}
 It may take several minutes to download all the required Docker images.

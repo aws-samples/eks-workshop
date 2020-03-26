@@ -39,10 +39,10 @@ Wait until the job has completed successfully.
 kubectl get job/whalesay
 ```
 
-```output
+{{< output >}}
 NAME       DESIRED   SUCCESSFUL   AGE
 whalesay   1         1            2m
-```
+{{< /output >}}
 
 Confirm the output.
 
@@ -50,7 +50,7 @@ Confirm the output.
 kubectl logs -l job-name=whalesay
 ```
 
-```output
+{{< output >}}
  ___________________________ 
 < This is a Kubernetes Job! >
  --------------------------- 
@@ -65,4 +65,4 @@ kubectl logs -l job-name=whalesay
        \______ o          __/            
         \    \        __/             
           \____\______/   
-```
+{{< /output >}}

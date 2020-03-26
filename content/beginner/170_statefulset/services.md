@@ -9,18 +9,19 @@ weight: 15
 Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 cd ~/environment/templates
-wget https://eksworkshop.com/statefulset/services.files/mysql-services.yml
+wget https://eksworkshop.com/beginner/170_statefulset/services.files/mysql-services.yml
 ```
 Check the configuration of mysql-services.yml by following command.
 ```
 cat ~/environment/templates/mysql-services.yml
 ```
 You can see the **mysql** service is for DNS resolution so that when pods are placed by StatefulSet controller, pods can be resolved using pod-name.mysql. **mysql-read** is a client service that does load balancing for all slaves. 
-```
+{{< output >}}
 # Headless service for stable DNS entries of StatefulSet members.
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: mysql
   name: mysql
   labels:
     app: mysql
@@ -37,6 +38,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: mysql
   name: mysql-read
   labels:
     app: mysql
@@ -46,7 +48,7 @@ spec:
     port: 3306
   selector:
     app: mysql
-```
+{{< /output >}}
 Create service mysql and mysql-read by following command
 ```
 kubectl create -f ~/environment/templates/mysql-services.yml

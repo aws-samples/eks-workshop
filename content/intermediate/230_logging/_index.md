@@ -6,6 +6,7 @@ tags:
   - advanced
   - operations
   - logging
+  - CON206
 ---
 
 # Implement Logging with EFK

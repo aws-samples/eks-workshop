@@ -6,4 +6,4 @@ weight: 80
 
 Congratulations on deploying the initial DJ App architecture!  
 
-Before we create the App Mesh-enabled versions of DJ App, we'll first deploy the App Mesh sidecar auto-injector, and the App Mesh CRDs into our cluster. 
+Before we create the App Mesh-enabled versions of DJ App, we'll first deploy the `AWS AppMesh sidecar injector`, and the `AWS App Mesh Controller` into our cluster.

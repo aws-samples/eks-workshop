@@ -22,7 +22,7 @@ kubectl delete services x-ray-sample-front-k8s x-ray-sample-back-k8s
 Delete the X-Ray DaemonSet:
 
 ```
-kubectl delete -f https://eksworkshop.com/x-ray/daemonset.files/xray-k8s-daemonset.yaml
+kubectl delete -f https://eksworkshop.com/intermediate/245_x-ray/daemonset.files/xray-k8s-daemonset.yaml
 ```
 
 ```

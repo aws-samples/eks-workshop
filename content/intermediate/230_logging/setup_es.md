@@ -15,7 +15,7 @@ aws es create-elasticsearch-domain \
   --domain-name kubernetes-logs \
   --elasticsearch-version 6.3 \
   --elasticsearch-cluster-config \
-  InstanceType=m4.large.elasticsearch,InstanceCount=2 \
+  InstanceType=m5.large.elasticsearch,InstanceCount=2 \
   --ebs-options EBSEnabled=true,VolumeType=standard,VolumeSize=100 \
   --access-policies '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":["*"]},"Action":["es:*"],"Resource":"*"}]}'
 ```

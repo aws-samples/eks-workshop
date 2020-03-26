@@ -7,6 +7,9 @@ tags:
   - beginner
   - kubeflow
   - appmesh
+  - CON203
+  - CON205
+  - CON206
 ---
 
 # Introduction to Kubernetes

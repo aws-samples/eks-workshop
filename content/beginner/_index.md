@@ -6,5 +6,4 @@ tags:
   - beginner
 ---
 
-# Cleanup
-![Cleaned Environment](/images/cleanup.svg)
+# Beginner

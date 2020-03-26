@@ -18,9 +18,9 @@ Click the **Launch** button to create the CloudFormation stack in the AWS Manage
 
 | Launch template |  |  |
 | ------ |:------:|:--------:|
-| CodePipeline & EKS |  {{% cf-launch "weave_flux_pipeline.cfn.yml" "image-codepipeline" %}} | {{% cf-download "weave_flux_pipeline.cfn.yml" %}}  |
+| CodePipeline & EKS |  {{< cf-launch "weave_flux_pipeline.cfn.yml" "image-codepipeline" >}} | {{< cf-download "weave_flux_pipeline.cfn.yml" >}}  |
 
-After the console is open, enter your GitHub username, personal access token (created in previous step), check the acknowledge box and then click the "Create stack" button located at the bottom of the page.
+After the console is open, enter your GitHub username, personal access token (created in previous step) and then click the "Create stack" button located at the bottom of the page.
 
 ![CloudFormation Stack](/images/weave_flux/cloudformation_stack.png)
 
@@ -37,12 +37,8 @@ If you receive a permissions error similar to **User x is not authorized to perf
 
 Currently the image build is likely failed because we have no code in our repository.  We will add a sample application to our GitHub repo (eks-example).  Clone the repo substituting your GitHub user name.  
 
-{{% notice info %}}
-Update the username (YOURUSER) below to match your GitHub user name.
-{{% /notice %}}
-
 ```
-git clone https://github.com/YOURUSER/eks-example.git
+git clone https://github.com/${YOURUSER}/eks-example.git
 cd eks-example
 ```
 
@@ -51,9 +47,9 @@ Next create a base README file, a source directory, and download a sample nginx 
 ```
 echo "# eks-example" > README.md
 mkdir src
-wget -O src/hello.conf https://eksworkshop.com/weave_flux/app.files/hello.conf
-wget -O src/index.html https://eksworkshop.com/weave_flux/app.files/index.html
-wget https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/weave_flux/app.files/Dockerfile
+wget -O src/hello.conf https://eksworkshop.com/intermediate/260_weave_flux/app.files/hello.conf
+wget -O src/index.html https://eksworkshop.com/intermediate/260_weave_flux/app.files/index.html
+wget https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/intermediate/260_weave_flux/app.files/Dockerfile
 ```
 
 Now that we have a simple hello world app, commit the changes to start the image build pipeline.  

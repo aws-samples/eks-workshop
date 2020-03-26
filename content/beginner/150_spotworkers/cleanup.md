@@ -19,16 +19,16 @@ kubectl delete -f kubernetes/service.yaml
 kubectl delete -f kubernetes/deployment.yaml
 ```
 
-Cleanup the Spot Handler Daemonset
+Cleanup the AWS Node Termination Handler Daemonset
 
 ```bash
-kubectl delete -f ~/environment/spot/spot-interrupt-handler-example.yml
+helm uninstall aws-node-termination-handler --namespace=kube-system
 ```
 
-To clean up the worker created by this module, run the following commands:
-
-Remove the Worker nodes from EKS:
+To delete the label and the Node Group created  by this module, run the following commands
 
 ```bash
-aws cloudformation delete-stack --stack-name "eksworkshop-spot-workers"
+kubectl label nodes --all lifecycle-
+
+eksctl delete nodegroup -f  ~/environment/eks-workshop-ng-spot.yaml --approve
 ```

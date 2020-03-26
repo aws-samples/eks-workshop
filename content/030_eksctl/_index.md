@@ -6,6 +6,10 @@ tags:
   - beginner
   - kubeflow
   - appmesh
+  - CON203
+  - CON205
+  - CON206
+  - OPN401
 ---
 
 # Launch using [eksctl](https://eksctl.io/)

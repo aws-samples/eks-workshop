@@ -11,7 +11,7 @@ draft: false
 
 Argo UI lists the workflows and visualizes each workflow (very handy for our last workflow).
 
-To connect, use the same proxy connection setup in [Deploy the Official Kubernetes Dashboard](/dashboard/dashboard/).
+To connect, use the same proxy connection setup in [Deploy the Official Kubernetes Dashboard](/beginner/040_dashboard/).
 
 {{%expand "Show me the command" %}}
 ```
@@ -39,7 +39,7 @@ To access the Argo Dashboard:
 /api/v1/namespaces/argo/services/argo-ui/proxy/
 ```
 
-You will see the `teardrop` workflow from [Advanced Batch Workflow](/batch/workflow-advanced/). Click on it to see a visualization of the workflow.
+You will see the `teardrop` workflow from [Advanced Batch Workflow](/advanced/410_batch/workflow-advanced/). Click on it to see a visualization of the workflow.
 
 ![Argo Workflow](/images/argo-workflow.png)
 
@@ -49,7 +49,7 @@ The workflow should _relatively_ look like a teardrop, and provide a live status
 
 This details basic information about the job, and includes a link to the Logs. The Hotel job logs list the job dependency chain and the current `whalesay`, and should look similar to:
 
-```output
+{{< output >}}
 Chain:
 Alpha
 Bravo
@@ -70,6 +70,6 @@ ____________________
       \______ o          __/
        \    \        __/
          \____\______/
-```
+{{< /output >}}
 
 Explore the other jobs in the workflow to see each job's status and logs.

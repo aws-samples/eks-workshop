@@ -6,7 +6,7 @@ weight: 10
 
 #### Configure the Probe
 
-Save the text from following block as **~/environment/healthchecks/readiness-deployment.yaml**. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file **/tmp/healthy** to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods. 
+Run the following code block to populate **~/environment/healthchecks/readiness-deployment.yaml**. The readinessProbe definition explains how a linux command can be configured as healthcheck. We create an empty file **/tmp/healthy** to configure readiness probe and use the same to understand how kubelet helps to update a deployment with only healthy pods. 
 
 ```
 cat <<EoF > ~/environment/healthchecks/readiness-deployment.yaml
@@ -52,13 +52,13 @@ kubectl get pods -l app=readiness-deployment
 
 The output looks similar to below:
 
-```
+{{< output >}}
 
 NAME                                    READY     STATUS    RESTARTS   AGE
 readiness-deployment-7869b5d679-922mx   1/1       Running   0          31s
 readiness-deployment-7869b5d679-vd55d   1/1       Running   0          31s
 readiness-deployment-7869b5d679-vxb6g   1/1       Running   0          31s
-```
+{{< /output >}}
 
 Let us also confirm that all the replicas are available to serve traffic when a service is pointed to this deployment.
 
@@ -68,9 +68,9 @@ kubectl describe deployment readiness-deployment | grep Replicas:
 
 The output looks like below:
 
-```
+{{< output >}}
 Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
-```
+{{< /output >}}
 
 #### Introduce a Failure
 Pick one of the pods from above 3 and issue a command as below to delete the **/tmp/healthy** file which makes the readiness probe fail.
@@ -86,12 +86,12 @@ kubectl get pods -l app=readiness-deployment
 ```
 
 The output looks similar to below:
-```
+{{< output >}}
 NAME                                    READY     STATUS    RESTARTS   AGE
 readiness-deployment-7869b5d679-922mx   0/1       Running   0          4m
 readiness-deployment-7869b5d679-vd55d   1/1       Running   0          4m
 readiness-deployment-7869b5d679-vxb6g   1/1       Running   0          4m
-```
+{{< /output >}}
 Traffic will not be routed to the first pod in the above deployment. The ready column confirms that the readiness probe for this pod did not pass and hence was marked as not ready. 
 
 We will now check for the replicas that are available to serve traffic when a service is pointed to this deployment.
@@ -102,9 +102,9 @@ kubectl describe deployment readiness-deployment | grep Replicas:
 
 The output looks like below:
 
-```
+{{< output >}}
 Replicas:               3 desired | 3 updated | 3 total | 2 available | 1 unavailable
-```
+{{< /output >}}
 
 When the readiness probe for a pod fails, the endpoints controller removes the pod from list of endpoints of all services that match the pod.
 

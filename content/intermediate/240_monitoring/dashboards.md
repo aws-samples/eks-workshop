@@ -5,22 +5,36 @@ weight: 20
 draft: false
 ---
 
-#### Create Dashboards
+## Log in to Grafana
 
-Login into Grafana dashboard using credentials supplied during configuration
+Log in to Grafana dashboard using credentials supplied during configuration.
 
-You will notice that **'Install Grafana'** & **'create your first data source'** are already completed. We will import community created dashboard for this tutorial
+You will notice that **'Install Grafana'** & **'create your first data source'** are already completed. We will import community created dashboard for this tutorial.
 
-Click '+' button on left panel and select 'Import'
+### Cluster Monitoring Dashboard
 
-Enter **3131** dashboard id under Grafana.com Dashboard & click **'Load'**.
+For creating a dashboard to monitor the cluster:
 
-Leave the defaults, select **'Prometheus'** as the endpoint under prometheus data sources drop down, click **'Import'**.
+* Click **'+'** button on left panel and select **'Import'**.
+* Enter **3119** dashboard id under Grafana.com Dashboard.
+* Click **'Load'**.
+* Select **'Prometheus'** as the endpoint under prometheus data sources drop down.
+* Click **'Import'**.
 
 This will show monitoring dashboard for all cluster nodes
 
 ![grafana-all-nodes](/images/grafana-all-nodes.png)
 
-For creating dashboard to monitor all pods, repeat same process as above and enter **3146** for dashboard id
+### Pods Monitoring Dashboard
+
+For creating a dashboard to monitor all the pods:
+
+* Click **'+'** button on left panel and select **'Import'**.
+* Enter **6417** dashboard id under Grafana.com Dashboard.
+* Click **'Load'**.
+* Enter **Kubernetes Pods Monitoring** as the Dashboard name.
+* Click **change** to set the Unique identifier (uid).
+* Select **'Prometheus'** as the endpoint under prometheus data sources drop down.s
+* Click **'Import'**.
 
 ![grafana-all-pods](/images/grafana-all-pods.png)

@@ -9,23 +9,22 @@ draft: false
 
 While Jupyter notebook is good for interactive model training, you may like to package the training code as Docker image and run it in Amazon EKS cluster.
 
-This chapter explains how to build a training model for [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) dataset using TensorFlow and Keras on Amazon EKS. This databset contains 70,000 grayscale images in 10 categories and is meant to be a drop-in replace of [MNIST](https://en.wikipedia.org/wiki/MNIST_database).
+This chapter explains how to build a training model for [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) dataset using TensorFlow and Keras on Amazon EKS. This dataset contains 70,000 grayscale images in 10 categories and is meant to be a drop-in replace of [MNIST](https://en.wikipedia.org/wiki/MNIST_database).
 
 #### Docker image
 
 We will use a pre-built Docker image `seedjeffwan/mnist_tensorflow_keras:1.13.1` for this exercise. This image uses `tensorflow/tensorflow:1.13.1` as the base image. The image has training code and downloads training and test data sets. It also stores the generated model in an S3 bucket.
 
-Alternatively, you can use [Dockerfile](/kubeflow/kubeflow.files/Dockerfile.txt) to build the image by using the command below. We will skip this step for now
-```
-docker build -t <dockerhub_username>/<repo_name>:<tag_name> .
-```
+Alternatively, you can use [Dockerfile](/advanced/420_kubeflow/kubeflow.files/Dockerfile.txt) to build the image by using the command below. We will skip this step for now
+
+`docker build -t <dockerhub_username>/<repo_name>:<tag_name> .`
 
 #### Create S3 bucket
 
 Create an S3 bucket where training model will be saved:
 
 ```
-export HASH=$(< /dev/urandom tr -dc a-z-0-9 | head -c6)
+export HASH=$(< /dev/urandom tr -dc a-z0-9 | head -c6)
 export S3_BUCKET=$HASH-eks-ml-data
 aws s3 mb s3://$S3_BUCKET --region $AWS_REGION
 ```
@@ -47,8 +46,8 @@ aws iam create-access-key --user-name s3user > /tmp/create_output.json
 
 Next, record the new user's credentials into environment variables:
 ```
-export AWS_ACCESS_KEY_ID_VALUE=$(jq -r .AccessKey.AccessKeyId /tmp/create_output.json | base64)
-export AWS_SECRET_ACCESS_KEY_VALUE=$(jq -r .AccessKey.SecretAccessKey /tmp/create_output.json | base64)
+export AWS_ACCESS_KEY_ID_VALUE=$(jq -j .AccessKey.AccessKeyId /tmp/create_output.json | base64)
+export AWS_SECRET_ACCESS_KEY_VALUE=$(jq -j .AccessKey.SecretAccessKey /tmp/create_output.json | base64)
 ```
 
 Apply to EKS cluster:
@@ -71,7 +70,7 @@ EOF
 Create pod:
 
 ```
-curl -LO https://eksworkshop.com/kubeflow/kubeflow.files/mnist-training.yaml
+curl -LO https://eksworkshop.com/advanced/420_kubeflow/kubeflow.files/mnist-training.yaml
 envsubst < mnist-training.yaml | kubectl create -f -
 ```
 
@@ -79,8 +78,17 @@ This will start a pod which will start the training and save the generated model
 
 ```
 kubectl get pods
+```
+You'll see similar output
+```
 NAME              READY   STATUS    RESTARTS   AGE
 mnist-training    1/1     Running   0          2m45s
+```
+
+> Note: If your `mnist-training` fail for some reason, please copy our trained model to your bucket by running following command, this will unblock your inference experiment in the next chapter.
+
+```
+aws s3 sync s3://reinvent-opn401/mnist/tf_saved_model  s3://$S3_BUCKET/mnist/tf_saved_model
 ```
 
 {{%expand "Expand here to see complete logs" %}}
@@ -141,13 +149,13 @@ Colocations handled automatically by placer.
 train_images.shape: (60000, 28, 28, 1), of float64
 test_images.shape: (10000, 28, 28, 1), of float64
 _________________________________________________________________
-Layer (type)                 Output Shape              Param #   
+Layer (type)                 Output Shape              Param #
 =================================================================
-Conv1 (Conv2D)               (None, 13, 13, 8)         80        
+Conv1 (Conv2D)               (None, 13, 13, 8)         80
 _________________________________________________________________
-flatten (Flatten)            (None, 1352)              0         
+flatten (Flatten)            (None, 1352)              0
 _________________________________________________________________
-Softmax (Dense)              (None, 10)                13530     
+Softmax (Dense)              (None, 10)                13530
 =================================================================
 Total params: 13,610
 Trainable params: 13,610

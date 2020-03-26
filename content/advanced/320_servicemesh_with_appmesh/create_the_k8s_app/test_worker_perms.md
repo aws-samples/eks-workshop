@@ -2,6 +2,7 @@
 title: "Test Permissions"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
+hidden: true
 ---
 
 To test that your worker nodes are able to use these permissions correctly, we'll run a job that attempts to list all existing meshes.
@@ -39,17 +40,17 @@ The output of this command will illustrate if your nodes can make App Mesh API c
 
 This output shows the workers have proper access:
 
-```
+{{< output >}}
 {
     "meshes": []
 }
-```
+{{< /output >}}
 
 And this output shows they don't:
 
-```
+{{< output >}}
 An error occurred (AccessDeniedException) when calling the ListMeshes operation: User: arn:aws:iam::123abc:user/foo is not authorized to perform: appmesh:ListMeshes on resource: *
-```
+{{< /output >}}
 
 If you need to troubleshoot further, in order to run the job again to test, you must first delete it:
 

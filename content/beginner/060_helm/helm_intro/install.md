@@ -3,65 +3,42 @@ title: "Install Helm CLI"
 date: 2018-08-07T08:30:11-07:00
 weight: 5
 ---
+## Install the Helm CLI
 
-Before we can get started configuring `helm` we'll need to first install the command line tools that you will interact with. To do this run the following.
+Before we can get started configuring Helm, we'll need to first install the
+command line tools that you will interact with. To do this, run the following:
 
-```
-cd ~/environment
-
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
-
-chmod +x get_helm.sh
-
-./get_helm.sh
+```sh
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 ```
 
-{{% notice info %}}
-Once you install helm, the command will prompt you to run 'helm init'. **Do not run 'helm init'.** Follow the instructions to configure helm using **Kubernetes RBAC** and then install tiller as specified below
-If you accidentally run 'helm init', you can safely uninstall tiller by running `helm reset --force`
-{{% /notice %}}
+We can verify the version
 
-### Configure Helm access with RBAC
-
-Helm relies on a service called **tiller** that requires special permission on the
-kubernetes cluster, so we need to build a _**Service Account**_ for **tiller**
-to use. We'll then apply this to the cluster.
-
-To create a new service account manifest:
-```
-cat <<EoF > ~/environment/rbac.yaml
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tiller
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: tiller
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-  - kind: ServiceAccount
-    name: tiller
-    namespace: kube-system
-EoF
+```sh
+helm version --short
 ```
 
-Next apply the config:
-```
-kubectl apply -f ~/environment/rbac.yaml
+Let's configure our first Chart repository. Chart repositories are similar to
+APT or yum repositories that you might be familiar with on Linux, or Taps for
+Homebrew on macOS.
+
+Download the `stable` repository so we have something to start with:
+
+```sh
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
 
-Then we can install **tiller** using the **helm** tooling
+Once this is installed, we will be able to list the charts you can install:
 
-```
-helm init --service-account tiller
+```sh
+helm search repo stable
 ```
 
-This will install **tiller** into the cluster which gives it access to manage
-resources in your cluster.
+Finally, let's configure Bash completion for the `helm` command:
+
+```sh
+helm completion bash >> ~/.bash_completion
+. /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
+source <(helm completion bash)
+```

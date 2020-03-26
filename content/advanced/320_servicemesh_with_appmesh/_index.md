@@ -1,7 +1,10 @@
 ---
-title: "Service Mesh with App Mesh"
+title: "Service Mesh with AWS App Mesh"
 date: 2018-08-07T08:30:11-07:00
 weight: 320
+aliases:
+    - /mesh/
+    - /appmesh/
 tags:
   - advanced
   - operations
@@ -17,6 +20,8 @@ App Mesh uses the open source [Envoy](https://www.envoyproxy.io/) proxy, giving 
 
 In this tutorial, we'll walk you through many popular App Mesh use cases.
 
-The first two sections, "Create the k8s app", and "Create the App Mesh Components" should be performed in order.
-
 They will take you through building an easy to understand standalone k8s microservices-based application, and then enabling App Mesh service mesh functionality for it.
+
+{{% notice note %}}
+The first two sections, [Deploy the DJ App](/advanced/320_servicemesh_with_appmesh/create_the_k8s_app/), and [AWS App Mesh Integration](/advanced/320_servicemesh_with_appmesh/create_app_mesh_components/) should be performed in order.
+{{% /notice %}}
