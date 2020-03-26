@@ -11,7 +11,7 @@ draft: false
 Before we get to the lab exercise, we wanted to take some time to discuss options for generating your AWS KMS CMK. AWS KMS provides you with two alternatives to store your CMK. Your security requirements may dictate which alternative is suitable for your workloads on Amazon EKS. 
 
 ##### Custom Key Store (CMK stored within AWS CloudHSM)
-For most users, the default AWS KMS key store, which is protected by FIPS 140-2 validated cryptographic modules, fulfills their security requirements. There is no need to add an extra layer of maintenance responsibility or a dependency on an additional service.
+For most users, the default AWS KMS key store, which is protected by FIPS 140-2 validated cryptographic modules, fulfills their security requirements.
 
 However, you might consider creating a custom key store if your organization has any of the following requirements:
 
@@ -26,7 +26,7 @@ If any of these requirements apply to you, consider using AWS CloudHSM with AWS 
 **What level of FIPS 140-2 cryptographic validation does the AWS KMS HSM hold?**
 
 {{%expand "Expand here to see the solution" %}}
-The AWS KMS HSMs are validated at Level 2 overall. You can read more about that [here](https://aws.amazon.com/blogs/security/aws-key-management-service-now-offers-fips-140-2-validated-cryptographic-modules-enabling-easier-adoption-of-the-service-for-regulated-workloads/)
+The AWS KMS HSMs are validated at Level 2 overall. You can read more about that [here].(https://aws.amazon.com/blogs/security/aws-key-management-service-now-offers-fips-140-2-validated-cryptographic-modules-enabling-easier-adoption-of-the-service-for-regulated-workloads/)
 
 FIPS 140-2 Level 2 validation is sufficient for many use cases, but check with your security and compliance teams to verify.
 {{% /expand %}}
