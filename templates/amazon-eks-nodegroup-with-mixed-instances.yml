@@ -203,7 +203,7 @@ Parameters:
   ClusterName:
     Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
     Type: String
-    Default: "waseet-stg"
+    Default: "eksworkshop-eksctl"
 
   BootstrapArgumentsForOnDemand:
     Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
