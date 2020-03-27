@@ -198,12 +198,12 @@ Parameters:
   ExistingNodeSecurityGroups:
     Type: String
     Description: Use the existing Security Group for your nodegroup
-    Default: ""
+    Type: AWS::EC2::SecurityGroup::Id
 
   ClusterName:
     Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
     Type: String
-    Default: "eksworkshop-eksctl"
+    Default: "waseet-stg"
 
   BootstrapArgumentsForOnDemand:
     Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
