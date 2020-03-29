@@ -1,15 +1,15 @@
 ---
-title: "Create a Free Spot Account"
+title: "Create a Free Spot.io Account"
 date: 2019-04-09T00:00:00-03:00
 weight: 10
 draft: false
 ---
 
-In this section, you will create a free Spot account, and subsequently link that account to your AWS account.
+In this section, you will create a free Spot.io account, and subsequently link that account to your AWS account.
 A video tutorial covering this section can be found at the bottom of the page.
 
-#### Creating a Spot Account
-Begin by heading over to [spot.io](https://spot.io) and clicking the "Get Started for Free" button on the top right. This will take you to the sign up page, where you create a free Account. 
+#### Creating a Spot.io Account
+Begin by heading over to [spot.io](https://spot.io) and clicking the "Get Started for Free" button on the top right. This will take you to the sign up page, where you create a free account. 
 
 You will need to provide the following:
 
@@ -27,11 +27,12 @@ Next,  set your password, and verify your email by clicking the link in the veri
 Once you’re logged in, you will find yourself in the Console.
 
 #### Connecting Your AWS Account
-Now, you will link your AWS account in order to enable the Spot platform to manage AWS resources on your behalf.
+Now, you will link your AWS account in order to enable the Spot.io platform to manage AWS resources on your behalf.
 
 1. Make sure you are **logged in** to the [Console](https://console.spotinst.com/)
 2. Select **Amazon Web Services** as the cloud provider.
-**Please provide a screenshot with only the AWS logo**
+
+<img src="/images/ocean/choose_cloud_provider.png" alt="Choose AWS Cloud Provider"/>
 
  {{% notice tip %}}
 Prior to connecting your AWS account, you can access a preview of the console, by clicking on “Get a Console Walkthrough“.

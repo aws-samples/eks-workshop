@@ -9,13 +9,13 @@ In this section we will launch a test deployment and see how Ocean handles diffe
 
 
 ### Easily Run Multiple Workload Types In One Cluster
-The challenge of running multiple workload types (**examples? data stores? cache? ML training?**) on the same Kubernetes cluster is applying a unique configuration to each one of the workloads in a heterogeneous environment. When your worker nodes are managed in a standard EKS cluster, usually every workload **type** is managed separately in a different Auto-scaling group.
+The challenge of running multiple workload types (separate applications, dev/test environmets, node groups requiring a GPU AMI, etc...) on the same Kubernetes cluster is applying a unique configuration to each one of the workloads in a heterogeneous environment. When your worker nodes are managed in a standard EKS cluster, usually every workload type is managed separately in a different Auto-scaling group.
 
-With Ocean, you can define custom "launch specifications" which  allow you to configure multiple workload types on the same Ocean Cluster. As part of those launch specs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group and Root Volume size, which will be used for the nodes that serve your matching pods. This additional layer of orchestration ensures the ability to run any type of workload on the same Ocean Cluster.
+With Ocean, you can define custom "launch specifications" which allow you to configure multiple workload types on the same Ocean Cluster. As part of those launch specs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group, Root Volume size and tags which will be used for the nodes that serve your matching pods. This feature ensures the ability to run any type of workload on the same Ocean Cluster.
 
 Let's see how this works:
 
-1. Navigate to your Ocean Cluster within the Spot Console, then click on the Actions menu on the top right and select "Launch Specifications".
+1. Navigate to your Ocean Cluster within the Spot.io Console, then click on the Actions menu on the top right and select "Launch Specifications".
 <img src="/images/ocean/actions_launch_specs.png" alt="Actions - Launch Specs" />
 
 2. Here you can see the "Default Launch Specification" which represents the initial configuration that the Ocean cluster was created with. To add a new configuration, click the "Add Launch Specification" button on the top right.
