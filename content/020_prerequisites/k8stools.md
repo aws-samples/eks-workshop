@@ -20,12 +20,27 @@ sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us
 
 sudo chmod +x /usr/local/bin/kubectl
 ```
-#### Install aws-iam-authenticator
+#### Update awscli-v2
+
+Upgrade AWS CLI version 2 according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html).
+
 ```
-sudo curl --silent --location -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
 
+sudo ./aws/install
+```
 
-sudo chmod +x /usr/local/bin/aws-iam-authenticator
+Add the AWS CLI version 2 to $PATH in `bash_profile`.
+
+```
+echo "export PATH='$PATH:/usr/local/bin/aws'" | tee -a ~/.bash_profile
+```
+
+Reload the `bash_profile`
+
+```
+source ~/.bash_profile
 ```
 
 #### Install jq, envsubst (from GNU gettext utilities) and bash-completion
@@ -35,7 +50,7 @@ sudo yum -y install jq gettext bash-completion
 
 #### Verify the binaries are in the path and executable
 ```
-for command in kubectl jq envsubst
+for command in kubectl jq envsubst aws
   do
     which $command &>/dev/null && echo "$command in path" || echo "$command NOT FOUND"
   done
