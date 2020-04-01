@@ -15,32 +15,15 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 
 #### Install kubectl
 ```
-sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
-
-
+sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 ```
-#### Update awscli-v2
+#### Update awscli
 
-Upgrade AWS CLI version 2 according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html).
-
-```
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-
-sudo ./aws/install
-```
-
-Add the AWS CLI version 2 to $PATH in `bash_profile`.
+Upgrade AWS CLI according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html).
 
 ```
-echo "export PATH='$PATH:/usr/local/bin/aws'" | tee -a ~/.bash_profile
-```
-
-Reload the `bash_profile`
-
-```
-source ~/.bash_profile
+sudo pip install --upgrade awscli
 ```
 
 #### Install jq, envsubst (from GNU gettext utilities) and bash-completion
