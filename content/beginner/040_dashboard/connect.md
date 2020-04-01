@@ -19,7 +19,7 @@ aws eks get-token --cluster-name eksworkshop-eksctl | jq -r '.status.token'
 ```
 
 {{% notice info %}}
-If you stumle upon an error here, you might be running an older version of the AWS CLI. Please follow the instructions here to update to a more recent version of the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+If you stumble upon an error here, you might be running an older version of the AWS CLI. Please follow the instructions here to update to a more recent version of the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 {{% /notice %}}
 
 Copy the output of this command and then click the radio button next to
