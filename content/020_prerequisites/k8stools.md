@@ -15,10 +15,15 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 
 #### Install kubectl
 ```
-sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
-
-
+sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
+```
+#### Update awscli
+
+Upgrade AWS CLI according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html).
+
+```
+sudo pip install --upgrade awscli
 ```
 
 #### Install jq, envsubst (from GNU gettext utilities) and bash-completion
@@ -28,7 +33,7 @@ sudo yum -y install jq gettext bash-completion
 
 #### Verify the binaries are in the path and executable
 ```
-for command in kubectl jq envsubst
+for command in kubectl jq envsubst aws
   do
     which $command &>/dev/null && echo "$command in path" || echo "$command NOT FOUND"
   done
