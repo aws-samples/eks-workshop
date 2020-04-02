@@ -38,8 +38,12 @@ you can ignore the errors for non-existent resources because they may have been 
 istioctl manifest generate --set profile=demo | kubectl delete -f -
 ```
 
-Finally, we can remove the Istio version variable from `.bash_profile`
+Finally, we can delete the istio folder and clean up the `~/.bash_profile`.
 
 ```bash
+cd ~/environment
+rm -rf istio-${ISTIO_VERSION}
+
 sed -i '/ISTIO_VERSION/d' ${HOME}/.bash_profile
+unset ISTIO_VERSION
 ```
