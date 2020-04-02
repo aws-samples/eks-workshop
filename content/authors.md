@@ -9,4 +9,4 @@ disableToc: true
 note: change the url to match the new repo... using old repo as an example placeholder
 --->
 
-{{% ghcontributors "https://api.github.com/repos/aws-samples/eks-workshop/contributors?per_page=1000" %}}
+Please go to [Contributors page](https://github.com/aws-samples/eks-workshop/graphs/contributors) to checkout authors for this Workshop
