@@ -29,8 +29,7 @@ helm install mywebserver bitnami/nginx
 ```
 {{% /expand %}}
 
-Once you run this command, the output confirms the types of Kubernetes objects
-that were created as a result:
+Once you run this command, the output will contain the information about the deployment status, revision, namespace, etc, similar to:
 
 {{< output >}}
 NAME: mywebserver
@@ -47,22 +46,12 @@ Get the NGINX URL:
 
   export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
   echo "NGINX URL: http://$SERVICE_IP/"
-
-RESOURCES:
-==> v1beta1/Deployment
-NAME               AGE
-mywebserver-nginx  0s
-
-==> v1/Pod(related)
-
-NAME                                READY  STATUS             RESTARTS  AGE
-mywebserver-nginx-85985c8466-tczst  0/1    ContainerCreating  0         0s
-
-==> v1/Service
-
-NAME               AGE
-mywebserver-nginx  0s
 {{< /output >}}
+
+In order to review the underlying Kubernetes services, pods and deployments, run:
+```sh
+kubectl get svc,po,deploy
+```
 
 {{% notice info %}}
 In the following `kubectl` command examples, it may take a minute or two for

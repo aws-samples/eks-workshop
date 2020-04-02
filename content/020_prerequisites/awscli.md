@@ -15,12 +15,12 @@ For this workshop, please ignore warnings about the version of pip being used.
 aws --version
 ```
 
-1. Update to the latest version:
+2. Update to the latest version:
 ```
 pip install --user --upgrade awscli
 ```
 
-1. Confirm you have a newer version:
+3. Confirm you have a newer version:
 ```
 aws --version
 ```
