@@ -16,4 +16,5 @@ rm rbacuser_creds.sh
 rm /tmp/create_output.json
 rm rbacuser-role.yaml
 rm rbacuser-role-binding.yaml
+aws iam delete-user --user-name rbac-user
 ```
