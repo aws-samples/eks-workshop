@@ -60,7 +60,7 @@ spec:
             - another-node-label-value
   containers:
   - name: with-node-affinity
-    image: k8s.gcr.io/pause:2.0
+    image: us.gcr.io/k8s-artifacts-prod/pause:2.0
 EoF
 ```
 

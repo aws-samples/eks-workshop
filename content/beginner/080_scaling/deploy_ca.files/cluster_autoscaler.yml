@@ -123,7 +123,7 @@ spec:
     spec:
       serviceAccountName: cluster-autoscaler
       containers:
-        - image: k8s.gcr.io/cluster-autoscaler:v${AUTOSCALER_VERSION}
+        - image: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v${AUTOSCALER_VERSION}
           name: cluster-autoscaler
           resources:
             limits:
