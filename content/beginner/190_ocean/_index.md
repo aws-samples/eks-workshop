@@ -8,7 +8,7 @@ tags:
 
 # Optimized Worker Node Management with Ocean by Spot.io
 
-<img src="/images/ocean/spot_logo.png" alt="Spot.io Logo" width="300"/>
+
 
 ### Introduction
 [Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) offer AWS customers up to 90% cost savings in comparison to On-Demand Instances. However, they can be interrupted with a 2 minute warning when EC2 needs the capacity back. While this itself does not pose any issue for stateless workloads such as those typically running on Amazon EKS, managing larger clusters running Spot Instances as worker nodes on your own, does require a large amount of manual configuration, setup and maintenance.
