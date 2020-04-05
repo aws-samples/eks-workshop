@@ -9,7 +9,7 @@ In this section, you will create a free Spot.io account, and subsequently link t
 A video tutorial covering this section can be found at the bottom of the page.
 
 #### Creating a Spot.io Account
-Begin by heading over to [spot.io](https://spot.io) and clicking the "Get Started for Free" button on the top right. This will take you to the sign up page, where you create a free account. 
+Begin by heading over to [spot.io](https://spot.io/?utm_campaign=eskworkshop&utm_source=eksworkshop) and clicking the "Get Started for Free" button on the top right. This will take you to the sign up page, where you create a free account. 
 
 You will need to provide the following:
 
