@@ -11,6 +11,8 @@ draft: false
 Let's delete the namespace for this exercise:
 
 ```bash
+rm -f test-creds
+rm -f podconsumingsecret.yaml
 kubectl delete ns secretslab
 ```
 Output: 
