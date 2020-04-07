@@ -11,9 +11,8 @@ We're assuming that you have run through both the Calico section of this tutoria
 You need to get the clusterGUID of the EKS cluster.  To do that, run the following command:
 
 ```
-$ kubectl get clusterinformation default -o yaml | grep GUID
- clusterGUID: 6af4b853f8fa484b9870a95ff5102e96
- ```
+kubectl get clusterinformation default -o yaml | grep GUID
+```
 
 In the cloud9 shell, go to the AWS dashboard, and select the Cloudwatch service.
 
