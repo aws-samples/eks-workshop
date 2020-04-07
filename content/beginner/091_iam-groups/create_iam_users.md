@@ -5,7 +5,7 @@ draft: false
 weight: 22
 ---
 
-In order to test our scenarios, we will create 1 user which will belong for each groups we created
+In order to test our scenarios, we will create 3 users, one for each groups we created :
 
 ```
 aws iam create-user --user-name PaulAdmin
@@ -27,6 +27,10 @@ aws iam get-group --group-name k8sDev
 aws iam get-group --group-name k8sInteg
 ```
 
+{{% notice note %}}
+For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have priveledged access; It is not a security best practice to store credentials on the filesystem.
+{{% /notice %}}
+
 Retrieve Access Keys for our fake users:
 
 ```
@@ -35,11 +39,7 @@ aws iam create-access-key --user-name JeanDev | tee /tmp/JeanDev.json
 aws iam create-access-key --user-name PierreInteg | tee /tmp/PierreInteg.json
 ```
 
-{{% notice note %}}
-For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have priveledged access; It is not a security best practice to store credentials on the filesystem.
-{{% /notice %}}
-
-
+<!-- TODO: remove this
 ```
 cat << EoF > ~/.aws/PaulAdmin_creds.sh
 export AWS_SECRET_ACCESS_KEY=$(jq .AccessKey.SecretAccessKey /tmp/PaulAdmin.json)
@@ -54,9 +54,10 @@ export AWS_SECRET_ACCESS_KEY=$(jq .AccessKey.SecretAccessKey /tmp/PierreInteg.js
 export AWS_ACCESS_KEY_ID=$(jq .AccessKey.AccessKeyId /tmp/PierreInteg.json)
 EoF
 ```
+-->
 
 Recap: 
 
-- **PaulAdmin** will be in the **k8sAdmin** group and will be able to assume the **k8sAdmin** role.
+- **PaulAdmin** is in the **k8sAdmin** group and will be able to assume the **k8sAdmin** role.
 - **JeanDev** is in **k8sDev** Group and will be able to assume IAM role **k8sDev**
 - **PierreInteg** is in **k8sInteg** group and will be able to assume IAM role **k8sInteg**

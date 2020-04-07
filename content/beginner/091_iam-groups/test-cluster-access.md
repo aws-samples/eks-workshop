@@ -5,57 +5,12 @@ draft: false
 weight: 40
 ---
 
-## Manually test assumed role
-
-In order to access the cluster, our users will need to be able to assume the role they need to access the cluster.
-
-<details>
-  <summary>Let's remind us how this works:</summary>
-  
-
-In order to see how this works, we can manually assume the role from our dev user
-
-```
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
-source ~/.aws/JeanDev_creds.sh
-```
-
-Try to assume the k8sInteg role:
-```
-$ aws sts assume-role --role-arn arn:aws:iam::${ACCOUNT_ID}:role/k8sInteg --role-session-name integ-role-session
-
-An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:iam::xxxxxxxxx:user/jeanDev is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::xxxxxxxx:role/k8sInteg
-```
-
-> This is forbidden as expected, dev user can only assume k8sDev role.
-
-Let's assume the k8sDev role:
-```
-aws sts assume-role --role-arn arn:aws:iam::${ACCOUNT_ID}:role/k8sDev --role-session-name dev-role-session|cat
-{
-    "Credentials": {
-        "AccessKeyId": "ASIAUD5VMKW767UVE7VY",
-        "SecretAccessKey": "p3zTwD1LiEjy9h78Jr0RUDxNYGc11olWeeIrDCys",
-        "SessionToken": "IQoJb3JpZ2luX2VjEBsaCXVzLWVhc3QtMSJHMEUCIQCQb4j/ivn33VPexIgebG7T5ECuOMt65ZFdRiTrcGwDcgIgdmdGwxkINntUxAvZIbG6+VBZLdmTsamHHTWO5SsF4pUq4AEI0///////////ARAAGgwyODMzMTEzNjM1MTkiDHznfNb55njGhX6gQSq0ASzCu6KSBSgWU2ryFIS+XdwPVzYeVIMyx5ixcqJC/xZcRVDhGWLRV0TMKUwOn1Vw1pjilOjoxpjTStWeFHaRpXp2jTs6eGc5xA8lQ7aFNXEl+neANqTvnsk3QRLiMPuaoDdkWY6UfEYyj3gbKzj1lKcbF8C/mJUDn9oe0YU9VnYoi9DvnzuLW+rC1InC5QBHOaB2VUsdRh36MNacglR5TPOv2FnslasRp4A3gjWA61zvS+WTDK7a7yBTrjAaJhxmZbCxVbVmEoT3JrPsx4i94NilSQDFuItCOdBVIwfK+uIAfKSgj5BqpjHl6b4Io8a03FmVaiUs87lnc3/f9d/c7RIiP7wbM0cz3tt1MfqhxTbmWmDZ9VLwjgXJZjaNqfPht3PnplW9CkzaAasUytDdzPCO1yc9lU2THoGBbE1Q9ZLor2a/prVZvz8+vxZ3XtNe+uobvSlQwPxoHxF/3badjq9agOoSLLaNBCU2xJOmreYhbLfzR0Nwdx2wTa9oChcxSzIhc8cd3hDY1LFRfjwMBLC1JiAQWdDFJ5wcHCh29B",
-        "Expiration": "2020-02-18T11:04:58+00:00"
-    },
-    "AssumedRoleUser": {
-        "AssumedRoleId": "AROAUD5VMKW77O3CKTAZC:dev-role-session",
-        "Arn": "arn:aws:sts::xxxxxxxx:assumed-role/k8sDev/dev-role-session"
-    }
-}
-```
-
-> This provide us some temporary credentials which uses the policy associated to the assumed role, and will give us access to the kubernetes API.
-</details>
-
-
 ## Automate assumerole with aws cli
 
 It is possible to automate the retrieval of temporary credentials for the assumed role by configuring the aws cli using `.aws/config`and `.aws/credentials` files.
 Examples we will define 3 profile:
 
-add in `~/.aws/config`:
+#### add in `~/.aws/config`:
 ```
 cat << EoF >> ~/.aws/config
 [profile admin]
@@ -73,41 +28,45 @@ source_profile=eksInteg
 EoF
 ```
 
-> replace xxxxxx with your $ACCOUNT_ID
-
+#### create `~/.aws/credentials`:
 ```
-cat << EoF >> ~/.aws/credential
+cat << EoF > ~/.aws/credentials
 
 [eksAdmin]
-aws_access_key_id=$(jq .AccessKey.AccessKeyId /tmp/PaulAdmin.json)
-aws_secret_access_key=$(jq .AccessKey.SecretAccessKey /tmp/PaulAdmin.json)
+aws_access_key_id=$(jq -r .AccessKey.AccessKeyId /tmp/PaulAdmin.json)
+aws_secret_access_key=$(jq -r .AccessKey.SecretAccessKey /tmp/PaulAdmin.json)
 
 [eksDev]
-aws_access_key_id=$(jq .AccessKey.AccessKeyId /tmp/JeanDev.json)
-aws_secret_access_key=$(jq .AccessKey.SecretAccessKey /tmp/JeanDev.json)
+aws_access_key_id=$(jq -r .AccessKey.AccessKeyId /tmp/JeanDev.json)
+aws_secret_access_key=$(jq -r .AccessKey.SecretAccessKey /tmp/JeanDev.json)
 
 [eksInteg]
-aws_access_key_id=$(jq .AccessKey.AccessKeyId /tmp/PierreInteg.json)
-aws_secret_access_key=$(jq .AccessKey.SecretAccessKey /tmp/PierreInteg.json)
+aws_access_key_id=$(jq -r .AccessKey.AccessKeyId /tmp/PierreInteg.json)
+aws_secret_access_key=$(jq -r .AccessKey.SecretAccessKey /tmp/PierreInteg.json)
 
 EoF
 ```
 
-> replace with the credentials you saved in `~.aws` for each of our users.
 
-Test this with dev profile:
+#### Test this with dev profile:
 
 ```
+aws sts get-caller-identity --profile dev
+```
 
-$ aws sts get-caller-identity --profile dev
+{{<output>}}
 {
     "UserId": "AROAUD5VMKW75WJEHFU4X:botocore-session-1581687024",
     "Account": "xxxxxxxxxx",
     "Arn": "arn:aws:sts::xxxxxxxxxx:assumed-role/k8sDev/botocore-session-1581687024"
 }
-```
-> When specifying the **--profile dev** parameter we automatically ask for temporary credentials for the role k8sDev
-> 
+{{</output>}}
+
+> the assumed-role is k8sDev, so we achieved our goal
+
+When specifying the **--profile dev** parameter we automatically ask for temporary credentials for the role k8sDev
+You can test this with **integ** and **admin** also.
+ 
 <details>
   <summary>with admin:</summary>
   
@@ -123,67 +82,160 @@ aws sts get-caller-identity --profile admin
 > When specifying the **--profile admin** parameter we automatically ask for temporary credentials for the role k8sAdmin
 </details>
 
-##### Using AWS profiles with Kubectl config file
+## Using AWS profiles with Kubectl config file
 
 It is also possible to specify the AWS_PROFILE to uses with the aws-iam-authenticator in the `.kube/config` file, so that it will uses the appropriate profile.
+
+
+### with dev profile 
 
 Create new KUBECONFIG file to test this:
 
 ```
-export KUBECONFIG=/tmp/kubeconfig && eksctl utils write-kubeconfig eksworkshop
-```
-or
-```
-export KUBECONFIG=/tmp/kubeconfig && aws eks update-kubeconfig --name eksworkshop
+export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworkshop-eksctl
+cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - dev\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | tee $KUBECONFIG
 ```
 
-Update the `/tmp/kubeconfig` file to allow access with k8sDev profile:
+We just added the `--profile dev` parameter to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile.
 
+With this configuration we should be able to interract with the **development** namespace, because it as our RBAC role defined.
+
+let's create a pod
 ```
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1alpha1
-      command: aws-iam-authenticator
-      env:
-      - name: "AWS_PROFILE"  # <-- we add AWS_PROFILE env parameter
-        value: "dev"         # <-- and the value dev | integ | admin
-      args:
-        - "token"
-        - "-i"
-        - "mycluster"
+kubectl run --generator=run-pod/v1 nginx-dev --image=nginx -n development
 ```
 
-We should be able to do what we wants in the **development** namespace:
+We can list the pods
 
 ```
-kubectl get pods -n development 
+kubectl get pods -n development
+```
+
+{{<output>}}
 NAME                     READY   STATUS    RESTARTS   AGE
-nginx-7db9fccd9b-9kg85   1/1     Running   0          28h
+nginx-dev   1/1     Running   0          28h
+{{</output>}}
+
+but not in other namespaces
+
+```
+kubectl get pods -n integration 
 ```
 
-If we edit the $KUBECONFIG file and change the AWS_PROFILE for integ user:
+{{<output>}}
+Error from server (Forbidden): pods is forbidden: User "dev-user" cannot list resource "pods" in API group "" in the namespace "integration"
+{{</output>}}
+
+#### Test with integ profile
+
 ```
-      - name : "AWS_PROFILE"
-        value: "integ"
+export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig eksworkshop-eksctl
+cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - integ\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | tee $KUBECONFIG
 ```
 
-then we should be able to access **integration** namespace only
+let's create a pod
+```
+kubectl run --generator=run-pod/v1 nginx-integ --image=nginx -n integration
+```
+
+We can list the pods
 
 ```
 kubectl get pods -n integration
-NAME                     READY   STATUS    RESTARTS   AGE
-nginx-7db9fccd9b-n5p4v   1/1     Running   0          5d1h
 ```
 
-It is possible to merge several kubernetes API access in the same KUBECONFIG file, you can do it for example by renaming part of the config and running several times the eksctl `eksctl utils write-kubeconfig quick` command to generate new entry.
+{{<output>}}
+NAME          READY   STATUS    RESTARTS   AGE
+nginx-integ   1/1     Running   0          43s
+{{</output>}}
 
-In my case, I've done this to generate 3 différentes entries, one for each of the user we created : admin, dev, integ.
-
-I can use a tool like [kubectx](https://github.com/ahmetb/kubectx) to quickly swith my kubernetes user:
+but not in other namespaces
 
 ```
-$ kubectx
-eksworkshop.us-east-1.eksctl.io-Admin
-eksworkshop.us-east-1.eksctl.io-Dev
-eksworkshop.us-east-1.eksctl.io-Integ
+kubectl get pods -n development 
 ```
+
+{{<output>}}
+Error from server (Forbidden): pods is forbidden: User "integ-user" cannot list resource "pods" in API group "" in the namespace "development"
+{{</output>}}
+
+
+#### Test with admin profile
+
+```
+export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig eksworkshop-eksctl
+cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - admin\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | tee $KUBECONFIG
+```
+
+let's create a pod in default namespace
+```
+kubectl run --generator=run-pod/v1 nginx-admin --image=nginx 
+```
+
+We can list the pods
+
+```
+kubectl get pods 
+```
+
+{{<output>}}
+NAME          READY   STATUS    RESTARTS   AGE
+nginx-integ   1/1     Running   0          43s
+{{</output>}}
+
+We can list ALL pods in all namespaces
+
+```
+kubectl get pods -A
+```
+
+{{<output>}}
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE
+default       nginx-admin                1/1     Running   0          15s
+development   nginx-dev                  1/1     Running   0          11m
+integration   nginx-integ                1/1     Running   0          4m29s
+kube-system   aws-node-mzbh4             1/1     Running   0          100m
+kube-system   aws-node-p7nj7             1/1     Running   0          100m
+kube-system   aws-node-v2kg9             1/1     Running   0          100m
+kube-system   coredns-85bb8bb6bc-2qbx6   1/1     Running   0          105m
+kube-system   coredns-85bb8bb6bc-87ndr   1/1     Running   0          105m
+kube-system   kube-proxy-4n5lc           1/1     Running   0          100m
+kube-system   kube-proxy-b65xm           1/1     Running   0          100m
+kube-system   kube-proxy-pr7k7           1/1     Running   0          100m
+{{</output>}}
+
+
+## Swithing between different contexts
+
+It is possible to merge several kubernetes API access in the same KUBECONFIG file, or just tell Kubectl several file to lookup at once:
+
+```
+export KUBECONFIG=/tmp/kubeconfig-dev:/tmp/kubeconfig-integ:/tmp/kubeconfig-admin
+```
+
+There is a tool [kubectx / kubens](https://github.com/ahmetb/kubectx) that will help manage KUBECONFIG files with several contexts
+
+```
+curl -sSLO https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx && chmod 755 kubectx && sudo mv kubectx /usr/local/bin
+```
+
+
+I can use kubectx to quickly list or swith kubernetes contexts
+
+```
+kubectx
+```
+
+{{<output>}}
+i-0397aa1339e238a99@eksworkshop-eksctl-admin.eu-west-2.eksctl.io
+i-0397aa1339e238a99@eksworkshop-eksctl-dev.eu-west-2.eksctl.io
+i-0397aa1339e238a99@eksworkshop-eksctl-integ.eu-west-2.eksctl.io
+{{</output>}}
+
+## Conclusion
+
+In this module, we have seen how to configure EKS to provide finer access to users combining IAM Groups and Kubernetes RBAC.
+You'll be able to create different groups depending on your needs, configure their associated RBAC access in your cluster, and simply add or remove users from 
+the group to grand or remove them access to your cluster.
+
+Users will only have to configure their aws cli in order to automatically retrievfe their associated rights in your cluster.

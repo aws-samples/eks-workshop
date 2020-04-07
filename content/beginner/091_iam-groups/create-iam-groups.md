@@ -5,14 +5,16 @@ draft: false
 weight: 21
 ---
 
-We want to have different IAM users which will be set to specific IAM groups in order to have different rights in the kubernetes cluster.
+We want to have different IAM users which will be added to specific IAM groups in order to have different rights in the kubernetes cluster.
 
 We will define 3 groups:
+
 - **k8sAdmin** - users from this group will have admin rights on the kubernetes cluster
 - **k8sDev** - users from this group will have full access only in the development namespace of the cluster
 - **k8sInteg** - users from this group will have access to integration namespace. 
 
-> In fact, users from **k8sDev** and **k8sInteg** groups will only have access to namespaces where we will define access for their associated kubernetes role. we'll see this but first, let's creates the groups.
+> In fact, users from **k8sDev** and **k8sInteg** groups will only have access to namespaces where we will define kubernetes RBAC access for their associated kubernetes role.
+We'll see this but first, let's creates the groups.
 
 #### Create k8sAdmin IAM Group
 
@@ -98,3 +100,37 @@ aws iam put-group-policy \
 --policy-name k8sInteg-policy \
 --policy-document "$INTEG_GROUP_POLICY"
 ```
+
+You now should have your 3 groups
+
+```
+aws iam list-groups
+```
+
+{{< output >}}
+{
+    "Groups": [
+        {
+            "Path": "/",
+            "GroupName": "k8sAdmin",
+            "GroupId": "AGPAZRV3OHPJZGT2JKVDV",
+            "Arn": "arn:aws:iam::xxxxxxxxxx:group/k8sAdmin",
+            "CreateDate": "2020-04-07T13:32:52Z"
+        },
+        {
+            "Path": "/",
+            "GroupName": "k8sDev",
+            "GroupId": "AGPAZRV3OHPJUOBR375KI",
+            "Arn": "arn:aws:iam::xxxxxxxxxx:group/k8sDev",
+            "CreateDate": "2020-04-07T13:33:15Z"
+        },
+        {
+            "Path": "/",
+            "GroupName": "k8sInteg",
+            "GroupId": "AGPAZRV3OHPJR6GM6PFDG",
+            "Arn": "arn:aws:iam::xxxxxxxxxx:group/k8sInteg",
+            "CreateDate": "2020-04-07T13:33:25Z"
+        }
+    ]
+}
+{{< /output >}}
