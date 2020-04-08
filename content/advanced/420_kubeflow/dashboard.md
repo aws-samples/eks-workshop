@@ -14,7 +14,7 @@ kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 ```
 In your Cloud9 environment, click **Tools / Preview / Preview Running Application** to access dashboard. You can click on Pop out window button to maximize browser into new tab.
 
-Leave the current terminal running because if you kill the process, you will loose access to the dashboard. Open new Terminal to follow rest of the work in the workshop
+Leave the current terminal running because if you kill the process, you will loose access to the dashboard. Open new Terminal to follow rest of the workshop
 
 ![dashboard](/images/kubeflow/dashboard-welcome.png)
 
