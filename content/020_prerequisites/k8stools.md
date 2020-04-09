@@ -23,7 +23,7 @@ sudo chmod +x /usr/local/bin/kubectl
 Upgrade AWS CLI according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html).
 
 ```
-sudo pip install --upgrade awscli
+sudo pip install --upgrade awscli && hash -r
 ```
 
 #### Install jq, envsubst (from GNU gettext utilities) and bash-completion
