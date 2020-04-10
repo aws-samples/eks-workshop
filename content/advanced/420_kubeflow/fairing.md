@@ -70,7 +70,7 @@ Let's run next cell. Fairing pushes the image to ECR and then deploys the model 
 
 Now that we have demonstrated how to use Fairing to train locally and remotely, let's train and deploy XGBoost model and review an end to end implementation
 
-#### Run fairing end to end deployment notebook 
+#### Run fairing end to end deployment notebook
 
 For this exercise, we will use another notebook called **02_06_fairing_e2e.ipynb**
 
