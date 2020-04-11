@@ -84,14 +84,17 @@ You'll see similar output
 NAME              READY   STATUS    RESTARTS   AGE
 mnist-training    1/1     Running   0          2m45s
 ```
+{{% notice note %}}
+Note: If your `mnist-training` fail for some reason, please copy our trained model by running the command under 'Expand here to copy trained model'. This will unblock your inference experiment in the next chapter.
+{{% /notice %}}
 
-> Note: If your `mnist-training` fail for some reason, please copy our trained model to your bucket by running following command, this will unblock your inference experiment in the next chapter.
-
+{{%expand "Expand here to copy trained model" %}}
 ```
 aws s3 sync s3://reinvent-opn401/mnist/tf_saved_model  s3://$S3_BUCKET/mnist/tf_saved_model
 ```
+{{% /expand %}}
 
-{{%expand "Expand here to see complete logs" %}}
+{{%expand "Expand here to see logs from successful run" %}}
 ```
 kubectl logs mnist-training -f
 Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-labels-idx1-ubyte.gz

@@ -183,7 +183,7 @@ kubectl apply -f backend.yaml
 kubectl apply -f frontend.yaml
 ```
 
-Lastly, let's examine how the client namespace, and a client service for a replication controller.
+Lastly, let's examine how the client namespace, and a client service for a replication controller
 are built. `cat client.yaml`:
 
 {{< output >}}
