@@ -22,7 +22,7 @@ if [ $AWS_REGION = "us-east-1" ] || [ $AWS_REGION = "us-east-2" ] || [ $AWS_REGI
   echo "You can continue this lab."
 else
   echo -e "\033[0;31mAWS Fargate with Amazon EKS is not yet available in your Region."
-  echo "Deploy your cluster in one of the Regions mentionned above"
+  echo "Deploy your cluster in one of the Regions mentioned above"
 fi
 ```
 
