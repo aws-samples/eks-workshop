@@ -4,46 +4,26 @@ chapter: false
 weight: 7
 ---
 
+Now that we have monitoring enabled we will simulate heavy load to our EKS Cluster hosting our Wordpress install. While generating the load, we can watch CloudWatch Container Insights for the performance metrics.
 
-#### Preparing your Load Test 
+#### Install Siege for load testing on your Workspace
 
-
-Now that we have monitoring enabled we will simulate heavy load to our EKS Cluster hosting our Wordpress install. While generating the load, we can watch CloudWatch Container Insights for the performance metrics. 
-
-##### Install Siege for load testing on your Workspace:
-
-Download Siege by running the below command in your Cloud9 terminal.
-
-```
-curl -C - -O http://download.joedog.org/siege/siege-latest.tar.gz
+```bash
+sudo yum install siege -y
 ```
 
-Once downloaded we’ll extract this file and change to the extracted directory. The version may change but you can see the directory name created via the output of the tar command.
-
-```
-tar -xvf siege-latest.tar.gz
-```
-
-![alt text](/images/ekscwci/siegeextract.png "Extract Siege")
-
-
-```
-cd siege-4.0.4
-```
-(change for version installed)
-
-Once in the directory we’ll need to make and install the Siege application. 
-```
-./configure
-make all
-sudo make install 
-```
 Verify Siege is working by typing the below into your terminal window.
 
-```
+```bash
 siege --version
 ```
-![alt text](/images/ekscwci/siegeversion.png "Siege Version Info")
 
+Output example (version may vary).
+{{< output >}}
+SIEGE 3.0.8
 
-
+Copyright (C) 2014 by Jeffrey Fulmer, et al.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.
+{{< /output >}}
