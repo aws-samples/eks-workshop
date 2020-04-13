@@ -108,7 +108,7 @@ NAME                   TYPE     DATA   AGE
 database-credentials   Opaque   2      4m18s
 {{< /output >}}
 
-Redeploy the pod that reads from the above Secret and verfiy that the keys have been exposed as environment variables with the correct literal values.
+Redeploy the pod that reads from the above Secret and verify that the keys have been exposed as environment variables with the correct literal values.
 ```
 kubectl delete pod pod-variable -n octank
 kubectl apply -f pod-variable.yaml 
