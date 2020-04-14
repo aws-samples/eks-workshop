@@ -29,9 +29,9 @@ aws iam delete-group --group-name k8sAdmin
 aws iam delete-group --group-name k8sDev
 aws iam delete-group --group-name k8sInteg
 
-aws iam delete-access-key --user-name PaulAdmin --access-key-id=$(jq -r .AccessKey.SecretAccessKey /tmp/PaulAdmin.json)
-aws iam delete-access-key --user-name JeanDev --access-key-id=$(jq -r .AccessKey.SecretAccessKey /tmp/JeanDev.json)
-aws iam delete-access-key --user-name PierreInteg --access-key-id=$(jq -r .AccessKey.SecretAccessKey /tmp/PierreInteg.json)
+aws iam delete-access-key --user-name PaulAdmin --access-key-id=$(jq -r .AccessKey.AccessKeyId /tmp/PaulAdmin.json)
+aws iam delete-access-key --user-name JeanDev --access-key-id=$(jq -r .AccessKey.AccessKeyId /tmp/JeanDev.json)
+aws iam delete-access-key --user-name PierreInteg --access-key-id=$(jq -r .AccessKey.AccessKeyId /tmp/PierreInteg.json)
 
 aws iam delete-user --user-name PaulAdmin
 aws iam delete-user --user-name JeanDev
