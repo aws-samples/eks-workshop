@@ -36,7 +36,6 @@ kubectl create secret generic mysql-pass --from-literal=password=velerodemo -n s
 ```
 
 ```
-cd ~/environment/backup-restore
 wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/mysql-deployment.yaml
 wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/wordpress-deployment.yaml
 ```
