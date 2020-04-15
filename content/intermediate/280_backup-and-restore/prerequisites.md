@@ -6,39 +6,39 @@ draft: false
 
 #### Create an S3 bucket to backup cluster
 
-Velero uses AWS S3 bucket to backup EKS cluster. Create an S3 bucket:
+Velero uses AWS S3 bucket to backup EKS cluster. It uploads a tarball of copied Kubernetes objects into S3 bucket. Let's create an S3 bucket to backup our EKS cluster.
+
+We set the VELERO_BUCKET environment variable with the bucket name (*example: eksworkshop-backup-1586914410-22480*) created to make it easier to refer to the S3 Bucket later.
 
 {{% notice info %}}
-If you are running this workshop in a region other than us-east-1, use the command below to create S3 bucket. Replace <teamhash or uniquename> with the teamhash that was provided you or use a unique string.
+If you are running this workshop in a **region other than us-east-1**, use the command below to create S3 bucket. Regions outside of us-east-1 require the appropriate LocationConstraint to be specified in order to create the bucket in the desired region.
 
 ```
-aws s3api create-bucket \
---bucket eksworkshop-backup-<teamhash or uniquename>-$RANDOM \
+export VELERO_BUCKET=$(aws s3api create-bucket \
+--bucket eksworkshop-backup-$(date +%s)-$RANDOM \
 --region $AWS_REGION \
---create-bucket-configuration LocationConstraint=$AWS_REGION
+--create-bucket-configuration LocationConstraint=$AWS_REGION \
+--| jq -r '.Location' \
+--| cut -d'/' -f3 \
+--| cut -d'.' -f1)
 ```
 {{% /notice %}}
 
 {{% notice info %}}
-For us-east-1, use the command below to create S3 bucket. Replace <teamhash or uniquename> with the teamhash that was provided you or use a unique string.
+For **us-east-1**, use the command below to create S3 bucket. 
 
 ```
-aws s3api create-bucket \
---bucket eksworkshop-backup-<teamhash or uniquename>-$RANDOM \
---region $AWS_REGION
+export VELERO_BUCKET=$(aws s3api create-bucket \
+--bucket eksworkshop-backup-$(date +%s)-$RANDOM \
+--region $AWS_REGION \
+--| jq -r '.Location' \
+--| tr -d /)
 ```
 {{% /notice %}}
 
-The output should something like this
+Now, let’s save the VELERO_BUCKET environment variable into the bash_profile
 ```
-{
-    "Location": "http://eksworkshop-backup-7asfaff-22480.s3.amazonaws.com/"
-}
-```
-
-Set the BUCKET variable with the bucket name (*example: eksworkshop-backup-7asfaff-22480*) you created.
-```
-BUCKET=<bucketname>
+echo "export VELERO_BUCKET=${VELERO_BUCKET}" | tee -a ~/.bash_profile
 ```
 
 #### Create an IAM role Velero:
@@ -78,7 +78,7 @@ cat > velero-policy.json <<EOF
                 "s3:ListMultipartUploadParts"
             ],
             "Resource": [
-                "arn:aws:s3:::${BUCKET}/*"
+                "arn:aws:s3:::${VELERO_BUCKET}/*"
             ]
         },
         {
@@ -87,7 +87,7 @@ cat > velero-policy.json <<EOF
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::${BUCKET}"
+                "arn:aws:s3:::${VELERO_BUCKET}"
             ]
         }
     ]
@@ -108,7 +108,7 @@ Create an access key for the user:
 aws iam create-access-key --user-name velero
 ```
 
-The result should look like:
+The result should look like below. Make note of SecretAccessKey and AccessKeyId.
 ```
 {
   "AccessKey": {
@@ -120,10 +120,12 @@ The result should look like:
   }
 }
 ```
-Create a credentials file (velero-credentials) specfic to velero user in your local directory (~/environment):
+Create a credentials file (velero-credentials) specfic to velero user in your local directory (~/environment) and replace "<AWS_SECRET_ACCESS_KEY>" with SecretAccessKey and "<AWS_ACCESS_KEY_ID>" with AccessKeyId:
 
 ```
+cat > velero-credentials <<EOF
 [default]
 aws_access_key_id=<AWS_ACCESS_KEY_ID>
 aws_secret_access_key=<AWS_SECRET_ACCESS_KEY>
+EOF
 ```
