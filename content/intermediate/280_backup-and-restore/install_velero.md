@@ -22,13 +22,12 @@ Verify installation
 ```
 velero version
 ```
-Output should look something like below
+Output should look something like below. We see an error getting server version because we have not installed velero on EKS cluster yet.
 ```
 Client:
-	Version: v1.3.2
-	Git commit: -
-Server:
-	Version: v1.3.2
+        Version: v1.3.2
+        Git commit: 55a9914a3e4719fb1578529c45430a8c11c28145
+<error getting server version: the server could not find the requested resource (post serverstatusrequests.velero.io)>
 ```
 
 #### Install Velero on EKS
@@ -42,7 +41,7 @@ velero install \
     --bucket $VELERO_BUCKET \
     --backup-location-config region=$AWS_REGION \
     --snapshot-location-config region=$AWS_REGION \
-    --secret-file ./credentials-velero
+    --secret-file ./velero-credentials
 ```
 
 Inspect the resources created.
