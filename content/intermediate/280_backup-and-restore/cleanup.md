@@ -19,5 +19,5 @@ kubectl delete namespace velero
 
 Delete S3 Bucket
 ```
-aws s3 rb s3://$BUCKET --force
+aws s3 rb s3://$VELERO_BUCKET --force
 ```

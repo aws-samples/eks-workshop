@@ -105,10 +105,13 @@ aws iam put-user-policy \
 
 Create an access key for the user:
 ```
-aws iam create-access-key --user-name velero
+aws iam create-access-key --user-name velero > velero-access-key.json
 ```
-
-The result should look like below. Make note of SecretAccessKey and AccessKeyId.
+Verify the access key created
+```
+cat velero-access-key.json
+```
+The result should look like below. 
 ```
 {
   "AccessKey": {
@@ -120,12 +123,20 @@ The result should look like below. Make note of SecretAccessKey and AccessKeyId.
   }
 }
 ```
-Create a credentials file (velero-credentials) specfic to velero user in your local directory (~/environment) and replace "<AWS_SECRET_ACCESS_KEY>" with SecretAccessKey and "<AWS_ACCESS_KEY_ID>" with AccessKeyId:
+Now, let’s set the VELERO_ACCESS_KEY_ID and VELERO_SECRET_ACCESS_KEY environment variables and save them to bash_profile.
 
+```
+export VELERO_ACCESS_KEY_ID=$(cat velero-access-key.json | jq -r '.AccessKey.AccessKeyId')
+export VELERO_SECRET_ACCESS_KEY=$(cat velero-access-key.json | jq -r '.AccessKey.SecretAccessKey')
+echo "export VELERO_ACCESS_KEY_ID=${VELERO_ACCESS_KEY_ID}" | tee -a ~/.bash_profile
+echo "export VELERO_SECRET_ACCESS_KEY=${VELERO_SECRET_ACCESS_KEY}" | tee -a ~/.bash_profile
+```
+
+Create a credentials file (velero-credentials) specfic to velero user in your local directory (~/environment). We will need this file when we install velero on EKS
 ```
 cat > velero-credentials <<EOF
 [default]
-aws_access_key_id=<AWS_ACCESS_KEY_ID>
-aws_secret_access_key=<AWS_SECRET_ACCESS_KEY>
+aws_access_key_id=$VELERO_ACCESS_KEY_ID
+aws_secret_access_key=$VELERO_SECRET_ACCESS_KEY
 EOF
 ```

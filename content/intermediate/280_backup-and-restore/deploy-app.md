@@ -50,18 +50,33 @@ Verify deployment
 ```
 kubectl get deployments -n staging
 ```
-
+Output should look like below:
+```
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+wordpress         1/1     1            1           14m
+wordpress-mysql   1/1     1            1           19m
+```
 Verify Persistent Volume Claims
 ```
 kubectl get pvc -n staging
 ```
-
-Access Wordpress service using port forwording
+Output should look like below:
 ```
-kubectl port-forward service/wordpress 8080:80 -n staging
+NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Bound    pvc-babeabd3-327d-4d36-a1d9-840db1a816e1   20Gi       RWO            staging        20m
+wp-pv-claim      Bound    pvc-fa71cb55-052f-484b-80c9-a55e7fb27aae   20Gi       RWO            staging        16m
 ```
 
-Access the wordpress application at http://localhost:8080 from your Cloud9 Workspace and create wordpress admin username and password.
+Access Wordpress using the load balancer created by the Service.
+```
+kubectl get svc -n staging --field-selector metadata.name=wordpress -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'
+```
+The output should return the load balancer's url
+```
+a0b567aecbcf64494b68b081156ed6b5-1367665471.us-west-2.elb.amazonaws.com
+```
+
+Access the wordpress application at the load balancer url and create wordpress admin username and password.
 
 ![Token page](/images/backupandrestore/wordpress-admin.jpg)
 
