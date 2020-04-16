@@ -303,9 +303,6 @@ Resources:
             - sudo -H -u ec2-user bash -c "eksctl completion bash >> ~/.bash_completion"
             - sudo -H -u ec2-user bash -c ". /etc/profile.d/bash_completion.sh"
             - sudo -H -u ec2-user bash -c ". ~/.bash_completion"
-            - echo '=== FIX Docker Install ==='
-            - grep -qxF 'cgroup /sys/fs/cgroup cgroup defaults 0 0' /etc/fstab || echo 'cgroup /sys/fs/cgroup cgroup defaults 0 0' >> /etc/fstab
-            - mount -a
             - echo '=== CONFIGURE awscli and setting ENVIRONMENT VARS ==='
             - echo "complete -C '/usr/bin/aws_completer' aws" >> /home/ec2-user/.bashrc
             - mkdir /home/ec2-user/.aws
