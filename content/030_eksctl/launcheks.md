@@ -29,10 +29,36 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
 
 ### Create an EKS cluster
+
+Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
+
 ```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --managed --alb-ingress-access --region=${AWS_REGION}
+cat << EOF > eksworkshop.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+
+managedNodeGroups:
+- name: nodegroup
+  desiredCapacity: 3
+  iam:
+    withAddonPolicies:
+      albIngress: true
+
+secretsEncryption:
+  keyARN: ${MASTER_ARN}
+EOF
 ```
 
+Next, use the file you created as the input for the eksctl cluster creation.
+
+```
+eksctl create cluster -f eksworkshop.yaml
+```
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}

@@ -50,8 +50,7 @@ aws configure get default.region
 Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
 
 ```
-aws sts get-caller-identity
-
+aws sts get-caller-identity --query Arn | grep eksworkshop-admin -q && echo "IAM role valid" || echo "IAM role NOT valid"
 ```
 
 <!--
@@ -62,31 +61,4 @@ aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME --qu
 ```
 -->
 
-The output assumed-role name should contain:
-{{< output >}}
-eksworkshop-admin
-{{< /output >}}
-
-#### VALID
-
-If the _Arn_ contains the role name from above and an Instance ID, you may proceed.
-
-{{< output >}}
-{
-    "Account": "123456789012",
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
-    "Arn": "arn:aws:sts::123456789012:assumed-role/eksworkshop-admin/i-01234567890abcdef"
-}
-{{< /output >}}
-
-#### INVALID
-
-If the _Arn contains `TeamRole`, `MasterRole`, or does not match the role name output above, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
-
-{{< output >}}
-{
-    "Account": "123456789012",
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef",
-    "Arn": "arn:aws:sts::123456789012:assumed-role/TeamRole/MasterRole"
-}
-{{< /output >}}
+If the IAM role is not valid, <span style="color: red;">**DO NOT PROCEED**</span>. Go back and confirm the steps on this page.
