@@ -36,7 +36,7 @@ helm --namespace 2048-game install 2048-game \
   --set awsRegion=${AWS_REGION} \
   --set awsVpcID=${VPC_ID} \
   --set rbac.create=false \
-  --set rbac.serviceAccountName=alb-ingress-controller \
+  --set rbac.serviceAccount.name=alb-ingress-controller \
   --set clusterName=eksworkshop-eksctl
 ```
 
