@@ -21,10 +21,10 @@ Copy/Paste the following commands into your Cloud9 Terminal.
 ```
 mkdir -p ~/environment/backup-restore
 cd ~/environment/backup-restore
-wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/storageclass.yaml
+wget https://eksworkshop.com/intermediate/280_backup-and-restore/backupandrestore.files/storage-class.yaml
 ```
 ```
-kubectl apply -f storageclass.yaml
+kubectl apply -f storage-class.yaml
 ```
 
 #### Deploy Wordpress and MySQL in the staging namespace
