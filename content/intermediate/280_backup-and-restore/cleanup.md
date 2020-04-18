@@ -33,7 +33,7 @@ rm -fr backup-restore
 sudo rm -f /usr/local/bin/velero
 ```
 
-You may also want to delete the environment variables (`$VELERO_BUCKET`, `$VELERO_ACCESS_KEY_ID`, and `$VELERO_SECRET_ACCESS_KEY`) from `~/.bash_profile` as they're no longer valid using your preferred editor. You will need to remove the lines below from `~/.bash_profile`.
+You may also want to delete the environment variables (`$VELERO_BUCKET`, `$VELERO_ACCESS_KEY_ID`, and `$VELERO_SECRET_ACCESS_KEY`) from `~/.bash_profile` using your preferred editor as they are no longer valid. You will need to remove the lines below from `~/.bash_profile`.
 
 ```
 export VELERO_BUCKET=eksworkshop-backup-1587212345-12345
