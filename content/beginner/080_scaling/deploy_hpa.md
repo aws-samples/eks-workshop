@@ -16,6 +16,22 @@ helm install metrics-server \
     --version 2.9.0 \
     --namespace metrics
 ```
+
+Edit 2020-04-22: some versions of EKS may get the following error once you [create the HPA in the next step](https://eksworkshop.com/scaling/test_hpa/) 
+
+```
+kubectl describe hpa
+... failed to get cpu utilization: unable to get metrics for resource cpu
+```
+
+To fix, set the following values for the metric-server helm release ([as described here](https://dev.to/setevoy/kubernetes-running-metrics-server-in-aws-eks-for-a-kubernetes-pod-autoscaler-4m9)):
+
+```
+args:
+  - --kubelet-preferred-address-types=InternalIP
+  - --kubelet-insecure-tls
+```
+
 ### Confirm the Metrics API is available.
 
 Return to the terminal in the Cloud9 Environment
