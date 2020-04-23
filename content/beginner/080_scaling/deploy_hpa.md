@@ -29,7 +29,6 @@ To fix, set the following values for the metric-server helm release ([as describ
 ```
 args:
   - --kubelet-preferred-address-types=InternalIP
-  - --kubelet-insecure-tls
 ```
 
 ### Confirm the Metrics API is available.
