@@ -15,7 +15,7 @@ If you are running in an account that was created for you as part of an AWS even
 To delete the resources used in this chapter from your EKS cluster: 
 ```
 kubectl delete -f test_deployments.yaml
-kubectl delete -f deployment spotinst-kubernetes-cluster-controller -n kube-system
+kubectl delete deployment spotinst-kubernetes-cluster-controller -n kube-system
 ```
 
 In order to delete the Ocean cluster, on the Ocean dashboard click Actions, and then "Delete".
