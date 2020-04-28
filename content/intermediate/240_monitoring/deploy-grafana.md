@@ -16,6 +16,7 @@ kubectl create namespace grafana
 helm install grafana stable/grafana \
     --namespace grafana \
     --set persistence.storageClassName="gp2" \
+    --set persistence.enabled=true \
     --set adminPassword='EKS!sAWSome' \
     --set datasources."datasources\.yaml".apiVersion=1 \
     --set datasources."datasources\.yaml".datasources[0].name=Prometheus \
