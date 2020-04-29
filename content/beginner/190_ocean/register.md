@@ -29,8 +29,10 @@ Once you’re logged in, you will find yourself in the Console.
 #### Connecting Your AWS Account
 Now, you will link your AWS account in order to enable the Spot.io platform to manage AWS resources on your behalf.
 
+<div data-proofer-ignore>
 1. Make sure you are **logged in** to the [Console](https://console.spotinst.com/)
 2. Select **Amazon Web Services** as the cloud provider.
+</div>
 
 <img src="/images/ocean/choose_cloud_provider.png" alt="Choose AWS Cloud Provider"/>
 
