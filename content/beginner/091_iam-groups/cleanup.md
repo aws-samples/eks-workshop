@@ -10,7 +10,7 @@ Once you have completed this chapter, you can cleanup the files and resources yo
 ```bash
 unset KUBECONFIG
 
-kubectl delete namespace development integration$
+kubectl delete namespace development integration
 kubectl delete pod nginx-admin
 
 eksctl delete iamidentitymapping --cluster eksworkshop-eksctl --arn arn:aws:iam::${ACCOUNT_ID}:role/k8sAdmin
