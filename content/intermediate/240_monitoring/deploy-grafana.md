@@ -11,18 +11,28 @@ to gp2, admin password, configuring the datasource to point to Prometheus and cr
 [external load](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)
 balancer for the service.
 
+Create YAML file called grafana.yaml with following values:
+
+```
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.prometheus.svc.cluster.local
+      access: proxy
+      isDefault: true
+```
+
 ```bash
 kubectl create namespace grafana
 helm install grafana stable/grafana \
     --namespace grafana \
     --set persistence.storageClassName="gp2" \
+    --set persistence.enabled=true \
     --set adminPassword='EKS!sAWSome' \
-    --set datasources."datasources\.yaml".apiVersion=1 \
-    --set datasources."datasources\.yaml".datasources[0].name=Prometheus \
-    --set datasources."datasources\.yaml".datasources[0].type=prometheus \
-    --set datasources."datasources\.yaml".datasources[0].url=http://prometheus-server.prometheus.svc.cluster.local \
-    --set datasources."datasources\.yaml".datasources[0].access=proxy \
-    --set datasources."datasources\.yaml".datasources[0].isDefault=true \
+    --values grafana.yaml \
     --set service.type=LoadBalancer
 ```
 

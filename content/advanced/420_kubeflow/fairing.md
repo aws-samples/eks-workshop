@@ -8,12 +8,14 @@ draft: false
 
 Jupyter notebooks are a great way to author your model creation. You can write the algorithms, train the model and if you need a way to publish the inference endpoint directly from this interface, you can use Kubeflow fairing to do so
 
-#### Assign ECR permissions
+#### Assign S3 and ECR permissions
 
-For this chapter, we will create a training image and store it in ECR. We need to add an IAM policy to Worker nodes so that we can write to ECR. Run below commands in Cloud9 and assign desired permission
+For this chapter, we will make use of both S3 and ECR services. We'll use S3 to store and access pipeline data. We'll use ECR as our container registry for the training image. We need to add IAM policies to Worker nodes so that we can access both S3 and ECR. Run below commands in Cloud9 and assign desired permission
 
 ```
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+
+aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
 ```
 
 #### Create Jupyter notebook server
