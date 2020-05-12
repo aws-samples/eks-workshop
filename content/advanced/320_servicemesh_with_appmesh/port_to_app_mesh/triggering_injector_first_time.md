@@ -6,25 +6,30 @@ weight: 70
 
 Right now, if we describe any of the pods running in the prod namespace, we'll notice that they are running with just one container, the same one we initially deployed it with:
 
-```
-kubectl get pods -nprod
+```bash
+kubectl -n prod get pods
 ```
 
 yields:
 {{< output >}}
-NAME                        READY   STATUS    RESTARTS   AGE
-dj-5b445fbdf4-qf8sv         1/1     Running   0          3h
-jazz-v1-644856f4b4-mshnr    1/1     Running   0          3h
-metal-v1-84bffcc887-97qzw   1/1     Running   0          3h
+NAME                       READY   STATUS    RESTARTS   AGE
+dj-8d4fc6ccd-ntjnq         1/1     Running   0          115m
+jazz-v1-f94cdc64d-ql9rw    1/1     Running   0          115m
+metal-v1-654d4858f-dqjjx   1/1     Running   0          115m
 {{< /output >}}
+
+{{% notice note %}}
+Note that under the **READY** column, we see 1/1, which indicates one container is running for each pod.
+{{% /notice %}}
 
 and to take a closer look:
 
-```
-kubectl describe pods/dj-5b445fbdf4-qf8sv -nprod
+```bash
+export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
+
+kubectl -n prod describe pods/${DJ_POD_NAME}
 ```
 
-yields:
 {{< output >}}
 ...
 Containers:
@@ -38,40 +43,33 @@ Containers:
 ...
 {{< /output >}}
 
-The injector controller we installed earlier watches for new pods to be created, and ensures any new pods that are created in the prod namespace are injected with the App Mesh sidecar.  Since our dj pods were already running before the injector was created, we'll force them to be recreated, this time with the sidecars auto-injected into them.
+The injector controller we installed earlier watches for **new** pods to be created, and ensures any new pods that are created in the prod namespace are injected with sidecar.
+
+Since our pods were already running before the injector was created, we'll force them to be recreated, this time with the sidecars auto-injected into them.
 
 In production, there are more graceful ways to do this, but for the purpose of this tutorial, an easy way to have the deployment recreate the pods in an innocuous fashion is to patch into the deployment a simple date annotation.
 
-To do that with our current deployment, first we get all the prod namespace pod names:
+We will run these commands to add a date label to `dj`, `jazz-v1`, and `metal-1` deployment
 
-```
-kubectl get pods -nprod
-```
+```bash
+export TIMESTAMP=$(date +%s)
 
-The output will be the pod names:
-{{< output >}}
-NAME                        READY   STATUS    RESTARTS   AGE
-dj-5b445fbdf4-qf8sv         1/1     Running   0          3h
-jazz-v1-644856f4b4-mshnr    1/1     Running   0          3h
-metal-v1-84bffcc887-97qzw   1/1     Running   0          3h
-{{< /output >}}
-
-Note that under the READY column, we see 1/1, which indicates one container is running for each pod.  
-
-Next, run the following commands  to add a date label to each dj, jazz-v1, and metal-1 deployment, forcing the pods to be recreated:
-
-```
-kubectl patch deployment dj -nprod -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-kubectl patch deployment metal-v1 -nprod -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-kubectl patch deployment jazz-v1 -nprod -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+kubectl -n prod patch deployment dj \
+  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"${TIMESTAMP}\"}}}}}"
+kubectl -n prod patch deployment metal-v1 \
+ -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"${TIMESTAMP}\"}}}}}"
+kubectl -n prod patch deployment jazz-v1 -nprod \
+  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"${TIMESTAMP}\"}}}}}"
 ```
 
 Once again, get the pods:
-```
-kubectl get pods -nprod
+
+```bash
+kubectl -n prod get pods
 ```
 
-Now note how we see 2/2 under READY, which indicates two container for each pod are running:
+Now note how we see 2/2 under READY, which indicates two container for each pod are running
+
 {{< output >}}
 NAME                        READY   STATUS    RESTARTS   AGE
 dj-6cfb85cdd9-z5hsp         2/2     Running   0          10m
@@ -80,12 +78,13 @@ metal-v1-769b58d9dc-7q92q   2/2     Running   0          18s
 {{< /output >}}
 
 {{% notice note %}}
-If you don't see the above exact output, and instead see “Terminating” or "Initializing" pods, wait about 10 seconds — (your redeployment is underway), and re-run the command. Run `kubectl get pods -nprod --watch` to see the entire process of initializaing and terminating pods.
+If you don't see the above exact output, and instead see “Terminating” or "Initializing" pods, wait about 10 seconds — (your redeployment is underway), and re-run the command. Run `kubectl -n prod get pods --watch` to see the entire process of initializing and terminating pods.
 {{% /notice %}}
 
+```bash
+kubectl -n prod get pods --watch
 ```
-kubectl get pods -nprod --watch
-```
+
 {{< output >}}
 NAME                       READY   STATUS        RESTARTS   AGE
 dj-76c74fd9b6-mlmnv        2/2     Running       0          39s
@@ -99,10 +98,14 @@ jazz-v1-f94cdc64d-mvd4l   0/1   Terminating   0     20m
 jazz-v1-f94cdc64d-mvd4l   0/1   Terminating   0     20m
 {{< /output >}}
 
-If we now describe the new dj pod to get more detail: 
+If we now describe the new `dj` pod to get more detail:
+
+```bash
+export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
+
+kubectl -n prod describe pod ${DJ_POD_NAME}
 ```
-kubectl describe pods/$(kubectl get pods -nprod | grep 'dj-' | awk '{print $1}') -nprod`
-```
+
 {{< output >}}
 ...
 Containers:

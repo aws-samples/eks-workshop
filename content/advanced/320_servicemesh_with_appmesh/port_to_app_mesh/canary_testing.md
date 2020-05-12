@@ -4,19 +4,30 @@ date: 2018-08-07T08:30:11-07:00
 weight: 90
 ---
 
-A canary release is a method of slowly exposing a new version of software.  The theory behind it is that by serving the new version of the software initially to say, 5% of requests, if there is a problem, the problem only impacts a very small percentage of users before its discovered and rolled back.
+A canary release is a method of slowly exposing a new version of software. The theory behind it is that by serving the new version of the software initially to say, 5% of requests, if there is a problem, the problem only impacts a very small percentage of users before its discovered and rolled back.
 
-So now back to our DJ App scenario... the V2 of the metal and jazz services are out, and they now include the city each artist is from in the response.  Let's see how we can release v2 versions of metal and jazz services in a canary fashion using App Mesh.
+So now back to our DJ App scenario...  `metal-v2` and `jazz-v2` services are out, and they now include the city each artist is from in the response.
+
+Let's see how we can release these new versions in a canary fashion using `AWS App Mesh`.
 
 When we're complete, requests to metal and jazz will be distributed in a weighted fashion to both the v1 and v2 versions.
 
 ![App Mesh](/images/app_mesh_ga/140-v2-mesh.png)
 
+## jazz-v2
 
-To begin, we'll rollout the v2 deployments, services, and Virtual Nodes with a single YAML file:
+### Deploy jazz-v2
 
-```
-kubectl apply -nprod -f 5_canary/jazz_v2.yaml
+To begin, we'll rollout the v2:
+
+* deployments
+* services
+* Virtual Nodes
+ 
+ With a single YAML file:
+
+```bash
+kubectl -n prod apply -f 5_canary/jazz_v2.yaml
 ```
 
 Output should be similar to:
@@ -26,10 +37,14 @@ service/jazz-v2 created
 virtualnode.appmesh.k8s.aws/jazz-v2 created
 {{< /output >}}
 
-Next, we'll update the jazz Virtual Service by modifying the route to spread traffic 90/10 across the two versions.  If we take a look at it now, we'll see the current route which points to jazz-v1 100%:
+### Update the jazz Virtual Service
 
-```
-kubectl describe virtualservice jazz -nprod
+Next, we'll update the jazz Virtual Service by modifying the route to spread traffic **90/10** across the two versions.
+
+If we take a look at it now, we'll see the current route which points to `jazz-v1` 100%:
+
+```bash
+kubectl -n prod describe virtualservice jazz | grep --color=always -e "^" -e "Weight:"
 ```
 
 yields:
@@ -67,14 +82,14 @@ Events:  <none>
 
 We apply the updated service definition:
 
-```
-kubectl apply -nprod -f 5_canary/jazz_service_update.yaml
+```bash
+kubectl -n prod apply -f 5_canary/jazz_service_update.yaml
 ```
 
 And when we describe the Virtual Service again, we see the updated route:
 
-```
-kubectl describe virtualservice jazz -nprod
+```bash
+kubectl -n prod describe virtualservice jazz | grep --color=always -e "^" -e "Weight:"
 ```
 
 as 90/10:
@@ -112,10 +127,22 @@ Status:
 Events:  <none>
 {{< /output >}}
 
-We perform the same steps to deploy metal-v2.  Rollout the v2 deployments, services, and Virtual Nodes with a single YAML file:
+## metal-v2
 
-```
-kubectl apply -nprod -f 5_canary/metal_v2.yaml
+### Deploy metal-v2
+
+We will perform the same steps to deploy `metal-v2`.
+
+Rollout the v2:
+
+* deployments
+* services
+* Virtual Nodes
+  
+With a single YAML file:
+
+```bash
+kubectl -n prod apply  -f 5_canary/metal_v2.yaml
 ```
 
 Output should be similar to:
@@ -125,17 +152,27 @@ service/metal-v2 created
 virtualnode.appmesh.k8s.aws/metal-v2 created
 {{< /output >}}
 
-Update the metal Virtual Service by modifying the route to spread traffic 50/50 across the two versions:
+### Update the metal Virtual Service
 
+If we take a look at it now, we'll see the current route which points to `metal-v1` 100%:
+
+```bash
+kubectl -n prod describe virtualservice metal | grep --color=always -e "^" -e "Weight:"
 ```
-kubectl apply -nprod -f 5_canary/metal_service_update.yaml
+
+
+Update the metal Virtual Service by modifying the route to spread traffic **50/50** across the two versions:
+
+```bash
+kubectl -n prod apply -f 5_canary/metal_service_update.yaml
 ```
 
 And when we describe the Virtual Service again, we see the updated route:
 
+```bash
+kubectl -n prod describe virtualservice metal | grep --color=always -e "^" -e "Weight:"
 ```
-kubectl describe virtualservice metal -nprod
-```
+
 yields:
 {{< output >}}
 Name:         metal.prod.svc.cluster.local

@@ -16,15 +16,16 @@ Next, go to the [CloudFormation Console](https://console.aws.amazon.com/cloudfor
 Now, delete Weave Flux and your load balanced services
 
 ```
-helm delete flux --purge
-kubectl delete ns flux 
-kubectl delete crd helmreleases.flux.weave.works
+helm uninstall helm-operator --namespace flux
+helm uninstall flux --namespace flux
+kubectl delete namespace flux 
+kubectl delete crd helmreleases.helm.fluxcd.io
 
-helm delete mywebserver --purge 
-kubectl delete ns nginx
+helm uninstall mywebserver -n nginx
+kubectl delete namespace nginx
 kubectl delete svc eks-example -n eks-example
 kubectl delete deployment eks-example -n eks-example
-kubectl delete ns eks-example
+kubectl delete namespace eks-example
 ```
 
 Optionally go to GitHub and delete your k8s-config and eks-example repositories.  

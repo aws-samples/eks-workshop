@@ -5,35 +5,43 @@ weight: 15
 draft: false
 ---
 
-#### Deploy Grafana
-
 We are now going to install Grafana. For this example, we are primarily using the Grafana defaults,
 but we are overriding several parameters. As with Prometheus, we are setting the storage class
 to gp2, admin password, configuring the datasource to point to Prometheus and creating an
 [external load](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)
 balancer for the service.
 
+Create YAML file called grafana.yaml with following values:
+
 ```
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.prometheus.svc.cluster.local
+      access: proxy
+      isDefault: true
+```
+
+```bash
 kubectl create namespace grafana
-helm install stable/grafana \
-    --name grafana \
+helm install grafana stable/grafana \
     --namespace grafana \
     --set persistence.storageClassName="gp2" \
+    --set persistence.enabled=true \
     --set adminPassword='EKS!sAWSome' \
-    --set datasources."datasources\.yaml".apiVersion=1 \
-    --set datasources."datasources\.yaml".datasources[0].name=Prometheus \
-    --set datasources."datasources\.yaml".datasources[0].type=prometheus \
-    --set datasources."datasources\.yaml".datasources[0].url=http://prometheus-server.prometheus.svc.cluster.local \
-    --set datasources."datasources\.yaml".datasources[0].access=proxy \
-    --set datasources."datasources\.yaml".datasources[0].isDefault=true \
+    --values grafana.yaml \
     --set service.type=LoadBalancer
 ```
 
 Run the following command to check if Grafana is deployed properly:
 
-```sh
+```bash
 kubectl get all -n grafana
 ```
+
 You should see similar results. They should all be Ready and Available
 
 ```text
@@ -53,7 +61,7 @@ replicaset.apps/grafana-b9697f8b5   1         1         1         2m
 
 You can get Grafana ELB URL using this command. Copy & Paste the value into browser to access Grafana web UI.
 
-```sh
+```bash
 export ELB=$(kubectl get svc -n grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 
 echo "http://$ELB"
@@ -61,12 +69,10 @@ echo "http://$ELB"
 
 When logging in, use the username **admin** and get the password hash by running the following:
 
-```
+```bash
 kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
-
 
 {{% notice tip %}}
 It can take several minutes before the ELB is up, DNS is propagated and the nodes are registered.
 {{% /notice %}}
-
