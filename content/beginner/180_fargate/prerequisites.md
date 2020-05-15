@@ -21,8 +21,8 @@ AWS Fargate with Amazon EKS is currently only available in the following Regions
 Run this command to verify if AWS Fargate with Amazon EKS is available in the Region you choose to deploy your Amazon EKS cluster.
 
 ```bash
-if [[ $AWS_REGION =~ ^(us-east-1|us-east 2|us-west-2|eu-west-1|eu-central-1|ap-southeast-1|ap-southeast-2|ap-northeast-1)$ ]]
-; then
+if [[ $AWS_REGION =~ ^(us-east-1|us-east-2|us-west-2|eu-west-1|eu-central-1|ap-southeast-1|ap-southeast-2|ap-northeast-1)$ ]]
+then
   echo -e "\033[0;32mAWS Fargate with Amazon EKS is available in your Region."
   echo "You can continue this lab."
 else
