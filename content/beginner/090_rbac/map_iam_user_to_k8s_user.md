@@ -5,15 +5,14 @@ draft: false
 weight: 30
 ---
 
-Next, we'll define a k8s user called rbac-user, and map to it's IAM user counterpart.  Run the following to create a ConfigMap called aws-auth.yaml that creates this mapping:
+Next, we'll define a k8s user called rbac-user, and map to it's IAM user counterpart.  Run the following to get the existing ConfigMap and save into a file called aws-auth.yaml:
+```
+kubectl get configmap -n kube-system aws-auth -o yaml > aws-auth.yaml
+```
+Next append the rbac-user mapping to the existing configMap
 
 ```
-cat << EoF > aws-auth.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: aws-auth
-  namespace: kube-system
+cat << EoF >> aws-auth.yaml
 data:
   mapUsers: |
     - userarn: arn:aws:iam::${ACCOUNT_ID}:user/rbac-user
