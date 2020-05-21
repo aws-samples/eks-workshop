@@ -7,13 +7,13 @@ draft: false
 ### ArgoCD Architecture
 ![ArgoCD Architecture](/images/argocd/argocd_architecture.png)
 
-Argocd is composed by three mains components:
+ArgoCD is composed of three mains components:
 
-***API Server***: In charge to expose the API for the WebUI / CLI / CICD Systems
+***API Server***: Exposes the API for the WebUI / CLI / CICD Systems
 
-***Repository Server***: Internal service which maintains a local cache of the Git Repository holding the application manifests
+***Repository Server***: Internal service which maintains a local cache of the git repository holding the application manifests
 
-***Application Controller***: Kubernetes controller which control and monitor applications continuously and compare that  current live state with desired target state (specified in the repository). if a `OutOfSync` is detected it will take corrective actions.
+***Application Controller***: Kubernetes controller which controls and monitors applications continuously and compares that  current live state with desired target state (specified in the repository). If a `OutOfSync` is detected, it will take corrective actions.
 
 ### Install Argo CD
 
