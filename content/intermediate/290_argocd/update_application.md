@@ -7,9 +7,10 @@ draft: false
 Our application is now deployed into our ArgoCD. We are now going to update our github repository synced with our application
 
 ### Update your application
+<div data-proofer-ignore>
 Go to your Github fork repository (replace GITHUB_USERNAME with your own):
 https://github.com/GITHUB_USERNAME/ecsdemo-nodejs/blob/master/kubernetes/deployment.yaml
-
+</div>
 
 Update `spec.replicas: 2`
 ```
