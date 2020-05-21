@@ -36,7 +36,7 @@ kubectl -n bookinfo \
 We can display the virtual service with the following command.
 
 ```bash
-kubectl -n bookinfo get virtualservices reviews -o yaml
+kubectl -n bookinfo get virtualservices bookinfo -o yaml
 ```
 
 The subset is set to v1 for all reviews request.
