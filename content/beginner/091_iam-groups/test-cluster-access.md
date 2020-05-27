@@ -93,10 +93,10 @@ Create new KUBECONFIG file to test this:
 
 ```
 export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworkshop-eksctl
-cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - dev\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | tee $KUBECONFIG
+cat $KUBECONFIG | awk "/env:/{print;print \"      - name: AWS_PROFILE\n        value: dev\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | tee $KUBECONFIG
 ```
 
-We just added the `--profile dev` parameter to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile.
+We just added the `AWS_PROFILE: dev` environment variable to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile.
 
 With this configuration we should be able to interract with the **development** namespace, because it as our RBAC role defined.
 
@@ -130,7 +130,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-user" cannot list re
 
 ```
 export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig eksworkshop-eksctl
-cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - integ\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | tee $KUBECONFIG
+cat $KUBECONFIG | awk "/env:/{print;print \"      - name: AWS_PROFILE\n        value: integ\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | tee $KUBECONFIG
 ```
 
 let's create a pod
@@ -165,6 +165,7 @@ Error from server (Forbidden): pods is forbidden: User "integ-user" cannot list 
 ```
 export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig eksworkshop-eksctl
 cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - admin\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | tee $KUBECONFIG
+cat $KUBECONFIG | awk "/env:/{print;print \"      - name: AWS_PROFILE\n        value: admin\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | tee $KUBECONFIG
 ```
 
 let's create a pod in default namespace
