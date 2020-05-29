@@ -31,6 +31,14 @@ sudo pip install --upgrade awscli && hash -r
 sudo yum -y install jq gettext bash-completion
 ```
 
+#### Install yq for yaml processing
+
+```
+echo 'yq() {
+  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq yq "$@"
+}' | tee -a ~/.bashrc && source ~/.bashrc
+```
+
 #### Verify the binaries are in the path and executable
 ```
 for command in kubectl jq envsubst aws

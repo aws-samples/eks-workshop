@@ -11,7 +11,7 @@ The final step in exposing the 2048-game service through an ingress object. As w
 
 ```bash
 wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml
-cat 2048-ingress.yaml | awk "/annotations:/{print;print \"    alb.ingress.kubernetes.io/target-type: ip\";next}1" | tee 2048-ingress.yaml.v2 ; mv 2048-ingress.yaml.v2 2048-ingress.yaml
+yq w -i 2048-ingress.yaml 'metadata.annotations."alb.ingress.kubernetes.io/target-type"' ip
 kubectl apply -f 2048-ingress.yaml
 ```
 
