@@ -7,10 +7,12 @@ draft: false
 
 #### Ingress
 
-The final step in exposing the 2048-game service is to deploy an ingress.
+The final step in exposing the 2048-game service through an ingress object. As we target Farget pods ip and not an ec2 instance, we add an annotation to the ingress to specify the target-type.
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml
+wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml
+yq w -i 2048-ingress.yaml 'metadata.annotations."alb.ingress.kubernetes.io/target-type"' ip
+kubectl apply -f 2048-ingress.yaml
 ```
 
 This will start provisioning an instance of Internet-facing Application Load Balancer. From your AWS Management Console, if you navigate to the EC2 dashboard and the select **Load Balancers** from the menu on the left-pane, you should see the details of the ALB instance similar to the following.
