@@ -7,7 +7,7 @@ draft: false
 
 #### Ingress
 
-The final step in exposing the 2048-game service through an ingress object. As we target Farget pods ip and not an ec2 instance, we add an annotation to the ingress to specify the target-type.
+The final step in exposing the 2048-game service through an ingress object. As we target Fargate pod IPs and not EC2 instances, we add an annotation to the ingress to specify the target-type.
 
 ```bash
 wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml
