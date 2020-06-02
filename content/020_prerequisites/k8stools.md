@@ -28,7 +28,7 @@ sudo pip install --upgrade awscli && hash -r
 
 #### Install jq, envsubst (from GNU gettext utilities) and bash-completion
 ```
-sudo yum -y install jq gettext bash-completion
+sudo yum -y install jq gettext bash-completion moreutils
 ```
 
 #### Install yq for yaml processing
