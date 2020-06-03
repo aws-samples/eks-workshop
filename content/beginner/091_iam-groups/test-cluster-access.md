@@ -93,10 +93,10 @@ Create new KUBECONFIG file to test this:
 
 ```
 export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworkshop-eksctl
-cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - dev\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | tee $KUBECONFIG
+cat $KUBECONFIG | yq w - -- 'users[*].user.exec.args[+]' '--profile' | yq w - -- 'users[*].user.exec.args[+]' 'dev' | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | sponge $KUBECONFIG
 ```
 
-We just added the `--profile dev` parameter to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile.
+We added the `--profile dev` parameter to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile, and we rename the context using suffix **-dev**.
 
 With this configuration we should be able to interract with the **development** namespace, because it as our RBAC role defined.
 
@@ -130,7 +130,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-user" cannot list re
 
 ```
 export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig eksworkshop-eksctl
-cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - integ\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | tee $KUBECONFIG
+cat $KUBECONFIG | yq w - -- 'users[*].user.exec.args[+]' '--profile' | yq w - -- 'users[*].user.exec.args[+]' 'integ' | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | sponge $KUBECONFIG
 ```
 
 let's create a pod
@@ -164,7 +164,7 @@ Error from server (Forbidden): pods is forbidden: User "integ-user" cannot list 
 
 ```
 export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig eksworkshop-eksctl
-cat $KUBECONFIG | awk "/args:/{print;print \"      - --profile\n      - admin\";next}1" | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | tee $KUBECONFIG
+cat $KUBECONFIG | yq w - -- 'users[*].user.exec.args[+]' '--profile' | yq w - -- 'users[*].user.exec.args[+]' 'admin' | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | sponge $KUBECONFIG
 ```
 
 let's create a pod in default namespace
