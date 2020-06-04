@@ -11,7 +11,7 @@ As the Argo CD has been deployed, we now need to configure argocd-server and the
 By default argocd-server is not publicaly exposed. For the purpose of this workshop, we will use a Load Balancer to make it usable:
 ```
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
-ARGOCD_SERVER=`kubectl get svc argocd-server -n argocd -o json | jq --raw-output .status.loadBalancer.ingress[0].hostname`
+export ARGOCD_SERVER=`kubectl get svc argocd-server -n argocd -o json | jq --raw-output .status.loadBalancer.ingress[0].hostname`
 ```
 
 
