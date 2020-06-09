@@ -13,6 +13,9 @@ Now we can access the Kubernetes Dashboard
 //api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 ```
 
+The Cloud9 Preview browser doesn't appear to support the token authentication, so once you have the login screen in the cloud9 preview browser tab, press the **Pop Out** button to open the login screen in a regular browser tab, like below:
+![popout](/images/popout.png)
+
 Open a New Terminal Tab  and enter
 ```
 aws eks get-token --cluster-name eksworkshop-eksctl | jq -r '.status.token'
@@ -24,6 +27,3 @@ Copy the output of this command and then click the radio button next to
 ![Token page](/images/dashboard-connect.png)
 
 Then press *Sign In*.
-
-If you want to see the dashboard in a full tab, click the **Pop Out** button, like below:
-![popout](/images/popout.png)
