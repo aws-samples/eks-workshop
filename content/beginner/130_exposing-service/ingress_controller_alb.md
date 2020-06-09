@@ -50,7 +50,7 @@ kubectl apply -f alb-ingress-controller.yaml
 ```
 Verify that the deployment was successful and the controller started:
 ```
-kubectl logs -n kube-system $(kubectl get po -n kube-system | egrep -o alb-ingress[a-zA-Z0-9-]+)
+kubectl logs -n kube-system $(kubectl get po -n kube-system | grep alb-ingress | awk '{print $1}')
 ```
 You should be able to see the following output:
 {{< output >}}
