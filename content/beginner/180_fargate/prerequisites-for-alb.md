@@ -39,7 +39,7 @@ Output:
     "Policy": {
         "PolicyName": "ALBIngressControllerIAMPolicy",
         "PolicyId": "ANPA5UPUHMRP4ODFXYB5W",
-        "Arn": "arn:aws:iam::937351930975:policy/ALBIngressControllerIAMPolicy",
+        "Arn": "arn:aws:iam::123456789012:policy/ALBIngressControllerIAMPolicy",
         "Path": "/",
         "DefaultVersionId": "v1",
         "AttachmentCount": 0,
