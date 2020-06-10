@@ -10,6 +10,10 @@ draft: false
 
 Before we get to the lab exercise, we wanted to take some time to discuss options for generating your AWS KMS CMK. AWS KMS provides you with two alternatives to store your CMK. Your security requirements may dictate which alternative is suitable for your workloads on Amazon EKS. 
 
+{{% notice info %}}
+There is an [AWS Online Tech Talk on *Encrypting Secrects in Amazon EKS*](https://pages.awscloud.com/Encrypting-Secrets-in-Amazon-EKS_2020_0502-CON_OD.html?&trk=ep_card-el_a131L0000084iG3QAI&trkCampaign=NA-FY20-AWS-DIGMKT-WEBINAR-SERIES-May_2020_0502-CON&sc_channel=el&sc_campaign=pac_2018-2019_exlinks_ondemand_OTT_evergreen&sc_outcome=Product_Adoption_Campaigns&sc_geo=NAMER&sc_country=mult) that dives deep into this topic.   
+{{% /notice %}}
+{{< youtube d21JrnszG7Y >}}
 ##### Custom Key Store (CMK stored within AWS CloudHSM)
 For most users, the default AWS KMS key store, which is protected by FIPS 140-2 validated cryptographic modules, fulfills their security requirements.
 
