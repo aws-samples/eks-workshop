@@ -35,7 +35,7 @@ eksctl get fargateprofile \
 Output:
 {{< output >}}
 - name: 2048-game
-  podExecutionRoleARN: arn:aws:iam::197520326489:role/eksctl-eksworkshop-eksctl-FargatePodExecutionRole-14EXCES7LNIUP
+  podExecutionRoleARN: arn:aws:iam::123456789012:role/eksctl-eksworkshop-eksctl-FargatePodExecutionRole-14EXCES7LNIUP
   selectors:
   - namespace: 2048-game
   subnets:
