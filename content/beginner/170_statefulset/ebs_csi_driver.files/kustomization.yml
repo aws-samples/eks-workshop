@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+- github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable?ref=master
+patchesJson6902:
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: ebs-csi-controller
+    namespace: kube-system
+  path: deployment.yml
+- target:
+    group: rbac.authorization.k8s.io
+    version: v1
+    kind: ClusterRoleBinding
+    name: ebs-csi-attacher-binding
+  path: attacher-binding.yml
+- target:
+    group: rbac.authorization.k8s.io
+    version: v1
+    kind: ClusterRoleBinding
+    name: ebs-csi-provisioner-binding
+  path: provisioner-binding.yml
+images:
+- name: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver
+  newName: amazon/aws-ebs-csi-driver
+  newTag: v0.5.0

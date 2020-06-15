@@ -1,0 +1,20 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: eks-iam-test
+ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: eks-iam-test
+   template:
+     metadata:
+       labels:
+         app: eks-iam-test
+     spec:
+       serviceAccountName: iam-test
+       containers:
+       - name: eks-iam-test
+         image: sdscello/awscli:latest
+         ports:
+         - containerPort: 80

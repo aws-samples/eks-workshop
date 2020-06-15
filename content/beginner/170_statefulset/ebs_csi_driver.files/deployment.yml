@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/template/spec/serviceAccount
+  value: ebs-csi-controller-irsa

@@ -1,0 +1,21 @@
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: elastic
+provisioner: aws.io/aws-efs
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: efs-storage-claim
+  namespace: storage
+  annotations:  
+    volume.beta.kubernetes.io/storage-class: elastic
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi

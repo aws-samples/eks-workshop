@@ -55,35 +55,6 @@ a:hover {
 	color: var(--MENU-VISITED-color);
 }
 
-#sidebar #footer {
-  padding-top: 20px !important;
-}
-
-#sidebar #footer h2.github-title {
-  font-size: 20px;
-  color: #fd9827 !important;
-  margin: 10px 0px 5px;
-  padding: 0px;
-  font-weight: normal !important;
-  margin-top: 10px;
-  padding-top: 30px;
-  border-top: 1px dotted #384657;
-}
-
-#sidebar #footer h3.github-title {
-  font-size: 14px;
-  margin: 10px 0px 5px;
-  padding: 0px;
-  text-transform: uppercase;
-  letter-spacing: .15px;
-}
-
-#sidebar #footer h5.copyright, #sidebar #footer p.build-number {
-  font-size: 10px;
-  letter-spacing: .15px;
-  line-height: 150% !important;
-}
-
 #body a.highlight:after {
     display: block;
     content: "";
@@ -131,6 +102,13 @@ a:hover {
     border-color: var(--MENU-SECTION-HR-color);
 }
 
+#body .tags a.tag-link {
+    background-color: var(--MENU-HEADER-BG-color);    
+}
+
+#body .tags a.tag-link:before {
+    border-right-color: var(--MENU-HEADER-BG-color);
+}
 #navigation a.nav-prev, #navigation a.nav-next {
     color: #f19e39 !important;
 }
@@ -153,7 +131,6 @@ div.notices p:first-child:before {
     border: 1px solid #dddddd;
     font-weight: normal;
     color: #454545;
-}
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     border: 1px solid var(--MENU-HEADER-BG-color);
@@ -181,5 +158,34 @@ pre {
 div.notices.info p {
     border-top: 30px solid #fd9827;
     background: #FFF2DB;
+}
+
+#sidebar #footer {
+  padding-top: 20px !important;
+}
+
+#sidebar #footer h2.github-title {
+  font-size: 20px;
+  color: #fd9827 !important;
+  margin: 10px 0px 5px;
+  padding: 0px;
+  font-weight: normal !important;
+  margin-top: 10px;
+  padding-top: 30px;
+  border-top: 1px dotted #384657;
+}
+
+#sidebar #footer h3.github-title {
+  font-size: 14px;
+  margin: 10px 0px 5px;
+  padding: 0px;
+  text-transform: uppercase;
+  letter-spacing: .15px;
+}
+
+#sidebar #footer h5.copyright, #sidebar #footer p.build-number {
+  font-size: 10px;
+  letter-spacing: .15px;
+  line-height: 150% !important;
 }
 
