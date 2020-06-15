@@ -13,11 +13,11 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ```
 Here is a sample response
 {{< output >}}
-amazon-k8s-cni:1.5.3
+amazon-k8s-cni:1.6.1
 {{< /output >}}
-Upgrade version to 1.5 if you have an older version
+Upgrade to the latest v1.6 config if you have an older version:
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/aws-k8s-cni.yaml
 ```
 Wait until all the pods are recycled. You can check the status of pods by using this command
 ```
@@ -49,7 +49,7 @@ Use caution before you run the next command because it terminates all worker nod
 {{% /notice %}}
 
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text` )
+INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text` )
 for i in "${INSTANCE_IDS[@]}"
 do
 	echo "Terminating EC2 instance $i ..."

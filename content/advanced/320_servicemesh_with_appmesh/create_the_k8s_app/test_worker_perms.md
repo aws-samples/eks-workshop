@@ -2,6 +2,7 @@
 title: "Test Permissions"
 date: 2018-08-07T08:30:11-07:00
 weight: 40
+hidden: true
 ---
 
 To test that your worker nodes are able to use these permissions correctly, we'll run a job that attempts to list all existing meshes.

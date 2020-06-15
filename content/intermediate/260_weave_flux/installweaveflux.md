@@ -10,7 +10,7 @@ Now we will use Helm to install Weave Flux into our cluster and enable it to int
 First, install the Flux Custom Resource Definition:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/fluxcd/flux/helm-0.10.1/deploy-helm/flux-helm-release-crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
 ```
 
 Check that Helm is installed. 
@@ -49,9 +49,12 @@ Update the Git URL below to match your user name and Kubernetes configuration ma
 helm repo add fluxcd https://charts.fluxcd.io
 
 helm upgrade -i flux fluxcd/flux \
---set helmOperator.create=true \
---set helmOperator.createCRD=false \
 --set git.url=git@github.com:${YOURUSER}/k8s-config \
+--namespace flux
+
+helm upgrade -i helm-operator fluxcd/helm-operator \
+--set helm.versions=v3 \
+--set git.ssh.secretName=flux-git-deploy \
 --namespace flux
 ```
 
@@ -63,7 +66,7 @@ kubectl get pods -n flux
 Install fluxctl in order to get the SSH key to allow GitHub write access.  This allows Flux to keep the configuration in GitHub in sync with the configuration deployed in the cluster.  
 
 ```
-sudo wget -O /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/1.14.1/fluxctl_linux_amd64
+sudo wget -O /usr/local/bin/fluxctl $(curl https://api.github.com/repos/fluxcd/flux/releases/latest | jq -r ".assets[] | select(.name | test(\"linux_amd64\")) | .browser_download_url")
 sudo chmod 755 /usr/local/bin/fluxctl
 
 fluxctl version

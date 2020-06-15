@@ -1,14 +1,15 @@
 ---
-title: "Setup Pre-requisities for ALB"
+title: "Setup Prerequisites for ALB"
 date: 2019-04-09T00:00:00-03:00
 weight: 13
 draft: false
 ---
 
 #### Create an OIDC Provider
-First, we will have to set up an OIDC provider with the cluster and create the IAM policy to be used by the ALB Ingress Controller.  This step is required to give IAM permissions to a Fargate pod running in the cluster using the [IAM for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) feature. 
 
-```
+First, we will have to set up an OIDC provider with the cluster and create the IAM policy to be used by the ALB Ingress Controller.  This step is required to give IAM permissions to a Fargate pod running in the cluster using the [IAM for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) feature.
+
+```bash
 eksctl utils associate-iam-oidc-provider \
 --cluster eksworkshop-eksctl \
 --region=$AWS_REGION \
@@ -16,27 +17,29 @@ eksctl utils associate-iam-oidc-provider \
 ```
 
 #### Create an IAM Policy for ALB Ingress
-The next step is to create the IAM policy that will be used by the ALB Ingress Controller deployment. This policy will be later associated to the Kubernetes Service Account and will allow the ALB Ingress Controller pods to create and manage the ALB’s resources in your AWS account for you. 
 
-```
+The next step is to create the IAM policy that will be used by the ALB Ingress Controller deployment. This policy will be later associated to the Kubernetes Service Account and will allow the ALB Ingress Controller pods to create and manage the ALB’s resources in your AWS account for you.
+
+```bash
 cd ~/environment/fargate
 wget https://eksworkshop.com/beginner/180_fargate/fargate.files/alb-ingress-iam-policy.json
 ```
-```
+
+```bash
 aws iam create-policy \
---policy-name ALBIngressControllerIAMPolicy \
---policy-document file://alb-ingress-iam-policy.json
+  --policy-name ALBIngressControllerIAMPolicy \
+  --policy-document file://alb-ingress-iam-policy.json
 ```
 
-You will see the policy information output as shown below. Note down the ARN of the policy that you just created. 
+You will see the policy information output as shown below. Note down the ARN of the policy that you just created.
 
-Output: 
+Output:
 {{< output >}}
 {
     "Policy": {
         "PolicyName": "ALBIngressControllerIAMPolicy",
         "PolicyId": "ANPA5UPUHMRP4ODFXYB5W",
-        "Arn": "arn:aws:iam::937351930975:policy/ALBIngressControllerIAMPolicy",
+        "Arn": "arn:aws:iam::123456789012:policy/ALBIngressControllerIAMPolicy",
         "Path": "/",
         "DefaultVersionId": "v1",
         "AttachmentCount": 0,
@@ -49,48 +52,62 @@ Output:
 {{< /output >}}
 
 #### Creating Service Account
-Next, create a Kubernetes Service Account by executing the following command, substituting the placeholder string POLICY_ARN below with the ARN from the above output.
 
+We  need the policy's [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) to create the Service Account with the proper permissions.
+
+```bash
+export FARGATE_POLICY_ARN=$(aws iam list-policies --query 'Policies[?PolicyName==`ALBIngressControllerIAMPolicy`].Arn' --output text)
 ```
+
+Next, create a Kubernetes Service Account by executing the following command
+
+```bash
 eksctl create iamserviceaccount \
---name alb-ingress-controller \
---namespace fargate \
---cluster eksworkshop-eksctl \
---attach-policy-arn POLICY_ARN \
---approve \
---override-existing-serviceaccounts
+  --name alb-ingress-controller \
+  --namespace 2048-game \
+  --cluster eksworkshop-eksctl \
+  --attach-policy-arn ${FARGATE_POLICY_ARN} \
+  --approve \
+  --override-existing-serviceaccounts
 ```
 
 The above command deploys a CloudFormation template that creates an IAM role and attaches the IAM policy to it. The IAM role gets associated with a Kubernetes Service Account. You can see details of the service account created with the following command.
 
-```
-kubectl get sa alb-ingress-controller -n fargate -o yaml
+{{% notice info %}}
+For more information on IAM Roles for Service Accounts [follow this link](/beginner/110_irsa/).
+{{% /notice %}}
+
+```bash
+kubectl get sa alb-ingress-controller -n 2048-game -o yaml
 ```
 
-Output: 
+Output:
+
 {{< output >}}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::937351930975:role/eksctl-k8s-sarathy-cluster-addon-iamservicea-Role1-14G0XQ0RAHUJQ
-  creationTimestamp: "2020-02-21T22:44:00Z"
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-KI23J8XS8Y3H
+  creationTimestamp: "2020-03-07T22:40:34Z"
   name: alb-ingress-controller
-  namespace: fargate
-  resourceVersion: "2866350"
-  selfLink: /api/v1/namespaces/fargate/serviceaccounts/alb-ingress-controller
-  uid: a74036a5-54fb-11ea-bdba-12239483f525
+  namespace: 2048-game
+  resourceVersion: "692979"
+  selfLink: /api/v1/namespaces/2048-game/serviceaccounts/alb-ingress-controller
+  uid: a85f5574-60c4-11ea-81a5-02920c051794
 secrets:
-- name: alb-ingress-controller-token-xkxw7
+- name: alb-ingress-controller-token-2rbtd
 {{< /output >}}
 
 #### Create RBAC Role
-Next, you will have to create a Cluster Role and Cluster Role Binding that grant requisite permissions to the Service Account you just created. 
 
-```
+Next, you will have to create a Cluster Role and Cluster Role Binding that grant requisite permissions to the Service Account you just created.
+
+```bash
 cd ~/environment/fargate
 wget https://eksworkshop.com/beginner/180_fargate/fargate.files/rbac-role.yaml
 ```
-```
+
+```bash
 kubectl apply -f rbac-role.yaml
 ```

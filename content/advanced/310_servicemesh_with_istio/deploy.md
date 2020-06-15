@@ -92,20 +92,18 @@ service/ratings       ClusterIP   10.100.158.101   <none>        9080/TCP   15s
 service/reviews       ClusterIP   10.100.12.229    <none>        9080/TCP   15s
 {{< /output >}}
 
-Now we'll define the virtual service and ingress gateway.
+## Create an Istio Gateway
+
+Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your Kubernetes cluster, e.g., from a browser. An [Istio Gateway](https://istio.io/docs/concepts/traffic-management/#gateways) is used for this purpose.
+
+We'll define the virtual service and ingress gateway.
 
 ```bash
 kubectl -n bookinfo \
  apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
 
-Next we'll query the DNS name of the ingress gateway and use it to connect via the browser.
-
-```bash
-echo $(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-```
-
-{{% notice note %}}
+{{% notice warning %}}
 This may take a minute or two, first for the Ingress to be created, and secondly for the Ingress to hook up with the services it exposes.
 {{% /notice %}}
 
@@ -118,6 +116,6 @@ echo "http://${GATEWAY_URL}/productpage"
 
 ![Bookinfo](/images/istio/istio_bookinfo_1.png)
 
-{{% notice info %}}
+{{% notice note %}}
 Click reload multiple times to see how the layout and content of the reviews changes as different versions (v1, v2, v3) of the app are called.
 {{% /notice %}}

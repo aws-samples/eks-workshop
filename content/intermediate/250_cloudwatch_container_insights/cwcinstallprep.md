@@ -4,33 +4,42 @@ chapter: false
 weight: 4
 ---
 
-
-
-### Preparing to Install CloudWatch Container Insights:
-
-The full documentation for CloudWatch Container Insights can be found here: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html 
-
-#### Configuring IAM Access for CloudWatch Agent: 
-
-In order for CloudWatch to get the necessary monitoring info, we need to install the CloudWatch Agent to our EKS Cluster. 
-
-In order to do so we first need to assign an IAM Policy. For the purpose of this lab, we will just attach the necessary IAM policy to the existing worker nodes attached policy which should have a name similar to eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-XXXX
+{{% notice info %}}
+The full documentation for CloudWatch Container Insights can be found [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html).
+{{% /notice %}}
 
 #### Add the necessary policy to the IAM role for your worker nodes
 
-Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/ 
+In order for `CloudWatch` to get the necessary monitoring info, we need to install the CloudWatch Agent to our EKS Cluster.
 
-Select one of the worker node instances and choose the IAM role in the description.
+First, we will need to ensure the Role Name our workers use is set in our environment:
 
+```bash
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
+```
 
-![alt text](/images/ekscwci/ec2info.png "EC2 Info")
+{{% notice warning %}}
+If `ROLE_NAME` is not set, please review the [test the cluster section](/030_eksctl/test/).
+{{% /notice %}}
 
-On the IAM role page, choose Attach policies. 
+We will attach the policy to the nodes IAM Role:
 
-![alt text](/images/ekscwci/attachpolicy.png "Attach IAM Policy")
+```bash
+aws iam attach-role-policy \
+  --role-name $ROLE_NAME \
+  --policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+```
 
-In the list of policies, select the check box next to CloudWatchAgentServerPolicy. If necessary, use the search box to find this policy.
+Finally, let's verify that the policy has been attached to the IAM ROLE:
 
-![alt text](/images/ekscwci/attachperm.png "Attach Permissions")
+```bash
+aws iam list-attached-role-policies --role-name $ROLE_NAME | grep CloudWatchAgentServerPolicy || echo 'Policy not found'
+```
 
-Now we can proceed to the actual install of the CloudWatch Insights. 
+Output
+{{< output >}}
+"PolicyName": "CloudWatchAgentServerPolicy",
+"PolicyArn": "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+{{< /output >}}
+
+Now we can proceed to the actual install of the CloudWatch Insights.
