@@ -1,7 +1,7 @@
 ---
 title: "App Mesh Cleanup"
 date: 2018-11-13T16:32:30+09:00
-weight: 40
+weight: 100
 draft: false
 ---
 
@@ -20,14 +20,15 @@ kubectl delete meshes dj-app
 ## Uninstall the Helm Charts
 
 ```bash
-helm -n appmesh-system delete appmesh-inject
 helm -n appmesh-system delete appmesh-controller
 ```
 
 ## Delete AWS App Mesh CRDs
 
 ```bash
-kubectl delete -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/appmesh-controller/crds/crds.yaml
+for i in $(kubectl get crd | grep appmesh | cut -d" " -f1) ; do
+kubectl delete crd $i
+done
 ```
 
 ## Delete the AWS App Mesh namespace

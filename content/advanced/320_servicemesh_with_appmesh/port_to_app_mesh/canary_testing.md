@@ -6,206 +6,193 @@ weight: 90
 
 A canary release is a method of slowly exposing a new version of software. The theory behind it is that by serving the new version of the software initially to say, 5% of requests, if there is a problem, the problem only impacts a very small percentage of users before its discovered and rolled back.
 
-So now back to our DJ App scenario...  `metal-v2` and `jazz-v2` services are out, and they now include the city each artist is from in the response.
+So now back to our DJ App scenario, `metal-v2` and `jazz-v2` services are out, and they now include the city each artist is from in the response.
 
 Let's see how we can release these new versions in a canary fashion using `AWS App Mesh`.
 
-When we're complete, requests to metal and jazz will be distributed in a weighted fashion to both the v1 and v2 versions.
+When we're complete, requests to `metal` and `jazz` will be distributed in a weighted fashion to both the v1 and v2 versions, with 95% going to the current prod v1 and 5% going to our release candidate v2.
 
 ![App Mesh](/images/app_mesh_ga/140-v2-mesh.png)
 
-## jazz-v2
+### v2 Services
 
-### Deploy jazz-v2
+YAML for this step can be found in the `3_canary_new_version` directory. First, let's look at the new v2 deployments and services. Below is jazz-v2, for example.
 
-To begin, we'll rollout the v2:
+{{< output >}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jazz-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jazz
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: jazz
+        version: v2
+    spec:
+      containers:
+        - name: jazz
+          image: "672518094988.dkr.ecr.us-west-2.amazonaws.com/hello-world:v1.0"
+          ports:
+            - containerPort: 9080
+          env:
+            - name: "HW_RESPONSE"
+              value: "[\"Astrud Gilberto (Bahia, Brazil)\",\"Miles Davis (Alton, Illinois)\"]"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jazz-v2
+  labels:
+    app: jazz
+    version: v2
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: jazz
+    version: v2
+---
+{{< /output >}}
 
-* deployments
-* services
-* Virtual Nodes
- 
- With a single YAML file:
+You can see our exciting new feature enhancement is ready to deploy.
+
+### Canary for v2
+
+If we deploy our new service versions into `prod` right now, we will not have any traffic routed to them. To achieve this, we need to define `VirtualNode`s for each new version, as well as apply an update to our existing `VirtualRouter`s to send 5% of traffic to the new version.
+
+We will use App Mesh's `weightedTargets` route feature to configure this logic.
+
+{{< output >}}
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: jazz-v2
+  namespace: prod
+spec:
+  podSelector:
+    matchLabels:
+      app: jazz
+      version: v2
+  listeners:
+    - portMapping:
+        port: 9080
+        protocol: http
+      healthCheck:
+        protocol: http
+        path: '/ping'
+        healthyThreshold: 2
+        unhealthyThreshold: 2
+        timeoutMillis: 2000
+        intervalMillis: 5000
+  serviceDiscovery:
+    dns:
+      hostname: jazz-v2.prod.svc.cluster.local
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: jazz-router
+  namespace: prod
+spec:
+  listeners:
+    - portMapping:
+        port: 9080
+        protocol: http
+  routes:
+    - name: jazz-route
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: jazz-v1
+              weight: 95
+            - virtualNodeRef:
+                name: jazz-v2
+              weight: 5
+---
+{{< /output >}}
+
+With this, our configuration changes are complete and ready to deploy. Apply these changes now with `kubectl`.
 
 ```bash
-kubectl -n prod apply -f 5_canary/jazz_v2.yaml
+kubectl apply -f 3_canary_new_version/v2_app.yaml
 ```
 
-Output should be similar to:
 {{< output >}}
-deployment.apps/jazz-v2 created
-service/jazz-v2 created
+virtualrouter.appmesh.k8s.aws/jazz-router configured
+virtualrouter.appmesh.k8s.aws/metal-router configured
 virtualnode.appmesh.k8s.aws/jazz-v2 created
-{{< /output >}}
-
-### Update the jazz Virtual Service
-
-Next, we'll update the jazz Virtual Service by modifying the route to spread traffic **90/10** across the two versions.
-
-If we take a look at it now, we'll see the current route which points to `jazz-v1` 100%:
-
-```bash
-kubectl -n prod describe virtualservice jazz | grep --color=always -e "^" -e "Weight:"
-```
-
-yields:
-{{< output >}}
-Name:         jazz.prod.svc.cluster.local
-Namespace:    prod
-Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"appmesh.k8s.aws/v1beta1","kind":"VirtualService","metadata":{"annotations":{},"name":"jazz.prod.svc.cluster.local","namesp...
-API Version:  appmesh.k8s.aws/v1beta1
-Kind:         VirtualService
-Metadata:
-  Creation Timestamp:  2019-03-23T00:15:08Z
-  Generation:          3
-  Resource Version:    2851527
-  Self Link:           /apis/appmesh.k8s.aws/v1beta1/namespaces/prod/virtualservices/jazz.prod.svc.cluster.local
-  UID:                 b76eed59-4d00-11e9-87e6-06dd752b96a6
-Spec:
-  Mesh Name:  dj-app
-  Routes:
-    Http:
-      Action:
-        Weighted Targets:
-          Virtual Node Name:  jazz-v1
-          Weight:             100
-      Match:
-        Prefix:  /
-    Name:        jazz-route
-  Virtual Router:
-    Name:  jazz-router
-Status:
-  Conditions:
-Events:  <none>
-{{< /output >}}
-
-We apply the updated service definition:
-
-```bash
-kubectl -n prod apply -f 5_canary/jazz_service_update.yaml
-```
-
-And when we describe the Virtual Service again, we see the updated route:
-
-```bash
-kubectl -n prod describe virtualservice jazz | grep --color=always -e "^" -e "Weight:"
-```
-
-as 90/10:
-{{< output >}}
-Name:         jazz.prod.svc.cluster.local
-Namespace:    prod
-Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"appmesh.k8s.aws/v1beta1","kind":"VirtualService","metadata":{"annotations":{},"name":"jazz.prod.svc.cluster.local","namesp...
-API Version:  appmesh.k8s.aws/v1beta1
-Kind:         VirtualService
-Metadata:
-  Creation Timestamp:  2019-03-23T00:15:08Z
-  Generation:          4
-  Resource Version:    2851774
-  Self Link:           /apis/appmesh.k8s.aws/v1beta1/namespaces/prod/virtualservices/jazz.prod.svc.cluster.local
-  UID:                 b76eed59-4d00-11e9-87e6-06dd752b96a6
-Spec:
-  Mesh Name:  dj-app
-  Routes:
-    Http:
-      Action:
-        Weighted Targets:
-          Virtual Node Name:  jazz-v1
-          Weight:             90
-          Virtual Node Name:  jazz-v2
-          Weight:             10
-      Match:
-        Prefix:  /
-    Name:        jazz-route
-  Virtual Router:
-    Name:  jazz-router
-Status:
-  Conditions:
-Events:  <none>
-{{< /output >}}
-
-## metal-v2
-
-### Deploy metal-v2
-
-We will perform the same steps to deploy `metal-v2`.
-
-Rollout the v2:
-
-* deployments
-* services
-* Virtual Nodes
-  
-With a single YAML file:
-
-```bash
-kubectl -n prod apply  -f 5_canary/metal_v2.yaml
-```
-
-Output should be similar to:
-{{< output >}}
-deployment.apps/metal-v2 created
-service/metal-v2 created
 virtualnode.appmesh.k8s.aws/metal-v2 created
+deployment.apps/jazz-v2 created
+deployment.apps/metal-v2 created
+service/jazz-v2 created
+service/metal-v2 created
 {{< /output >}}
 
-### Update the metal Virtual Service
-
-If we take a look at it now, we'll see the current route which points to `metal-v1` 100%:
+Verify the status of your new and existing Kubernetes objects.
 
 ```bash
-kubectl -n prod describe virtualservice metal | grep --color=always -e "^" -e "Weight:"
+kubectl -n prod get deployments,services,virtualnodes,virtualrouters
 ```
 
-
-Update the metal Virtual Service by modifying the route to spread traffic **50/50** across the two versions:
-
-```bash
-kubectl -n prod apply -f 5_canary/metal_service_update.yaml
-```
-
-And when we describe the Virtual Service again, we see the updated route:
-
-```bash
-kubectl -n prod describe virtualservice metal | grep --color=always -e "^" -e "Weight:"
-```
-
-yields:
 {{< output >}}
-Name:         metal.prod.svc.cluster.local
-Namespace:    prod
-Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"appmesh.k8s.aws/v1beta1","kind":"VirtualService","metadata":{"annotations":{},"name":"metal.prod.svc.cluster.local","names...
-API Version:  appmesh.k8s.aws/v1beta1
-Kind:         VirtualService
-Metadata:
-  Creation Timestamp:  2019-03-23T00:15:08Z
-  Generation:          2
-  Resource Version:    2852282
-  Self Link:           /apis/appmesh.k8s.aws/v1beta1/namespaces/prod/virtualservices/metal.prod.svc.cluster.local
-  UID:                 b784e824-4d00-11e9-87e6-06dd752b96a6
-Spec:
-  Mesh Name:  dj-app
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/dj         1/1     1            1           139m
+deployment.apps/jazz-v1    1/1     1            1           139m
+deployment.apps/metal-v1   1/1     1            1           139m
+
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/dj         ClusterIP   10.100.42.60     <none>        9080/TCP   139m
+service/jazz       ClusterIP   10.100.134.233   <none>        9080/TCP   121m
+service/jazz-v1    ClusterIP   10.100.192.113   <none>        9080/TCP   139m
+service/metal      ClusterIP   10.100.175.238   <none>        9080/TCP   121m
+service/metal-v1   ClusterIP   10.100.238.120   <none>        9080/TCP   139m
+
+NAME                                   ARN                                                                            AGE
+virtualnode.appmesh.k8s.aws/dj         arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualNode/dj_prod         121m
+virtualnode.appmesh.k8s.aws/jazz-v1    arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualNode/jazz-v1_prod    121m
+virtualnode.appmesh.k8s.aws/jazz-v2    arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualNode/jazz-v2_prod    37s
+virtualnode.appmesh.k8s.aws/metal-v1   arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualNode/metal-v1_prod   121m
+virtualnode.appmesh.k8s.aws/metal-v2   arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualNode/metal-v2_prod   37s
+
+NAME                                         ARN                                                                                  AGE
+virtualrouter.appmesh.k8s.aws/jazz-router    arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualRouter/jazz-router_prod    121m
+virtualrouter.appmesh.k8s.aws/metal-router   arn:aws:appmesh:us-west-2:510431938379:mesh/dj-app/virtualRouter/metal-router_prod   121m
+{{< /output >}}
+
+Dig in a little deeper to see the updated `Route` configuration for the 'jazz-router' virtual router.
+
+```bash
+kubectl -n prod describe virtualrouters jazz-router
+```
+
+{{< output >}}
+  ..
   Routes:
-    Http:
+    Http Route:
       Action:
         Weighted Targets:
-          Virtual Node Name:  metal-v1
-          Weight:             50
-          Virtual Node Name:  metal-v2
-          Weight:             50
+          Virtual Node Ref:
+            Name:  jazz-v1
+          Weight:  95
+          Virtual Node Ref:
+            Name:  jazz-v2
+          Weight:  5
       Match:
         Prefix:  /
-    Name:        metal-route
-  Virtual Router:
-    Name:  metal-router
-Status:
-  Conditions:
-Events:  <none>
-{{< /output >}}
+    Name:        jazz-route
+  ..
+{{{< /output >}}
 
-Now that the v2's are deployed, let's test them out.
+Here you can see that it is configured to route 95% of traffic to the v1 version of the service, and 5% to v2 for canary testing. Let's test this out.
