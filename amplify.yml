@@ -10,13 +10,6 @@ frontend:
         - export IMAGE_TAG=$(git rev-parse --short HEAD)
         - echo '<p class=build-number>'${IMAGE_TAG}'</p>' >> layouts/partials/menu-footer.html
         - hugo -v
-    test:
-      commands:
-        - if [ "$AWS_BRANCH" = "main" ] ; then
-            npm run test;
-          else
-            echo "skipping testing"
-          fi
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: public
