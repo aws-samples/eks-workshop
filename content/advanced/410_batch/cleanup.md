@@ -22,7 +22,7 @@ aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
 #### Undeploy Argo
 
 ```bash
-kubectl delete -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.2.1/manifests/install.yaml
+kubectl delete -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.3.0/manifests/install.yaml
 kubectl delete namespace argo
 ```
 
