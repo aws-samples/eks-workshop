@@ -13,7 +13,7 @@ Deploy the Controller and UI.
 
 ```bash
 kubectl create namespace argo
-kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.2.1/manifests/install.yaml
+kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.3.0/manifests/install.yaml
 ```
 
 {{< output >}}
