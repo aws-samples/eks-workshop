@@ -12,7 +12,7 @@ relativeURLs = true
 hrefTargetBlank = true
 
 [params]
-editURL = "https://github.com/aws-samples/eks-workshop/edit/master/content/"
+editURL = "https://github.com/aws-samples/eks-workshop/edit/main/content/"
 themeVariant = "mine"
 showVisitedLinks = false
 author = "Brent Langston"
@@ -23,7 +23,7 @@ disableLanguageSwitchingButton = true
 disableShortcutsTitle=false
 disableInlineCopyToClipBoard = true
 ghrepo = "https://github.com/aws-samples/eks-workshop/"
-branch = "master"
+branch = "main"
 template_bucket = "eksworkshop.com"
 pygmentsUseClasses = true
 pygmentsCodeFences = true
