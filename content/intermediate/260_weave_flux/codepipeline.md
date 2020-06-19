@@ -49,7 +49,7 @@ echo "# eks-example" > README.md
 mkdir src
 wget -O src/hello.conf https://eksworkshop.com/intermediate/260_weave_flux/app.files/hello.conf
 wget -O src/index.html https://eksworkshop.com/intermediate/260_weave_flux/app.files/index.html
-wget https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/intermediate/260_weave_flux/app.files/Dockerfile
+wget https://raw.githubusercontent.com/aws-samples/eks-workshop/main/content/intermediate/260_weave_flux/app.files/Dockerfile
 ```
 
 Now that we have a simple hello world app, commit the changes to start the image build pipeline.  
