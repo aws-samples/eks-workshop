@@ -47,8 +47,8 @@ Next create a base README file, a source directory, and download a sample nginx 
 ```
 echo "# eks-example" > README.md
 mkdir src
-wget -O src/hello.conf https://eksworkshop.com/intermediate/260_weave_flux/app.files/hello.conf
-wget -O src/index.html https://eksworkshop.com/intermediate/260_weave_flux/app.files/index.html
+wget -O src/hello.conf https://raw.githubusercontent.com/aws-samples/eks-workshop/main/content/intermediate/260_weave_flux/app.files/hello.conf
+wget -O src/index.html https://raw.githubusercontent.com/aws-samples/eks-workshop/main/content/intermediate/260_weave_flux/app.files/index.html
 wget https://raw.githubusercontent.com/aws-samples/eks-workshop/main/content/intermediate/260_weave_flux/app.files/Dockerfile
 ```
 
