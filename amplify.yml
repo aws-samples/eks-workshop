@@ -8,7 +8,7 @@ frontend:
       commands:
         - env
         - export IMAGE_TAG=$(git rev-parse --short HEAD)
-        - echo "<p class="build-number">${IMAGE_TAG}</p>" >> layouts/partials/menu-footer.html
+        - echo '<p class=build-number>'${IMAGE_TAG}'</p>' >> layouts/partials/menu-footer.html
         - hugo -v
   artifacts:
     # IMPORTANT - Please verify your build output directory
