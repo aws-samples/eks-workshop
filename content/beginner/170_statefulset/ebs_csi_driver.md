@@ -60,7 +60,7 @@ First, we'll need to download a few files.  Run:
 ```sh
 cd ~/environment/ebs_csi_driver
 for file in kustomization.yml deployment.yml attacher-binding.yml provisioner-binding.yml; do
-  curl -sSLO https://raw.githubusercontent.com/aws-samples/eks-workshop/master/content/beginner/170_statefulset/ebs_csi_driver.files/$file
+  curl -sSLO https://raw.githubusercontent.com/aws-samples/eks-workshop/main/content/beginner/170_statefulset/ebs_csi_driver.files/$file
 done
 ```
 
