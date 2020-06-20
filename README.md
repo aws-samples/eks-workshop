@@ -23,7 +23,7 @@ exposed." -- press the expose button. After that, choose "open browser" to get a
 tab with your preview site. As you save edits, this tab should refresh.
 
 When you're happy with your edits, commit, push, and open a pull request to the upstream
-repo's master branch. Once merged, the preview site (linked above) will be refreshed.
+repo's main branch. Once merged, the preview site (linked above) will be refreshed.
 
 #### On a Mac:
 Install Hugo:
@@ -65,7 +65,7 @@ Visit http://localhost:8080/ to see the site.
 As you save edits to a page, the site will live-reload to show your changes.
 
 #### Auto Deploy:
-Any commits to master will auto build and deploy in a couple of minutes. You can see the currently
+Any commits to main will auto build and deploy in a couple of minutes. You can see the currently
 deployed hash at the bottom of the menu panel.
 
 Any commits to a branch will auto build and deploy in a couple of minutes to a custom route named with the branch name. You can see the currently
