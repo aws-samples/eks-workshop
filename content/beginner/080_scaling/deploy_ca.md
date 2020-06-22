@@ -8,7 +8,7 @@ Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It ena
 * **One Auto Scaling group** - This is what we will use
 * Multiple Auto Scaling groups
 * Auto-Discovery
-* Master Node setup
+* Control-plane Node setup
 
 ### Configure the Cluster Autoscaler (CA)
 We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal.

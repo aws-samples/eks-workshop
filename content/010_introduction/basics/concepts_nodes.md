@@ -11,7 +11,7 @@ Nodes in a Kubernetes cluster may be physical, or virtual.
 
 There are two types of nodes:
 
-* A Master-node type, which makes up the [Control Plane](../../architecture/architecture_control), acts as the “brains” of the cluster.
+* A Control-plane-node type, which makes up the [Control Plane](../../architecture/architecture_control), acts as the “brains” of the cluster.
 
 * A Worker-node type, which makes up the [Data Plane](../../architecture/architecture_worker), runs the actual container images (via pods).
 
