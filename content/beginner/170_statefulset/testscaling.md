@@ -3,7 +3,7 @@ title: "Test Scaling"
 date: 2018-08-07T08:30:11-07:00
 weight: 35
 ---
-More slaves can be added to the MySQL Cluster to increase read capacity. This can be done by following command.
+More followers can be added to the MySQL Cluster to increase read capacity. This can be done by following command.
 ```sh
 kubectl -n mysql scale statefulset mysql --replicas=5
 ```
@@ -67,13 +67,13 @@ You will see 5 servers are running.
 +-------------+---------------------+
 {{< /output >}}
 
-Verify if the newly deployed slave (mysql-3) have the same data set by following command.
+Verify if the newly deployed follower (mysql-3) have the same data set by following command.
 ```sh
 kubectl -n mysql run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
  mysql -h mysql-3.mysql -e "SELECT * FROM test.messages"
 ```
 
-It will show the same data that master has.
+It will show the same data that leader has.
 {{< output >}}
 +--------------------------+
 | message                  |

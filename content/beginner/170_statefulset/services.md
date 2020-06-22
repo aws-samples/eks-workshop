@@ -15,7 +15,7 @@ Check the configuration of mysql-services.yml by following command.
 ```
 cat ~/environment/templates/mysql-services.yml
 ```
-You can see the **mysql** service is for DNS resolution so that when pods are placed by StatefulSet controller, pods can be resolved using pod-name.mysql. **mysql-read** is a client service that does load balancing for all slaves. 
+You can see the **mysql** service is for DNS resolution so that when pods are placed by StatefulSet controller, pods can be resolved using pod-name.mysql. **mysql-read** is a client service that does load balancing for all followers. 
 {{< output >}}
 # Headless service for stable DNS entries of StatefulSet members.
 apiVersion: v1
@@ -34,7 +34,7 @@ spec:
     app: mysql
 ---
 # Client service for connecting to any MySQL instance for reads.
-# For writes, you must instead connect to the master: mysql-0.mysql.
+# For writes, you must instead connect to the leader: mysql-0.mysql.
 apiVersion: v1
 kind: Service
 metadata:

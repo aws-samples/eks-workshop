@@ -15,4 +15,4 @@ tags:
 * Ordered, graceful deployment and scaling
 * Ordered, automated rolling updates
 
-In this Chapter, we will review how to deploy MySQL database using `StatefulSet` and `Amazon Elastic Block Store` (EBS) as [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). The example is a MySQL single master topology with multiple slaves running asynchronous replication.
+In this Chapter, we will review how to deploy MySQL database using `StatefulSet` and `Amazon Elastic Block Store` (EBS) as [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). The example is a MySQL single leader topology with multiple followers running asynchronous replication.

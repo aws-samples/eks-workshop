@@ -3,7 +3,7 @@ title: "Test MySQL"
 date: 2018-08-07T08:30:11-07:00
 weight: 25
 ---
-You can use **mysql-client** to send some data to the master, **mysql-0.mysql**
+You can use **mysql-client** to send some data to the leader, **mysql-0.mysql**
 by following command.
 ```sh
 kubectl -n mysql run mysql-client --image=mysql:5.7 -i --rm --restart=Never --\
@@ -15,7 +15,7 @@ EOF
 
 ```
 
-Run the following to test slaves (mysql-read) received the data.
+Run the following to test followers (mysql-read) received the data.
 ```
 kubectl -n mysql run mysql-client --image=mysql:5.7 -it --rm --restart=Never --\
   mysql -h mysql-read -e "SELECT * FROM test.messages"
@@ -29,7 +29,7 @@ The output should look like this.
 +--------------------------+
 {{< /output >}}
 
-To test load balancing across slaves, run the following command.
+To test load balancing across followers, run the following command.
 ```sh
 kubectl -n mysql run mysql-client-loop --image=mysql:5.7 -i -t --rm --restart=Never --\
    bash -ic "while sleep 1; do mysql -h mysql-read -e 'SELECT @@server_id,NOW()'; done"

@@ -26,9 +26,9 @@ Check the configuration of mysql-configmap.yml file.
 cat ~/environment/templates/mysql-configmap.yml
 ```
 
-The `ConfigMap` stores master.cnf, slave.cnf and passes them when initializing master and slave pods defined in StatefulSet:
-* **master.cnf** is for the MySQL master pod which has binary log option (log-bin) to provides a record of the data changes to be sent to slave servers.
-* **slave.cnf** is for slave pods which have super-read-only option.
+The `ConfigMap` stores master.cnf, slave.cnf and passes them when initializing leader and follower pods defined in StatefulSet:
+* **master.cnf** is for the MySQL leader pod which has binary log option (log-bin) to provides a record of the data changes to be sent to follower servers.
+* **slave.cnf** is for follower pods which have super-read-only option.
 {{< output >}}
 apiVersion: v1
 kind: ConfigMap
@@ -39,11 +39,11 @@ metadata:
     app: mysql
 data:
   master.cnf: |
-    # Apply this config only on the master.
+    # Apply this config only on the leader.
     [mysqld]
     log-bin
   slave.cnf: |
-    # Apply this config only on slaves.
+    # Apply this config only on follower.
     [mysqld]
     super-read-only
 {{< /output >}}

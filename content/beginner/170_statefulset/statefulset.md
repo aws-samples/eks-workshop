@@ -11,7 +11,7 @@ StatefulSet consists of serviceName, replicas, template and volumeClaimTemplates
 * **volumeClaimTemplates** is to claim volume for pod based on storageClassName, `mysql-gp2` that we created in the [Define Storageclass](/beginner/170_statefulset/storageclass/) section.
 
 {{% notice info %}}
-[Percona Xtrabackup](https://www.percona.com/software/mysql-database/percona-xtrabackup) is used in the template to clone source MySQL server to its slaves.
+[Percona Xtrabackup](https://www.percona.com/software/mysql-database/percona-xtrabackup) is used in the template to clone source MySQL server to its followers.
 {{% /notice %}}
 
 #### Create StatefulSet
