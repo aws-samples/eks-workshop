@@ -9,7 +9,7 @@ draft: false
 
 In the previous step, we created the IAM role that associated with a service account named **iam-test** in the cluster and this has already been done for you with the service account you specified when creating the role.
 
-##### Be sure your service account iam-test is exist:
+##### Be sure your service account iam-test exists:
 
 ```
 kubectl get sa
