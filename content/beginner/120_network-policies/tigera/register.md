@@ -1,16 +1,17 @@
 ---
-title: "Register"
+title: "GET AN EKS CLUSTER WITH CALICO ENTERPRISE"
 date: 2018-08-07T13:15:13-07:00
 weight: 10
 ---
-[Tigera Secure Cloud Edition](https://www.tigera.io/tigera-secure-ce) can be enabled through the [AWS Marketplace].  However, for this workshop, Tigera has enabled a 30 day free trial.  To register for the free trial, please follow the steps below:
 
-- Go to the Tigera Secure Cloud Edition trial registration website at https://ce.tigera.io and click the *register* button.
+The team at Tigera offers a free trial of [Calico Enterprise Edition](https://www.tigera.io/tigera-products/calico-enterprise) for all EKSWorkshop users. Follow the steps below to get your free trial on a dedicated EKS cluster provisioned and managed by Tigera. 
 
-- On the next page fill in your e-mail and company name and use the code **EKS30** for the access code.
+- Go to the Tigera Secure Cloud Edition trial registration website at https://www.tigera.io/tigera-products/calico-enterprise-trial?utm_campaign=eks30&utm_medium=web&utm_source=eksworkshop . Please note this link has the offer code embedded and is the fastest way to get your trial. 
 
-- Wait for a few minutes for a confirmation e-mail to arrive in your inbox.  
+- Fill out your contact details along with your work email address to ensure you receive your trial environment details promptly.
 
-- Click on the link in the e-mail and you will be directed to the Tigera support web portal.  Create a new password and log into the Tigera Support web portal (you will automatically be directed there).  You can come back to the [support page](https://support.tigera.io) in the future by using your login and password.
+- Select Amazon EKS as your Kubernetes distro
 
-- Once on the support site, you will have an option to *download software*.  Continue to follow the links until you are prompted to Download _Tigera Secure Cloud Edition v1.0.1_.  When you click on that link, you will be presented with a webpage with instructions to install Tigera Secure Cloud Edition on your cluster.  Save that page, as you will need to refer to those instructions in the next step.
+- Review and accept the terms of service and click the START YOUR TRIAL button.
+
+Somebody from the Tigera team will provision your environment and send you an email with the details you need to access your trial environment and EKS cluster. This is currently a manual process and can take up to half an hour during business hours M-F 9 am - 5 pm PT. Requests received during non-business hours will be provisioned on the next business day.
