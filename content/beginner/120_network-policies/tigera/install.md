@@ -1,21 +1,21 @@
 ---
-title: "Installing Tigera Secure Cloud Edition"
+title: "Lab 2: Visibility and Troubleshooting"
 weight: 30
 ---
-Now that your environment variables are set, and _tsctl_ is installed, we need to install TSCE itself.  To do so, run the following command.  The instructions in the Tigera Secure CE v1.0.1 document that you downloaded earlier are almost exactly the same as what is shown here.  The only difference is that we've changed a variable name from ```$TOKEN``` to ```$TS_TOKEN``` to avoid colliding with other ```$TOKEN``` variables that might be set in your environment.
-```
-tsctl install --token $TS_TOKEN \
-            --kubeconfig ~/.kube/config \
-            --cluster-name $CLUSTER_NAME \
-            --vpc-id $VPC_ID \
-            --control-plane-sg $CONTROL_PLANE_SG \
-            --node-sgs $K8S_NODE_SGS
-```
 
-Copy that text and run it in your Cloud9 shell.  If all goes well, in a few minutes, you should be running TSCE, which augments Project Calico with a number of interesting capabilities which we will explore next.
+### Getting Started 
 
-### Known Issues
+Before you go any further, please remember to type lab2 set_up in the terminal to set up the environment for this lab.
 
-* It may take up to five seconds for pods to gain network connectivity after starting up.
+### Introduction
 
-* Network Load Balancers (NLBs) may lose their ability to balance traffic to pods after installing Tigera Secure CE. To resolve this issue, manually modify the pods’ security group to allow ingress traffic from the original source of the traffic (not the NLB). See the User Guide for more information or contact Tigera support for assistance.
+In this lab, you will learn how Calico Enterprise makes it easy for platform engineering and development teams to gain visibility into everything that is happening from a networking perspective within your cluster, quickly diagnose issues, and understand how policies are being evaluated in real-time. The visibility that Calico Enterprise provides is a cornerstone to improving the operations of your container platform and adopting network security best practices.
+
+You will learn the following:
+
+   - How to use the Flow Visualizer to gain visibility into existing traffic flows within the cluster and quickly identify sources of denied traffic
+   - How to use the Policy Board and Policy Editor to understand how policies are being evaluated in real-time across Policy Tiers
+   - How to use network Flow Logs to look “under the hood” of your cluster and get a detailed view into how workloads are communicating with all of Kubernetes context to troubleshoot and diagnose issues 
+
+### Setup - Source : [Visibility and Troubleshooting](https://info.tigera.io/rs/805-GFH-732/images/Calico-Enterprise-Lab02.pdf?mkt_tok=eyJpIjoiTVRjek1EWTNNemRtTkRVdyIsInQiOiJoY3l5aUE1MEFiRk1Ia2NLSDN6b0JWRU5HMlhORUswTm14MldkQ1owbkl4ZkN6Vm5LRmdXOGZ1R094MG5KOFVYXC9GcmdOUmY4YzdjbUo1dGdaNUFMQ1E9PSJ9)
+
