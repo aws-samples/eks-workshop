@@ -1,43 +1,22 @@
 ---
-title: "Preparing the environment"
+title: "Lab 1: Policy Automation and External Access"
 weight: 20
 ---
 
-{{% notice info %}}
-If you have setup your kubernetes cluster using the Cloud9 environment and eksctl, as instructed at the start of this workshop, then you can follow the abbreviated instructions here, as much of the work has been done for you.  If not please refer to the instructions you received when you downloaded the _Tigera Secure Cloud Edition 1.0.1_ link.
-{{% /notice %}}
+### Getting Started 
+  
+  Before you go any further, please remember to type `lab1 set_up` in the terminal to set up the environment for this lab.
 
-{{% notice tip %}}
-The instructions below assume that you have followed all of the initial _EKSWorkshop_ setup instructions when creating your cluster.  If you have not, some of the commands or environment settings that we rely on below will not be set correctly.  If you encounter problems, please check your initial setup and/or consult the instructions mentioned above.
-{{% /notice %}}
+### Introduction
 
-First, you need to install tsctl in your Cloud9 environment.
+  In this lab, you will learn to leverage Calico Enterprise to implement pod-level access controls and enable a self-service model that makes it easy for development teams to define and deploy Calico and Kubernetes network policies for their applications. This allows your organization to more easily adopt best practices around microsegmentation and a zero-trust approach to network security in your Kubernetes platform.
 
-```
-sudo curl --location -o /usr/local/bin/tsctl https://s3.amazonaws.com/tigera-public/ce/v1.0.6/tsctl-linux-amd64
-sudo chmod +x /usr/local/bin/tsctl
-```
+### You will learn the following:
 
-Next, you will need to set some environment variables.  There are commands for some of them, but a few you need to supply.
+   - How to use Policy Tiers and Network Sets to define network policies that define the “guard rails” for your entire Kubernetes platform
+   - How to use DNS policy rules to enable external access for applications in specific namespaces
+   - How to use the Flow Visualizer to gain visibility into existing traffic flows within the cluster and select workloads to recommend policies using Policy Recommendations
+   - How to use Policy Impact Preview and Staged Network Policies to evaluate the impact of new network policies and changes to existing policies before they are enforced within the cluster
 
-The $CLUSTER_NAME variable is the same that you used to create the cluster using the 'eksctl' command at the beginning of the workshop.  If you followed the directions, it will be 'eksworkshop-eksctl'
+### Lab Source : [Policy Automation and External Access](https://info.tigera.io/rs/805-GFH-732/images/Calico-Enterprise-Lab01.pdf?mkt_tok=eyJpIjoiTVRjek1EWTNNemRtTkRVdyIsInQiOiJoY3l5aUE1MEFiRk1Ia2NLSDN6b0JWRU5HMlhORUswTm14MldkQ1owbkl4ZkN6Vm5LRmdXOGZ1R094MG5KOFVYXC9GcmdOUmY4YzdjbUo1dGdaNUFMQ1E9PSJ9)
 
-```
-CLUSTER_NAME=eksworkshop-eksctl
-```
-
-The next thing we need to manually set is your Tigera Secure Cloud Edition $TS_TOKEN.  This can be found by checking your [Zendesk tickets](https://support.tigera.io/hc/en-us/requests).  The Token can be found in your welcome ticket and is a _UUID_, or long string of hex digits.
-
-```
-TS_TOKEN=<token UUID>
-```
-
-The following commands will set the remainder of the environment variables.
-
-```
-VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query 'cluster.resourcesVpcConfig.vpcId' --output text)
-K8S_NODE_SGS=$(aws ec2 describe-security-groups --filters Name=tag:aws:cloudformation:logical-id,Values=ClusterSharedNodeSecurityGroup Name=vpc-id,Values=${VPC_ID} --query "SecurityGroups[0].GroupId" --output text)
-CONTROL_PLANE_SG=$(aws ec2 describe-security-groups --filters Name=tag:aws:cloudformation:logical-id,Values=ControlPlaneSecurityGroup Name=vpc-id,Values=${VPC_ID} --query "SecurityGroups[0].GroupId" --output text)
-```
-
-If you have any problems, please make sure that you have setup your Cloud9 environment correctly for the workshop.
