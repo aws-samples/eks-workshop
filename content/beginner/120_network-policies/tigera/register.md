@@ -6,7 +6,7 @@ weight: 10
 
 The team at Tigera offers a free trial of [Calico Enterprise Edition](https://www.tigera.io/tigera-products/calico-enterprise) for all EKSWorkshop users. Follow the steps below to get your free trial on a dedicated EKS cluster provisioned and managed by Tigera. 
 
-- Go to the Tigera Secure Cloud Edition trial registration website at https://www.tigera.io/tigera-products/calico-enterprise-trial?utm_campaign=eks30&utm_medium=web&utm_source=eksworkshop . Please note this link has the offer code embedded and is the fastest way to get your trial. 
+- Go to the Calico Enterprise trial registration website at https://www.tigera.io/tigera-products/calico-enterprise-trial?utm_campaign=eks30&utm_medium=web&utm_source=eksworkshop . Please note this link has the offer code embedded and is the fastest way to get your trial. 
 
 - Fill out your contact details along with your work email address to ensure you receive your trial environment details promptly.
 
