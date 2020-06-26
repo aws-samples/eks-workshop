@@ -5,7 +5,7 @@ weight: 20
 
 ### CALICO ENTERPRISE USE CASES
 
-In this module, we will use Tigera’s Calico Enterprise](https://www.tigera.io/tigera-products/calico-enterprise) to implement the following 3 Amazon EKS use cases:
+In this module, we will use Tigera’s [Calico Enterprise](https://www.tigera.io/tigera-products/calico-enterprise) to implement the following 3 Amazon EKS use cases:
 
 ### 1) Implement Egress Access Controls
 
