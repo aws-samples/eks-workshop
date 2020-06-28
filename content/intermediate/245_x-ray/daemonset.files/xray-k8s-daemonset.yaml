@@ -11,14 +11,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app: xray-daemon
-  name: xray-daemon
-  namespace: default
----
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
@@ -54,9 +46,10 @@ spec:
         configMap:
           name: xray-config
       hostNetwork: true
+      serviceAccountName: xray-daemon
       containers:
       - name: xray-daemon
-        image: rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02
+        image: trevorrobertsjr/eks-workshop-x-ray-daemon:02d13ce10add55081c68b6b76a19b7dfeea00dad
         imagePullPolicy: Always
         command: [ "/usr/bin/xray", "-c", "/aws/xray/config.yaml" ]
         resources:
