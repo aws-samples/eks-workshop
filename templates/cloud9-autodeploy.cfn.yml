@@ -10,14 +10,6 @@ Parameters:
     AllowedValues:
       - t3.small
     ConstraintDescription: Must be a valid Cloud9 instance type
-  WSC9vpccidr:
-    Description: Workshop Cloud9 VPC CIDR CidrBlock
-    Type: String
-    Default: 10.0.0.0/24
-  WSC9vpcSubNet:
-    Description: Workshop Cloud9 Subnet
-    Type: String
-    Default: 10.0.0.0/25
   WSC9EnvType: 
     Description: Environment type.
     Default: awsaccount
@@ -25,77 +17,14 @@ Parameters:
     AllowedValues:
       - awsaccount
     ConstraintDescription: must specify eventengine or awsaccount.
+    
 Conditions: 
   CreateEventEngineResources: !Equals [ !Ref WSC9EnvType, eventengine ]
+
 Resources:
 
-########### NETWORK ############
-  WSC9VPC:
-    Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: !Ref WSC9vpccidr
-      EnableDnsSupport: 'true'
-      EnableDnsHostnames: 'true'
-      Tags:
-        - Key: Environment
-          Value: AWS Workshop
-
-  WSC9PubSubnet:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId:
-        Ref: WSC9VPC
-      AvailabilityZone:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::Region
-          - a
-      CidrBlock: !Ref WSC9vpcSubNet
-      MapPublicIpOnLaunch: 'true'
-      Tags:
-        - Key: Environment
-          Value: AWS Workshop
-
-  WSC9InternetGateway:
-    Type: AWS::EC2::InternetGateway
-    Properties:
-      Tags:
-        - Key: Environment
-          Value: AWS Workshop
-
-  WSC9GatewayToInternet:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
-      VpcId:
-        Ref: WSC9VPC
-      InternetGatewayId:
-        Ref: WSC9InternetGateway
-
-  WSC9PublicRouteTable:
-    Type: AWS::EC2::RouteTable
-    DependsOn: WSC9GatewayToInternet
-    Properties:
-      VpcId:
-        Ref: WSC9VPC
-
-  WSC9PublicRoute:
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId:
-        Ref: WSC9PublicRouteTable
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId:
-        Ref: WSC9InternetGateway
-
-  WSC9PubSubnetRTAssoc:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId:
-        Ref: WSC9PubSubnet
-      RouteTableId:
-        Ref: WSC9PublicRouteTable
-
 ################## PERMISSIONS AND ROLES #################
+
   WSC9Role:
     Type: AWS::IAM::Role
     Properties:
@@ -351,8 +280,6 @@ Resources:
         Ref: WSC9InstanceType
       Name:
         Ref: AWS::StackName
-      SubnetId:
-        Ref: WSC9PubSubnet
       OwnerArn: !If [CreateEventEngineResources, !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey", !Ref "AWS::NoValue" ]
       Tags: 
         - 
