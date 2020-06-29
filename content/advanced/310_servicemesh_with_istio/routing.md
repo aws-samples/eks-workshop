@@ -36,7 +36,7 @@ kubectl -n bookinfo \
 We can display the virtual service with the following command.
 
 ```bash
-kubectl -n bookinfo get virtualservices reviews -o yaml
+kubectl -n bookinfo get virtualservices bookinfo -o yaml
 ```
 
 The subset is set to v1 for all reviews request.
@@ -238,7 +238,7 @@ To test it, refresh your browser over and over, and you'll see only reviews:v1 a
 Assuming you decide tat the `reviews:v3` microservice is stable, you can route 100% of the traffic to it
 
 ```bash
-kubectl -n bookinfo apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+kubectl -n bookinfo apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 ```
 
 Now when you refresh the `/productpage` you will always see `reviews:v3` (red colored star ratings).

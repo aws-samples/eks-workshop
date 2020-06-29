@@ -1,0 +1,21 @@
+version: 1.0
+env:
+  variables:
+      VERSION_HUGO: 0.55.6
+frontend:
+  phases:
+    build:
+      commands:
+        - env
+        - export IMAGE_TAG=$(git rev-parse --short HEAD)
+        - echo '<p class=build-number>'${IMAGE_TAG}'</p>' >> layouts/partials/menu-footer.html
+        - hugo -v
+        - npm run deploytemplates
+  artifacts:
+    # IMPORTANT - Please verify your build output directory
+    baseDirectory: public
+    files:
+      - '**/*'
+  cache:
+    paths: []
+

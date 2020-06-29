@@ -9,14 +9,14 @@ instructions in [the official documentation](https://kubernetes.io/docs/tasks/ac
 
 We can deploy the dashboard with the following command:
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
 ```
 
 Since this is deployed to our private cluster, we need to access it via a proxy.
 Kube-proxy is available to proxy our requests to the dashboard service.  In your
 workspace, run the following command:
 ```
-kubectl proxy --port=8080 --address='0.0.0.0' --disable-filter=true &
+kubectl proxy --port=8080 --address=0.0.0.0 --disable-filter=true &
 ```
 
 This will start the proxy, listen on port 8080, listen on all interfaces, and

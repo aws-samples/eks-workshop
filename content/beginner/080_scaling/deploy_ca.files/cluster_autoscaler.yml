@@ -44,7 +44,7 @@ rules:
   resources: ["statefulsets","replicasets","daemonsets"]
   verbs: ["watch","list","get"]
 - apiGroups: ["storage.k8s.io"]
-  resources: ["storageclasses"]
+  resources: ["storageclasses", "csinodes"]
   verbs: ["watch","list","get"]
 - apiGroups: ["batch","extensions"]
   resources: ["jobs"]
@@ -141,7 +141,7 @@ spec:
             - --nodes=2:8:<AUTOSCALING GROUP NAME>
           env:
             - name: AWS_REGION
-              value: <AWS_REGION_NAME>
+              value: ${AWS_REGION}
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt

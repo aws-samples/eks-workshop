@@ -39,7 +39,7 @@ Output:
     "Policy": {
         "PolicyName": "ALBIngressControllerIAMPolicy",
         "PolicyId": "ANPA5UPUHMRP4ODFXYB5W",
-        "Arn": "arn:aws:iam::937351930975:policy/ALBIngressControllerIAMPolicy",
+        "Arn": "arn:aws:iam::123456789012:policy/ALBIngressControllerIAMPolicy",
         "Path": "/",
         "DefaultVersionId": "v1",
         "AttachmentCount": 0,
@@ -88,7 +88,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::197520326489:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-KI23J8XS8Y3H
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-KI23J8XS8Y3H
   creationTimestamp: "2020-03-07T22:40:34Z"
   name: alb-ingress-controller
   namespace: 2048-game

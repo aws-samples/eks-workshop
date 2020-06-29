@@ -8,7 +8,7 @@ Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It ena
 * **One Auto Scaling group** - This is what we will use
 * Multiple Auto Scaling groups
 * Auto-Discovery
-* Master Node setup
+* Control-plane Node setup
 
 ### Configure the Cluster Autoscaler (CA)
 We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal.
@@ -49,7 +49,7 @@ Click `Save`
 
 Using the file browser on the left, open cluster_autoscaler.yml
 
-Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step. Also, insert the **AWS_REGION** value by replacing the `<AWS_REGION_NAME>` placeholder to reflect the region you are using and **Save** the file.
+Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name that you copied in the previous step.
 
 {{< output >}}
 command:
@@ -59,9 +59,6 @@ command:
   - --cloud-provider=aws
   - --skip-nodes-with-local-storage=false
   - --nodes=2:8:eksctl-eksworkshop-eksctl-nodegroup-0-NodeGroup-SQG8QDVSR73G
-env:
-  - name: AWS_REGION
-    value: us-east-1
 {{< /output >}}
 This command contains all of the configuration for the Cluster Autoscaler. The primary config is the `--nodes` flag. This specifies the minimum nodes **(2)**, max nodes **(8)** and **ASG Name**.
 

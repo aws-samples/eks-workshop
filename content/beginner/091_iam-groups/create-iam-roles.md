@@ -7,7 +7,7 @@ weight: 20
 
 We are going to create 3 roles:
 
-- a **k8sAdmin** role which will have **admin**x rights in our EKS cluster
+- a **k8sAdmin** role which will have **admin** rights in our EKS cluster
 - a **k8sDev** role which will gives access to **developers** namespace in our EKS cluster
 - a **k8sInteg** role which will gives access to **integration** namespace our EKS cluster
 

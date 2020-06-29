@@ -5,7 +5,7 @@ draft: false
 weight: 10
 ---
 
-In the [intro to RBAC](/beginner/090_rbac/) module, we have see how we can give access to individual users to Kubernetes.
+In the [intro to RBAC](/beginner/090_rbac/) module, we have seen how we can give access to individual users to Kubernetes.
 
 If you have different teams which needs different kind of cluster access, it would be difficult to manually add or remove access for each EKS clusters you want them to give or remove access from.
 

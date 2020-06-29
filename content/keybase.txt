@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/brentley
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://eksworkshop.com
+  * I am brentley (https://keybase.io/brentley) on keybase.
+  * I have a public key ASCJfE-C_wdx8-OrWdzPVkji7xZL8GRMOzec2cjEsV6YmAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01200f24307cb6e4c5b0ab8a20b5759f3767c3bc0f197a1f180e9313389a91464fa80a",
+      "host": "keybase.io",
+      "kid": "0120897c4f82ff0771f3e3ab59dccf5648e2ef164bf0644c3b379cd9c8c4b15e98980a",
+      "uid": "a22c231f34f5a746964dbf7a7219fc19",
+      "username": "brentley"
+    },
+    "merkle_root": {
+      "ctime": 1591034117,
+      "hash": "edbd053251bfbe5e777fceae93112955572c8db0c8fae839aaa7c7cd586af1da9001a654a4a2391804c6741dc7d0193ecf8c6673c674dcaf10131d15cb72a3a0",
+      "hash_meta": "a0b6603224e848254c54514c2760718d612981048c46f25b829be1b4b45f1a7a",
+      "seqno": 16480744
+    },
+    "service": {
+      "entropy": "FP7nHtgFkUJZzOm+VymRWhmT",
+      "hostname": "eksworkshop.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.5.0"
+  },
+  "ctime": 1591034141,
+  "expire_in": 504576000,
+  "prev": "f7914cef81c455f29fc56c6edffa87ff79180ea465df6725a23da2eee79e8f3d",
+  "seqno": 54,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgiXxPgv8HcfPjq1ncz1ZI4u8WS/BkTDs3nNnIxLFemJgKp3BheWxvYWTESpcCNsQg95FM74HEVfKfxWxu3/qH/3kYDqRl32cloj2i7ueejz3EIBzbpsftSTwgOoJ8ydibhlXTfh5eygjghilp5ggVUbTCAgHCo3NpZ8RAKBDJ7O9IyAmeq1c+37LJdOIOJpZ081LjZX+UShljGLOWnA7LpW2/orw5ZVs/QKZnk7mclsjQvmLXL3spha6XBahzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIDoL7j+zcn2+ZL9xDQHc1PfcWLQM3yLTDdtpuqg9jdJBo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/brentley
+
+==================================================================

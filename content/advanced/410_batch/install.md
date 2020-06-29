@@ -11,7 +11,7 @@ Before we can get started configuring `argo` we'll need to first install the
 command line tools that you will interact with. To do this run the following.
 
 ```
-sudo curl -sSL -o /usr/local/bin/argo https://github.com/argoproj/argo/releases/download/v2.2.1/argo-linux-amd64
+sudo curl -sSL -o /usr/local/bin/argo https://github.com/argoproj/argo/releases/download/v2.3.0/argo-linux-amd64
 sudo chmod +x /usr/local/bin/argo
 ```
 
