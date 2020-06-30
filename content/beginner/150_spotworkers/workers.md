@@ -41,7 +41,7 @@ nodeGroups:
         - m5n.large
         - m5dn.large
       onDemandBaseCapacity: 0
-      onDemandPercentageAboveBaseCapacity: 0 # all the instances will be spot instances
+      onDemandPercentageAboveBaseCapacity: 0 # all the instances will be Spot Instances
       spotAllocationStrategy: capacity-optimized # launch Spot Instances from the most availably Spot Instance pools
 EoF
 
