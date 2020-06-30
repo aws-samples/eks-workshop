@@ -31,20 +31,26 @@ nodeGroups:
       spotInstance: true:PreferNoSchedule
     minSize: 2
     maxSize: 5
-    instancesDistribution: # At least two instance types should be specified
+    instancesDistribution: 
       instanceTypes:
+        - m5.large
         - m4.large
-        - c4.large
-        - c5.large
+        - m5d.large
+        - m5a.large
+        - m5ad.large
+        - m5n.large
+        - m5dn.large
       onDemandBaseCapacity: 0
-      onDemandPercentageAboveBaseCapacity: 0 # all the instances will be spot instances
-      spotInstancePools: 2
+      onDemandPercentageAboveBaseCapacity: 0 # all the instances will be Spot Instances
+      spotAllocationStrategy: capacity-optimized # launch Spot Instances from the most availably Spot Instance pools
 EoF
 
 eksctl create nodegroup -f ~/environment/eks-workshop-ng-spot.yaml
 ```
 
 During the creation of the Node Group, we have configured a **node-label** so that kubernetes knows what type of nodes we have provisioned. We set the **lifecycle** for the nodes as **Ec2Spot**. We are also [tainting](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) with **PreferNoSchedule** to prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
+
+Also, we specified [capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/) as the spotAllocationStrategy, which will launch instances from the Spot Instance pools with the most available capacity (out of the instance types we specified), aiming to decrease the number of Spot interruptions in our cluster (when EC2 needs the capacity back).
 
 {{% notice info %}}
 The creation of the workers will take about 3 minutes.
