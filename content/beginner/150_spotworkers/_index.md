@@ -12,4 +12,4 @@ tags:
 
 In this module, you will learn how to provision, manage, and maintain your Kubernetes clusters with Amazon EKS at any scale on Spot Instances to optimize cost and scale.
 
-![Title Image](/images/spotworkers/spot_diagram.png)
+![Title Image](/images/spotworkers/spot_diagram2.png)
