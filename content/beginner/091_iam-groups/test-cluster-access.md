@@ -205,7 +205,7 @@ kube-system   kube-proxy-pr7k7           1/1     Running   0          100m
 {{</output>}}
 
 
-## Swithing between different contexts
+## Switching between different contexts
 
 It is possible to merge several kubernetes API access in the same KUBECONFIG file, or just tell Kubectl several file to lookup at once:
 
