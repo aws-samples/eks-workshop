@@ -27,10 +27,13 @@ helm -n 2048-game delete 2048-game
 eksctl delete iamserviceaccount \
   --name alb-ingress-controller \
   --namespace 2048-game \
-  --cluster eksworkshop-eksctl
+  --cluster eksworkshop-eksctl \
+  --wait
 
 # Delete Kubernetes RBAC
-kubectl delete -f ~/environment/fargate/rbac-role.yaml
+curl -sS  https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/rbac-role.yaml \
+  | sed 's/namespace: kube-system/namespace: 2048-game/g' \
+  | kubectl delete -f -
 
 # Delete Fargate profile
 eksctl delete fargateprofile \
@@ -42,7 +45,5 @@ kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingr
 
 # Delete IAM policy
 aws iam delete-policy --policy-arn $FARGATE_POLICY_ARN
-
-cd ~/environment
-rm -rf ~/environment/fargate
 ```
+
