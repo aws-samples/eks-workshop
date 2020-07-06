@@ -1,5 +1,5 @@
 ---
-title: "Continuous Deployement with ArgoCD"
+title: "Continuous Deployment with ArgoCD"
 chapter: true
 weight: 260
 draft: false
@@ -9,7 +9,7 @@ tags:
   - gitops
 ---
 
-# Continuous Deployement with ArgoCD
+# Continuous Deployment with ArgoCD
 [Argo CD] (https://argoproj.github.io/argo-cd/) is a declarative, GitOps continuous delivery tool for Kubernetes. 
 The core component of Argo CD is the Application Controller, which continuously monitors running applications and compares the live application state against the desired target state defined in the Git repository. This powers the following use cases:
 
