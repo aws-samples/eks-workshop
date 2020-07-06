@@ -11,6 +11,8 @@ tags:
 
 # Helm
 
+{{< youtube XIVCS2j_JxU >}}
+
 {{% notice info %}}
 This tutorial has been updated for Helm v3. In version 3, the Tiller component
 was removed, which simplified operations and improved security.
