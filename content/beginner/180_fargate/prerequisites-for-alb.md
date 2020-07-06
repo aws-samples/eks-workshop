@@ -11,9 +11,9 @@ First, we will have to set up an OIDC provider with the cluster and create the I
 
 ```bash
 eksctl utils associate-iam-oidc-provider \
---cluster eksworkshop-eksctl \
---region=$AWS_REGION \
---approve
+  --cluster eksworkshop-eksctl \
+  --region=$AWS_REGION \
+  --approve
 ```
 
 #### Create an IAM Policy for ALB Ingress
@@ -21,14 +21,9 @@ eksctl utils associate-iam-oidc-provider \
 The next step is to create the IAM policy that will be used by the ALB Ingress Controller deployment. This policy will be later associated to the Kubernetes Service Account and will allow the ALB Ingress Controller pods to create and manage the ALB’s resources in your AWS account for you.
 
 ```bash
-cd ~/environment/fargate
-wget https://eksworkshop.com/beginner/180_fargate/fargate.files/alb-ingress-iam-policy.json
-```
-
-```bash
 aws iam create-policy \
   --policy-name ALBIngressControllerIAMPolicy \
-  --policy-document file://alb-ingress-iam-policy.json
+  --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/iam-policy.json
 ```
 
 You will see the policy information output as shown below. Note down the ARN of the policy that you just created.
@@ -104,10 +99,7 @@ secrets:
 Next, you will have to create a Cluster Role and Cluster Role Binding that grant requisite permissions to the Service Account you just created.
 
 ```bash
-cd ~/environment/fargate
-wget https://eksworkshop.com/beginner/180_fargate/fargate.files/rbac-role.yaml
-```
-
-```bash
-kubectl apply -f rbac-role.yaml
+curl -sS  https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/rbac-role.yaml \
+  | sed 's/namespace: kube-system/namespace: 2048-game/g' \
+  | kubectl apply -f -
 ```
