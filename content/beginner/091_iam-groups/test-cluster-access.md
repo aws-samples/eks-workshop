@@ -238,4 +238,4 @@ In this module, we have seen how to configure EKS to provide finer access to use
 You'll be able to create different groups depending on your needs, configure their associated RBAC access in your cluster, and simply add or remove users from 
 the group to grand or remove them access to your cluster.
 
-Users will only have to configure their aws cli in order to automatically retrievfe their associated rights in your cluster.
+Users will only have to configure their aws cli in order to automatically retrieve their associated rights in your cluster.
