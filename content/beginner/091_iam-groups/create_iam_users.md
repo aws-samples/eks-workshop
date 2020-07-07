@@ -28,7 +28,7 @@ aws iam get-group --group-name k8sInteg
 ```
 
 {{% notice note %}}
-For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have priveledged access; It is not a security best practice to store credentials on the filesystem.
+For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have priviledged access; It is not a security best practice to store credentials on the filesystem.
 {{% /notice %}}
 
 Retrieve Access Keys for our fake users:
