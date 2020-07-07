@@ -48,5 +48,5 @@ We are going to allow specific groups to also be able to assume thoses roles.
 > 
 
 Because the above roles are only used to authenticate within the k8s cluster, they don't necessary need to have AWS permissions. 
-We will only uses them to allow some IAM groups to assume this role in order to have acess to EKS kubernetes cluster.
+We will only use them to allow some IAM groups to assume this role in order to have acess to EKS kubernetes cluster.
 
