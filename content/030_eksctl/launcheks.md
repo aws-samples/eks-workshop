@@ -31,6 +31,11 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 ### Create an EKS cluster
 
+Set the region
+```bash
+AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+```
+
 Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
 
 ```bash
