@@ -5,13 +5,13 @@ weight: 40
 ---
 
 ### Create custom resources for ENIConfig CRD
-As next step, we will add custom resources to ENIConfig custom resource definition (CRD). CRD's are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRD's so that Worker nodes can access them to configure VPC CNI plugin.
+As next step, we will add custom resources to ENIConfig custom resource definition (CRD). CRDs are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRDs so that Worker nodes can access them to configure VPC CNI plugin.
 
 You should have ENIConfig CRD already installed with latest CNI version (1.3+). You can check if its installed by running this command.
 ```
 kubectl get crd
 ```
-You should see response similar to this
+You should see a response similar to this
 {{< output >}}
 NAME                               CREATED AT
 eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
@@ -34,7 +34,7 @@ spec:
  - $SECURITYGROUPID1
  - $SECURITYGROUPID2
 ```
-Check the AZ's and Subnet IDs for these subnets. Make note of AZ info as you will need this when you apply annotation to Worker nodes using custom network config
+Check the AZs and Subnet IDs for these subnets. Make note of AZ info as you will need this when you apply annotation to Worker nodes using custom network config
 ```
 aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'Subnets[*].[CidrBlock,SubnetId,AvailabilityZone]' --output table
 ```
@@ -100,7 +100,7 @@ aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Nam
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
 {{< /output >}}
 
-Apply the CRD's
+Apply the CRDs
 ```
 kubectl apply -f group1-pod-netconfig.yaml
 kubectl apply -f group2-pod-netconfig.yaml
