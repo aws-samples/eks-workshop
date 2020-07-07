@@ -3,7 +3,7 @@ title: "Resource Management"
 chapter: true
 weight: 201
 tags:
-  - beginner
+  - intermediate
 ---
 
 # Resource Management
