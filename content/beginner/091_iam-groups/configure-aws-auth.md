@@ -26,7 +26,7 @@ eksctl create iamidentitymapping --cluster eksworkshop-eksctl --arn arn:aws:iam:
 eksctl create iamidentitymapping --cluster eksworkshop-eksctl --arn arn:aws:iam::${ACCOUNT_ID}:role/k8sInteg --username integ-user
 eksctl create iamidentitymapping --cluster eksworkshop-eksctl --arn arn:aws:iam::${ACCOUNT_ID}:role/k8sAdmin --username admin --group system:masters
 ```
-> It cal also be used to delete entries
+> It can also be used to delete entries
 > `eksctl delete iamidentitymapping --cluster eksworkshop-eksctlv --arn arn:aws:iam::xxxxxxxxxx:role/k8sDev --username dev-user`
 
 you should have the config map looking something like:
