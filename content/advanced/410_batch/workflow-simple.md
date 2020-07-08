@@ -7,9 +7,10 @@ draft: false
 
 ### Simple Batch Workflow
 
-Save the below manifest as 'workflow-whalesay.yaml' using your favorite editor and let's deploy the `whalesay` example from before using Argo.
+Create the manifest `workflow-whalesay.yaml` and let's deploy the `whalesay` example from before using Argo.
 
-```
+```bash
+cat <<EoF > ~/environment/batch_policy/workflow-whalesay.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -22,6 +23,7 @@ spec:
       image: docker/whalesay
       command: [cowsay]
       args: ["This is an Argo Workflow!"]
+EoF
 ```
 
 Now deploy the workflow using the argo CLI.
@@ -31,43 +33,45 @@ You can also run workflow specs directly using kubectl but the argo CLI provides
 {{% /notice %}}
 
 ```bash
-argo submit --watch workflow-whalesay.yaml
+argo -n argo submit --watch ~/environment/batch_policy/workflow-whalesay.yaml
 ```
 
 {{< output >}}
-Name:                whalesay-2kfxb
-Namespace:           default
+Name:                whalesay-rlssg
+Namespace:           argo
 ServiceAccount:      default
 Status:              Succeeded
-Created:             Sat Nov 17 10:32:13 -0500 (3 seconds ago)
-Started:             Sat Nov 17 10:32:13 -0500 (3 seconds ago)
-Finished:            Sat Nov 17 10:32:16 -0500 (now)
+Conditions:
+ Completed           True
+Created:             Wed Jul 08 00:13:51 +0000 (3 seconds ago)
+Started:             Wed Jul 08 00:13:51 +0000 (3 seconds ago)
+Finished:            Wed Jul 08 00:13:54 +0000 (now)
 Duration:            3 seconds
+ResourcesDuration:   1s*(1 cpu),1s*(100Mi memory)
 
-STEP               PODNAME         DURATION  MESSAGE
- ✔ whalesay-2kfxb  whalesay-2kfxb  2s        
+STEP               TEMPLATE  PODNAME         DURATION  MESSAGE
+ ✔ whalesay-rlssg  whalesay  whalesay-rlssg  2s
 {{< /output >}}
-Make a note of the workflow's name from your output (It should be similar to whalesay-xxxxx).
 
-Confirm the output by running the following command, substituting name of your workflow for "whalesay-xxxxx":
+Confirm the output by running the following command:
 
 ```bash
-argo logs whalesay-xxxxx
+argo -n argo logs $(argo -n argo list -o name)
 ```
 
 {{< output >}}
- ___________________________ 
-< This is an Argo Workflow! >
- --------------------------- 
-    \
-     \
-      \     
-                    ##        .            
-              ## ## ##       ==            
-           ## ## ## ##      ===            
-       /""""""""""""""""___/ ===        
-  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~   
-       \______ o          __/            
-        \    \        __/             
-          \____\______/   
+whalesay-rlssg:  ___________________________
+whalesay-rlssg: < This is an Argo Workflow! >
+whalesay-rlssg:  ---------------------------
+whalesay-rlssg:     \
+whalesay-rlssg:      \
+whalesay-rlssg:       \
+whalesay-rlssg:                     ##        .
+whalesay-rlssg:               ## ## ##       ==
+whalesay-rlssg:            ## ## ## ##      ===
+whalesay-rlssg:        /""""""""""""""""___/ ===
+whalesay-rlssg:   ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+whalesay-rlssg:        \______ o          __/
+whalesay-rlssg:         \    \        __/
+whalesay-rlssg:           \____\______/
 {{< /output >}}

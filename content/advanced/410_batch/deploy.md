@@ -5,7 +5,7 @@ weight: 40
 draft: false
 ---
 
-### Deploy Argo
+### Deploy Argo Controller
 
 Argo run in its own namespace and deploys as a CustomResourceDefinition.
 
@@ -13,33 +13,40 @@ Deploy the Controller and UI.
 
 ```bash
 kubectl create namespace argo
-kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.3.0/manifests/install.yaml
+kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/${ARGO_VERSION}/manifests/install.yaml
 ```
 
 {{< output >}}
-namespace/argo created
+customresourcedefinition.apiextensions.k8s.io/clusterworkflowtemplates.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/cronworkflows.argoproj.io created
 customresourcedefinition.apiextensions.k8s.io/workflows.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/workflowtemplates.argoproj.io created
 serviceaccount/argo created
-serviceaccount/argo-ui created
+serviceaccount/argo-server created
+role.rbac.authorization.k8s.io/argo-role created
 clusterrole.rbac.authorization.k8s.io/argo-aggregate-to-admin created
 clusterrole.rbac.authorization.k8s.io/argo-aggregate-to-edit created
 clusterrole.rbac.authorization.k8s.io/argo-aggregate-to-view created
 clusterrole.rbac.authorization.k8s.io/argo-cluster-role created
-clusterrole.rbac.authorization.k8s.io/argo-ui-cluster-role created
+clusterrole.rbac.authorization.k8s.io/argo-server-cluster-role created
+rolebinding.rbac.authorization.k8s.io/argo-binding created
 clusterrolebinding.rbac.authorization.k8s.io/argo-binding created
-clusterrolebinding.rbac.authorization.k8s.io/argo-ui-binding created
+clusterrolebinding.rbac.authorization.k8s.io/argo-server-binding created
 configmap/workflow-controller-configmap created
-service/argo-ui created
-deployment.apps/argo-ui created
+service/argo-server created
+service/workflow-controller-metrics created
+deployment.apps/argo-server created
 deployment.apps/workflow-controller created
 {{< /output >}}
 
-To use advanced features of Argo for this demo, create a RoleBinding to grant admin privileges to the 'default' service account.
+### Configure the service account to run Workflows
 
-{{% notice warning %}}
-This is for demo purposes only. In any other environment, you should use [Workflow RBAC](https://github.com/argoproj/argo/blob/master/docs/workflow-rbac.md) to set appropriate permissions.
-{{% /notice %}}
+In order for Argo to support features such as artifacts, outputs, access to secrets, etc. it needs to communicate with Kubernetes resources using the Kubernetes API. To communicate with the Kubernetes API, Argo uses a `ServiceAccount` to authenticate itself to the Kubernetes API. You can specify which `Role` (i.e. which permissions) the ServiceAccount that Argo uses by binding a `Role` to a `ServiceAccount` using a `RoleBinding`
 
 ```bash
-kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=default:default
+kubectl -n argo create rolebinding default-admin --clusterrole=admin --serviceaccount=argo:default
 ```
+
+{{% notice note %}}
+Note that this will grant admin privileges to the default ServiceAccount in the namespace that the command is run from, so you will only be able to run Workflows in the namespace where the RoleBinding was made.
+{{% /notice %}}

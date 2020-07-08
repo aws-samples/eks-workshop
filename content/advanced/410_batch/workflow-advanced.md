@@ -9,9 +9,10 @@ draft: false
 
 Let's take a look at a more complex workflow, involving passing artifacts between jobs, multiple dependencies, etc.
 
-Save the below manifest as `teardrop.yaml` using your favorite editor.
+Create  `teardrop.yaml` using the command below:
 
-```
+```bash
+cat <<EoF > ~/environment/batch_policy/teardrop.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -135,6 +136,7 @@ spec:
               from: "{{tasks.Echo.outputs.artifacts.chain}}"
             - name: chain-1
               from: "{{tasks.Foxtrot.outputs.artifacts.chain}}"
+EoF
 ```
 
 This workflow uses a [Directed Acyclic Graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (DAG) to explicitly define job dependencies. Each job in the workflow calls a `whalesay` template and passes a parameter with a unique name. Some jobs call a `whalesay-reduce` template which accepts multiple artifacts and combines them into a single artifact.
@@ -144,30 +146,33 @@ Each job in the workflow pulls the artifact(s) and lists them in the "Chain", th
 Run the workflow.
 
 ```bash
-argo submit --watch teardrop.yaml
+argo -n argo submit --watch ~/environment/batch_policy/teardrop.yaml
 ```
 
 {{< output >}}
-Name:                teardrop-jfg5w
-Namespace:           default
+Name:                teardrop-vqbmb
+Namespace:           argo
 ServiceAccount:      default
 Status:              Succeeded
-Created:             Sat Nov 17 16:01:42 -0500 (7 minutes ago)
-Started:             Sat Nov 17 16:01:42 -0500 (7 minutes ago)
-Finished:            Sat Nov 17 16:03:35 -0500 (5 minutes ago)
-Duration:            1 minute 53 seconds
+Conditions:
+ Completed           True
+Created:             Tue Jul 07 20:32:12 +0000 (42 seconds ago)
+Started:             Tue Jul 07 20:32:12 +0000 (42 seconds ago)
+Finished:            Tue Jul 07 20:32:54 +0000 (now)
+Duration:            42 seconds
+ResourcesDuration:   32s*(1 cpu),32s*(100Mi memory)
 
-STEP               PODNAME                    DURATION  MESSAGE
- ✔ teardrop-jfg5w                                       
- ├-✔ create-chain  teardrop-jfg5w-3938249022  3s        
- ├-✔ Alpha         teardrop-jfg5w-3385521262  6s        
- ├-✔ Bravo         teardrop-jfg5w-1878939134  35s       
- ├-✔ Charlie       teardrop-jfg5w-3753534620  35s       
- ├-✔ Foxtrot       teardrop-jfg5w-2036090354  5s        
- ├-✔ Delta         teardrop-jfg5w-37094256    34s       
- ├-✔ Echo          teardrop-jfg5w-4165010455  31s       
- ├-✔ Hotel         teardrop-jfg5w-2342859904  4s        
- └-✔ Golf          teardrop-jfg5w-1687601882  30s       
+STEP               TEMPLATE         PODNAME                    DURATION  MESSAGE
+ ✔ teardrop-vqbmb  teardrop
+ ├-✔ create-chain  create-chain     teardrop-vqbmb-1083106731  3s
+ ├-✔ Alpha         whalesay         teardrop-vqbmb-2236987393  3s
+ ├-✔ Bravo         whalesay         teardrop-vqbmb-1872757121  4s
+ ├-✔ Charlie       whalesay         teardrop-vqbmb-2266260663  4s
+ ├-✔ Delta         whalesay         teardrop-vqbmb-2802530727  18s
+ ├-✔ Echo          whalesay-reduce  teardrop-vqbmb-2599957478  4s
+ ├-✔ Foxtrot       whalesay         teardrop-vqbmb-1298400165  4s
+ ├-✔ Hotel         whalesay-reduce  teardrop-vqbmb-3381869223  8s
+ └-✔ Golf          whalesay-reduce  teardrop-vqbmb-1766004759  8s
 {{< /output >}}
 
 Continue to the [Argo Dashboard](/advanced/410_batch/dashboard/) to explore this model further.
