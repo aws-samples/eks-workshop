@@ -10,19 +10,20 @@ draft: false
 #### Delete all workflows
 
 ```bash
-argo delete --all
+argo -n argo delete --all
 ```
 
 #### Remove Artifact Repository Bucket
 
-```
+```bash
 aws s3 rb s3://batch-artifact-repository-${ACCOUNT_ID}/ --force
 ```
 
 #### Undeploy Argo
 
 ```bash
-kubectl delete -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.3.0/manifests/install.yaml
+kubectl delete -n argo -f https://raw.githubusercontent.com/argoproj/argo/${ARGO_VERSION}/manifests/install.yaml
+
 kubectl delete namespace argo
 ```
 
@@ -30,4 +31,16 @@ kubectl delete namespace argo
 
 ```bash
 kubectl delete job/whalesay
+```
+
+#### delete the inline policy
+
+```bash
+ aws iam delete-role-policy --role-name $ROLE_NAME --policy-name S3-Policy-For-Worker
+ ```
+
+#### delete the folder and all the files in it
+
+```bash
+rm -rf ~/environment/batch_policy
 ```
