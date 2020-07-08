@@ -13,9 +13,9 @@ We are going to create 3 roles:
 
 Create the roles:
 
-```
-ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
+```bash
 POLICY=$(echo -n '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"arn:aws:iam::'; echo -n "$ACCOUNT_ID"; echo -n ':root"},"Action":"sts:AssumeRole","Condition":{}}]}')
+
 echo ACCOUNT_ID=$ACCOUNT_ID
 echo POLICY=$POLICY
 
@@ -41,12 +41,10 @@ aws iam create-role \
   --query 'Role.Arn'
 ```
 
-> In this example, the assume-role-policy allows the root account to assume the role. 
-We are going to allow specific groups to also be able to assume thoses roles.
+> In this example, the assume-role-policy allows the root account to assume the role.
+We are going to allow specific groups to also be able to assume those roles.
+> check the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html) for more informations:
+>
 
-> check the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html) for more informations: 
-> 
-
-Because the above roles are only used to authenticate within the k8s cluster, they don't necessary need to have AWS permissions. 
-We will only use them to allow some IAM groups to assume this role in order to have acess to EKS kubernetes cluster.
-
+Because the above roles are only used to authenticate within the k8s cluster, they don't necessary need to have AWS permissions.
+We will only use them to allow some IAM groups to assume this role in order to have access to EKS kubernetes cluster.

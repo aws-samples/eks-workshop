@@ -43,5 +43,5 @@ aws iam delete-role --role-name k8sInteg
 
 rm /tmp/*.json
 rm /tmp/kubeconfig*
-rm /tmp/credentials
+rm -rf ~/.aws
 ```
