@@ -20,12 +20,13 @@ We'll see this but first, let's creates the groups.
 
 The **k8sAdmin** Group will be allowed to assume the **k8sAdmin** IAM Role.
 
-```
+```bash
 aws iam create-group --group-name k8sAdmin
 ```
+
 Let's add a Policy on our group which will allow users from this group to assume our k8sAdmin Role:
 
-```
+```bash
 ADMIN_GROUP_POLICY=$(echo -n '{
   "Version": "2012-10-17",
   "Statement": [
@@ -49,12 +50,13 @@ aws iam put-group-policy \
 
 The **k8sDev** Group will be allowed to assume the **k8sDev** IAM Role.
 
-```
+```bash
 aws iam create-group --group-name k8sDev
 ```
+
 Let's add a Policy on our group which will allow users from this group to assume our k8sDev Role:
 
-```
+```bash
 DEV_GROUP_POLICY=$(echo -n '{
   "Version": "2012-10-17",
   "Statement": [
@@ -76,12 +78,13 @@ aws iam put-group-policy \
 
 #### Create k8sInteg IAM Group
 
-```
+```bash
 aws iam create-group --group-name k8sInteg
 ```
+
 Let's add a Policy on our group which will allow users from this group to assume our k8sInteg Role:
 
-```
+```bash
 INTEG_GROUP_POLICY=$(echo -n '{
   "Version": "2012-10-17",
   "Statement": [
@@ -103,7 +106,7 @@ aws iam put-group-policy \
 
 You now should have your 3 groups
 
-```
+```bash
 aws iam list-groups
 ```
 

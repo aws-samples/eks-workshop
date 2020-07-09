@@ -33,7 +33,7 @@ For the sake of simplicity, in this chapter, we will save credentials to a file 
 
 Retrieve Access Keys for our fake users:
 
-```
+```bash
 aws iam create-access-key --user-name PaulAdmin | tee /tmp/PaulAdmin.json
 aws iam create-access-key --user-name JeanDev | tee /tmp/JeanDev.json
 aws iam create-access-key --user-name PierreInteg | tee /tmp/PierreInteg.json
@@ -56,7 +56,7 @@ EoF
 ```
 -->
 
-Recap: 
+Recap:
 
 - **PaulAdmin** is in the **k8sAdmin** group and will be able to assume the **k8sAdmin** role.
 - **JeanDev** is in **k8sDev** Group and will be able to assume IAM role **k8sDev**
