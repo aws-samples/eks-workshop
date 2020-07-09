@@ -47,5 +47,4 @@ rm /tmp/kubeconfig*
 # reset aws credentials and config files
 rm  ~/.aws/{config,credentials}
 aws configure set default.region ${AWS_REGION}
-aws configure get default.region
 ```
