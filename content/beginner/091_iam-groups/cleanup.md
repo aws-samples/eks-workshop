@@ -43,5 +43,9 @@ aws iam delete-role --role-name k8sInteg
 
 rm /tmp/*.json
 rm /tmp/kubeconfig*
-rm -rf ~/.aws
+
+# reset aws credentials and config files
+rm  ~/.aws/{config,credentials}
+aws configure set default.region ${AWS_REGION}
+aws configure get default.region
 ```

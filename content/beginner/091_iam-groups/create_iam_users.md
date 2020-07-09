@@ -7,21 +7,23 @@ weight: 22
 
 In order to test our scenarios, we will create 3 users, one for each groups we created :
 
-```
+```bash
 aws iam create-user --user-name PaulAdmin
 aws iam create-user --user-name JeanDev
 aws iam create-user --user-name PierreInteg
 ```
 
 Add users to associated groups:
-```
+
+```bash
 aws iam add-user-to-group --group-name k8sAdmin --user-name PaulAdmin
 aws iam add-user-to-group --group-name k8sDev --user-name JeanDev
 aws iam add-user-to-group --group-name k8sInteg --user-name PierreInteg
 ```
 
 Check users are correctly added in their groups:
-```
+
+```bash
 aws iam get-group --group-name k8sAdmin
 aws iam get-group --group-name k8sDev
 aws iam get-group --group-name k8sInteg

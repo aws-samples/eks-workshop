@@ -91,8 +91,7 @@ aws sts get-caller-identity --profile admin
 
 It is also possible to specify the AWS_PROFILE to uses with the aws-iam-authenticator in the `.kube/config` file, so that it will uses the appropriate profile.
 
-
-### with dev profile 
+### with dev profile
 
 Create new KUBECONFIG file to test this:
 
