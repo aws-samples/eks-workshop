@@ -47,6 +47,10 @@ managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 3
 
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]
+
 secretsEncryption:
   keyARN: ${MASTER_ARN}
 EOF
