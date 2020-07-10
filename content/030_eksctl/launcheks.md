@@ -47,9 +47,10 @@ managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 3
 
-cloudWatch:
-  clusterLogging:
-    enableTypes: ["*"]
+# To enable all of the control plane logs, uncomment below:
+# cloudWatch:
+#  clusterLogging:
+#    enableTypes: ["*"]
 
 secretsEncryption:
   keyARN: ${MASTER_ARN}
