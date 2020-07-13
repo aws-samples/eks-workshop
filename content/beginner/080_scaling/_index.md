@@ -2,6 +2,7 @@
 title: "Autoscaling our Applications and Clusters"
 chapter: true
 weight: 80
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - beginner
   - CON205

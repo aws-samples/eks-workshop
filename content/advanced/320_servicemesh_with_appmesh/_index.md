@@ -2,6 +2,7 @@
 title: "Service Mesh with AWS App Mesh"
 date: 2018-08-07T08:30:11-07:00
 weight: 320
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 aliases:
     - /mesh/
     - /appmesh/
@@ -11,6 +12,8 @@ tags:
   - servicemesh
   - appmesh
 ---
+
+{{< youtube GVni3ruLSe0 >}}
 
 At [re:invent 2018](https://www.youtube.com/watch?v=GVni3ruLSe0), we announced [AWS App Mesh](https://aws.amazon.com/app-mesh), a service mesh that provides application-level networking to make it easy for your services to communicate with each other across multiple types of compute infrastructure. App Mesh standardizes how your services communicate, giving you end-to-end visibility and ensuring high-availability for your applications.
 
