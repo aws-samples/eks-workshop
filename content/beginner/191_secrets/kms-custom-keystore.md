@@ -2,6 +2,7 @@
 title: "AWS KMS and Custom Key Store"
 date: 2019-04-09T00:00:00-03:00
 weight: 5
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 ---
 

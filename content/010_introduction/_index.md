@@ -3,6 +3,7 @@ title: "Introduction"
 weight: 10
 chapter: true
 draft: false
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - beginner
   - kubeflow

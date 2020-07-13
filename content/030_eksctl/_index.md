@@ -2,6 +2,7 @@
 title: "Launch using eksctl"
 chapter: true
 weight: 30
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - beginner
   - kubeflow
