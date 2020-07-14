@@ -8,6 +8,9 @@ tags:
 ---
 
 # Assigning Pods to Nodes
+
+{{< youtube Lj1HeOuJJzk >}}
+
 ### Introduction
 
 In this Chapter, we will review how the strategy of assigning Pods works, alternatives and recommended approaches.
