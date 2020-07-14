@@ -8,14 +8,18 @@ The official Kubernetes dashboard is not deployed by default, but there are
 instructions in [the official documentation](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 
 We can deploy the dashboard with the following command:
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+
+```bash
+export DASHBOARD_VERSION="v2.0.0"
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/aio/deploy/recommended.yaml
 ```
 
 Since this is deployed to our private cluster, we need to access it via a proxy.
-Kube-proxy is available to proxy our requests to the dashboard service.  In your
+`kube-proxy` is available to proxy our requests to the dashboard service.  In your
 workspace, run the following command:
-```
+
+```bash
 kubectl proxy --port=8080 --address=0.0.0.0 --disable-filter=true &
 ```
 

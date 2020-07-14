@@ -7,11 +7,14 @@ draft: false
 
 ### Kubernetes Jobs
 
-A _job_ creates one or more pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the job tracks the successful completions. When a specified number of successful completions is reached, the job itself is complete. Deleting a Job will cleanup the pods it created.
+A `job` creates one or more pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the job tracks the successful completions. When a specified number of successful completions is reached, the job itself is complete. Deleting a Job will cleanup the pods it created.
 
-Save the below manifest as 'job-whalesay.yaml' using your favorite editor.
+Let's start by creating the _job-whalesay.yaml_ manifest using this command
 
-```
+```bash
+mkdir  ~/environment/batch_policy/
+
+cat <<EoF > ~/environment/batch_policy/job-whalesay.yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -25,11 +28,12 @@ spec:
         command: ["cowsay",  "This is a Kubernetes Job!"]
       restartPolicy: Never
   backoffLimit: 4
+EoF
 ```
 
 Run a sample Kubernetes Job using the `whalesay` image.
 
-```
+```bash
 kubectl apply -f job-whalesay.yaml
 ```
 
