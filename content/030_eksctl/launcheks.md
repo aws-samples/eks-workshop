@@ -46,6 +46,9 @@ metadata:
 managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 3
+  ssh:
+    allow: true
+    publicKeyName: eksworkshop
 
 # To enable all of the control plane logs, uncomment below:
 # cloudWatch:
