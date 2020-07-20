@@ -42,6 +42,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
+  version: "1.17"
 
 managedNodeGroups:
 - name: nodegroup
