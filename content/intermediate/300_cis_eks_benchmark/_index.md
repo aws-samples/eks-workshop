@@ -1,7 +1,7 @@
 ---
 title: "CIS EKS Benchmark assessment using kube-bench"
 chapter: true
-weight: 260
+weight: 300
 draft: true
 tags:
   - intermediate
