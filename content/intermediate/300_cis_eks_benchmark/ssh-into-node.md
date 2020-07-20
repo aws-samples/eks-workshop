@@ -1,6 +1,6 @@
 ---
 title: "Module 1: Install kube-bench in node"
-weight: 10
+weight: 15
 draft: false
 ---
 
