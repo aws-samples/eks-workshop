@@ -1,4 +1,3 @@
-
 ---
 title: "Module 3: Run kube-bench in debug mode"
 weight: 30
