@@ -118,7 +118,6 @@ nslookup my-nginx
 Output:
 {{< output >}}
 Server:    10.100.0.10
-Server:    10.100.0.10
 Address 1: 10.100.0.10 kube-dns.kube-system.svc.cluster.local
 
 Name:      my-nginx
