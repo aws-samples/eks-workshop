@@ -6,9 +6,15 @@ weight: 1
 
 We have:
 
+- Configured and launched an EKS cluster
 - Deployed an application consisting of microservices
-- Deployed the Kubernetes Dashboard
 - Deployed packages using Helm
-- Deployed a centralized logging infrastructure
+- Configured pod health checks
 - Configured Automatic scaling of our pods and worker nodes
+- Configured role based access control
+- Exposed a service
+- Assigned pods to nodes
+- Plus any number of option labs you explored :)
+
+
 

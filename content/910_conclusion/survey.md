@@ -5,4 +5,5 @@ weight = 60
 +++
 
  - Please take our survey!
-   {{% surveymonkey %}}
+ 
+ - Ask your instructor if a URL has not been provided
