@@ -1,6 +1,6 @@
 ---
 title: "Introduction to CIS Amazon EKS Benchmark and kube-bench"
-weight: 5
+weight: 10
 draft: false
 ---
 
