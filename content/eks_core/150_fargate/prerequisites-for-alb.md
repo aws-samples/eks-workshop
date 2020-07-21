@@ -69,7 +69,7 @@ eksctl create iamserviceaccount \
 The above command deploys a CloudFormation template that creates an IAM role and attaches the IAM policy to it. The IAM role gets associated with a Kubernetes Service Account. You can see details of the service account created with the following command.
 
 {{% notice info %}}
-For more information on IAM Roles for Service Accounts [follow this link](/beginner/110_irsa/).
+For more information on IAM Roles for Service Accounts [follow this link](/eks_optional/110_irsa/).
 {{% /notice %}}
 
 ```bash

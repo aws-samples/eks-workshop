@@ -16,7 +16,7 @@ helm version
 ```
 
 {{% notice info %}}
-If `Helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
+If `Helm` is not found, see [installing helm](/eks_core/060_helm/helm_intro/install/index.html) for instructions.
 {{% /notice %}}
 
 Add helm incubator repository
