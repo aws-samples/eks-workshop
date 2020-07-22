@@ -7,7 +7,13 @@ draft: false
 
 In this section we will deploy the instance types we selected and request nodegroups that adhere to Spot diversification best practices. For that we will use **[eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/)** and eksctl configuration files to add the new nodes to the cluster.
 
-Let's first create the configuration file:
+But first, we will add a new label to the OnDemand worker nodes
+
+```bash
+kubectl label nodes --all 'lifecycle=OnDemand'
+```
+
+Let's create the configuration file:
 ```
 cat <<EoF > ~/environment/spot_nodegroups.yml
 apiVersion: eksctl.io/v1alpha5
