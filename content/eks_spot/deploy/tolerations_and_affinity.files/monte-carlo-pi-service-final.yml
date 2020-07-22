@@ -1,0 +1,68 @@
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: monte-carlo-pi-service 
+spec: 
+  type: LoadBalancer 
+  ports: 
+    - port: 80 
+      targetPort: 8080 
+  selector: 
+    app: monte-carlo-pi-service 
+--- 
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: monte-carlo-pi-service 
+  labels: 
+    app: monte-carlo-pi-service 
+spec: 
+  replicas: 2 
+  selector: 
+    matchLabels: 
+      app: monte-carlo-pi-service 
+  template: 
+    metadata: 
+      labels: 
+        app: monte-carlo-pi-service 
+    spec:
+      tolerations: 
+      - key: "spotInstance" 
+        operator: "Equal" 
+        value: "true" 
+        effect: "PreferNoSchedule" 
+      affinity: 
+        nodeAffinity: 
+          preferredDuringSchedulingIgnoredDuringExecution: 
+          - weight: 1 
+            preference: 
+              matchExpressions: 
+              - key: lifecycle 
+                operator: In 
+                values: 
+                - Ec2Spot 
+          requiredDuringSchedulingIgnoredDuringExecution: 
+            nodeSelectorTerms: 
+            - matchExpressions: 
+              - key: intent 
+                operator: In 
+                values: 
+                - apps 
+      containers: 
+        - name: monte-carlo-pi-service 
+          image: ruecarlo/monte-carlo-pi-service
+          resources: 
+            requests: 
+              memory: "512Mi" 
+              cpu: "1024m" 
+            limits: 
+              memory: "512Mi" 
+              cpu: "1024m" 
+          securityContext: 
+            privileged: false 
+            readOnlyRootFilesystem: true 
+            allowPrivilegeEscalation: false 
+          ports: 
+            - containerPort: 8080 
+
