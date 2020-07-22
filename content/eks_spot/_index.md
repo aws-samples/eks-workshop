@@ -1,8 +1,7 @@
 ---
-title: "Using Spot Instances with EKS"
+title: "EC2 Spot Labs"
 date: 2019-01-24T09:05:54Z
-weight: 50
-pre: "<b>⁃ </b>"
+weight: 70
 ---
 
 In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes 
@@ -13,5 +12,4 @@ interruptions, and design for fault tolerance.
 This workshop is originally based on AWS [EKS Workshop](https://eksworkshop.com/). You can find 
 there more modules and learn about other Amazon Elastic Kubernetes Service best practices.
 
-![EKS](images/using_ec2_spot_instances_with_eks/3-service-animated.gif)
 

@@ -18,5 +18,5 @@ Helm helps you to:
 - Execute post/pre deployment jobs during application deployment
 - Update/rollback and test application deployments
 
-![Helm Logo](/images/using_ec2_spot_instances_with_eks/helm/helm-logo.svg)
+
 
