@@ -1,14 +1,33 @@
 ---
-title: "Cleanup Logging"
+title: "Cleanup"
 date: 2018-08-07T08:30:11-07:00
 weight: 50
 ---
 
-```
-cd ~/environment
-kubectl delete -f ~/environment/fluentd/fluentd.yml
-rm -rf ~/environment/fluentd/
-aws es delete-elasticsearch-domain --domain-name kubernetes-logs
-aws logs delete-log-group --log-group-name /eks/eksworkshop-eksctl/containers
-rm -rf ~/environment/iam_policy/
+```bash
+cd  ~/environment/
+
+kubectl delete -f s~/environment/logging/fluentbit.yaml
+
+aws es delete-elasticsearch-domain \
+    --domain-name ${ES_DOMAIN_NAME}
+
+eksctl delete iamserviceaccount \
+    --name fluent-bit \
+    --namespace logging \
+    --cluster eksworkshop-eksctl \
+    --wait
+
+aws iam delete-policy   \
+  --policy-arn "arn:aws:iam::${ACCOUNT_ID}:policy/fluent-bit-policy"
+
+kubectl delete namespace logging
+
+rm -rf ~/environment/logging
+
+unset ES_DOMAIN_NAME
+unset ES_VERSION
+unset ES_DOMAIN_USER
+unset ES_DOMAIN_PASSWORD
+unset FLUENTBIT_ROLE
 ```
