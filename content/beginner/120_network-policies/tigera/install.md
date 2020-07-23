@@ -17,5 +17,5 @@ You will learn the following:
    - How to use the Policy Board and Policy Editor to understand how policies are being evaluated in real-time across Policy Tiers
    - How to use network Flow Logs to look “under the hood” of your cluster and get a detailed view into how workloads are communicating with all of Kubernetes context to troubleshoot and diagnose issues 
 
-### Setup - Source : [Visibility and Troubleshooting](https://info.tigera.io/rs/805-GFH-732/images/Calico-Enterprise-Lab02.pdf?mkt_tok=eyJpIjoiTVRjek1EWTNNemRtTkRVdyIsInQiOiJoY3l5aUE1MEFiRk1Ia2NLSDN6b0JWRU5HMlhORUswTm14MldkQ1owbkl4ZkN6Vm5LRmdXOGZ1R094MG5KOFVYXC9GcmdOUmY4YzdjbUo1dGdaNUFMQ1E9PSJ9)
+### Can visit [Calico Enterprise](https://www.tigera.io/tigera-products/calico-enterprise) for more information on this lab : [Visibility and Troubleshooting]
 
