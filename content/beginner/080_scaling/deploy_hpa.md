@@ -4,40 +4,50 @@ date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
 
-### Deploy the Metrics Server
-Metrics Server is a cluster-wide aggregator of resource usage data. These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
+## Deploy the Metrics Server
+
+Metrics Server is a scalable, efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines.
+
+These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
+
+We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
 
 ```sh
-# create the metrics-service namespace first
+# create the metrics-service namespace
 kubectl create namespace metrics
 
+# deploy the metrics-server
 helm install metrics-server \
     stable/metrics-server \
-    --version 2.9.0 \
+    --version 2.11.1 \
     --namespace metrics
 ```
 
-Edit 2020-04-22: some versions of EKS may get the following error once you [create the HPA in the next step](https://eksworkshop.com/scaling/test_hpa/) 
+{{% notice warning %}}
+**Edit 2020-04-22**: some versions of EKS may get the following error once you [create the HPA in the next step](https://eksworkshop.com/scaling/test_hpa/)
+{{% /notice %}}
 
-```
+```bash
 kubectl describe hpa
+```
+
+{{< output >}}
 ... failed to get cpu utilization: unable to get metrics for resource cpu
-```
+{{< /output >}}
 
-To fix, set the following values for the metric-server helm release ([as described here](https://dev.to/setevoy/kubernetes-running-metrics-server-in-aws-eks-for-a-kubernetes-pod-autoscaler-4m9)):
+To fix, set the following values for the metric-server helm release [as described here](https://dev.to/setevoy/kubernetes-running-metrics-server-in-aws-eks-for-a-kubernetes-pod-autoscaler-4m9)
 
-```
+```bash
 args:
   - --kubelet-preferred-address-types=InternalIP
 ```
 
-### Confirm the Metrics API is available.
+Lets' verify the status of the metrics-server `APIService` (it could take several minutes)
 
-Return to the terminal in the Cloud9 Environment
+```bash
+kubectl get apiservice v1beta1.metrics.k8s.io -o yaml | yq - r 'status'
 ```
-kubectl get apiservice v1beta1.metrics.k8s.io -o yaml
-```
-If all is well, you should see a status message similar to the one below in the response
+
 {{< output >}}
 status:
   conditions:
@@ -48,4 +58,4 @@ status:
     type: Available
 {{< /output >}}
 
-#### We are now ready to scale a deployed application
+**We are now ready to scale a deployed application**

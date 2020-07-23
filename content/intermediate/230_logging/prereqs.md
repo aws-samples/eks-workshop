@@ -34,11 +34,17 @@ cat <<EoF > ~/environment/logging/fluent-bit-policy.json
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Effect": "Allow",
             "Action": [
-                "es:ESHttp*"
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions"
             ],
-            "Resource": "arn:aws:es:${AWS_REGION}:${ACCOUNT_ID}:domain/${ES_DOMAIN_NAME}"
+            "Resource": "*",
+            "Effect": "Allow"
         }
     ]
 }
