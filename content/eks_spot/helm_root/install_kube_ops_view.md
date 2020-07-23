@@ -13,7 +13,6 @@ The following line updates the stable helm repository and then installs kube-ops
 helm install kube-ops-view \
 stable/kube-ops-view \
 --set service.type=LoadBalancer \
---set nodeSelector.intent=control-apps \
 --set rbac.create=True
 ```
 
