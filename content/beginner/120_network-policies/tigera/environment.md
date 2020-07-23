@@ -18,5 +18,5 @@ weight: 20
    - How to use the Flow Visualizer to gain visibility into existing traffic flows within the cluster and select workloads to recommend policies using Policy Recommendations
    - How to use Policy Impact Preview and Staged Network Policies to evaluate the impact of new network policies and changes to existing policies before they are enforced within the cluster
 
-### Lab Source : [Policy Automation and External Access](https://info.tigera.io/rs/805-GFH-732/images/Calico-Enterprise-Lab01.pdf?mkt_tok=eyJpIjoiTVRjek1EWTNNemRtTkRVdyIsInQiOiJoY3l5aUE1MEFiRk1Ia2NLSDN6b0JWRU5HMlhORUswTm14MldkQ1owbkl4ZkN6Vm5LRmdXOGZ1R094MG5KOFVYXC9GcmdOUmY4YzdjbUo1dGdaNUFMQ1E9PSJ9)
+### Can visit [Calico Enterprise](https://www.tigera.io/tigera-products/calico-enterprise) for more information on this lab : [Policy Automation and External Access] 
 
