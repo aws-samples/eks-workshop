@@ -29,6 +29,42 @@ mkdir -p ~/environment/cluster-autoscaler
 curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/scaling/deploy_ca.files/cluster_autoscaler.yml
 sed -i "s/--AWS_REGION--/${AWS_REGION}/g" ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 ```
+### Create an IAM Policy
+We need to configure an inline policy and add it to the EC2 instance profile of the worker nodes
+
+Ensure `ROLE_NAME` is set in your environment:
+```
+test -n "$ROLE_NAME" && echo ROLE_NAME is "$ROLE_NAME" || echo ROLE_NAME is not set
+```
+If `ROLE_NAME` is not set, please review: [/030_eksctl/test/](/030_eksctl/test/)
+
+```
+mkdir ~/environment/asg_policy
+cat <<EoF > ~/environment/asg_policy/k8s-asg-policy.json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:SetDesiredCapacity",
+        "autoscaling:TerminateInstanceInAutoScalingGroup",
+        "autoscaling:DescribeTags"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EoF
+aws iam put-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker --policy-document file://~/environment/asg_policy/k8s-asg-policy.json
+```
+
+Validate that the policy is attached to the role
+```
+aws iam get-role-policy --role-name $ROLE_NAME --policy-name ASG-Policy-For-Worker
+```
 
 ### Deploy the Cluster Autoscaler
 
@@ -46,6 +82,7 @@ To watch Cluster Autoscaler logs we can use the following command:
 ```
 kubectl logs -f deployment/cluster-autoscaler -n kube-system --tail=10
 ```
+
 
 #### We are now ready to scale our cluster !!
 

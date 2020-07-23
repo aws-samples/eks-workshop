@@ -13,6 +13,10 @@ But first, we will add a new label to the OnDemand worker nodes
 kubectl label nodes --all 'lifecycle=OnDemand'
 ```
 
+```bash
+kubectl label nodes --all 'intent=control-apps'
+```
+
 Let's create the configuration file:
 ```
 cat <<EoF > ~/environment/spot_nodegroups.yml
