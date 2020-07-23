@@ -18,5 +18,5 @@ You will learn the following:
    - How to define Compliance Reports that leverage Kubernetes constructs and can be run on a continuous basis in lock step with your CI/CD pipeline
    - How to use audit logs to monitor and alert on changes to network policies with git-friendly diffs
 
-### Setup - Source : [Implementing Existing Security Controls in Kubernetes](https://info.tigera.io/rs/805-GFH-732/images/Calico-Enterprise-Lab03.pdf?mkt_tok=eyJpIjoiTVRjek1EWTNNemRtTkRVdyIsInQiOiJoY3l5aUE1MEFiRk1Ia2NLSDN6b0JWRU5HMlhORUswTm14MldkQ1owbkl4ZkN6Vm5LRmdXOGZ1R094MG5KOFVYXC9GcmdOUmY4YzdjbUo1dGdaNUFMQ1E9PSJ9)
+### Can visit [Calico Enterprise](https://www.tigera.io/tigera-products/calico-enterprise) for more information on this lab : [Implementing Existing Security Controls in Kubernetes]
 
