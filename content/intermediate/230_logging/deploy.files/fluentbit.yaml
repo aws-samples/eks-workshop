@@ -80,7 +80,8 @@ data:
         TLS             On
         AWS_Auth        On
         AWS_Region      ${AWS_REGION}
-        Retry_Limit     False
+        Retry_Limit     6
+        Mem_Buf_Limit   50MB
 
   parsers.conf: |
     [PARSER]
