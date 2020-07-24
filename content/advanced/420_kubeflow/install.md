@@ -14,7 +14,7 @@ First, we'll increase the size of our cluster to 6 nodes
 
 ```
 export NODEGROUP_NAME=$(eksctl get nodegroups --cluster eksworkshop-eksctl -o json | jq -r '.[0].Name')
-eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 6
+eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 6 --nodes-max 6
 ```
 {{% notice info %}}
 Scaling the nodegroup will take 2 - 3 minutes.

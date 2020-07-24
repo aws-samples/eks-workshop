@@ -51,7 +51,6 @@ pip3 install tensorflow --user
 
 #### Run inference
 
-
 Use the script [inference_client.py](/advanced/420_kubeflow/kubeflow.files/inference_client.py) to make prediction request. It will randomly pick one image from test dataset and make prediction.
 
 ```
@@ -65,3 +64,13 @@ It will randomly pick one image from test dataset and make prediction.
 Data: {"instances": [[[[0.0], [0.0], [0.0], [0.0], [0.0] ... 0.0], [0.0]]]], "signature_name": "serving_default"}
 The model thought this was a Ankle boot (class 9), and it was actually a Ankle boot (class 9)
 {{< /output >}}
+
+#### Cleanup
+
+Now that we saw how to run training job and inference, let's terminate these pods to free up resources
+
+```
+kubectl delete -f mnist-training.yaml
+
+kubectl delete -f mnist-inference.yaml 
+```
