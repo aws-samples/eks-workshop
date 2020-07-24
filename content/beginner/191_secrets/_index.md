@@ -2,11 +2,14 @@
 title: "Encrypting Secrets with AWS Key Management Service (KMS) Keys"
 chapter: true
 weight: 191
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - beginner
 ---
 
 # Encrypting Kubernetes Secrets
+
+{{ youtube CXbFkpugxyQ }}
 
 Kubernetes can store secrets that pods can access via a mounted volume. Today, Kubernetes secrets are stored with Base64 encoding, but security teams would prefer a stronger approach. Amazon EKS clusters version 1.13 and higher support the capability of encrypting your Kubernetes secrets using AWS Key Management Service (KMS) Customer Managed Keys (CMK). No changes in the way you are using secrets are required. The only requirement is to enable the encryption provider support during EKS cluster creation.
 
