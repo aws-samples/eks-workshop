@@ -54,7 +54,7 @@ data:
         Path              /var/log/containers/*.log
         Parser            docker
         DB                /var/log/flb_kube.db
-        Mem_Buf_Limit     5MB
+        Mem_Buf_Limit     50MB
         Skip_Long_Lines   On
         Refresh_Interval  10
 
@@ -80,7 +80,7 @@ data:
         TLS             On
         AWS_Auth        On
         AWS_Region      ${AWS_REGION}
-        Retry_Limit     False
+        Retry_Limit     6
 
   parsers.conf: |
     [PARSER]
