@@ -7,7 +7,7 @@ weight: 50
 ```bash
 cd  ~/environment/
 
-kubectl delete -f s~/environment/logging/fluentbit.yaml
+kubectl delete -f ~/environment/logging/fluentbit.yaml
 
 aws es delete-elasticsearch-domain \
     --domain-name ${ES_DOMAIN_NAME}
@@ -30,4 +30,5 @@ unset ES_VERSION
 unset ES_DOMAIN_USER
 unset ES_DOMAIN_PASSWORD
 unset FLUENTBIT_ROLE
+unset ES_ENDPOINT
 ```
