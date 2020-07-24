@@ -1,6 +1,7 @@
 ---
 title: "Preparing the environment"
 weight: 20
+draft: true
 ---
 
 {{% notice info %}}
