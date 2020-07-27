@@ -15,7 +15,6 @@ Kubernetes can store secrets that pods can access via a mounted volume. Today, K
 
 ![kms](/images/eks-secrets-flow-small-1-1024x621.png)
 
-
 The workflow is as follows:
 
 1. The user (typically in an admin role) creates a secret.
