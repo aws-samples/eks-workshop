@@ -18,4 +18,8 @@ In order to complete this lab you will need to have a working EKS Cluster, With 
 You will need to have completed the [Start the Workshop...](/020_prerequisites/) through  [Launching your cluster with Eksctl](/030_eksctl/) and [Install Helm CLI](/beginner/060_helm/helm_intro/install/) as well.
 {{% /notice %}}
 
+{{% notice tip%}}
+To learn all about our Observability features using Amazon CloudWatch and AWS X-Ray, take a look at our [One Observability Workshop](https://observability.workshop.aws)
+{{% /notice%}}
+
 ![alt text](/images/ekscwci/insights.png "CW Insights")
