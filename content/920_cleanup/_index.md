@@ -7,4 +7,5 @@ tags:
 ---
 
 # Cleanup
+
 ![Cleaned Environment](/images/cleanup.svg)
