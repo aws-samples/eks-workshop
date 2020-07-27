@@ -26,5 +26,5 @@ kubectl delete -f kubernetes/deployment.yaml
 
 export DASHBOARD_VERSION="v2.0.0"
 
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v${DASHBOARD_VERSION}/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/src/deploy/recommended/kubernetes-dashboard.yaml
 ```
