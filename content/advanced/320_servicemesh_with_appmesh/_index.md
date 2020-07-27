@@ -12,8 +12,10 @@ tags:
   - servicemesh
   - appmesh
 ---
-
+AWS App Mesh on Amazon EKS
 {{< youtube 9SwFFedBhew >}}
+
+Getting Fancy with AWS App Mesh on Amazon EKS
 {{< youtube NFpWnHE1Ckw >}}
 
 At [re:invent 2018](https://www.youtube.com/watch?v=GVni3ruLSe0), we announced [AWS App Mesh](https://aws.amazon.com/app-mesh), a service mesh that provides application-level networking to make it easy for your services to communicate with each other across multiple types of compute infrastructure. App Mesh standardizes how your services communicate, giving you end-to-end visibility and ensuring high-availability for your applications.
