@@ -7,7 +7,13 @@ draft: false
 
 #### Deploying Pods to Fargate
 
-Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object.
+First, refer to the open source [AWS ALB Ingress controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) and scroll down to copy the current image version of the AWS ALB Ingress controller (Current `ALB_INGRESS_VERSION` is v1.1.8) and set the shell variable `ALB_INGRESS_VERSION` accordingly.
+
+```bash
+export ALB_INGRESS_VERSION=v1.1.8
+```
+
+Next, Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object.
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-namespace.yaml

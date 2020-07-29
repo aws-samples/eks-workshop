@@ -29,6 +29,12 @@ eksctl utils associate-iam-oidc-provider --cluster=eksworkshop-eksctl --approve
 Learn more about [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) in the Amazon EKS documentation.
 {{% /notice %}}
 
+Next, refer to the open source [AWS ALB Ingress controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) and scroll down to copy the current image version of the AWS ALB Ingress controller (Current `ALB_INGRESS_VERSION` is v1.1.8) and set the shell variable `ALB_INGRESS_VERSION` accordingly.
+
+```bash
+export ALB_INGRESS_VERSION=v1.1.8
+```
+
 Next, deploy the relevant RBAC roles and role bindings as required by the AWS ALB Ingress controller:
 
 ```bash
