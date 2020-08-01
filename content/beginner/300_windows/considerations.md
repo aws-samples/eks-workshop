@@ -2,7 +2,7 @@
 title: "Considerations"
 date: 2020-07-27T11:39:53-04:00
 draft: false
-weight: 510
+weight: 310
 ---
 
 Before deploying Windows nodes, be aware of the following considerations.
@@ -13,4 +13,4 @@ Before deploying Windows nodes, be aware of the following considerations.
 * Amazon EKS clusters must contain one or more Linux nodes to run core system pods that only run on Linux, such as coredns and the VPC resource controller.
 * The `kubelet` and `kube-proxy` event logs are redirected to the EKS Windows Event Log and are set to a 200 MB limit.
 * Windows nodes support one elastic network interface per node. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one. For more information, see IP addresses per network interface per instance type in the Amazon EC2 User Guide for Linux Instances.
-* Group Managed Service Accounts (GMSA) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1.16. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1.16.
+<!-- * Group Managed Service Accounts (GMSA) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1.16. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1.16. -->

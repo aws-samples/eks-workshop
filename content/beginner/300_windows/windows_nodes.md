@@ -2,7 +2,7 @@
 title: "Windows nodes"
 date: 2020-07-27T11:50:00-04:00
 draft: false
-weight: 520
+weight: 320
 ---
 
 ### Enable Windows support
@@ -17,9 +17,7 @@ You can check your version with the following command
 eksctl version
 ```
 
-### Enabling Windows support
-
-The next command will deploy the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads.
+The next command will deploy the VPC resource controller and VPC [admission controller webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#what-are-they) that are required on Amazon EKS clusters to run Windows workloads.
 
 ```bash
 eksctl utils \
@@ -28,7 +26,7 @@ eksctl utils \
     --approve
 ```
 
-### Launching self-managed Windows nodes
+### Launch self-managed Windows nodes
 
 Create your node group with the following command
 
@@ -59,31 +57,6 @@ You can verify that 2 Windows nodes have been added to your cluster by using the
 kubectl get nodes
 ```
 
-{{< output>}}
-nodeSelector:
-        kubernetes.io/os: windows
-        kubernetes.io/arch: amd64
-{{< /output>}}
-
-or using the  the [AWS EC2 console](https://console.aws.amazon.com/ec2/v2/home?Instances#Instances:)
+Or using the  the [AWS EC2 console](https://console.aws.amazon.com/ec2/v2/home?Instances#Instances:)
 
 ![Windows EC2 nodes](/images/windows/windows_nodes.png)
-
-### NodeSelector
-
-After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system.
-
-For Linux pods, use the following node selector text in your manifests.
-{{< output >}}
-nodeSelector:
-        kubernetes.io/os: linux
-        kubernetes.io/arch: amd64
-{{< /output>}}
-
-For Windows pods, use the following node selector text in your manifests.
-
-{{< output>}}
-nodeSelector:
-        kubernetes.io/os: windows
-        kubernetes.io/arch: amd64
-{{< /output>}}
