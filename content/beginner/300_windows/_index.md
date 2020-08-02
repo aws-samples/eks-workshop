@@ -9,6 +9,8 @@ tags:
 
 # Windows containers on EKS
 
-Many development teams build and support applications designed to run on Windows Servers and with [Windows Container Support on EKS](https://aws.amazon.com/blogs/aws/amazon-eks-windows-container-support-now-generally-available/), they can now deploy them on Kubernetes alongside Linux applications. This ability will provide more consistency in system logging, performance monitoring, and code deployment pipelines.
+![EKS cluster windows and linux nodes](/images/windows/eks_cluster_win_linux.png)
 
-To demonstrate how this feature works, you will add a new node group which contains 2 Windows servers 2019 to our EKS Cluster and deploy a Windows application. Finally, you will test the application to ensure it is running as expected.
+Many development teams build and support applications designed to run on Windows Servers and with [Windows Container Support on EKS](https://aws.amazon.com/blogs/aws/amazon-eks-windows-container-support-now-generally-available/), they can deploy them on Kubernetes alongside Linux applications. This ability will provide more consistency in system logging, performance monitoring, and code deployment pipelines.
+
+To demonstrate how this feature works, you will add a new node group which contains 2 Windows servers 2019 to our EKS Cluster and deploy a Windows sample application. Finally, you will test the application to ensure it is running as expected.

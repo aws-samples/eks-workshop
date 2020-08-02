@@ -6,7 +6,8 @@ weight: 340
 ---
 
 ```bash
-kubectl delete -f https://www.eksworkshop.com/beginner/300_windows/deploy.files/windows_server_iis.yaml
+kubectl delete -f https://www.eksworkshop.com/beginner/300_windows/sample_app_deploy.files/windows_server_iis.yaml
+
 kubectl delete namespace windows
 
 eksctl delete nodegroup \
