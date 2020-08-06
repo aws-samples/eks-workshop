@@ -32,7 +32,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 ### Create an EKS cluster
 
 {{% notice warning %}}
-`eksclt` version must be 0.24.0 or above to deploy EKS 1.17, [click here](/030_eksctl/prerequisites) to get the latest version.
+`eksctl` version must be 0.24.0 or above to deploy EKS 1.17, [click here](/030_eksctl/prerequisites) to get the latest version.
 {{% /notice %}}
 
 Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
@@ -47,6 +47,8 @@ metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
   version: "1.17"
+
+availabilityZones: ["${AWS_REGION}a", "${AWS_REGION}b", "${AWS_REGION}c"]
 
 managedNodeGroups:
 - name: nodegroup
