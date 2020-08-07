@@ -130,7 +130,7 @@ Before we wrap things up, let’s take a look at another tool in the Calico Ente
 
 Going back to the default tier, open up the staged policy you just created with the storefront.default.backend prefix and select EDIT. We’ll do something reckless and delete the Egress rule. Now in the upper right select PREVIEW.
 
-![Fig. 8-  Policy impact preview](images/policy-impact.png)
+![Fig. 8-  Policy impact preview](images/policy-impact.png 250x250)
 
 Hello again, Flow Visualizer! This time the flow visualizer is highlighting the flows that would be impacted with the policy change we just made - this is indicated by any flows flashing red. Mouse over this flow to see the details on the right-hand side.
 
