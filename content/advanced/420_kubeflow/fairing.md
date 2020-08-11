@@ -2,9 +2,12 @@
 title: "Fairing"
 date: 2019-11-13T21:55:32-05:00
 weight: 60
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 ---
 ### Kubeflow Fairing
+
+{{< youtube diGPUFu7fJw >}}
 
 Jupyter notebooks are a great way to author your model creation. You can write the algorithms, train the model and if you need a way to publish the inference endpoint directly from this interface, you can use Kubeflow fairing to do so
 
