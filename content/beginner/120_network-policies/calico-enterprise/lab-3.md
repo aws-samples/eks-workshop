@@ -24,7 +24,7 @@ In this lab, you will learn how Calico Enterprise makes it easy for security and
 
 For this lab, we will be using a fairly simple microservices application called storefront to understand the visibility and troubleshooting features of Calico Enterprise.
 
-![Fig. 1- Storefront-application](images/storefront-application.png)
+![Fig. 1- Storefront-application](/static/images/storefront-application.png)
 
 Storefront (Fig 1) is a fairly simple microservices application running in Kubernetes. It has a frontend service that handles end-user requests, communicates with two business logic services which in turn make requests to a backend service. All of these containers communicate with a logging service and one of the business logic services, microservice 2, makes external requests to Twilio to provide some telephony for this application.
 
@@ -53,7 +53,7 @@ The Policy Board can provide a useful way to understand how policies are being e
 
 Calico Enterprise makes it easy to define the “guard rails” for your Kubernetes platform through the use of Policy Tiers. Policy Tiers allow platform engineering and security teams to enforce network policies that take precedence over those defined for specific applications like storefront.
 
-![Fig. 2-  Policy evaluation with tiers](images/policy-evaluation-tiers.png)
+![Fig. 2-  Policy evaluation with tiers](/static/images/policy-evaluation-tiers.png)
 
 Tiers are evaluated from left to right, and network policies within tiers are evaluated from top to bottom. This effectively means that a network policy in the Security tier (Fig. 2) needs to evaluate and pass traffic before any policy below it or to the right can see that same traffic. Tiers are tied to RBAC and provide a powerful way to implement security and platform controls for your entire cluster without having to involve application teams. Your lab environment already has a few policies in the `platform` and `security` tiers that provide some examples of some common use cases. Policies specific to an application would typically go in the `default` tier.
 
@@ -63,7 +63,7 @@ In the next section, we will begin to implement policies in the `default` tier f
 
 One of the most widely adopted deployment models with traditional firewalls is using a zone-based architecture. This involves putting the frontend of an application in a DMZ, business logic services in Trusted zone, and our backend data store in Restricted - all with controls on how zones can communicate with each other. For our storefront application, it would look something like the following:
 
-![Fig. 3- Zone-based architecture for storefront](images/zone-based-arch.png)
+![Fig. 3- Zone-based architecture for storefront](/static/images/zone-based-arch.png)
 
 Using the labels that already exist on our pods, let’s start by creating a network policy for the DMZ zone. Select Policies from the left navigation menu.  Then select +ADD POLICY at the bottom of the default tier.
 
@@ -196,7 +196,7 @@ Another important security and compliance requirement for many organizations is 
 
 - Expanding the most recent entry will show you the yaml for the version of the policy you just created, and selecting the diff button on the right will show you the git-friendly diff compared with the previous version.
 
-![Fig. 3- Diff of policy versions available in the Change log for policy](images/policy-diff.png)
+![Fig. 3- Diff of policy versions available in the Change log for policy](/static/images/policy-diff.png)
 
 - Go back to the left navigation menu and select Kibana - now we will go take a look at all of the audit log data that Calico Enterprise generates. Select Dashboard from the left nav in Kibana and then “Tigera Secure EE Audit Logs”
 

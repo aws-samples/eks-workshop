@@ -22,7 +22,7 @@ In this lab, you will learn how Calico Enterprise makes it easy for platform eng
 
 For this lab, we will be using a fairly simple microservices application called storefront to understand the visibility and troubleshooting features of Calico Enterprise - if you are already familiar with storefront from another lab then you may want to skip to the next section.
 
-![Fig. 1- Storefront-application](images/storefront-application.png)
+![Fig. 1- Storefront-application](/static/images/storefront-application.png)
 
 Storefront (Fig 1) is a fairly simple microservices application running in Kubernetes. It has a frontend service that handles end-user requests, communicates with two business logic services which in turn make requests to a backend service. All of these containers communicate with a logging service and one of the business logic services, microservice 2, makes external requests to Twilio to provide some telephony for this application.
 
@@ -43,7 +43,7 @@ microservice2-7bb79d9f4f-f7h6f   5/5     Running   0          22h
 
 Next, let’s login to the Calico Enterprise UI and use the Flow Visualizer to understand how these services are communicating with each other.  Login to Calico Enterprise and select the Flow Visualizer from the left navigation menu
 
-![Fig. 2- Flow Visualizer](images/flow-visualizer.png)
+![Fig. 2- Flow Visualizer](/static/images/flow-visualizer.png)
 
 The Flow Visualizer is a powerful tool to gain visibility into network traffic within the cluster and troubleshoot issues. We will look at several different views that the Flow Visualizer provides to understand traffic flows between cluster endpoints that are represented in a circle. Traffic flows are represented as arcs within this circle and the thickness of each arc represents the volume of traffic for that flow.
 
@@ -54,7 +54,7 @@ The default view for the Flow Visualizer is the namespaces view. In this view, t
 - Find the storefront namespace in the outer ring and select it, then use the magnifying glass button in the upper right to zoom in on these network flows.
 - Mousing over subsections of the next inner ring (grey), you will see the pod prefixes for each of the microservices that make up our storefront application. Note that Calico Enterprise aggregates network flows so it is easy to make sense of traffic in your cluster that may be backed by Kubernetes resources like replica sets.
 
-![Fig. 3- Selecting specific flows](images/specific-flows.png)
+![Fig. 3- Selecting specific flows](/static/images/specific-flows.png)
 
 The innermost ring in the Flow Visualizer allows you to select specific network flows that are associated with each of our storefront microservices. Mousing over each subsection, you will see each of these flows on the right-hand side dropdown - these should correspond to the diagram at the beginning of this lab (Fig 1).
 
@@ -68,7 +68,7 @@ The status view differs from other views for the Flow Visualizer in that it only
 
 - Let’s see this view in action with a simple example. Run the command lab2 deploy_rogue in your which will deploy a new pod into the cluster. This pod could represent any number of issues within your environment - a misconfiguration or something that went wrong in your CI/CD pipeline, or something that may be indicative of a compromise.
 
-![Fig. 4-Status view with rogue pod](images/rogue-pod-view.png)
+![Fig. 4-Status view with rogue pod](/static/images/rogue-pod-view.png)
 
 Coming back to the flow visualizer in the status view, you should start to see some denied traffic represented as red flows as the rogue pod begins to reach out to various endpoints within the storefront application.
 
@@ -78,7 +78,7 @@ Coming back to the flow visualizer in the status view, you should start to see s
 
 The Flow Visualizer can be used in combination with useful filtering capabilities. In addition to some of the drop-down filters we just used in the last section, there are additional filtering capabilities in the top filter bar.
 
-![Fig. 5- Top filter bar for the Flow Visualizer](images/flow-visualizer-filter.png)
+![Fig. 5- Top filter bar for the Flow Visualizer](/static/images/flow-visualizer-filter.png)
 
 Explore the top filter bar and understand the effects of different filters for time range, source and destination labels, and different endpoint types.
 
@@ -98,7 +98,7 @@ Calico Enterprise makes it easy to define the “guard rails” for your Kuberne
 
 Return to the Calico Enterprise UI and select Policies from the left navigation menu. Here you will see all of the network policies defined within the cluster and how they map to policy tiers.
 
-![Fig. 6-  Policy evaluation with tiers](images/policy-evaluation-tiers.png)
+![Fig. 6-  Policy evaluation with tiers](/static/images/policy-evaluation-tiers.png)
 
 Tiers are evaluated from left to right, and network policies within tiers are evaluated from top to bottom. This effectively means that a network policy in the Security tier (Fig. 4) needs to evaluate and pass traffic before any policy below it or to the right can see that same traffic. Tiers are tied to RBAC and provide a powerful way to implement security and platform controls for your entire cluster without having to involve application teams. Your lab environment already has a few policies in the Platform and Security tiers that provide some examples of some common use cases.
 
@@ -106,7 +106,7 @@ Tiers are evaluated from left to right, and network policies within tiers are ev
 
 Let’s enable some additional metrics in the Policy Board so we can gain visibility into how these policies are being evaluated. In the upper right-hand corner click the “eye” icon and select “Show All” to show all the metrics on the Policy Board.
 
-![Fig. 7-  Enabling metrics in the Policy Board](images/enable-metrics.png)
+![Fig. 7-  Enabling metrics in the Policy Board](/static/images/enable-metrics.png)
 
 You should now see an additional set of metrics for each policy on the Policy Board - Connections, Allowed, Denied, and Passed.  Passed traffic occurs in a policy that is at the end of a tier, and shows you the volume of traffic that is being passed to the next tier.
 
@@ -118,7 +118,7 @@ Let’s take a closer look at the denied traffic in the `default.trusted` policy
 
 The metrics displayed alongside policy rules makes it easy to diagnose issues with network policies and denied traffic. In this case, we can see that denied traffic is on the ingress rules of this policy because the rogue pod we deployed is not part of the dmz or trusted zones.
 
-![Fig. 8- Denied traffic in default.trusted policy](images/denied-traffic.png)
+![Fig. 8- Denied traffic in default.trusted policy](/static/images/denied-traffic.png)
 
 # Using Flow Logs
 
@@ -126,13 +126,13 @@ While the Policy Board and Flow Visualizer provide powerful ways to understand t
 
 - In the Calico Enterprise UI, select Kibana from the left navigation menu and login using the Kibana user credentials that were provided as part of your lab setup. Calico Enterprise includes a fully integrated deployment of Elastic to collect flow log data that drives a number of key capabilities like the Flow Visualizer, metrics in the dashboard and Policy Board, policy automation and testing features, and compliance and security.
 
-![Fig. 9- Flow log data in Kibana](images/kibana-flow-log.png)
+![Fig. 9- Flow log data in Kibana](/static/images/kibana-flow-log.png)
 
 - Select Dashboard from the left navigation menu and then scroll down to see a tabular view of flow log data that has been generated by Calico Enterprise. Kibana provides its own set of powerful filtering capabilities to quickly drill into this data. Mouse over the `source_namespace` column and select the ‘Filter for value’ icon next to one of the rows for storefront. Repeat this same selection for `dest_namespace`.
 
 Now we are just looking at the flow log data within our storefront application. Expand one of these rows using the caret/arrow on the far left hand side.
 
-![Fig. 10- Fields within a single flow log entry ](images/flow-log-entry.png)
+![Fig. 10- Fields within a single flow log entry ](/static/images/flow-log-entry.png)
 
 Take some time to review all of the fields that are provided in a single flow log entry. While there are over 30 different fields in each entry, some of the most useful in the context of troubleshooting are the following:
 
