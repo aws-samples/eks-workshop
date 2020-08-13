@@ -1,6 +1,7 @@
 ---
 title: "Implementing Existing Security Controls in Kubernetes"
-weight: 210
+weight: 230
+date: 2020-08-13T02:31:44-05:00
 draft: true
 ---
 

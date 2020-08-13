@@ -1,6 +1,7 @@
 ---
-title: "Network Security & Visibility using Calico Enterprise"
-weight: 20
+title: "Calico Enterprise Usecases"
+weight: 2
+date: 2020-08-13T02:28:35-05:00
 draft: true
 hidden: true
 ---

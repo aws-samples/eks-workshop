@@ -1,7 +1,7 @@
 ---
-title: "GET AN EKS CLUSTER WITH CALICO ENTERPRISE"
-date: 2018-08-07T13:15:13-07:00
-weight: 10
+title: "Registration - GET AN EKS CLUSTER WITH CALICO ENTERPRISE"
+date: 2020-08-13T02:29:26-05:00
+weight: 1
 draft: true
 ---
 
