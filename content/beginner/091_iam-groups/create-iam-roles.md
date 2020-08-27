@@ -8,8 +8,8 @@ weight: 20
 We are going to create 3 roles:
 
 - a **k8sAdmin** role which will have **admin** rights in our EKS cluster
-- a **k8sDev** role which will gives access to **developers** namespace in our EKS cluster
-- a **k8sInteg** role which will gives access to **integration** namespace our EKS cluster
+- a **k8sDev** role which will give access to the **developers** namespace in our EKS cluster
+- a **k8sInteg** role which will give access to the **integration** namespace in our EKS cluster
 
 Create the roles:
 
@@ -43,8 +43,8 @@ aws iam create-role \
 
 > In this example, the assume-role-policy allows the root account to assume the role.
 We are going to allow specific groups to also be able to assume those roles.
-> check the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html) for more informations:
+> Check the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html) for more information.
 >
 
-Because the above roles are only used to authenticate within the k8s cluster, they don't necessary need to have AWS permissions.
-We will only use them to allow some IAM groups to assume this role in order to have access to EKS kubernetes cluster.
+Because the above roles are only used to authenticate within our EKS cluster, they don't need to have AWS permissions.
+We will only use them to allow some IAM groups to assume this role in order to have access to our EKS cluster.
