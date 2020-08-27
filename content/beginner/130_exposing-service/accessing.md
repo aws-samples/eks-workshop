@@ -82,7 +82,7 @@ MY_NGINX_SERVICE_HOST=10.100.225.196
 MY_NGINX_SERVICE_PORT=80
 {{< /output >}}
 
-We now have an environment variable referencing the nginx Service IP called _MY_NGINX_SERVICE_HOST_.
+We now have an environment variable referencing the nginx Service IP called `MY_NGINX_SERVICE_HOST`.
 
 #### DNS
 
