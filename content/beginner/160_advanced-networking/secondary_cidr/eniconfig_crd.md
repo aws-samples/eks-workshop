@@ -18,7 +18,7 @@ eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
 {{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
 ```
 Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom resources.
 
@@ -120,3 +120,23 @@ As an example, here is what I would run in my environment
 kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
 {{< /output >}}
 You should now see secondary IP address from extended CIDR assigned to annotated nodes.
+
+#### Additional notes on ENIConfig naming and automatic matching
+
+Optionally, you specify which node label will be used to match the `ENIConfig` name. Consider the
+following example: you have one `ENIConfig` per availability zone, named after the AZ
+(`us-east-2a`, `us-east-2b`, `us-east-2c`). You can then use a label already applied to your nodes,
+such as `topology.kubernetes.io/zone` where the value of the label matches the `ENIConfig` name.
+
+{{< output >}}
+$ kubectl describe nodes | grep 'topology.kubernetes.io/zone'
+                    topology.kubernetes.io/zone=us-east-2a
+                    topology.kubernetes.io/zone=us-east-2c
+                    topology.kubernetes.io/zone=us-east-2b
+{{</ output >}}
+
+{{< output >}}
+kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
+{{</ output >}}
+
+Kubernetes will now apply the corresponding `ENIConfig` matching the nodes AZ.
