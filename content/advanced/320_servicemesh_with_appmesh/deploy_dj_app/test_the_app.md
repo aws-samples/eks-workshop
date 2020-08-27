@@ -14,7 +14,7 @@ First we will exec into the `dj` pod
 ```bash
 export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
 
-kubectl exec -nprod -it ${DJ_POD_NAME} bash
+kubectl exec -n prod -it ${DJ_POD_NAME} bash
 ```
 
 You will see a prompt from within the `dj` container.
