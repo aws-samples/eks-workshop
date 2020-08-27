@@ -20,13 +20,13 @@ By running the previous step, you should get a response similar to:
 
 {{< output >}}
 {
-	"AccessKey": {
-		"UserName": "rbac-user",
-		"Status": "Active",
-		"CreateDate": "2019-07-17T15:37:27Z",
-		"SecretAccessKey": < AWS Secret Access Key > ,
-		"AccessKeyId": < AWS Access Key >
-	}
+    "AccessKey": {
+        "UserName": "rbac-user",
+        "Status": "Active",
+        "CreateDate": "2019-07-17T15:37:27Z",
+        "SecretAccessKey": < AWS Secret Access Key > ,
+        "AccessKeyId": < AWS Access Key >
+    }
 }
 {{< /output >}}
 
