@@ -5,7 +5,7 @@ draft: false
 weight: 90
 ---
 
-In this section, we'll cover the following topics:
+在本節裏, 我們將會介紹涵括下面幾個主題：
 
 {{% children showhidden="false" %}}
 

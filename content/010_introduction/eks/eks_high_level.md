@@ -5,7 +5,7 @@ draft: false
 weight: 150
 ---
 
-
-Once your EKS cluster is ready, you get an API endpoint and you'd [use Kubectl, community developed tool to interact with your cluster.](https://kubernetes.io/docs/reference/kubectl/kubectl/)
+一但您的EKS 集群啟動完成, 您會得到一個 API 的接點,然後你就可以使用kubectl 的指令來操作您的EKS集群囉～
+[使用 Kubectl 指令](https://kubernetes.io/docs/reference/kubectl/kubectl/)
 
 ![EKS High Level](/images/introduction/eks-high-level.svg)

@@ -1,5 +1,5 @@
 ---
-title: "Introduction"
+title: "Introduction 介紹"
 weight: 10
 chapter: true
 draft: false
@@ -13,22 +13,22 @@ tags:
   - CON206
 ---
 
-# Introduction to Kubernetes
+# 簡介 Kubernetes 
 
 {{< youtube -zmUxsrYw2I >}}
 
-A walkthrough of basic Kubernetes concepts.
+透過這個影音視頻, 讓我們手把手的演練帶您了解 Kubernetes 的基本概念
 
 ![Title Image](/images/introduction/eks-product-page.png)
 
-Welcome to the Amazon EKS Workshop!
+歡迎您來到 Amazon 的 EKS 工作坊
 
-The intent of this workshop is to educate users about the features of Amazon EKS.
+這個工作坊的目的是教授大家關於Amazon EKS的特點
 
-Background in EKS, Kubernetes, Docker, and container workflows are not required, but they are recommended.
+EKS的背景知識包含 kubernetes, Docker, 容器化技術雖然並非必要, 但是極度推薦大家也能一並學習.
 
-This chapter will introduce you to the basic workings of Kubernetes, laying the foundation for the hands-on portion of the workshop.
+本章節將會介紹您 Kubernetes的基本作業流程, 並且為了後面的動手做 EKS 奠定基礎.
 
-Specifically, we will walk you through the following topics:
+具體來說, 會引導您完成以下的主題
 
 {{% children showhidden="false" %}}

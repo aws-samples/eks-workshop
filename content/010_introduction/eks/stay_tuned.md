@@ -5,6 +5,8 @@ draft: false
 weight: 160
 ---
 
-Stay tuned as we continue the journey with EKS in the next module!
+請繼續關注，我們將在下一個模塊中繼續探索EKS！
 
-Always ask questions!  Feel free to ask them in person during this workshop, or any time on the official Kubernetes Slack channel accessible via http://slack.k8s.io/.
+請您務必讓我們知道你的任何問題, 
+
+在本研討會期間，或隨時通過http://slack.k8s.io/訪問的官方Kubernetes Slack頻道，隨時可以親自詢問他們。

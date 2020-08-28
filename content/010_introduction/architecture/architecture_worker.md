@@ -1,5 +1,5 @@
 ---
-title: "Data Plane"
+title: "Data Plane / Node 組件"
 date: 2018-10-03T10:18:27-07:00
 draft: false
 weight: 110
@@ -36,10 +36,10 @@ internet((internet))
   class kubectl orange;
 {{< /mermaid >}}
 
-* Made up of worker nodes
+* 由工作節點組成
 
-* kubelet: Acts as a conduit between the API server and the node
+* kubelet: 他的工作就是扮演介於 API Server 跟各個 node 之間的溝通渠道
 
-* kube-proxy: Manages IP translation and routing
+* kube-proxy: 簡單來說, 它的功用是用來管理 IP 轉譯 (translation) 及 路由 (routing), 也可以被認知為負責為Pod創建代理服務，從apiserver獲取所有server信息，並根據server信息創建代理服務，實現server到Pod的請求路由和轉發，從而實現K8s層級的虛擬轉發網絡
 
-Check out [the official Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/components/#node-components) for a more in-depth explanation of data plane components.
+想了解更多？  可以參考此連結 [the official Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/components/#node-components) for a more in-depth explanation of data plane components.

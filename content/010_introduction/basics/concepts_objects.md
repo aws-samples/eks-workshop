@@ -1,19 +1,18 @@
 ---
-title: "K8s Objects Overview"
+title: "K8s 物件的概觀"
 date: 2018-10-03T10:15:55-07:00
 draft: false
 weight: 50
 ---
+Kubernetes 物件(object) 是用於表示集群狀態的實體。
 
-Kubernetes objects are entities that are used to represent the state of the cluster.  
+物件 是“意圖記錄” –創建後，集群將盡最大努力確保其按定義存在。 這稱為群集的“所需狀態”。
 
-An object is a “record of intent” – once created, the cluster does its best to ensure it exists as defined.  This is known as the cluster’s “desired state.”
+Kubernetes一直在努力使對象的“當前狀態”等於對象的“所需狀態”。 所需狀態可以描述：
 
-Kubernetes is always working to make an object’s “current state” equal to the object’s “desired state.”  A desired state can describe:
+* 正在運行哪些Pod（容器）以及在哪些節點上
+* 映射到一組邏輯容器的IP端點
+* 一個容器正在運行多少個副本(replicas)
+* 以及更多...
 
-* What pods (containers) are running, and on which nodes
-* IP endpoints that map to a logical group of containers
-* How many replicas of a container are running
-* And much more...
-
-Let’s explain these k8s objects in a bit more detail...
+接著, 讓我們一起更進一步的探究k8s的物件吧～

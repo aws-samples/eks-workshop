@@ -1,5 +1,5 @@
 ---
-title: "Architectural Overview"
+title: "架構綜觀與概述"
 date: 2018-10-03T10:18:20-07:00
 draft: false
 weight: 90

@@ -1,12 +1,12 @@
 ---
-title: "Kubernetes Cluster Setup"
+title: "Kubernetes 的集群設定"
 date: 2018-10-03T10:21:11-07:00
 draft: false
 weight: 120
 ---
 
 
-In addition to the managed Amazon EKS solution, there are many tools available to help bootstrap and configure a self-managed Kubernetes cluster.  They include:
+除了託管的Amazon EKS解決方案之外，另外還有許多工具可用來引導和配置自我管理的Kubernetes集群。 它們包括下面幾個工具：
 
 * [Minikube](https://kubernetes.io/docs/setup/minikube/) – Development and Learning
 * [Kops](https://github.com/kubernetes/kops) – Learning, Development, Production
@@ -14,6 +14,6 @@ In addition to the managed Amazon EKS solution, there are many tools available t
 * [Docker for Mac](https://docs.docker.com/docker-for-mac/#kubernetes) - Learning, Development
 * [Kubernetes IN Docker](https://github.com/kubernetes-sigs/kind) - Learning, Development
 
-Alongside these open source solutions, there are also many commercial options available.
+除了這些開源解決方案之外，還有許多商業選擇。
 
-Let's take a look at Amazon EKS!
+讓我們先來看看Amazon EKS！ 相信您會喜歡的 :)
