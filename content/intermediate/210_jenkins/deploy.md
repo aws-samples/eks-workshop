@@ -5,18 +5,43 @@ weight: 20
 draft: false
 ---
 
-With our Storage Class configured we then need to create our `jenkins` setup. To
-do this we'll just use the `helm` cli with a couple flags.
+With our Storage Class configured we then need to create our Jenkins setup. To
+do this we'll create a `values.yaml` file then use the `helm` cli.
 
-{{% notice info %}}
-In a production system you should be using a `values.yaml` file so that you can
-manage the drift as you need to update releases
-{{% /notice %}}
 
 #### Install Jenkins
 
+We'll begin by creating the `values.yaml` to declare the configuration of our Jenkins installation.
+
 ```
-helm install cicd stable/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer
+cat << EOF > values.yaml
+---
+master:
+  additionalPlugins:
+    - aws-codecommit-jobs:0.3.0
+  resources:
+    requests:
+      cpu: "1024m"
+      memory: "4Gi"
+    limits:
+      cpu: "4096m"
+      memory: "8Gi"
+  javaOpts: "-Xms4000m -Xmx4000m"
+  servicePort: 80
+  serviceType: LoadBalancer
+agent:
+  Enabled: false
+rbac:
+  create: true
+serviceAccount:
+  create: false
+  name: "jenkins"
+EOF
+```
+Now we'll use the `helm` cli to create the Jenkins server as we've declared it in the `values.yaml` file.
+
+```
+helm install cicd stable/jenkins -f values.yaml
 ```
 
 The output of this command will give you some additional information such as the
