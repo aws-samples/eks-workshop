@@ -49,7 +49,7 @@ spec:
   chart:
     repository: https://charts.bitnami.com/bitnami/
     name: nginx
-    version: 3.3.2
+    version: 5.0.0
   values:
     usePassword: true
     image:
