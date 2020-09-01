@@ -1,11 +1,11 @@
 ---
-title: "Launch using eksctl"
+title: "透過eksctl 開啟 k8s cluster EKS"
 chapter: true
 weight: 30
 pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - beginner
-  - kubeflow
+  - kubeflow 
   - appmesh
   - CON203
   - CON205
