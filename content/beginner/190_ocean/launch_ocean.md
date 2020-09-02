@@ -28,7 +28,7 @@ In this section we will create a new Ocean cluster, associated with your existin
 ### Step 3: Compute Settings
  - Confirm or change the settings imported by the Ocean Creation Wizard.
  {{% notice tip %}}
- By default, Ocean will use as wide a selction of instance types as possible, in order to ensure optimal pricing and availabilty for your worker nodes by tapping into many EC2 Spot capacity pools. If you wish, you can exclude cerain types from the pool of instances used by the cluster, by clicking on "Customize" under "Machine Types".
+ By default, Ocean will use as wide a selection of instance types as possible, in order to ensure optimal pricing and availabilty for your worker nodes by tapping into many EC2 Spot capacity pools. If you wish, you can exclude certain types from the pool of instances used by the cluster, by clicking on "Customize" under "Machine Types".
  {{% /notice %}}
  <img src="/images/ocean/compute_settings.png" alt="Compute Settings" width="700"/>
 
