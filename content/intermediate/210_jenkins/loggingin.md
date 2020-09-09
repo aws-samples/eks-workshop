@@ -8,7 +8,7 @@ draft: false
 Now that we have the ELB address of your `jenkins` instance we can go an
 navigate to that address in another window.
 
-![Jenkins Login](/images/jenkins-login.png)
+![Jenkins Login](/images/jenkins/jenkins-login.png)
 
 From here we can log in using:
 
