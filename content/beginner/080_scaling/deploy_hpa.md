@@ -24,7 +24,7 @@ helm install metrics-server \
 ```
 
 {{% notice warning %}}
-**Edit 2020-04-22**: some versions of EKS may get the following error once you [create the HPA in the next step](https://eksworkshop.com/scaling/test_hpa/)
+Some versions of EKS may get the following error once you [create the HPA in the next step](https://eksworkshop.com/beginner/080_scaling/test_hpa/)
 {{% /notice %}}
 
 ```bash
