@@ -8,7 +8,7 @@ draft: false
 ## About the Amazon EFS CSI Driver
 On Amazon EKS, the open-source [EFS Container Storage Interface (CSI)](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) driver is used to manage the attachment of Amazon EFS volumes to Kubernetes Pods.
 
-## Deploy EBS CSI Driver
+## Deploy EFS CSI Driver
 We are going to deploy the driver using Helm packages:
 ```
 helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
