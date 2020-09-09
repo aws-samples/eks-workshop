@@ -9,9 +9,9 @@ draft: false
 Delete the Kubernetes resources deployed to the EKS cluster. 
 ```
 cd ~/environment/efs
+kubectl delete -f efs-reader.yaml
+kubectl delete -f efs-writer.yaml
 kubectl delete -f efs-pvc.yaml
-kubectl delete -f efs-provisioner-deployment.yaml
-aws ec2 terminate-instances --instance-ids $INSTANCE_ID
 ```
 
 Delete the mount targets associated with the EFS file system
