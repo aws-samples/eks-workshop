@@ -4,7 +4,7 @@ defaultContentLanguage = "en"
 title = "Amazon EKS Workshop"
 theme = "learn"
 uglyurls = false
-googleAnalytics = "UA-44634850-4"
+# googleAnalytics = "UA-44634850-4"
 sectionPagesMenu = "main"
 relativeURLs = true
 
