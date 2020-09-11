@@ -3,7 +3,7 @@ title: "Configure IRSA for Fluent Bit"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
-{{{% notice note %}}
+{{% notice note %}}
 [Click here](/beginner/110_irsa/) if you are not familiar wit IAM Roles for Service Accounts (IRSA).
 {{% /notice %}}
 
