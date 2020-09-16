@@ -18,10 +18,6 @@ OPA generates policy decisions by evaluating the query input and against policie
 - Which registries binaries can be downloaded from.
 - Which OS capabilities a container can execute with.
 - Which times of day the system can be accessed at.
-- Which subnets egress traffic is allowed to.
-- Which clusters a workload must be deployed to.
-- Which registries binaries can be downloaded from.
-- Which OS capabilities a container can execute with.
-- Which times of day the system can be accessed at.
+
 
 Policy decisions are not limited to simple yes/no or allow/deny answers. Like query inputs, your policies can generate arbitrary structured data as output.
