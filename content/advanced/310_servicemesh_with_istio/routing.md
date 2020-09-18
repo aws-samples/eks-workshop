@@ -235,7 +235,7 @@ spec:
 
 To test it, refresh your browser over and over, and you'll see only reviews:v1 and reviews:v3.
 
-Assuming you decide tat the `reviews:v3` microservice is stable, you can route 100% of the traffic to it
+Assuming you decide that the `reviews:v3` microservice is stable, you can route 100% of the traffic to it
 
 ```bash
 kubectl -n bookinfo apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
