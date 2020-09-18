@@ -33,10 +33,10 @@ kubectl -n bookinfo \
   apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/virtual-service-all-v1.yaml
 ```
 
-We can display the virtual service with the following command.
+We can display the review virtual service with the following command.
 
 ```bash
-kubectl -n bookinfo get virtualservices bookinfo -o yaml
+kubectl -n bookinfo get virtualservices reviews -o yaml
 ```
 
 The subset is set to v1 for all reviews request.
