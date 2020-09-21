@@ -45,7 +45,7 @@ kubectl delete -f public-nginx.yaml
 The policy written in `rego` denies all the authenticated and authorised requests from the Kubernetes API server if the Pod image source does not start with `${ACCOUNT_ID}.dkr.ecr.us-west-2.amazonaws.com` and returns an error message `image '%v' comes from untrusted registry`.
 
 ```
-cat > image-source.rego <<EOF
+cat > image_source.rego <<EOF
 package kubernetes.admission                                                
 
 deny[msg] {                                                                
