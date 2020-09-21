@@ -1,6 +1,6 @@
 ---
 title: "Cleanup"
-date: 2020-07-08T09:36:58-04:00
+date: 2020-09-19T00:19:00+05:30
 draft: false
 weight: 90
 tags:
@@ -12,10 +12,9 @@ Stop the proxy and delete the dashboard deployment
 
 ```bash
 # kill proxy
-pkill -f 'kubectl proxy --port=8080'
+pkill -f  pkill -f "kubectl port-forward -n kubenav svc/kubenav 14122"
 
-# delete dashboard
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/aio/deploy/recommended.yaml
+# delete namespace kubenav
+kubectl delete -n kubenav
 
-unset DASHBOARD_VERSION
 ```

@@ -1,39 +1,10 @@
 ---
-title: "Deploy the Official Kubernetes Dashboard"
-date: 2018-08-07T08:30:11-07:00
+title: "Deploy kubenav - Navigator for Kubernetes"
+date: 2020-09-19T00:19:00+05:30
 weight: 10
 ---
 
-The official Kubernetes dashboard is not deployed by default, but there are
-instructions in [the official documentation](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-
-We can deploy the dashboard with the following command:
-
-```bash
-export DASHBOARD_VERSION="v2.0.0"
-
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/aio/deploy/recommended.yaml
-```
-
-Since this is deployed to our private cluster, we need to access it via a proxy.
-`kube-proxy` is available to proxy our requests to the dashboard service.  In your
-workspace, run the following command:
-
-```bash
-kubectl proxy --port=8080 --address=0.0.0.0 --disable-filter=true &
-```
-
-This will start the proxy, listen on port 8080, listen on all interfaces, and
-will disable the filtering of non-localhost requests.
-
-This command will continue to run in the background of the current terminal's session.
-
-{{% notice warning %}}
-We are disabling request filtering, a security feature that guards against XSRF attacks.
-This isn't recommended for a production environment, but is useful for our dev environment.
-{{% /notice %}}
-
-As an alternative to [the official Kubernetes dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/), we can deploy `kubenav` - another web UI for managing Kubernetes clusters. The dashboard is available as a mobile ([App Store](https://apps.apple.com/us/app/kubenav/id1494512160) and [Google Play](https://play.google.com/store/apps/details?id=io.kubenav.kubenav)), [desktop](https://github.com/kubenav/kubenav/releases) and web application. This section describes the web application as deployed to our cluster.
+As an alternative to [the official Kubernetes dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/), we can deploy `kubenav` - another web UI for managing Kubernetes clusters. The dashboard is available as a mobile ([App Store](https://apps.apple.com/us/app/kubenav/id1494512160) and [Google Play](https://play.google.com/store/apps/details?id=io.kubenav.kubenav)), [desktop](https://github.com/kubenav/kubenav/releases) and web applications. This section describes the web application as deployed to our cluster.
 
 There are two ways to deploy the application: `kubectl` and [Helm](https://helm.sh) charts. In this section, we will focus on the `kubectl` option.
 
@@ -43,7 +14,18 @@ Run the following command to deploy `kubenav`. This command uses [`kustomize`](h
 kubectl apply --kustomize github.com/kubenav/deploy/kustomize
 ```
 
-To look for the result, we can look for service with the following command. **Note**, this command is run on the `kubenav` namespace with the `-n` flag. This is because, the deployment (in the previous step) creates the `kubenav` namespace when deploying.
+The following should be the output of running the above command.
+
+```bash
+namespace/kubenav created
+serviceaccount/kubenav created
+clusterrole.rbac.authorization.k8s.io/kubenav unchanged
+clusterrolebinding.rbac.authorization.k8s.io/kubenav unchanged
+service/kubenav created
+deployment.apps/kubenav created
+```
+
+**Note** that, `namespace/kubenav` is created as part of the script. This means, artefacts such as `Deployment`, `Service` and others are also created in the `kubenav` namespace.  Thus, to know more about the `kubenav` `Service`, we use the `-n` (or, `--namespace`) flag for our `kubectl` command as shown below.
 
 ```bash
 kubectl -n kubenav get svc
