@@ -9,11 +9,12 @@ More Practical Use-cases
 AntiAffinity can be even more useful when they are used with higher level collections such as ReplicaSets, StatefulSets, Deployments, etc. One can easily configure that a set of workloads should be co-located in the same defined topology, eg., the same node.
 
 ### Always co-located in the same node
+
 In a three node cluster, a web application has in-memory cache such as redis. We want the web-servers to be co-located with the cache as much as possible.
 
 Here is the yaml snippet of a simple redis deployment with three replicas and selector label app=store. The deployment has PodAntiAffinity configured to ensure the scheduler does not co-locate replicas on a single node.
 
-```
+```bash
 cat <<EoF > ~/environment/redis-with-node-affinity.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -47,7 +48,7 @@ EoF
 
 The below yaml snippet of the webserver deployment has podAntiAffinity and podAffinity configured. This informs the scheduler that all its replicas are to be co-located with pods that have selector label app=store. This will also ensure that each web-server replica does not co-locate on a single node.
 
-```
+```bash
 cat <<EoF > ~/environment/web-with-node-affinity.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -87,8 +88,10 @@ spec:
         image: nginx:1.12-alpine
 EoF
 ```
+
 Let's apply this Deployments
-```
+
+```bash
 kubectl apply -f ~/environment/redis-with-node-affinity.yaml
 kubectl apply -f ~/environment/web-with-node-affinity.yaml
 ```
@@ -103,7 +106,7 @@ If we create the above two deployments, our three node cluster should look like 
   
 As you can see, all the 3 replicas of the web-server are automatically co-located with the cache as expected.
 
-```
+```bash
 kubectl get pods -o wide
 ```
 

@@ -6,7 +6,8 @@ draft: false
 ---
 
 #### Affinity and anti-affinity
-nodeSelector provides a very simple way to constrain pods to nodes with particular labels. The affinity/anti-affinity feature, currently in beta, greatly extends the types of constraints you can express. The key enhancements are:
+
+nodeSelector provides a very simple way to constrain pods to nodes with particular labels. The affinity/anti-affinity feature greatly extends the types of constraints you can express. The key enhancements are:
 
 - The language is more expressive (not just “AND of exact match”)
 - You can indicate that the rule is “soft”/“preference” rather than a hard requirement, so if the scheduler can’t satisfy it, the pod will still be scheduled
@@ -14,26 +15,29 @@ nodeSelector provides a very simple way to constrain pods to nodes with particul
 
 The affinity feature consists of two types of affinity, “node affinity” and “inter-pod affinity/anti-affinity”. Node affinity is like the existing nodeSelector (but with the first two benefits listed above), while inter-pod affinity/anti-affinity constrains against pod labels rather than node labels, as described in the third item listed above, in addition to having the first and second properties listed above.
 
-#### Node affinity (beta feature)
+#### Node affinity
+
 Node affinity was introduced as alpha in Kubernetes 1.2. Node affinity is conceptually similar to nodeSelector – it allows you to constrain which nodes your pod is eligible to be scheduled on, based on labels on the node.
 
-There are currently two types of node affinity, called `requiredDuringSchedulingIgnoredDuringExecution` and `preferredDuringSchedulingIgnoredDuringExecution`. 
+There are currently two types of node affinity, called `requiredDuringSchedulingIgnoredDuringExecution` and `preferredDuringSchedulingIgnoredDuringExecution`.
 
-You can think of them as “hard” and “soft” respectively, in the sense that the former specifies rules that must be met for a pod to be scheduled onto a node (just like nodeSelector but using a more expressive syntax), while the latter specifies preferences that the scheduler will try to enforce but will not guarantee. The “IgnoredDuringExecution” part of the names means that, similar to how nodeSelector works, if labels on a node change at runtime such that the affinity rules on a pod are no longer met, the pod will still continue to run on the node. 
+You can think of them as “hard” and “soft” respectively, in the sense that the former specifies rules that must be met for a pod to be scheduled onto a node (just like nodeSelector but using a more expressive syntax), while the latter specifies preferences that the scheduler will try to enforce but will not guarantee. The “IgnoredDuringExecution” part of the names means that, similar to how nodeSelector works, if labels on a node change at runtime such that the affinity rules on a pod are no longer met, the pod will still continue to run on the node.
 
 Thus an example of `requiredDuringSchedulingIgnoredDuringExecution` would be “only run the pod on nodes with Intel CPUs” and an example `preferredDuringSchedulingIgnoredDuringExecution` would be “try to run this set of pods in availability zone XYZ, but if it’s not possible, then allow some to run elsewhere”.
 
 Node affinity is specified as field nodeAffinity of field affinity in the PodSpec.
 
-
 Let's see an example of a pod that uses node affinity:
 
 We are going to create another label in the same node that in the last example:
-```
+
+```bash
 kubectl label nodes ip-192-168-15-64.us-west-2.compute.internal azname=az1
 ```
+
 And create an affinity:
-```
+
+```bash
 cat <<EoF > ~/environment/pod-with-node-affinity.yaml
 apiVersion: v1
 kind: Pod
@@ -66,10 +70,12 @@ EoF
 
 This node affinity rule says the pod can only be placed on a node with a label whose key is `azname` and whose value is either `az1` or `az2`. In addition, among nodes that meet that criteria, nodes with a label whose key is `another-node-label-key` and whose value is `another-node-label-value` should be preferred.
 
-Let's apply this 
-```
+Let's apply this
+
+```bash
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
+
 And check if it worked with `kubectl get pods -o wide`
 {{< output >}}
 NAME                 READY     STATUS    RESTARTS   AGE       IP               NODE                                          NOMINATED NODE
@@ -78,16 +84,20 @@ with-node-affinity   1/1       Running   0          29s       192.168.14.121   i
 {{< /output >}}
 Now let's try to put the affinity in another node
 We are going to put the label in a different node so first, let's clean the label and delete the Pod.
-```
+
+```bash
 kubectl delete -f ~/environment/pod-with-node-affinity.yaml
 kubectl label nodes ip-192-168-15-64.us-west-2.compute.internal azname-
 ```
+
 We are putting the label to the node ip-192-168-86-147.us-west-2.compute.internal now
-```
+
+```bash
 kubectl label nodes ip-192-168-86-147.us-west-2.compute.internal azname=az1
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
-And check if it works with `kubectl get pods -o wide` 
+
+And check if it works with `kubectl get pods -o wide`
 {{< output >}}
 NAME                 READY     STATUS    RESTARTS   AGE       IP               NODE                                           NOMINATED NODE
 nginx                1/1       Running   0          43m       192.168.10.13    ip-192-168-15-64.us-west-2.compute.internal    <none>
