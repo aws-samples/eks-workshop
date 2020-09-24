@@ -5,16 +5,17 @@ weight: 60
 draft: false
 ---
 
-To cleanup, follow the below steps.
+To cleanup, follow these steps.
 
-To remove sample application
+```bash
+kubectl delete -f ~/environment/irsa/job-s3.yaml
+kubectl delete -f ~/environment/irsa/job-ec2.yaml
 
-```
-kubectl delete -f iam-pod.yaml
-```
+eksctl delete iamserviceaccount \
+    --name iam-test \
+    --namespace default \
+    --cluster eksworkshop-eksctl \
+    --wait
 
-To remove IAM role and Service Account stack from cloudformation
-
-```
-eksctl delete iamserviceaccount --name iam-test --namespace default --cluster eksworkshop-eksctl
+rm -rf ~/environment/irsa/
 ```
