@@ -5,53 +5,115 @@ weight: 50
 draft: false
 ---
 
-Now that we have completed all the necessary configuration to run a Pod with IAM role. We will deploy sample Pod to the cluster, and run a test command to see whether it works correctly or not.
+Now that we have completed all the necessary configuration, we will run two kubernetes [jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the newly created IAM role:
 
-```
-curl -LO https://eksworkshop.com/beginner/110_irsa/deploy.files/iam-pod.yaml
-kubectl apply -f iam-pod.yaml
+* **job-s3.yaml**: that will output the result of the command `aws s3 ls` (this job should be successful).
+* **job-ec2.yaml**: that will output the result of the command `aws ec2 describe-instances --region ${AWS_REGION}` (this job should failed).
+
+### List S3 buckets
+
+Let's start by testing if the service account can list the S3 buckets
+
+```bash
+mkdir ~/environment/irsa
+
+cat <<EoF> ~/environment/irsa/job-s3.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: eks-iam-test-s3
+spec:
+  template:
+    metadata:
+      labels:
+        app: eks-iam-test-s3
+    spec:
+      serviceAccountName: iam-test
+      containers:
+      - name: eks-iam-test
+        image: amazon/aws-cli:latest
+        args: ["s3", "ls"]
+      restartPolicy: Never
+EoF
+
+kubectl apply -f ~/environment/irsa/job-s3.yaml
 ```
 
-##### Make sure your pod is in **Running** status:
+Make sure your job  is **completed**
 
-```
-kubectl get pod
+```bash
+kubectl get job -l app=eks-iam-test-s3
 ```
 
 {{< output >}}
-eks-iam-test-7fb8c5ffb8-fdr6c  1/1  Running  0  5m23s
+NAME              COMPLETIONS   DURATION   AGE
+eks-iam-test-s3   1/1           2s         21m
 {{< /output >}}
 
-##### Get into the Pod:
+Let's check the logs to verify that the command ran successfully.
 
-```
-kubectl exec -it <place Pod Name> /bin/bash
-```
-
-##### Manually Call sts:AssumeRoleWithWebIdentity, and you will see AccessKeyId, SecretAccessKey information if configuration is set appropriately
-
-```
-aws sts assume-role-with-web-identity \
---role-arn $AWS_ROLE_ARN \
---role-session-name mh9test \
---web-identity-token file://$AWS_WEB_IDENTITY_TOKEN_FILE \
---duration-seconds 1000
+```bash
+kubectl logs -l app=eks-iam-test-s3
 ```
 
-##### Run awscli to see if it retrives list of Amazon S3 buckets:
+Output example
+{{< output >}}
+2020-04-17 12:30:41 eksworkshop-eksctl-helm-charts
+2020-02-12 01:48:05 eksworkshop-logs
+{{< /output >}}
 
-```
-aws s3 ls
+### List EC2 Instances
+
+Now Let's confirm that the service account cannot list the EC2 instances
+
+```bash
+cat <<EoF> ~/environment/irsa/job-ec2.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: eks-iam-test-ec2
+spec:
+  template:
+    metadata:
+      labels:
+        app: eks-iam-test-ec2
+    spec:
+      serviceAccountName: iam-test
+      containers:
+      - name: eks-iam-test
+        image: amazon/aws-cli:latest
+        args: ["ec2", "describe-instances", "--region", "${AWS_REGION}"]
+      restartPolicy: Never
+  backoffLimit: 0
+EoF
+
+kubectl apply -f ~/environment/irsa/job-ec2.yaml
 ```
 
-##### Run awscli to see if it retrives list of Amazon EC2 instances which does not have privileges in the allocated IAM policy:
+Let's verify the job status
 
+```bash
+kubectl get job -l app=eks-iam-test-ec2
 ```
-aws ec2 describe-instances --region us-west-2
-```
-
-##### You will get this error message:
 
 {{< output >}}
+NAME               COMPLETIONS   DURATION   AGE
+eks-iam-test-ec2   0/1           39s        39s
+{{< /output >}}
+
+{{% notice info %}}
+It is normal that the job didn't complete succesfuly.
+{{% /notice %}}
+
+
+Finally we will review the logs
+
+```bash
+kubectl logs -l app=eks-iam-test-ec2
+```
+
+Output
+{{< output >}}
+
 An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation.
 {{< /output >}}

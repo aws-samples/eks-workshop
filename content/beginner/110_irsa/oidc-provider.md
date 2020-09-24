@@ -5,13 +5,11 @@ weight: 20
 draft: false
 ---
 
-### To create an IAM OIDC identity provider for your cluster with eksctl
-
 To use IAM roles for service accounts in your cluster, you must create an OIDC identity provider in the IAM console
 
 ##### Check your eksctl version that your eksctl version is at least 0.5.1
 
-```
+```bash
 eksctl version
 ```
 
@@ -25,7 +23,7 @@ If your eksctl version is lower than 0.5.1, use [Installing or Upgrading eksctl]
 
 ##### Create your OIDC identity provider for your cluster
 
-```
+```bash
 eksctl utils associate-iam-oidc-provider --cluster eksworkshop-eksctl --approve
 ```
 
