@@ -92,7 +92,11 @@ docker pull nginx
 Retag `latest` with our repository name and push the image to your own Amazon ECR. We start by logging into Amazon ECR.
 
 ```
-aws ecr get-login —no-include-email | bash -
+aws ecr get-login-password \
+    --region <region> \
+| docker login \
+    --username AWS \
+    --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
 ```
 
 Enlist the local docker images to capture the image ID
