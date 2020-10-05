@@ -36,17 +36,17 @@ Next we will deploy a persistent volume using the EFS created.
 ```
 mkdir ~/environment/efs
 cd ~/environment/efs
-wget https://eksworkshop.com/beginner/190_efs/efs.files/efs-pv.yaml
+wget https://eksworkshop.com/beginner/190_efs/efs.files/efs-pvc.yaml
 ```
 
 We need to update this manifest with the EFS ID created:
 ```
-sed -i "s/EFS_VOLUME_ID/$FILE_SYSTEM_ID/g" efs-pv.yaml
+sed -i "s/EFS_VOLUME_ID/$FILE_SYSTEM_ID/g" efs-pvc.yaml
 ```
 
 And then apply:
 ```
-kubectl apply -f efs-pv.yaml
+kubectl apply -f efs-pvc.yaml
 ```
 
 Next, check if a PVC resource was created. The output from the command should look similar to what is shown below, with the **STATUS** field set to **Bound**.
