@@ -33,10 +33,10 @@ source_profile=eksInteg
 EoF
 ```
 
-#### Add in `~/.aws/credentials`:
+#### Create `~/.aws/credentials`:
 
 ```bash
-cat << EoF >> ~/.aws/credentials
+cat << EoF > ~/.aws/credentials
 
 [eksAdmin]
 aws_access_key_id=$(jq -r .AccessKey.AccessKeyId /tmp/PaulAdmin.json)
