@@ -36,3 +36,8 @@ done
 ```bash
 kubectl delete namespace appmesh-system
 ```
+
+## Delete the appmesh-controller service account
+```bash
+eksctl delete iamserviceaccount --cluster eksworkshop-eksctl   --namespace appmesh-system --name appmesh-controller
+```
