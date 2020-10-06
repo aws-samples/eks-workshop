@@ -132,6 +132,15 @@ Tokens:              cluster-autoscaler-token-vfk8n
 Events:              <none>
 {{< /output >}}
 
+And
+Make sure you have added correct tags to your asg to discover the nodegroup (--node-group-auto-discovery=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/eksworkshop-eksctl line in cluster-autoscaler-autodiscover.yaml)
+
+```bash
+aws autoscaling create-or-update-tags \
+  --tags ResourceId=${ASG_NAME},ResourceType=auto-scaling-group,Key="k8s.io/cluster-autoscaler/eksworkshop-eksctl",PropagateAtLaunch=true \
+  ResourceId=${ASG_NAME},ResourceType=auto-scaling-group,Key="k8s.io/cluster-autoscaler/enabled",PropagateAtLaunch=true
+```
+
 ## Deploy the Cluster Autoscaler (CA)
 
 Deploy the Cluster Autoscaler to your cluster with the following command.
