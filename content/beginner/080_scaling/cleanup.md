@@ -41,6 +41,8 @@ helm -n metrics uninstall metrics-server
 
 kubectl delete ns metrics
 
+helm uninstall kube-ops-view
+
 unset ASG_NAME
 unset AUTOSCALER_VERSION
 unset K8S_VERSION
