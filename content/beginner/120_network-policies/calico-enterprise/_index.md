@@ -1,9 +1,7 @@
 ---
 title: "Calico Enterprise Usecases"
-weight: 2
+weight: 20
 date: 2020-08-13T02:28:35-05:00
-draft: true
-hidden: true
 ---
 
 ### CALICO ENTERPRISE USE CASES
