@@ -23,7 +23,7 @@ In this lab, you will learn to leverage Calico Enterprise to implement pod-level
 
 For this lab, we will be using a fairly simple microservices application called storefront to walk through the implementation of Network Policy - both as someone from platform engineering and as a storefront application developer.
 
-![Fig. 1- Storefront-application](/static/images/storefront-application.png)
+![Fig. 1- Storefront-application](/images/storefront-application.png)
 
 Storefront (Fig 1) is a fairly simple microservices application running in Kubernetes. It has a frontend service that handles end-user requests, communicates with two business logic services which in turn make requests to a backend service. All of these containers communicate with a logging service and one of the business logic services, microservice 2, makes external requests to Twilio to provide some telephony for this application.
 
@@ -43,7 +43,7 @@ microservice2-7bb79d9f4f-f7h6f   5/5     Running   0          22h
 
 Next, let’s login to the Calico Enterprise UI and use the Flow Visualizer to understand how these services are communicating with each other.  Login to Calico Enterprise and select the Flow Visualizations from the left navigation menu
 
-![Fig. 2- Flow Visualizer](/static/images/flow-visualizer.png)
+![Fig. 2- Flow Visualizer](/images/flow-visualizer.png)
 
 The Flow Visualizer is a powerful tool to gain visibility into network traffic within the cluster and troubleshoot issues. Later in this lab, we will also use it to recommend network policies for our storefront application.
 
@@ -53,7 +53,7 @@ Find the storefront namespace and select it, then use the magnifying glass butto
 
 Mousing over subsections of the next inner ring (grey), you will see the pod prefixes for each of the microservices that make up our storefront application. Note that Calico Enterprise aggregates network flows so it is easy to make sense of traffic in your cluster that may be backed by Kubernetes resources like replica sets.
 
-![Fig. 3- Selecting specific flows](/static/images/specific-flows.png)
+![Fig. 3- Selecting specific flows](/images/specific-flows.png)
 
 The innermost ring in the Flow Visualizer allows you to select specific network flows that are associated with each of our storefront microservices. Mousing over each subsection, you will see each of these flows on the right-hand side dropdown - these should correspond to the diagram at the beginning of this lab (Fig 1).
 
@@ -65,7 +65,7 @@ Calico Enterprise makes it easy to define the “guard rails” for your Kuberne
 
 Login to the Calico Enterprise UI and select Policies from the left navigation menu. Here you will see all of the network policies defined within the cluster and how they map to policy tiers.
 
-![Fig. 4-  Policy evaluation with tiers](/static/images/policy-evaluation-tiers.png)
+![Fig. 4-  Policy evaluation with tiers](//images/policy-evaluation-tiers.png)
 
 Tiers are evaluated from left to right, and network policies within tiers are evaluated from top to bottom. This effectively means that a network policy in the Security tier (Fig. 4) needs to evaluate and pass traffic before any policy below it or to the right can see that same traffic. Tiers are tied to RBAC and provide a powerful way to implement security and platform controls for your entire cluster without having to involve application teams. Your lab environment already has a few policies in the Platform and Security tiers that provide some examples of some common use cases.
 
@@ -79,13 +79,13 @@ By default, a GlobalNetworkPolicy applies to the entire cluster. In this case, w
 
 Under Type, select the Egress rule checkbox and deselect the Ingress checkbox. Now let’s add an Allow egress rule that will whitelist traffic to the Twilio API endpoint. Here we can leverage DNS rules with a wildcard match to ensure that applications will not break if the subdomain for the endpoint changes.
 
-![Fig. 5-  Allow egress rule for Twilio](/static/images/allow-egress-twilio.png)
+![Fig. 5-  Allow egress rule for Twilio](/images/allow-egress-twilio.png)
 
 While this egress rule allows traffic to *.twilio.com, we also want to restrict any other egress traffic that is leaving the cluster. We can accomplish this by adding another egress Deny rule that makes use of a Network Set.
 
 Network Sets allow you to create long lists of CIDRs, IPs, or domains and abstract them with a label that can be referenced in network policies. The lab setup has an existing Network Set for all public IP CIDRs. Add it to the egress Deny rule by using the label “type=public” as shown in Fig. 6 below.
 
-![Fig. 6-  Deny egress rule for Public IPs](/static/images/deny-public-ips.png)
+![Fig. 6-  Deny egress rule for Public IPs](/images/deny-public-ips.png)
 
 Save and deploy the policy by selecting Enforce. Check out some of the other Network Sets that are available in the lab environment by choosing Network Sets from the left navigation menu.
 
@@ -97,7 +97,7 @@ While application developers are often familiar with Kubernetes, they may not ha
 
 Return to the Flow Visualizer and select the storefront namespace and zoom in on this view. As you mouse over the pod prefixes, notice the “magic wand” icon on the right - this can be used to generate policy recommendations.
 
-![Fig. 7-  Policy recommendations icon](/static/images/policy-recommendations.png)
+![Fig. 7-  Policy recommendations icon](/images/policy-recommendations.png)
 
 Select the frontend-* pod prefix and click the magic wand to generate a network policy for this workload. This will bring you to a Staged Network Policy that has been recommended by looking at the labels and network flows for frontend.
 
@@ -130,7 +130,7 @@ Before we wrap things up, let’s take a look at another tool in the Calico Ente
 
 Going back to the default tier, open up the staged policy you just created with the storefront.default.backend prefix and select EDIT. We’ll do something reckless and delete the Egress rule. Now in the upper right select PREVIEW.
 
-![Fig. 8-  Policy impact preview](/static/images/policy-impact.png)
+![Fig. 8-  Policy impact preview](/images/policy-impact.png)
 
 Hello again, Flow Visualizer! This time the flow visualizer is highlighting the flows that would be impacted with the policy change we just made - this is indicated by any flows flashing red. Mouse over this flow to see the details on the right-hand side.
 
