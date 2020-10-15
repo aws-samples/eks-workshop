@@ -91,7 +91,7 @@ Kubernetes offers a DNS cluster add-on Service that automatically assigns dns na
 To check if your cluster is already running CoreDNS, use the following command.
 
 ```bash
-kubectl get pod -n kube-system -l k8s-app=kube-dns
+kubectl get svc -n kube-system -l k8s-app=kube-dns
 ```
 
 {{% notice note %}}
