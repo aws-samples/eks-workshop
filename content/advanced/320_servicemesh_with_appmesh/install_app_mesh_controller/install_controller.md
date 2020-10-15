@@ -89,9 +89,10 @@ kubectl get crds | grep appmesh
 ```
 
 {{< output >}}
-NAME                               READY   STATUS    RESTARTS   AGE
-meshes.appmesh.k8s.aws             2020-06-17T20:46:06Z
-virtualnodes.appmesh.k8s.aws       2020-06-17T20:46:07Z
-virtualrouters.appmesh.k8s.aws     2020-06-17T20:46:07Z
-virtualservices.appmesh.k8s.aws    2020-06-17T20:46:06Z
+gatewayroutes.appmesh.k8s.aws                2020-10-15T15:49:26Z
+meshes.appmesh.k8s.aws                       2020-10-15T15:49:26Z
+virtualgateways.appmesh.k8s.aws              2020-10-15T15:49:26Z
+virtualnodes.appmesh.k8s.aws                 2020-10-15T15:49:26Z
+virtualrouters.appmesh.k8s.aws               2020-10-15T15:49:26Z
+virtualservices.appmesh.k8s.aws              2020-10-15T15:49:26Z
 {{< /output >}}
