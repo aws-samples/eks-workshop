@@ -48,6 +48,10 @@ And then apply:
 ```
 kubectl apply -f efs-pvc.yaml
 ```
+*If you get an error on the efs-pvc.yaml apply you may have to manually create the storage namespace.
+```
+kubectl create namespace storage
+```
 
 Next, check if a PVC resource was created. The output from the command should look similar to what is shown below, with the **STATUS** field set to **Bound**.
 ```
