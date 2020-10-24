@@ -10,40 +10,22 @@ draft: false
 To delete the resources used in this chapter:
 
 ```bash
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
 
-# Delete ingress
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml
+helm uninstall aws-load-balancer-controller \
+    -n kube-system
 
-# Delete service
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-service.yaml
-
-# Delete deployment
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-deployment.yaml
-
-# Delete alb-ingress-gateway
-helm -n 2048-game delete 2048-game
-
-# Delete service account
 eksctl delete iamserviceaccount \
-  --name alb-ingress-controller \
-  --namespace 2048-game \
-  --cluster eksworkshop-eksctl \
-  --wait
+    --cluster eksworkshop-eksctl \
+    --name aws-load-balancer-controller \
+    --namespace kube-system \
+    --wait
 
-# Delete Kubernetes RBAC
-curl -sS  https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/rbac-role.yaml \
-  | sed 's/namespace: kube-system/namespace: 2048-game/g' \
-  | kubectl delete -f -
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AWSLoadBalancerControllerIAMPolicy
 
 # Delete Fargate profile
 eksctl delete fargateprofile \
-  --name 2048-game \
+  --name game-2048 \
   --cluster eksworkshop-eksctl
-
-# Delete namespace
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-namespace.yaml
-
-# Delete IAM policy
-aws iam delete-policy --policy-arn $FARGATE_POLICY_ARN
 ```
-
