@@ -14,9 +14,11 @@ kubectl delete -f ~/environment/run-my-nginx.yaml
 kubectl delete ns my-nginx
 rm ~/environment/run-my-nginx.yaml
 
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
+curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml \
+    | sed 's=alb.ingress.kubernetes.io/target-type: ip=alb.ingress.kubernetes.io/target-type: instance=g' \
+    | kubectl delete -f -
 
-helm uninstall  aws-load-balancer-controller \
+helm uninstall aws-load-balancer-controller \
     -n kube-system
 
 eksctl delete iamserviceaccount \
