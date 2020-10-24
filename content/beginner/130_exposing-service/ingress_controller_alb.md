@@ -11,112 +11,111 @@ In order for the Ingress resource to work, the cluster must have an ingress cont
 
 Unlike other types of controllers which run as part of the `kube-controller-manager` binary, Ingress controllers are not started automatically with a cluster.
 
-### AWS ALB Ingress Controller
+### AWS Load Balancer Controller
+
+The AWS ALB Ingress Controller has been rebranded to [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller).
+
+AWS Load Balancer Controller is a [controller](https://kubernetes.io/docs/concepts/architecture/controller/) to help manage Elastic Load Balancers for a Kubernetes cluster.
+
+* It satisfies Kubernetes `Ingress` resources by provisioning Application Load Balancers.
+* It satisfies Kubernetes `Service` resources by provisioning Network Load Balancers.
+
+In this chapter we will focus on the Application Load Balancer.
 
 [AWS Elastic Load Balancing Application Load Balancer (ALB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) is a popular AWS service that load balances incoming traffic at the application layer (layer 7) across multiple targets, such as Amazon EC2 instances, in multiple Availability Zones. ALB supports multiple features including host or path based routing, TLS (Transport Layer Security) termination, WebSockets, HTTP/2, AWS WAF (Web Application Firewall) integration, integrated access logs, and health checks.
 
-The open source [AWS ALB Ingress controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) triggers the creation of an ALB and the necessary supporting AWS resources whenever a Kubernetes user declares an Ingress resource in the cluster. The Ingress resource uses the ALB to route HTTP(S) traffic to different endpoints within the cluster. The AWS ALB Ingress controller works on any Kubernetes cluster including Amazon Elastic Kubernetes Service (Amazon EKS).
+### Deploy the AWS Load Balancer Controller
 
-### Deploy AWS ALB Ingress controller
+{{% notice info %}}
+You will need the `Helm` CLI to deploy the controller. If it's not install, you can follow the instruction [here](/beginner/060_helm/helm_intro/install/).
+{{% /notice %}}
 
-First, create an IAM OIDC provider and associate it with your cluster:
+Create IAM OIDC provider
 
 ```bash
-eksctl utils associate-iam-oidc-provider --cluster=eksworkshop-eksctl --approve
+eksctl utils associate-iam-oidc-provider \
+    --region ${AWS_REGION} \
+    --cluster eksworkshop-eksctl \
+    --approve
 ```
 
 {{% notice info %}}
 Learn more about [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) in the Amazon EKS documentation.
 {{% /notice %}}
 
-Next, deploy the relevant RBAC roles and role bindings as required by the AWS ALB Ingress controller:
+
+Create an IAM policy called **AWSLoadBalancerControllerIAMPolicy**
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/rbac-role.yaml
-```
-
-Next, create an IAM policy named `ALBIngressControllerIAMPolicy` to allow the ALB Ingress controller to make AWS API calls on your behalf and save the `Policy.Arn` into a new variable called PolicyARN:
-
-```bash
-#create the policy
 aws iam create-policy \
-  --policy-name ALBIngressControllerIAMPolicy \
-  --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/iam-policy.json
-
-#get the policy ARN
-export PolicyARN=$(aws iam list-policies --query 'Policies[?PolicyName==`ALBIngressControllerIAMPolicy`].Arn' --output text)
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
 ```
 
-Next, create a Kubernetes service account and an IAM role (for the pod running the AWS ALB Ingress controller):
+Create a IAM role and ServiceAccount for the Load Balancer controller, use the ARN from the step above
 
 ```bash
 eksctl create iamserviceaccount \
-        --cluster=eksworkshop-eksctl \
-        --namespace=kube-system \
-        --name=alb-ingress-controller \
-        --attach-policy-arn=$PolicyARN \
-        --override-existing-serviceaccounts \
-        --approve
+  --cluster eksworkshop-eksctl \
+  --namespace kube-system \
+  --name aws-load-balancer-controller \
+  --attach-policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AWSLoadBalancerControllerIAMPolicy \
+  --override-existing-serviceaccounts \
+  --approve
 ```
 
-Then, deploy AWS ALB Ingress controller
+Install the TargetGroupBinding CRDs
 
 ```bash
-# We dynamically replace the cluster-name by the name of our cluster before applying the YAML file
-curl -sS "https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/alb-ingress-controller.yaml" \
-    | sed 's/# - --cluster-name=devCluster/- --cluster-name=eksworkshop-eksctl/g' \
-    | kubectl apply -f -
+kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
 ```
 
-Verify that the deployment was successful and the controller started:
+Deploy the Helm chart from the eks repo
 
 ```bash
-kubectl logs -n kube-system $(kubectl get po -n kube-system | egrep -o alb-ingress[a-zA-Z0-9-]+)
+helm repo add eks https://aws.github.io/eks-charts
+
+helm upgrade -i aws-load-balancer-controller \
+    eks/aws-load-balancer-controller \
+    -n kube-system \
+    --set clusterName=eksworkshop-eksctl \
+    --set serviceAccount.create=false \
+    --set serviceAccount.name=aws-load-balancer-controller \
+    --set image.tag="${LBC_VERSION}"
 ```
 
-Finally, verify that the deployment was successful and the controller started:
-
-{{< output >}}
--------------------------------------------------------------------------------
-AWS ALB Ingress controller
-  Release:    v1.1.8
-  Build:      git-ec387ad1
-  Repository: https://github.com/kubernetes-sigs/aws-alb-ingress-controller.git
--------------------------------------------------------------------------------
-{{< /output >}}
-
-#### Deploy Sample Application
+### Deploy Sample Application
 
 Now let’s deploy a sample [2048 game](https://gabrielecirulli.github.io/2048/) into our Kubernetes cluster and use the Ingress resource to expose it to traffic:
 
 Deploy 2048 game resources:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-deployment.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-service.yaml
-```
-
-Deploy an Ingress resource for the 2048 game:
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
 ```
 
 After few seconds, verify that the Ingress resource is enabled:
 
 ```bash
-kubectl get ingress/2048-ingress -n 2048-game
+kubectl get ingress/ingress-2048 -n game-2048
 ```
 
-You should be able to see the following output:
+You should be able to see the following output
+
 {{< output >}}
 NAME           HOSTS   ADDRESS                PORTS   AGE
-2048-ingress   *       DNS-Name-Of-Your-ALB   80      3m
+NAME           HOSTS   ADDRESS                                                                  PORTS   AGE
+ingress-2048   *       k8s-game2048-ingress2-8ae3738fd5-251279030.us-east-2.elb.amazonaws.com   80      6m20s
 {{< /output >}}
 
 {{% notice warning %}}
 It could take 2 or 3 minutes for the ALB to be ready.
 {{% /notice %}}
 
-Open a browser and copy-paste your `DNS-Name-Of-Your-ALB` and you should be able to access your newly deployed 2048 game – have fun!
+Finally, access the access your newly deployed 2048 game by clicking the URL generated with these commands
+
+```bash
+export GAME_2048=$(kubectl get ingress/ingress-2048 -n game-2048 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+echo click this link http://${GAME_2048}
+```
