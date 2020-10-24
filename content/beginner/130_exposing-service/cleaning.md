@@ -21,6 +21,8 @@ curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 helm uninstall aws-load-balancer-controller \
     -n kube-system
 
+kubectl delete -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
+
 eksctl delete iamserviceaccount \
     --cluster eksworkshop-eksctl \
     --name aws-load-balancer-controller \

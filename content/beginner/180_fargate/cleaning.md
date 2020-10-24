@@ -24,7 +24,8 @@ eksctl delete iamserviceaccount \
 aws iam delete-policy \
     --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AWSLoadBalancerControllerIAMPolicy
 
-# Delete Fargate profile
+kubectl delete -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
+
 eksctl delete fargateprofile \
   --name game-2048 \
   --cluster eksworkshop-eksctl
