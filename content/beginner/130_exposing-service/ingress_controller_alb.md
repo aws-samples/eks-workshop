@@ -26,8 +26,16 @@ In this chapter we will focus on the Application Load Balancer.
 
 ### Deploy the AWS Load Balancer Controller
 
+We will use **Helm** to install the ALB Ingress Controller.
+
+Check to see if `helm` is installed:
+
+```bash
+helm version
+```
+
 {{% notice info %}}
-You will need the `Helm` CLI to deploy the controller. If it's not install, you can follow the instruction [here](/beginner/060_helm/helm_intro/install/).
+If `Helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
 {{% /notice %}}
 
 Create IAM OIDC provider
