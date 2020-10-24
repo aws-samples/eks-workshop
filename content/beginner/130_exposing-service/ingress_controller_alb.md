@@ -99,7 +99,9 @@ Now let’s deploy a sample [2048 game](https://gabrielecirulli.github.io/2048/)
 Deploy 2048 game resources:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
+curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml \
+    | sed 's=alb.ingress.kubernetes.io/target-type: ip=alb.ingress.kubernetes.io/target-type: instance=g' \
+    | kubectl apply -f -
 ```
 
 After few seconds, verify that the Ingress resource is enabled:
@@ -119,10 +121,10 @@ ingress-2048   *       k8s-game2048-ingress2-8ae3738fd5-251279030.us-east-2.elb.
 It could take 2 or 3 minutes for the ALB to be ready.
 {{% /notice %}}
 
-Finally, access the access your newly deployed 2048 game by clicking the URL generated with these commands
+Finally, access your newly deployed 2048 game by clicking the URL generated with these commands
 
 ```bash
 export GAME_2048=$(kubectl get ingress/ingress-2048 -n game-2048 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 
-echo click this link http://${GAME_2048}
+echo http://${GAME_2048}
 ```
