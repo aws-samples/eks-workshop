@@ -111,7 +111,6 @@ kubectl get ingress/ingress-2048 -n game-2048
 You should be able to see the following output
 
 {{< output >}}
-NAME           HOSTS   ADDRESS                PORTS   AGE
 NAME           HOSTS   ADDRESS                                                                  PORTS   AGE
 ingress-2048   *       k8s-game2048-ingress2-8ae3738fd5-251279030.us-east-2.elb.amazonaws.com   80      6m20s
 {{< /output >}}
