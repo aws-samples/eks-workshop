@@ -12,7 +12,7 @@ Kubernetes supports 2 primary modes of finding a Service:
 * environment variables
 * DNS.
 
-The former works out of the box while the latter requires the CoreDNS cluster add-on (automatically installed when creating the EKS cluster).
+The former works out of the box while the latter requires the [CoreDNS](https://kubernetes.io/docs/tasks/administer-cluster/coredns/#about-coredns) cluster add-on (automatically installed when creating the EKS cluster).
 
 #### Environment Variables
 
@@ -94,7 +94,7 @@ Kubernetes offers a DNS cluster add-on Service that automatically assigns dns na
 To check if your cluster is already running CoreDNS, use the following command.
 
 ```bash
-kubectl get pod -n kube-system -l k8s-app=kube-dns
+kubectl get service -n kube-system -l k8s-app=kube-dns
 ```
 
 {{% notice note %}}
@@ -106,6 +106,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility.
 NAME       TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)         AGE
 kube-dns   ClusterIP   10.0.0.10    <none>        53/UDP,53/TCP   8m
 {{< /output >}}
+
 If it isn’t running, you can enable it. The rest of this section will assume you have a Service with a long lived IP (my-nginx), and a DNS server that has assigned a name to that IP (the CoreDNS cluster addon), so you can talk to the Service from any pod in your cluster using standard methods (e.g. gethostbyname). Let’s run another curl application to test this:
 
 ```bash
