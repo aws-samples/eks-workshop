@@ -107,7 +107,7 @@ NAME       TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)         AGE
 kube-dns   ClusterIP   10.0.0.10    <none>        53/UDP,53/TCP   8m
 {{< /output >}}
 
-If it isn’t running, you can enable it. The rest of this section will assume you have a Service with a long lived IP (my-nginx), and a DNS server that has assigned a name to that IP (the CoreDNS cluster addon), so you can talk to the Service from any pod in your cluster using standard methods (e.g. gethostbyname). Let’s run another curl application to test this:
+If it isn’t running, you can enable it. The rest of this section will assume you have a Service with a long lived IP (my-nginx), and a DNS server that has assigned a name to that IP (the CoreDNS cluster add-on), so you can talk to the Service from any pod in your cluster using standard methods (e.g. gethostbyname). Let’s run another curl application to test this:
 
 ```bash
 kubectl -n my-nginx run curl --image=radial/busyboxplus:curl -i --tty
