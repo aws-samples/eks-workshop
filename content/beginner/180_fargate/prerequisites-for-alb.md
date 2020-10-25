@@ -91,6 +91,21 @@ kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//
 
 #### Deploy the Helm chart from the eks repo
 
+Fist, We will verify if the AWS Load Balancer Controller version has beed set
+
+```bash
+if [ ! -x ${LBC_VERSION} ]
+  then
+    tput setaf 2; echo '${LBC_VERSION} has been set.'
+  else
+    tput setaf 1;echo '${LBC_VERSION} has NOT been set.'
+fi
+```
+
+{{% notice info %}}
+If the result is <span style="color:red">${LBC_VERSION} has NOT been set.</span>, click [here](http://localhost:8080/020_prerequisites/k8stools/#set-the-aws-load-balancer-controller-version) for the instructions.
+{{% /notice %}}
+
 ```bash
 helm repo add eks https://aws.github.io/eks-charts
 
