@@ -74,7 +74,7 @@ eksctl utils associate-iam-oidc-provider \
     --approve
 ```
 
-{{% notice info %}}
+{{% notice note %}}
 Learn more about [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) in the Amazon EKS documentation.
 {{% /notice %}}
 
@@ -100,7 +100,7 @@ eksctl create iamserviceaccount \
   --approve
 ```
 
-#### Install the TargetGroupBinding CRDs.
+#### Install the TargetGroupBinding CRDs
 
 ```bash
 kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
@@ -151,10 +151,6 @@ NAME           HOSTS   ADDRESS                                                  
 ingress-2048   *       k8s-game2048-ingress2-8ae3738fd5-251279030.us-east-2.elb.amazonaws.com   80      6m20s
 {{< /output >}}
 
-{{% notice warning %}}
-It could take 2 or 3 minutes for the ALB to be ready.
-{{% /notice %}}
-
 You can find more information on the ingress with this command:
 
 ```bash
@@ -199,6 +195,10 @@ status:
 {{< /output >}}
 
 Finally, you access your newly deployed 2048 game by clicking the URL generated with these commands
+
+{{% notice warning %}}
+It could take 2 or 3 minutes for the ALB to be ready.
+{{% /notice %}}
 
 ```bash
 export GAME_2048=$(kubectl get ingress/ingress-2048 -n game-2048 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')

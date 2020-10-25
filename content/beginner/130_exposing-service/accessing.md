@@ -7,7 +7,10 @@ draft: false
 
 #### Accessing the Service
 
-Kubernetes supports 2 primary modes of finding a Service: environment variables and DNS.
+Kubernetes supports 2 primary modes of finding a Service:
+
+* environment variables
+* DNS.
 
 The former works out of the box while the latter requires the CoreDNS cluster add-on (automatically installed when creating the EKS cluster).
 
