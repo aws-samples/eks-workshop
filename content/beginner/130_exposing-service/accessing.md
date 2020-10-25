@@ -17,7 +17,7 @@ When a Pod runs on a Node, the `kubelet` adds a set of environment variables for
 Let's view the pods again:
 
 ```bash
-kubectl -n my-nginx get pods -o wide
+kubectl -n my-nginx get pods -l run=my-nginx -o wide
 ```
 
 Output:
@@ -30,7 +30,7 @@ my-nginx-756f645cd7-t8b6w   1/1       Running   0          22m       192.168.79.
 Now let's inspect the environment of one of your running nginx Pods:
 
 ```bash
-export mypod=$(kubectl -n my-nginx get pods  -o jsonpath='{.items[0].metadata.name}')
+export mypod=$(kubectl -n my-nginx get pods -l run=my-nginx -o jsonpath='{.items[0].metadata.name}')
 
 kubectl -n my-nginx exec ${mypod} -- printenv | grep SERVICE
 ```
@@ -50,7 +50,7 @@ kubectl -n my-nginx rollout restart deployment my-nginx
 ```
 
 ```bash
-kubectl -n my-nginx get pods -o wide
+kubectl -n my-nginx get pods -l run=my-nginx -o wide
 ```
 
 Output just in the moment of change:
@@ -69,7 +69,7 @@ You may notice that the pods have different names, since they are destroyed and 
 Now let’s inspect the environment of one of your running nginx Pods one more time:
 
 ```bash
-export mypod=$(kubectl -n my-nginx get pods  -o jsonpath='{.items[0].metadata.name}')
+export mypod=$(kubectl -n my-nginx get pods -l run=my-nginx -o jsonpath='{.items[0].metadata.name}')
 
 kubectl -n my-nginx exec ${mypod} -- printenv | grep SERVICE
 ```
