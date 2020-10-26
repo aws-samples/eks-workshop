@@ -55,6 +55,7 @@ helm upgrade -i flux fluxcd/flux \
 helm upgrade -i helm-operator fluxcd/helm-operator \
 --set helm.versions=v3 \
 --set git.ssh.secretName=flux-git-deploy \
+--set git.branch=main \
 --namespace flux
 ```
 
