@@ -50,7 +50,7 @@ fi
 ```
 
 {{% notice info %}}
-If the result is <span style="color:red">${LBC_VERSION} has NOT been set.</span>, click [here](http://localhost:8080/020_prerequisites/k8stools/#set-the-aws-load-balancer-controller-version) for the instructions.
+If the result is <span style="color:red">${LBC_VERSION} has NOT been set.</span>, click [here](/020_prerequisites/k8stools/#set-the-aws-load-balancer-controller-version) for the instructions.
 {{% /notice %}}
 
 We will use **Helm** to install the ALB Ingress Controller.
