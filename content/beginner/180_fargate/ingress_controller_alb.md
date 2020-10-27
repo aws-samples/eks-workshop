@@ -22,7 +22,7 @@ If `Helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/inst
 Add helm incubator repository
 
 ```bash
-helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+helm repo add incubator https://charts.helm.sh/incubator
 ```
 
 ```bash
