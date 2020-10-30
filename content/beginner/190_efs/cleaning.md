@@ -12,9 +12,9 @@ kubectl delete -f efs-reader.yaml
 kubectl delete -f efs-writer.yaml
 kubectl delete -f efs-pvc.yaml
 ```
-Uninstall the aws-efs-csi-driver
+Delete the efs-csi-node daemonset from the kube-system namespace
 ```
-helm uninstall aws-efs-csi-driver
+kubectl delete ds efs-csi-node -n kube-system
 ```
 Delete the mount targets associated with the EFS file system
 ```
