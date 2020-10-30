@@ -17,7 +17,7 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 
 ```bash
 sudo curl --silent --location -o /usr/local/bin/kubectl \
-  https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.7/2020-07-08/bin/linux/amd64/kubectl
+   https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl
 
 sudo chmod +x /usr/local/bin/kubectl
 ```
