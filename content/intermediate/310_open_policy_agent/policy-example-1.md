@@ -51,7 +51,7 @@ package kubernetes.admission
 deny[msg] {                                                                
   input.request.kind.kind == "Pod"                                        
   image := input.request.object.spec.containers[_].image                 
-  not startswith(image, "${ACCOUNT_ID}.dkr.ecr.us-west-2.amazonaws.com") 
+  not startswith(image, "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com") 
   msg := sprintf("image '%v' comes from untrusted registry", [image])  
 }
 EOF
