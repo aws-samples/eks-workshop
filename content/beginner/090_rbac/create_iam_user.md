@@ -6,7 +6,7 @@ weight: 20
 ---
 
 {{% notice note %}}
-For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have priveledged access; It is not a security best practice to store credentials on the filesystem.
+For the sake of simplicity, in this chapter, we will save credentials to a file to make it easy to toggle back and forth between users.  Never do this in production or with credentials that have privileged access; It is not a security best practice to store credentials on the filesystem.
 {{% /notice %}}
 
 From within the Cloud9 terminal, create a new user called rbac-user, and generate/save credentials for it:
