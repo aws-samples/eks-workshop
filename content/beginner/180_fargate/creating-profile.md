@@ -14,8 +14,8 @@ It is generally a good practice to deploy user application workloads into namesp
 ```bash
 eksctl create fargateprofile \
   --cluster eksworkshop-eksctl \
-  --name 2048-game \
-  --namespace 2048-game
+  --name game-2048 \
+  --namespace game-2048
 ```
 
 {{% notice info %}}
@@ -34,14 +34,14 @@ eksctl get fargateprofile \
 
 Output:
 {{< output >}}
-- name: 2048-game
-  podExecutionRoleARN: arn:aws:iam::123456789012:role/eksctl-eksworkshop-eksctl-FargatePodExecutionRole-14EXCES7LNIUP
+- name: game-2048
+  podExecutionRoleARN: arn:aws:iam::197520326489:role/eksctl-eksworkshop-eksctl-FargatePodExecutionRole-1NOQE05JKQEED
   selectors:
-  - namespace: 2048-game
+  - namespace: game-2048
   subnets:
-  - subnet-018bac9a31f191dab
-  - subnet-078c36a052b2396b6
-  - subnet-0811474a9048d73b2
+  - subnet-02783ce3799e77b0b
+  - subnet-0aa755ffdf08aa58f
+  - subnet-0c6a156cf3d523597
 {{< /output >}}
 
 Notice that the profile includes the private subnets in your EKS cluster. Pods running on Fargate are not assigned public IP addresses, so only private subnets (with no direct route to an Internet Gateway) are supported when you create a Fargate profile. Hence, while provisioning an EKS cluster, you must make sure that the VPC that you create contains one or more private subnets. When you create an EKS cluster with [eksctl](http://eksctl.io) utility, under the hoods it creates a VPC that meets these requirements.

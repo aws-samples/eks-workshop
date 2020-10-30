@@ -5,17 +5,26 @@ weight: 15
 draft: false
 ---
 
-#### Ingress
+## Ingress
 
-The final step in exposing the 2048-game service through an ingress object. As we target Fargate pod IPs and not EC2 instances, we add an annotation to the ingress to specify the target-type.
+After few seconds, verify that the Ingress resource is enabled:
 
 ```bash
-curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/2048/2048-ingress.yaml \
-    | yq w  - 'metadata.annotations."alb.ingress.kubernetes.io/target-type"' ip \
-    | kubectl apply -f -
+kubectl get ingress/ingress-2048 -n game-2048
 ```
 
-This will start provisioning an instance of Internet-facing Application Load Balancer. From your AWS Management Console, if you navigate to the EC2 dashboard and the select **Load Balancers** from the menu on the left-pane, you should see the details of the ALB instance similar to the following.
+You should be able to see the following output
+
+{{< output >}}
+NAME           HOSTS   ADDRESS                                                                   PORTS   AGE
+ingress-2048   *       k8s-game2048-ingress2-8ae3738fd5-1566954439.us-east-2.elb.amazonaws.com   80      14m
+{{< /output >}}
+
+{{% notice warning %}}
+It could take 2 or 3 minutes for the ALB to be ready.
+{{% /notice %}}
+
+From your AWS Management Console, if you navigate to the EC2 dashboard and the select **Load Balancers** from the menu on the left-pane, you should see the details of the ALB instance similar to the following.
 ![LoadBalancer Dashboard](/images/fargate/LoadBalancer.png)
 
 From the left-pane, if you select **Target Groups** and look at the registered targets under the **Targets** tab, you will see the IP addresses and ports of the sample app pods listed.
@@ -29,12 +38,12 @@ Illustration of request routing from an AWS Application Load Balancer to Pods on
 Illustration of request routing from an AWS Application Load Balancer to Fargate Pods in IP mode:
 ![LoadBalancer IP Mode](/images/fargate/IPMode.png)
 
-At this point, your deployment is complete and you should be able to reach the 2048-game service from a browser using the DNS name of the ALB. You may get the DNS name of the load balancer either from the AWS Management Console or from the output of the following command.
+At this point, your deployment is complete and you should be able to reach the game-2048 service from a browser using the DNS name of the ALB. You may get the DNS name of the load balancer either from the AWS Management Console or from the output of the following command.
 
 ```bash
-export ALB_ADDRESS=$(kubectl get ingress -n 2048-game -o json | jq -r '.items[].status.loadBalancer.ingress[].hostname')
+export FARGATE_GAME_2048=$(kubectl get ingress/ingress-2048 -n game-2048 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 
-echo "http://${ALB_ADDRESS}"
+echo "http://${FARGATE_GAME_2048}"
 ```
 
 Output should look like this

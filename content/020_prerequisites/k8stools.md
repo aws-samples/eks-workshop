@@ -61,9 +61,9 @@ kubectl completion bash >>  ~/.bash_completion
 . ~/.bash_completion
 ```
 
-#### set the AWS ALB Ingress Controller version
+#### set the AWS Load Balancer Controller version
 
 ```bash
-echo 'export ALB_INGRESS_VERSION="v1.1.8"' >>  ~/.bash_profile
-. ~/.bash_profile
+echo 'export LBC_VERSION="v2.0.0"' >>  ~/.bash_profile
+.  ~/.bash_profile
 ```

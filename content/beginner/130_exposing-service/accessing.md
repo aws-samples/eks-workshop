@@ -7,9 +7,12 @@ draft: false
 
 #### Accessing the Service
 
-Kubernetes supports 2 primary modes of finding a Service: environment variables and DNS.
+Kubernetes supports 2 primary modes of finding a Service:
 
-The former works out of the box while the latter requires the CoreDNS cluster add-on (automatically installed when creating the EKS cluster).
+* environment variables
+* DNS.
+
+The former works out of the box while the latter requires the [CoreDNS](https://kubernetes.io/docs/tasks/administer-cluster/coredns/#about-coredns) cluster add-on (automatically installed when creating the EKS cluster).
 
 #### Environment Variables
 
@@ -17,7 +20,7 @@ When a Pod runs on a Node, the `kubelet` adds a set of environment variables for
 Let's view the pods again:
 
 ```bash
-kubectl -n my-nginx get pods -o wide
+kubectl -n my-nginx get pods -l run=my-nginx -o wide
 ```
 
 Output:
@@ -30,7 +33,7 @@ my-nginx-756f645cd7-t8b6w   1/1       Running   0          22m       192.168.79.
 Now let's inspect the environment of one of your running nginx Pods:
 
 ```bash
-export mypod=$(kubectl -n my-nginx get pods  -o jsonpath='{.items[0].metadata.name}')
+export mypod=$(kubectl -n my-nginx get pods -l run=my-nginx -o jsonpath='{.items[0].metadata.name}')
 
 kubectl -n my-nginx exec ${mypod} -- printenv | grep SERVICE
 ```
@@ -50,7 +53,7 @@ kubectl -n my-nginx rollout restart deployment my-nginx
 ```
 
 ```bash
-kubectl -n my-nginx get pods -o wide
+kubectl -n my-nginx get pods -l run=my-nginx -o wide
 ```
 
 Output just in the moment of change:
@@ -69,7 +72,7 @@ You may notice that the pods have different names, since they are destroyed and 
 Now let’s inspect the environment of one of your running nginx Pods one more time:
 
 ```bash
-export mypod=$(kubectl -n my-nginx get pods  -o jsonpath='{.items[0].metadata.name}')
+export mypod=$(kubectl -n my-nginx get pods -l run=my-nginx -o jsonpath='{.items[0].metadata.name}')
 
 kubectl -n my-nginx exec ${mypod} -- printenv | grep SERVICE
 ```
@@ -91,7 +94,7 @@ Kubernetes offers a DNS cluster add-on Service that automatically assigns dns na
 To check if your cluster is already running CoreDNS, use the following command.
 
 ```bash
-kubectl get pod -n kube-system -l k8s-app=kube-dns
+kubectl get service -n kube-system -l k8s-app=kube-dns
 ```
 
 {{% notice note %}}
@@ -103,7 +106,8 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility.
 NAME       TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)         AGE
 kube-dns   ClusterIP   10.0.0.10    <none>        53/UDP,53/TCP   8m
 {{< /output >}}
-If it isn’t running, you can enable it. The rest of this section will assume you have a Service with a long lived IP (my-nginx), and a DNS server that has assigned a name to that IP (the CoreDNS cluster addon), so you can talk to the Service from any pod in your cluster using standard methods (e.g. gethostbyname). Let’s run another curl application to test this:
+
+If it isn’t running, you can enable it. The rest of this section will assume you have a Service with a long lived IP (my-nginx), and a DNS server that has assigned a name to that IP (the CoreDNS cluster add-on), so you can talk to the Service from any pod in your cluster using standard methods (e.g. gethostbyname). Let’s run another curl application to test this:
 
 ```bash
 kubectl -n my-nginx run curl --image=radial/busyboxplus:curl -i --tty
