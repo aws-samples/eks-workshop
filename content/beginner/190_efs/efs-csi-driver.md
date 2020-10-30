@@ -9,10 +9,9 @@ draft: false
 On Amazon EKS, the open-source [EFS Container Storage Interface (CSI)](https://github.com/kubernetes-sigs/aws-efs-csi-driver) driver is used to manage the attachment of Amazon EFS volumes to Kubernetes Pods.
 
 ## Deploy EFS CSI Driver
-We are going to deploy the driver using Helm packages:
+We are going to deploy the driver from the official csi driver repo:
 ```
-helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
-helm install aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver
+kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.0"
 ```
 
 Verify pods have been deployed:
