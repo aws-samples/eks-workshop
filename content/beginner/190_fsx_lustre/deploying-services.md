@@ -11,9 +11,9 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
 
 1. Create an Amazon S3 bucket and a folder within it named export by creating and copying a file to the bucket.
     ```
-    aws s3 mb s3://<fsx-csi>
+    aws s3 mb s3://$S3_LOGS_BUCKET
     echo test-file >> testfile
-    aws s3 cp testfile s3://<fsx-csi>/export/testfile
+    aws s3 cp testfile s3://$S3_LOGS_BUCKET/export/testfile
     ```
 
 
