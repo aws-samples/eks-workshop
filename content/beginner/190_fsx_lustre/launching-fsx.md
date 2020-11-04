@@ -13,7 +13,6 @@ For detailed descriptions of the available parameters and complete examples that
 #### Prerequisites
 
 ```
-REGION=us-west-2
 CLUSTER_NAME=eksworkshop-eksctl
 VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text)
 SUBNET_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.subnetIds[0]" --output text)
@@ -38,8 +37,8 @@ You must have:
 1. Create an AWS Identity and Access Management OIDC provider and associate it with your cluster.
     ```
     eksctl utils associate-iam-oidc-provider \
-        --region <region-code> \
-        --cluster <prod> \
+        --region $AWS_REGION \
+        --cluster $CLUSTER_NAME \
         --approve
     ```
 
@@ -93,7 +92,7 @@ You must have:
 2. Create the policy.
 ```
     aws iam create-policy \
-        --policy-name <Amazon_FSx_Lustre_CSI_Driver> \
+        --policy-name Amazon_FSx_Lustre_CSI_Driver \
         --policy-document file://fsx-csi-driver.json
 ```
     *Take note of the policy Amazon Resource Name (ARN) that is returned.*
@@ -101,10 +100,10 @@ You must have:
 3. Create a Kubernetes service account for the driver and attach the policy to the service account. Replacing the ARN of the policy with the ARN returned in the previous step.
     ```
     eksctl create iamserviceaccount \
-        --region <region-code> \
+        --region $AWS_REGION \
         --name fsx-csi-controller-sa \
         --namespace kube-system \
-        --cluster <prod> \
+        --cluster $CLUSTER_NAME \
         --attach-policy-arn arn:aws:iam::<111122223333:policy/Amazon_FSx_Lustre_CSI_Driver> \
         --approve
     ```
