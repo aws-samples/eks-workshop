@@ -7,7 +7,7 @@ weight: 31
 
 #### Gives Access to our IAM Roles to EKS Cluster
 
-In order to gives access to the IAM Roles we defined previously to our EKS cluster, we need to add specific **mapRoles** to the `aws-auth` ConfigMap
+In order to give access to the IAM Roles we defined previously to our EKS cluster, we need to add specific **mapRoles** to the `aws-auth` ConfigMap
 
 The Advantage of using Role to access the cluster instead of specifying directly IAM users is that it will be easier to manage: 
 we won't have to update the ConfigMap each time we want to add or remove users, we will just need to add or remove users from 
