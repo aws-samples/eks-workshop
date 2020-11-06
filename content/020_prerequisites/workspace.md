@@ -10,6 +10,11 @@ not the root account user. Please ensure you are logged in as an IAM user, not t
 account user.
 {{% /notice %}}
 
+{{% notice info %}}
+A list of supported browsers for AWS Cloud9 is found [here]( https://docs.aws.amazon.com/cloud9/latest/user-guide/browsers.html).
+{{% /notice %}}
+
+
 <!---
 {{% notice info %}}
 This workshop was designed to run in the **Oregon (us-west-2)** region. **Please don't
