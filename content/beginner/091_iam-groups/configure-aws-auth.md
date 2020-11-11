@@ -15,7 +15,7 @@ the IAM Group and we just configure the ConfigMap to allow the IAM Role associat
 
 ### Update the aws-auth ConfigMap to allow our IAM roles
 
-The **aws-auth** ConfigMap from the kube-system namespace must be edited in order to allow or new arn Groups.
+The **aws-auth** ConfigMap from the kube-system namespace must be edited in order to allow or delete arn Groups.
 
 This file makes the mapping between IAM role and k8S RBAC rights. We can edit it manually:
 
@@ -71,7 +71,7 @@ data:
 kind: ConfigMap
 {{< /output >}}
 
-We can leverage eksctl to get a list of all identity managed in our cluster. Example:
+We can leverage eksctl to get a list of all identities managed in our cluster. Example:
 
 ```bash
 eksctl get iamidentitymapping --cluster eksworkshop-eksctl
