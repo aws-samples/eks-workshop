@@ -1,10 +1,10 @@
 ---
-title: "Introduction to Open Policy Agent"
+title: "Introduction to Open Policy Agent Gatekeeper"
 weight: 10
 draft: false
 ---
 
-### Open Policy Agent
+### Open Policy Agent Gatekeeper
 
 OPA decouples policy decision-making from policy enforcement. When your software needs to make policy decisions it queries OPA and supplies structured data (e.g., JSON) as input. OPA accepts arbitrary structured data as input.
 
