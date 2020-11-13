@@ -25,7 +25,7 @@ kubectl get pods -n kube-system -w
 ```
 ### Configure Custom networking
 
-Edit aws-node deamonset manifest (aws-k8s-cni.yaml) and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
+Edit aws-node DaemonSet and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
 
 Note: You only need to set one environment variable in the CNI daemonset configuration:
 ```
