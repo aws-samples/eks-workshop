@@ -36,7 +36,7 @@ Create a namespace called stars:
 kubectl apply -f namespace.yaml
 ```
 
-We will create frontend and backend [deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
+We will create frontend and backend [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
 
 
 Copy/Paste the following commands into your Cloud9 Terminal.
