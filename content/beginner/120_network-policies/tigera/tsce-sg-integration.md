@@ -1,6 +1,7 @@
 ---
 title: "Integrating VPC Security Groups and Kubernetes Network Policy with TSCE"
 weight: 100
+draft: true
 ---
 
 The network security that Calico provides in EKS is great, however it is primarily focused on the EKS cluster itself.  A common use-case for EKS, however, is to build a kubernetes cluster that can interact with other Amazon hosted resources, such as EC2 and RDS instances.  The native protection for those resources is the VPC's Security Group filtering.

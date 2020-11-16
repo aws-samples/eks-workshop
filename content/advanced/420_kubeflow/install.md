@@ -14,7 +14,7 @@ First, we'll increase the size of our cluster to 6 nodes
 
 ```
 export NODEGROUP_NAME=$(eksctl get nodegroups --cluster eksworkshop-eksctl -o json | jq -r '.[0].Name')
-eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 6
+eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 6 --nodes-max 6
 ```
 {{% notice info %}}
 Scaling the nodegroup will take 2 - 3 minutes.
@@ -42,7 +42,7 @@ cat << EoF > kf-install.sh
 export AWS_CLUSTER_NAME=eksworkshop-eksctl
 export KF_NAME=\${AWS_CLUSTER_NAME}
 
-export BASE_DIR=/home/ec2-user/environment
+export BASE_DIR=${HOME}/environment
 export KF_DIR=\${BASE_DIR}/\${KF_NAME}
 
 # export CONFIG_URI="https://raw.githubusercontent.com/kubeflow/manifests/v1.0-branch/kfdef/kfctl_aws_cognito.v1.0.1.yaml"

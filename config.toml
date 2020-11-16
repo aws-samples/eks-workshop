@@ -4,7 +4,7 @@ defaultContentLanguage = "en"
 title = "Amazon EKS Workshop"
 theme = "learn"
 uglyurls = false
-googleAnalytics = "UA-44634850-4"
+# googleAnalytics = "UA-44634850-4"
 sectionPagesMenu = "main"
 relativeURLs = true
 
@@ -43,44 +43,49 @@ pygmentsStyle = "tango"
     weight = -110
 
 [[menu.shortcuts]]
+name = "<i class='fab fa-youtube'></i> Containers from the Couch"
+url = "https://containersfromthecouch.com"
+weight = 1
+
+[[menu.shortcuts]]
 name = "<i class='fab fa-aws'></i> CON203"
 url = "/tags/CON203"
-weight = 1
+weight = 2
 
 [[menu.shortcuts]]
 name = "<i class='fab fa-aws'></i> CON205"
 url = "/tags/CON205"
-weight = 2
+weight = 3
 
 [[menu.shortcuts]]
 name = "<i class='fab fa-aws'></i> CON206"
 url = "/tags/CON206"
-weight = 3
+weight = 4
 
 [[menu.shortcuts]]
 name = "<i class='fab fa-aws'></i> OPN401"
 url = "/tags/OPN401"
-weight = 4
+weight = 5
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-tags'></i> Tags"
 url = "/tags"
-weight = 5
+weight = 6
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-chalkboard'></i> AppMesh Workshop"
 url = "https://appmeshworkshop.com"
-weight = 6
+weight = 7
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-chalkboard'></i> ECS Workshop"
 url = "https://ecsworkshop.com"
-weight = 7
+weight = 8
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-chalkboard'></i> AWS Partner Workshops"
 url = "https://awsworkshop.io"
-weight = 8
+weight = 9
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-bookmark'></i> More Resources"

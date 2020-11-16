@@ -31,7 +31,7 @@ kubectl delete ns bookinfo
 * All resources hierarchically under it
 
 {{% notice info %}}
-you can ignore the errors for non-existent resources because they may have been deleted hierarchically.
+You can ignore the errors for non-existent resources because they may have been deleted hierarchically.
 {{% /notice %}}
 
 ```bash

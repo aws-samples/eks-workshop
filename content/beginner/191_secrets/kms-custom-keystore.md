@@ -2,20 +2,23 @@
 title: "AWS KMS and Custom Key Store"
 date: 2019-04-09T00:00:00-03:00
 weight: 5
-pre: '<i class="fa fa-film" aria-hidden="true"></i> '
+pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
 ---
 
 
 #### Considerations for your AWS KMS CMK
 
-Before we get to the lab exercise, we wanted to take some time to discuss options for generating your AWS KMS CMK. AWS KMS provides you with two alternatives to store your CMK. Your security requirements may dictate which alternative is suitable for your workloads on Amazon EKS. 
+Before we get to the lab exercise, we wanted to take some time to discuss options for generating your AWS KMS CMK. AWS KMS provides you with two alternatives to store your CMK. Your security requirements may dictate which alternative is suitable for your workloads on Amazon EKS.
 
 {{% notice info %}}
-There is an [AWS Online Tech Talk on *Encrypting Secrects in Amazon EKS*](https://pages.awscloud.com/Encrypting-Secrets-in-Amazon-EKS_2020_0502-CON_OD.html?&trk=ep_card-el_a131L0000084iG3QAI&trkCampaign=NA-FY20-AWS-DIGMKT-WEBINAR-SERIES-May_2020_0502-CON&sc_channel=el&sc_campaign=pac_2018-2019_exlinks_ondemand_OTT_evergreen&sc_outcome=Product_Adoption_Campaigns&sc_geo=NAMER&sc_country=mult) that dives deep into this topic.   
+There is an [AWS Online Tech Talk on *Encrypting Secrets in Amazon EKS*](https://pages.awscloud.com/Encrypting-Secrets-in-Amazon-EKS_2020_0502-CON_OD.html?&trk=ep_card-el_a131L0000084iG3QAI&trkCampaign=NA-FY20-AWS-DIGMKT-WEBINAR-SERIES-May_2020_0502-CON&sc_channel=el&sc_campaign=pac_2018-2019_exlinks_ondemand_OTT_evergreen&sc_outcome=Product_Adoption_Campaigns&sc_geo=NAMER&sc_country=mult) that dives deep into this topic.
 {{% /notice %}}
+
 {{< youtube d21JrnszG7Y >}}
+
 ##### Custom Key Store (CMK stored within AWS CloudHSM)
+
 For most users, the default AWS KMS key store, which is protected by FIPS 140-2 validated cryptographic modules, fulfills their security requirements.
 
 However, you might consider creating a custom key store if your organization has any of the following requirements:
@@ -27,7 +30,8 @@ However, you might consider creating a custom key store if your organization has
 
 If any of these requirements apply to you, consider using AWS CloudHSM with AWS KMS to create a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
 
-#### Challenge:
+#### Challenge
+
 **What level of FIPS 140-2 cryptographic validation does the AWS KMS HSM hold?**
 
 {{%expand "Expand here to see the solution" %}}
@@ -41,6 +45,7 @@ Keep in mind that the KMS Custom Key Store functionality makes use of a minimum 
 {{% /notice %}}
 
 #### Cost
+
 Aside from compliance considerations, your team will want to consider the cost of using this feature. For comparison, I will list the cost of using a CMK created with the default KMS functionality. Then, I will list of the cost of using a CMK created with the custom key store functionality.
 
 ##### KMS Standard (Monthly Cost)

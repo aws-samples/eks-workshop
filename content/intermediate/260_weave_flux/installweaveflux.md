@@ -50,11 +50,13 @@ helm repo add fluxcd https://charts.fluxcd.io
 
 helm upgrade -i flux fluxcd/flux \
 --set git.url=git@github.com:${YOURUSER}/k8s-config \
+--set git.branch=main \
 --namespace flux
 
 helm upgrade -i helm-operator fluxcd/helm-operator \
 --set helm.versions=v3 \
 --set git.ssh.secretName=flux-git-deploy \
+--set git.branch=main \
 --namespace flux
 ```
 

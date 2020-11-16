@@ -5,26 +5,20 @@ weight: 13
 draft: false
 ---
 
-#### Ingress
+#### What is Ingress?
 
-What is Ingress?
-Ingress, added in Kubernetes v1.1, exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) exposes HTTP and HTTPS routes from outside the cluster to [services](https://kubernetes.io/docs/concepts/services-networking/service/) within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
 
-{{< output >}}
-  internet
-      |
-  [ Ingress ]
-  --|-----|--
-  [ Services ]
-{{< /output >}}
+Here is a simple example where an Ingress sends all its traffic to one Service:
+![ingressDiag](/images/expose-service/ingress.png)
 
-An Ingress can be configured to give services externally-reachable URLs, load balance traffic, terminate SSL, and offer name based virtual hosting. An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic.
+An Ingress may be configured to give Services externally-reachable URLs, load balance traffic, terminate SSL/TLS, and offer name-based virtual hosting. An [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic.
 
-An Ingress does not expose arbitrary ports or protocols. Exposing services other than HTTP and HTTPS to the internet typically uses a service of type NodePort or LoadBalancer.
+An Ingress does not expose arbitrary ports or protocols. Exposing services other than HTTP and HTTPS to the internet typically uses a service of [Service.Type=NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) or [Service.Type=LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer).
 
 You must have an ingress controller to satisfy an Ingress. Only creating an Ingress resource has no effect.
 
-You may need to deploy an Ingress controller such as [AWS ALB Ingress Controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller). You can choose from a number of Ingress controllers.
+You may need to deploy an Ingress controller such as [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller ). You can choose from a number of Ingress controllers.
 
 Ideally, all Ingress controllers should fit the reference specification. In reality, the various Ingress controllers operate slightly differently.
 

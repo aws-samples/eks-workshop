@@ -10,6 +10,11 @@ not the root account user. Please ensure you are logged in as an IAM user, not t
 account user.
 {{% /notice %}}
 
+{{% notice info %}}
+A list of supported browsers for AWS Cloud9 is found [here]( https://docs.aws.amazon.com/cloud9/latest/user-guide/browsers.html).
+{{% /notice %}}
+
+
 <!---
 {{% notice info %}}
 This workshop was designed to run in the **Oregon (us-west-2)** region. **Please don't
@@ -25,6 +30,7 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 {{% /notice %}}
 
 ### Launch Cloud9 in your closest region:
+
 {{< tabs name="Region" >}}
 {{{< tab name="Oregon" include="us-west-2.md" />}}
 {{{< tab name="Ireland" include="eu-west-1.md" />}}
@@ -34,13 +40,15 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 
 - Select **Create environment**
 - Name it **eksworkshop**, click Next.
-- Choose **"t3.small"** for instance type, take all default values and click **Create environment**
-- When it comes up, customize the environment by closing the **welcome tab**
-and **lower work area**, and opening a new **terminal** tab in the main work area:
-![c9before](/images/c9before.png)
+- Choose **t3.small** for instance type, take all default values and click **Create environment**
 
-- Your workspace should now look like this:
-![c9after](/images/c9after.png)
+When it comes up, customize the environment by:
 
-- If you like this theme, you can choose it yourself by selecting **View / Themes / Solarized / Solarized Dark**
-in the Cloud9 workspace menu.
+- Closing the **Welcome tab**
+![c9before](/images/prerequisites/cloud9-1.png)
+- Opening a new **terminal** tab in the main work area
+![c9newtab](/images/prerequisites/cloud9-2.png)
+- Closing the lower work area
+![c9newtab](/images/prerequisites/cloud9-3.png)
+- Your workspace should now look like this
+![c9after](/images/prerequisites/cloud9-4.png)

@@ -7,6 +7,7 @@ Let's cleanup this tutorial
 
 ```
 kubectl delete deployments --all
+kubectl delete service  nginx
 ```
 Edit aws-node configmap and comment AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG and its value
 ```

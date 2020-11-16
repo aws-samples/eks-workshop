@@ -2,6 +2,7 @@
 title: "GET AN EKS CLUSTER WITH CALICO ENTERPRISE"
 date: 2018-08-07T13:15:13-07:00
 weight: 10
+draft: true
 ---
 
 The team at Tigera offers a free trial of [Calico Enterprise Edition](https://www.tigera.io/tigera-products/calico-enterprise) for all EKSWorkshop users. Follow the steps below to get your free trial on a dedicated EKS cluster provisioned and managed by Tigera. 

@@ -16,8 +16,7 @@ tags:
 
 # Getting Started
 
-{{< youtube KT-Ov8cnXNY >}}
-
+{{< youtube VXj9w6Oq1Y0 >}}
 
 To start the workshop, follow one of the following depending on whether you are...
 

@@ -1,105 +1,119 @@
 ---
-title: "Setup Prerequisites for ALB"
+title: "Setting up the LB controller"
 date: 2019-04-09T00:00:00-03:00
-weight: 13
+weight: 12
 draft: false
 ---
 
-#### Create an OIDC Provider
+### AWS Load Balancer Controller
 
-First, we will have to set up an OIDC provider with the cluster and create the IAM policy to be used by the ALB Ingress Controller.  This step is required to give IAM permissions to a Fargate pod running in the cluster using the [IAM for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) feature.
+The AWS ALB Ingress Controller has been rebranded to [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller).
+
+"AWS Load Balancer Controller" is a [controller](https://kubernetes.io/docs/concepts/architecture/controller/) to help manage Elastic Load Balancers for a Kubernetes cluster.
+
+* It satisfies Kubernetes `Ingress` resources by provisioning Application Load Balancers.
+* It satisfies Kubernetes `Service` resources by provisioning Network Load Balancers.
+
+#### Helm
+
+We will use **Helm** to install the ALB Ingress Controller.
+
+Check to see if `helm` is installed:
+
+```bash
+helm version
+```
+
+{{% notice info %}}
+If `Helm` is not found, see [installing helm](/beginner/060_helm/helm_intro/install/index.html) for instructions.
+{{% /notice %}}
+
+#### Create IAM OIDC provider
+
+First, we will have to set up an OIDC provider with the cluster.
+
+This step is required to give IAM permissions to a Fargate pod running in the cluster using the IAM for Service Accounts feature.
+
+{{% notice info %}}
+Learn more about [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) in the Amazon EKS documentation.
+{{% /notice %}}
 
 ```bash
 eksctl utils associate-iam-oidc-provider \
-  --cluster eksworkshop-eksctl \
-  --region=$AWS_REGION \
-  --approve
+    --region ${AWS_REGION} \
+    --cluster eksworkshop-eksctl \
+    --approve
 ```
 
-#### Create an IAM Policy for ALB Ingress
+#### Create an IAM policy
 
-The next step is to create the IAM policy that will be used by the ALB Ingress Controller deployment. This policy will be later associated to the Kubernetes Service Account and will allow the ALB Ingress Controller pods to create and manage the ALB’s resources in your AWS account for you.
+The next step is to create the IAM policy that will be used by the AWS Load Balancer Controller.
+
+This policy will be later associated to the Kubernetes Service Account and will allow the controller pods to create and manage the ELB’s resources in your AWS account for you.
 
 ```bash
 aws iam create-policy \
-  --policy-name ALBIngressControllerIAMPolicy \
-  --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/iam-policy.json
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
 ```
 
-You will see the policy information output as shown below. Note down the ARN of the policy that you just created.
-
-Output:
-{{< output >}}
-{
-    "Policy": {
-        "PolicyName": "ALBIngressControllerIAMPolicy",
-        "PolicyId": "ANPA5UPUHMRP4ODFXYB5W",
-        "Arn": "arn:aws:iam::123456789012:policy/ALBIngressControllerIAMPolicy",
-        "Path": "/",
-        "DefaultVersionId": "v1",
-        "AttachmentCount": 0,
-        "PermissionsBoundaryUsageCount": 0,
-        "IsAttachable": true,
-        "CreateDate": "2020-02-21T22:37:49Z",
-        "UpdateDate": "2020-02-21T22:37:49Z"
-    }
-}
-{{< /output >}}
-
-#### Creating Service Account
-
-We  need the policy's [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) to create the Service Account with the proper permissions.
-
-```bash
-export FARGATE_POLICY_ARN=$(aws iam list-policies --query 'Policies[?PolicyName==`ALBIngressControllerIAMPolicy`].Arn' --output text)
-```
+#### Create a IAM role and ServiceAccount for the Load Balancer controller
 
 Next, create a Kubernetes Service Account by executing the following command
 
 ```bash
 eksctl create iamserviceaccount \
-  --name alb-ingress-controller \
-  --namespace 2048-game \
   --cluster eksworkshop-eksctl \
-  --attach-policy-arn ${FARGATE_POLICY_ARN} \
-  --approve \
-  --override-existing-serviceaccounts
+  --namespace kube-system \
+  --name aws-load-balancer-controller \
+  --attach-policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AWSLoadBalancerControllerIAMPolicy \
+  --override-existing-serviceaccounts \
+  --approve
 ```
 
-The above command deploys a CloudFormation template that creates an IAM role and attaches the IAM policy to it. The IAM role gets associated with a Kubernetes Service Account. You can see details of the service account created with the following command.
+The above command deploys a CloudFormation template that creates an IAM role and attaches the IAM policy to it.
 
-{{% notice info %}}
-For more information on IAM Roles for Service Accounts [follow this link](/beginner/110_irsa/).
-{{% /notice %}}
+The IAM role gets associated with a Kubernetes Service Account. You can see details of the service account created with the following command.
 
 ```bash
 kubectl get sa alb-ingress-controller -n 2048-game -o yaml
 ```
 
-Output:
+{{% notice info %}}
+For more information on IAM Roles for Service Accounts [follow this link](/beginner/110_irsa/).
+{{% /notice %}}
 
-{{< output >}}
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-KI23J8XS8Y3H
-  creationTimestamp: "2020-03-07T22:40:34Z"
-  name: alb-ingress-controller
-  namespace: 2048-game
-  resourceVersion: "692979"
-  selfLink: /api/v1/namespaces/2048-game/serviceaccounts/alb-ingress-controller
-  uid: a85f5574-60c4-11ea-81a5-02920c051794
-secrets:
-- name: alb-ingress-controller-token-2rbtd
-{{< /output >}}
-
-#### Create RBAC Role
-
-Next, you will have to create a Cluster Role and Cluster Role Binding that grant requisite permissions to the Service Account you just created.
+#### Install the TargetGroupBinding CRDs
 
 ```bash
-curl -sS  https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/${ALB_INGRESS_VERSION}/docs/examples/rbac-role.yaml \
-  | sed 's/namespace: kube-system/namespace: 2048-game/g' \
-  | kubectl apply -f -
+kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
+```
+
+#### Deploy the Helm chart from the eks repo
+
+Fist, We will verify if the AWS Load Balancer Controller version has beed set
+
+```bash
+if [ ! -x ${LBC_VERSION} ]
+  then
+    tput setaf 2; echo '${LBC_VERSION} has been set.'
+  else
+    tput setaf 1;echo '${LBC_VERSION} has NOT been set.'
+fi
+```
+
+{{% notice info %}}
+If the result is <span style="color:red">${LBC_VERSION} has NOT been set.</span>, click [here](/020_prerequisites/k8stools/#set-the-aws-load-balancer-controller-version) for the instructions.
+{{% /notice %}}
+
+```bash
+helm repo add eks https://aws.github.io/eks-charts
+
+helm upgrade -i aws-load-balancer-controller \
+    eks/aws-load-balancer-controller \
+    -n kube-system \
+    --set clusterName=eksworkshop-eksctl \
+    --set serviceAccount.create=false \
+    --set serviceAccount.name=aws-load-balancer-controller \
+    --set image.tag="${LBC_VERSION}"
 ```

@@ -5,15 +5,13 @@ weight: 30
 draft: false
 ---
 
-### To create an IAM role for your service accounts with eksctl
+You will create an IAM policy that specifies the permissions that you would like the containers in your pods to have.
 
-You must create an IAM policy that specifies the permissions that you would like the containers in your pods to have. In this workshop we will use AWS managed policy named "**AmazonS3ReadOnlyAccess**" which allow get and list for all S3 resources.
+In this workshop we will use the AWS managed policy named "**AmazonS3ReadOnlyAccess**" which allow `get` and `list` for all your S3 buckets.
 
-You must also create a role for your service accounts to use before you associate it with a service account. Then you can then attach a specific IAM policy to the role that gives the containers in your pods the permissions you desire.
+Let's start by finding the ARN for the "**AmazonS3ReadOnlyAccess**" policy
 
-##### Get ARN for AmazonS3ReadOnlyAccess:
-
-```
+```bash
 aws iam list-policies --query 'Policies[?PolicyName==`AmazonS3ReadOnlyAccess`].Arn'
 ```
 
@@ -21,10 +19,16 @@ aws iam list-policies --query 'Policies[?PolicyName==`AmazonS3ReadOnlyAccess`].A
 "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 {{< /output >}}
 
-##### Create an IAM role for your service accounts:
+Now you will create a IAM role bound to a service account with read-only access to S3
 
-```
-eksctl create iamserviceaccount --name iam-test --namespace default --cluster eksworkshop-eksctl --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess --approve --override-existing-serviceaccounts
+```bash
+eksctl create iamserviceaccount \
+    --name iam-test \
+    --namespace default \
+    --cluster eksworkshop-eksctl \
+    --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess \
+    --approve \
+    --override-existing-serviceaccounts
 ```
 
 {{< output >}}
@@ -37,7 +41,6 @@ eksctl create iamserviceaccount --name iam-test --namespace default --cluster ek
 [ℹ]  created serviceaccount "default/iam-test"
 {{< /output >}}
 
-
 {{% notice info %}}
-If you go to the [CloudFormation in IAM Console](https://console.aws.amazon.com/cloudformation/), you will find the stack "**eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test**" has been created a role for your service account
+If you go to the [CloudFormation in IAM Console](https://console.aws.amazon.com/cloudformation/), you will thats find the stack "**eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test**" has created a role for your service account.
 {{% /notice %}}

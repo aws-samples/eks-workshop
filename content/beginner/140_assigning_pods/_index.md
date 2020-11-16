@@ -2,12 +2,16 @@
 title: "Assigning Pods to Nodes"
 chapter: true
 weight: 140
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - intermediate
   - CON203
 ---
 
 # Assigning Pods to Nodes
+
+{{< youtube Lj1HeOuJJzk >}}
+
 ### Introduction
 
 In this Chapter, we will review how the strategy of assigning Pods works, alternatives and recommended approaches.

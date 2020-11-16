@@ -21,4 +21,3 @@ tags:
 the experience of creating EKS clusters.
 
 In this module, we will use eksctl to launch and configure our EKS cluster and nodes.
-

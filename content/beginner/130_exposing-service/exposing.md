@@ -43,7 +43,7 @@ The Load Balancer can take a couple of minutes in being available on the DNS.
 Now, let's try if it's accessible.
 
 ```bash
-export loadbalancer=$(kubectl -n my-nginx get svc my-nginx -o jsonpath={'.status'.loadBalancer.ingress[*].hostname})
+export loadbalancer=$(kubectl -n my-nginx get svc my-nginx -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
 
 curl -k -s http://${loadbalancer} | grep title
 ```

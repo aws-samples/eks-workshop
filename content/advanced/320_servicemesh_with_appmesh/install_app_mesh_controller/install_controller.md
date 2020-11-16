@@ -70,16 +70,16 @@ The output should be similar to this:
 
 {{< output >}}
 NAME                                   READY   STATUS    RESTARTS   AGE
-pod/appmesh-manager-866f8b8cdf-twkcq   1/1     Running   0          2m
+pod/appmesh-controller-866f8b8cdf-twkcq   1/1     Running   0          2m
 
 NAME                                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-service/appmesh-manager-webhook-service   ClusterIP   10.100.209.34   <none>        443/TCP   2m
+service/appmesh-controller-webhook-service   ClusterIP   10.100.209.34   <none>        443/TCP   2m
 
 NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/appmesh-manager        1/1     1            1           2m
+deployment.apps/appmesh-controller        1/1     1            1           2m
 
 NAME                                         DESIRED   CURRENT   READY   AGE
-replicaset.apps/appmesh-manager-866f8b8cdf   1         1         1       2m
+replicaset.apps/appmesh-controller-866f8b8cdf   1         1         1       2m
 {{< /output >}}
 
 You can also see that the App Mesh Custom Resource Definitions were installed.
@@ -89,9 +89,10 @@ kubectl get crds | grep appmesh
 ```
 
 {{< output >}}
-NAME                               READY   STATUS    RESTARTS   AGE
-meshes.appmesh.k8s.aws             2020-06-17T20:46:06Z
-virtualnodes.appmesh.k8s.aws       2020-06-17T20:46:07Z
-virtualrouters.appmesh.k8s.aws     2020-06-17T20:46:07Z
-virtualservices.appmesh.k8s.aws    2020-06-17T20:46:06Z
+gatewayroutes.appmesh.k8s.aws                2020-10-15T15:49:26Z
+meshes.appmesh.k8s.aws                       2020-10-15T15:49:26Z
+virtualgateways.appmesh.k8s.aws              2020-10-15T15:49:26Z
+virtualnodes.appmesh.k8s.aws                 2020-10-15T15:49:26Z
+virtualrouters.appmesh.k8s.aws               2020-10-15T15:49:26Z
+virtualservices.appmesh.k8s.aws              2020-10-15T15:49:26Z
 {{< /output >}}

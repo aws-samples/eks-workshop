@@ -1,6 +1,7 @@
 ---
 title: "Integrating Detailed Kubernetes Networking Flow Logs in CloudWatch"
 weight: 150
+draft: true
 ---
 Now that we have policies installed, and traffic being generated in the cluster, we can look at the [CloudWatch](https://aws.amazon.com/cloudwatch/) integration that TSCE provides.
 

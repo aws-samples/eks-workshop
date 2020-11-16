@@ -1,6 +1,7 @@
 ---
 title: "Policy Enabling the Backends"
 weight: 210
+draft: true
 ---
 
 Now, let's create a policy that allows the _ecsdemo-frontend_ microservice to communicate with the _ecsdemo-nodejs_ microservice. That policy will look something like this:

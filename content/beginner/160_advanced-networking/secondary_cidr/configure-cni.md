@@ -15,9 +15,9 @@ Here is a sample response
 {{< output >}}
 amazon-k8s-cni:1.6.1
 {{< /output >}}
-Upgrade to the latest v1.6 config if you have an older version:
+Upgrade to the latest v1.7 config if you have an older version:
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/aws-k8s-cni.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
 ```
 Wait until all the pods are recycled. You can check the status of pods by using this command
 ```
@@ -25,7 +25,7 @@ kubectl get pods -n kube-system -w
 ```
 ### Configure Custom networking
 
-Edit aws-node configmap and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
+Edit aws-node DaemonSet and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
 
 Note: You only need to set one environment variable in the CNI daemonset configuration:
 ```

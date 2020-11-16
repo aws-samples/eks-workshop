@@ -1,6 +1,8 @@
 ---
 title: "Network Security & Visibility using Calico Enterprise"
 weight: 20
+draft: true
+hidden: true
 ---
 
 ### CALICO ENTERPRISE USE CASES

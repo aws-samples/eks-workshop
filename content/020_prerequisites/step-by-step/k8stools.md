@@ -16,7 +16,9 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 #### Install kubectl
 
 ```bash
-sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/kubectl
+sudo curl --silent --location -o /usr/local/bin/kubectl \
+   https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl
+
 sudo chmod +x /usr/local/bin/kubectl
 ```
 
@@ -59,9 +61,9 @@ kubectl completion bash >>  ~/.bash_completion
 . ~/.bash_completion
 ```
 
-#### set the AWS ALB Ingress Controller version
+#### set the AWS Load Balancer Controller version
 
 ```bash
-echo 'export ALB_INGRESS_VERSION="v1.1.8"' >>  ~/.bash_profile
+echo 'export LBC_VERSION="v2.0.0"' >>  ~/.bash_profile
 .  ~/.bash_profile
 ```

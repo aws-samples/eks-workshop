@@ -1,6 +1,7 @@
 ---
 title: "Walk through TSCE's extensions to Calico"
 weight: 50
+draft: true
 ---
 Now that TSCE is installed in your cluster, you could go back and re-run the examples in the Project Calico section, just to convince yourself that all those features remain working in a TSCE environment.
 

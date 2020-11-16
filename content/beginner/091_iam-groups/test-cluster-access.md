@@ -7,10 +7,10 @@ weight: 40
 
 ## Automate assumerole with aws cli
 
-It is possible to automate the retrieval of temporary credentials for the assumed role by configuring the aws cli using `.aws/config`and `.aws/credentials` files.
-Examples we will define 3 profile:
+It is possible to automate the retrieval of temporary credentials for the assumed role by configuring the AWS CLI in the files `~/.aws/config` and `~/.aws/credentials`.
+As an example, we will define three profiles.
 
-#### add in `~/.aws/config`:
+#### Add in `~/.aws/config`:
 
 ```bash
 if [ ! -d ~/.aws ]; then
@@ -33,10 +33,10 @@ source_profile=eksInteg
 EoF
 ```
 
-#### create `~/.aws/credentials`:
+#### Add in `~/.aws/credentials`:
 
 ```bash
-cat << EoF > ~/.aws/credentials
+cat << EoF >> ~/.aws/credentials
 
 [eksAdmin]
 aws_access_key_id=$(jq -r .AccessKey.AccessKeyId /tmp/PaulAdmin.json)
@@ -53,7 +53,7 @@ aws_secret_access_key=$(jq -r .AccessKey.SecretAccessKey /tmp/PierreInteg.json)
 EoF
 ```
 
-#### Test this with dev profile:
+#### Test this with the dev profile:
 
 ```bash
 aws sts get-caller-identity --profile dev
@@ -67,13 +67,13 @@ aws sts get-caller-identity --profile dev
 }
 {{</output>}}
 
-> the assumed-role is k8sDev, so we achieved our goal
+The assumed-role is k8sDev, so we achieved our goal.
 
-When specifying the **--profile dev** parameter we automatically ask for temporary credentials for the role k8sDev
+When specifying the **--profile dev** parameter we automatically ask for temporary credentials for the role k8sDev.
 You can test this with **integ** and **admin** also.
  
 <details>
-  <summary>with admin:</summary>
+  <summary>With admin:</summary>
   
 ```bash
 aws sts get-caller-identity --profile admin
@@ -87,13 +87,13 @@ aws sts get-caller-identity --profile admin
 > When specifying the **--profile admin** parameter we automatically ask for temporary credentials for the role k8sAdmin
 </details>
 
-## Using AWS profiles with Kubectl config file
+## Using AWS profiles with the Kubectl config file
 
-It is also possible to specify the AWS_PROFILE to uses with the aws-iam-authenticator in the `.kube/config` file, so that it will uses the appropriate profile.
+It is also possible to specify the AWS_PROFILE to use with the aws-iam-authenticator in the `~/.kube/config` file, so that it will use the appropriate profile.
 
-### with dev profile
+### With dev profile
 
-Create new KUBECONFIG file to test this:
+Create a new KUBECONFIG file to test this:
 
 ```bash
 export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworkshop-eksctl
@@ -102,15 +102,15 @@ cat $KUBECONFIG | yq w - -- 'users[*].user.exec.args[+]' '--profile' | yq w - --
 
 We added the `--profile dev` parameter to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile, and we rename the context using suffix **-dev**.
 
-With this configuration we should be able to interract with the **development** namespace, because it as our RBAC role defined.
+With this configuration we should be able to interact with the **development** namespace, because it has our RBAC role defined.
 
-let's create a pod
+Let's create a pod:
 
 ```bash
 kubectl run --generator=run-pod/v1 nginx-dev --image=nginx -n development
 ```
 
-We can list the pods
+We can list the pods:
 
 ```bash
 kubectl get pods -n development
@@ -121,7 +121,7 @@ NAME                     READY   STATUS    RESTARTS   AGE
 nginx-dev   1/1     Running   0          28h
 {{</output>}}
 
-but not in other namespaces
+... but not in other namespaces:
 
 ```bash
 kubectl get pods -n integration
@@ -138,13 +138,13 @@ export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig ekswork
 cat $KUBECONFIG | yq w - -- 'users[*].user.exec.args[+]' '--profile' | yq w - -- 'users[*].user.exec.args[+]' 'integ' | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | sponge $KUBECONFIG
 ```
 
-let's create a pod
+Let's create a pod:
 
 ```bash
 kubectl run --generator=run-pod/v1 nginx-integ --image=nginx -n integration
 ```
 
-We can list the pods
+We can list the pods:
 
 ```bash
 kubectl get pods -n integration
@@ -155,7 +155,7 @@ NAME          READY   STATUS    RESTARTS   AGE
 nginx-integ   1/1     Running   0          43s
 {{</output>}}
 
-but not in other namespaces
+... but not in other namespaces:
 
 ```bash
 kubectl get pods -n development
@@ -172,13 +172,13 @@ export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig ekswork
 cat $KUBECONFIG | yq w - -- 'users[*].user.exec.args[+]' '--profile' | yq w - -- 'users[*].user.exec.args[+]' 'admin' | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | sponge $KUBECONFIG
 ```
 
-let's create a pod in default namespace
+Let's create a pod in the default namespace:
 
 ```bash
 kubectl run --generator=run-pod/v1 nginx-admin --image=nginx
 ```
 
-We can list the pods
+We can list the pods:
 
 ```bash
 kubectl get pods
@@ -189,7 +189,7 @@ NAME          READY   STATUS    RESTARTS   AGE
 nginx-integ   1/1     Running   0          43s
 {{</output>}}
 
-We can list ALL pods in all namespaces
+We can list ALL pods in all namespaces:
 
 ```bash
 kubectl get pods -A
@@ -212,19 +212,19 @@ kube-system   kube-proxy-pr7k7           1/1     Running   0          100m
 
 ## Switching between different contexts
 
-It is possible to merge several kubernetes API access in the same KUBECONFIG file, or just tell Kubectl several file to lookup at once:
+It is possible to configure several Kubernetes API access keys in the same KUBECONFIG file, or just tell Kubectl to lookup several files:
 
 ```bash
 export KUBECONFIG=/tmp/kubeconfig-dev:/tmp/kubeconfig-integ:/tmp/kubeconfig-admin
 ```
 
-There is a tool [kubectx / kubens](https://github.com/ahmetb/kubectx) that will help manage KUBECONFIG files with several contexts
+There is a tool [kubectx / kubens](https://github.com/ahmetb/kubectx) that will help manage KUBECONFIG files with several contexts:
 
 ```bash
 curl -sSLO https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx && chmod 755 kubectx && sudo mv kubectx /usr/local/bin
 ```
 
-I can use kubectx to quickly list or swith kubernetes contexts
+I can use kubectx to quickly list or switch Kubernetes contexts:
 
 ```bash
 kubectx
@@ -239,6 +239,7 @@ i-0397aa1339e238a99@eksworkshop-eksctl-integ.eu-west-2.eksctl.io
 ## Conclusion
 
 In this module, we have seen how to configure EKS to provide finer access to users combining IAM Groups and Kubernetes RBAC.
-You'll be able to create different groups depending on your needs, configure their associated RBAC access in your cluster, and simply add or remove users from the group to grand or remove them access to your cluster.
+You can create different groups depending on your needs, configure their associated RBAC access in your cluster, and simply add or remove users from the group to grant or revoke access to your cluster.
 
-Users will only have to configure their aws cli in order to automatically retrieve their associated rights in your cluster.
+Users will only have to configure their AWS CLI in order to automatically retrieve their associated rights in your cluster.
+
