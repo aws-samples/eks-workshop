@@ -21,20 +21,31 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
     ```
     cat << EOF > storageclass.yaml
     ---
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+        name: fsx-sc
+    provisioner: fsx.csi.aws.com
     parameters:
-    subnetId: ${SUBNET_ID}
-    securityGroupIds: ${SECURITY_GROUP_ID}
-    s3ImportPath: s3://${S3_LOGS_BUCKET}
-    s3ExportPath: s3://${S3_LOGS_BUCKET}/export
-    deploymentType: <SCRATCH_2>
+        subnetId: ${SUBNET_ID}
+        securityGroupIds: ${SECURITY_GROUP_ID}
+        s3ImportPath: s3://${S3_LOGS_BUCKET}
+        s3ExportPath: s3://${S3_LOGS_BUCKET}/export
+        deploymentType: SCRATCH_2
+    mountOptions:
+        - flock
+    EOF
     ```
+
+    Explanation of the settings:
+
     - **subnetId** – The subnet ID that the Amazon FSx for Lustre file system should be created in. Amazon FSx for Lustre is not supported in all Availability Zones. Open the Amazon FSx for Lustre console at https://console.aws.amazon.com/fsx/ to confirm that the subnet that you want to use is in a supported Availability Zone. The subnet can include your nodes, or can be a different subnet or VPC. If the subnet that you specify is not the same subnet that you have nodes in, then your VPCs must be connected, and you must ensure that you have the necessary ports open in your security groups.
 
     - **securityGroupIds** – The security group ID for your nodes.
 
-    - **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume. Specify the fsx-csi bucket that you created in step 1.
+    - **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume.
 
-    - **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to. Specify the fsx-csi/export folder that you created in step 1.
+    - **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to. 
 
     - **deploymentType** – The file system deployment type. Valid values are SCRATCH_1, SCRATCH_2, and PERSISTENT_1. For more information about deployment types, see Create your Amazon FSx for Lustre file system.
 
@@ -104,11 +115,14 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
     ```
     kubectl exec -it fsx-app ls /data
     ```
-    **Output:***
+
+    **Output:**
+    
+    The sample app wrote the out.txt file to the file system.
+
     ```
     export  out.txt
     ```
-The sample app wrote the out.txt file to the file system.
 
 2. Archive files to the s3ExportPath. For new files and modified files, you can use the Lustre user space tool to archive the data back to Amazon S3 using the value that you specified for s3ExportPath.
 

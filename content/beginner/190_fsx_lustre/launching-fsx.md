@@ -12,17 +12,7 @@ For detailed descriptions of the available parameters and complete examples that
 
 #### Prerequisites
 
-```
-CLUSTER_NAME=eksworkshop-eksctl
-VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text)
-SUBNET_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.subnetIds[0]" --output text)
-SECURITY_GROUP_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.securityGroupIds" --output text)
-CIDR_BLOCK=$(aws ec2 describe-vpcs --vpc-ids $VPC_ID --query "Vpcs[].CidrBlock" --output text)
-S3_LOGS_BUCKET=eks-fsx-lustre-$(cat /dev/urandom | LC_ALL=C tr -dc "[:alpha:]" | tr '[:upper:]' '[:lower:]' | head -c 32)
-```
-
-
-You must have:
+You must complete the [Start the Workshop](/020_prerequisites/workspace/) and [Launch using eksctl](/030_eksctl/) modules if you haven't already, in order to meet the following prerequisites:
 
    * Version 1.18.163 or later of the AWS CLI installed. You can check your currently-installed version with the aws --version command. To install or upgrade the AWS CLI, see Installing the AWS CLI.
 
@@ -31,6 +21,24 @@ You must have:
    * Version 0.31.0-rc.0 or later of eksctl installed. You can check your currently-installed version with the eksctl version command. To install or upgrade eksctl, see Installing or upgrading eksctl.
 
    * The latest version of kubectl installed that aligns to your cluster version. You can check your currently-installed version with the kubectl version --short --client command. For more information, see Installing kubectl.
+
+   * Have the correct shell variables from the prerequisite modules
+
+Now let's setup these variables needed for the module:
+
+```
+ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+CLUSTER_NAME=eksworkshop-eksctl
+VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text)
+SUBNET_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.subnetIds[0]" --output text)
+SECURITY_GROUP_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.securityGroupIds" --output text)
+CIDR_BLOCK=$(aws ec2 describe-vpcs --vpc-ids $VPC_ID --query "Vpcs[].CidrBlock" --output text)
+S3_LOGS_BUCKET=eks-fsx-lustre-$(cat /dev/urandom | LC_ALL=C tr -dc "[:alpha:]" | tr '[:upper:]' '[:lower:]' | head -c 32)
+SECURITY_GROUP_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.clusterSecurityGroupId" --output text)
+```
+
+
+
 
 #### To deploy the Amazon FSx for Lustre CSI driver to an Amazon EKS cluster
 
@@ -42,15 +50,12 @@ You must have:
         --approve
     ```
 
-    - Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf.
+2. Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf.
 
-        ```
-        cat > fsx-csi-driver.json
-        ```
-        Copy the following text and save it to a file named fsx-csi-driver.json.
-
-        ```
-    "Version":"2012-10-17",
+    ```
+    cat << EOF >  fsx-csi-driver.json
+    {
+        "Version":"2012-10-17",
         "Statement":[
             {
                 "Effect":"Allow",
@@ -67,9 +72,9 @@ You must have:
                 "Resource":"*",
                 "Condition":{
                     "StringLike":{
-                    "iam:AWSServiceName":[
-                        "fsx.amazonaws.com"
-                    ]
+                        "iam:AWSServiceName":[
+                            "fsx.amazonaws.com"
+                        ]
                     }
                 }
             },
@@ -86,25 +91,25 @@ You must have:
                 ]
             }
         ]
-        }
-        ```
+    }
+    EOF
+    ```
 
-2. Create the policy.
+3. Create the policy.
 ```
     aws iam create-policy \
         --policy-name Amazon_FSx_Lustre_CSI_Driver \
         --policy-document file://fsx-csi-driver.json
 ```
-    *Take note of the policy Amazon Resource Name (ARN) that is returned.*
 
-3. Create a Kubernetes service account for the driver and attach the policy to the service account. Replacing the ARN of the policy with the ARN returned in the previous step.
+4. Create a Kubernetes service account for the driver and attach the policy to the service account. Replacing the ARN of the policy with the ARN returned in the previous step.
     ```
     eksctl create iamserviceaccount \
         --region $AWS_REGION \
         --name fsx-csi-controller-sa \
         --namespace kube-system \
         --cluster $CLUSTER_NAME \
-        --attach-policy-arn arn:aws:iam::<111122223333:policy/Amazon_FSx_Lustre_CSI_Driver> \
+        --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/Amazon_FSx_Lustre_CSI_Driver \
         --approve
     ```
 
@@ -116,19 +121,11 @@ You must have:
     [ℹ]  created serviceaccount "kube-system/fsx-csi-controller-sa"
     ```
 
-    Note the name of the AWS CloudFormation stack that was deployed. In the example output above, the stack is named eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa.
-
-4. Note the Role ARN for the role that was created.
-
-   - Open the AWS CloudFormation console at https://console.aws.amazon.com/cloudformation
-    
-   - Ensure that the console is set to the Region that you created your IAM role in and then select Stacks.
-
-   - Select the stack named eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa.
-
-   - Select the Outputs tab. The Role ARN is listed on the Output(1) page.
-
-5. Deploy the driver with the following command.
+5. Save the Role ARN that was created via CloudFormation into a variable.
+    ```
+    export ROLE_ARN=$(aws cloudformation describe-stacks --stack-name eksctl-eksworkshop-eksctl-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa --query "Stacks[0].Outputs[0].OutputValue" --output text)
+    ```
+6. Deploy the driver with the following command.
 
     ```
     kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
@@ -145,10 +142,10 @@ You must have:
     csidriver.storage.k8s.io/fsx.csi.aws.com created
     ```
 
-6. Patch the driver deployment to add the service account that you created in step 3, replacing the ARN with the ARN that you noted in step 4.
+7. Patch the driver deployment to add the service account that you created in step 3, replacing the ARN with the ARN that you saved in step 4.
 
 ```
-kubectl annotate serviceaccount -n kube-system <fsx-csi-controller-sa> \
- eks.amazonaws.com/role-arn=<arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5> --overwrite=true
+kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
+ eks.amazonaws.com/role-arn=$ROLE_ARN --overwrite=true
 ```
 
