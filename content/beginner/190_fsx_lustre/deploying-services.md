@@ -138,7 +138,7 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
 3. Confirm that the out.txt file was written to the s3ExportPath folder in Amazon S3.
 
     ```
-    aws s3 ls fsx-csi/export/
+    aws s3 ls s3://$S3_LOGS_BUCKET/export/
     ```
 
     **Output:**

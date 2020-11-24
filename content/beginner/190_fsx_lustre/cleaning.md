@@ -21,8 +21,8 @@ eksctl delete iamserviceaccount \
     --region $AWS_REGION \
     --name fsx-csi-controller-sa \
     --namespace kube-system \
-    --cluster $CLUSTER_NAME \
+    --cluster $CLUSTER_NAME
 
 aws iam delete-policy \
-    --policy-name arn:aws:iam::$ACCOUNT_ID:policy/Amazon_FSx_Lustre_CSI_Driver
+    --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/Amazon_FSx_Lustre_CSI_Driver
 ```
