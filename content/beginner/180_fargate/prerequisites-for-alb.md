@@ -76,7 +76,7 @@ The above command deploys a CloudFormation template that creates an IAM role and
 The IAM role gets associated with a Kubernetes Service Account. You can see details of the service account created with the following command.
 
 ```bash
-kubectl get sa alb-ingress-controller -n 2048-game -o yaml
+kubectl get sa aws-load-balancer-controller -n kube-system -o yaml
 ```
 
 {{% notice info %}}
