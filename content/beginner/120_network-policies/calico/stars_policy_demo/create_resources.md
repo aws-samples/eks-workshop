@@ -36,7 +36,7 @@ Create a namespace called stars:
 kubectl apply -f namespace.yaml
 ```
 
-We will create frontend and backend [replication controllers](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
+We will create frontend and backend [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and [services](https://kubernetes.io/docs/concepts/services-networking/service/) in this namespace in later steps.
 
 
 Copy/Paste the following commands into your Cloud9 Terminal.
@@ -72,13 +72,16 @@ spec:
   selector:
     role: management-ui
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: management-ui
   namespace: management-ui
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: management-ui
   template:
     metadata:
       labels:
@@ -92,7 +95,7 @@ spec:
         - containerPort: 9001
 {{< /output >}}
 
-Create a management-ui namespace, with a management-ui service and replication controller within that namespace:
+Create a management-ui namespace, with a management-ui service and deployment within that namespace:
 
 ```
 kubectl apply -f management-ui.yaml
@@ -113,13 +116,16 @@ spec:
   selector:
     role: backend
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: backend
   namespace: stars
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: backend
   template:
     metadata:
       labels:
@@ -152,13 +158,16 @@ spec:
   selector:
     role: frontend
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: frontend
   namespace: stars
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: frontend
   template:
     metadata:
       labels:
@@ -176,14 +185,14 @@ spec:
         - containerPort: 80
 {{< /output >}}
 
-Create frontend and backend replication controllers and services within the stars namespace:
+Create frontend and backend deployments and services within the stars namespace:
 
 ```
 kubectl apply -f backend.yaml
 kubectl apply -f frontend.yaml
 ```
 
-Lastly, let's examine how the client namespace, and a client service for a replication controller
+Lastly, let's examine how the client namespace, and a client service for a deployment
 are built. `cat client.yaml`:
 
 {{< output >}}
@@ -194,13 +203,16 @@ metadata:
   labels:
     role: client
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: client
   namespace: client
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: client
   template:
     metadata:
       labels:
@@ -268,8 +280,8 @@ It may take several minutes to download all the required Docker images.
 To summarize the different resources we created:
 
 * A namespace called **stars**
-* **frontend** and **backend** replication controllers and services within **stars** namespace
+* **frontend** and **backend** deployments and services within **stars** namespace
 * A namespace called **management-ui**
-* Replication controller and service **management-ui** for the user interface seen on the browser, in the **management-ui** namespace
+* Deployment and service **management-ui** for the user interface seen on the browser, in the **management-ui** namespace
 * A namespace called **client**
-* **client** replication controller and service in **client** namespace
+* **client** deployment and service in **client** namespace

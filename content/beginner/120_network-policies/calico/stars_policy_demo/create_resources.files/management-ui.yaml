@@ -18,13 +18,16 @@ spec:
   selector:
     role: management-ui 
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: management-ui 
   namespace: management-ui 
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: management-ui
   template:
     metadata:
       labels:
