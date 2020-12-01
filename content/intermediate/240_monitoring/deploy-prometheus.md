@@ -13,9 +13,10 @@ simplicity and demonstration purpose. When deploying in production, you would us
 [io1](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html) volumes
 with desired IOPS and increase the default storage size in the manifests to get better performance. Run the following command:
 
-```
+```bash
 kubectl create namespace prometheus
-helm install prometheus stable/prometheus \
+
+helm install prometheus prometheus-community/prometheus \
     --namespace prometheus \
     --set alertmanager.persistentVolume.storageClass="gp2" \
     --set server.persistentVolume.storageClass="gp2"
@@ -36,51 +37,51 @@ kubectl get all -n prometheus
 
 You should see response similar to below. They should all be Ready and Available
 
-```text
-NAME                                                 READY     STATUS    RESTARTS   AGE
-pod/prometheus-alertmanager-77cfdf85db-s9p48         2/2       Running   0          1m
-pod/prometheus-kube-state-metrics-74d5c694c7-vqtjd   1/1       Running   0          1m
-pod/prometheus-node-exporter-6dhpw                   1/1       Running   0          1m
-pod/prometheus-node-exporter-nrfkn                   1/1       Running   0          1m
-pod/prometheus-node-exporter-rtrm8                   1/1       Running   0          1m
-pod/prometheus-pushgateway-d5fdc4f5b-dbmrg           1/1       Running   0          1m
-pod/prometheus-server-6d665b876-dsmh9                2/2       Running   0          1m
+{{< output >}}
+NAME                                                 READY   STATUS    RESTARTS   AGE
+pod/prometheus-alertmanager-868f8db8c4-67j2x         2/2     Running   0          78s
+pod/prometheus-kube-state-metrics-6df5d44568-c4tkn   1/1     Running   0          78s
+pod/prometheus-node-exporter-dh6f4                   1/1     Running   0          78s
+pod/prometheus-node-exporter-v8rd8                   1/1     Running   0          78s
+pod/prometheus-node-exporter-vcbjq                   1/1     Running   0          78s
+pod/prometheus-pushgateway-759689fbc6-hvjjm          1/1     Running   0          78s
+pod/prometheus-server-546c64d959-qxbzd               2/2     Running   0          78s
 
 NAME                                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/prometheus-alertmanager         ClusterIP   10.100.89.154    <none>        80/TCP     1m
-service/prometheus-kube-state-metrics   ClusterIP   None             <none>        80/TCP     1m
-service/prometheus-node-exporter        ClusterIP   None             <none>        9100/TCP   1m
-service/prometheus-pushgateway          ClusterIP   10.100.136.143   <none>        9091/TCP   1m
-service/prometheus-server               ClusterIP   10.100.151.245   <none>        80/TCP     1m
+service/prometheus-alertmanager         ClusterIP   10.100.38.47     <none>        80/TCP     78s
+service/prometheus-kube-state-metrics   ClusterIP   10.100.165.139   <none>        8080/TCP   78s
+service/prometheus-node-exporter        ClusterIP   None             <none>        9100/TCP   78s
+service/prometheus-pushgateway          ClusterIP   10.100.150.237   <none>        9091/TCP   78s
+service/prometheus-server               ClusterIP   10.100.209.224   <none>        80/TCP     78s
 
-NAME                                      DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
-daemonset.apps/prometheus-node-exporter   3         3         3         3            3           <none>          1m
+NAME                                      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/prometheus-node-exporter   3         3         3       3            3           <none>          78s
 
-NAME                                            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/prometheus-alertmanager         1         1         1            1           1m
-deployment.apps/prometheus-kube-state-metrics   1         1         1            1           1m
-deployment.apps/prometheus-pushgateway          1         1         1            1           1m
-deployment.apps/prometheus-server               1         1         1            1           1m
+NAME                                            READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/prometheus-alertmanager         1/1     1            1           78s
+deployment.apps/prometheus-kube-state-metrics   1/1     1            1           78s
+deployment.apps/prometheus-pushgateway          1/1     1            1           78s
+deployment.apps/prometheus-server               1/1     1            1           78s
 
-NAME                                                       DESIRED   CURRENT   READY     AGE
-replicaset.apps/prometheus-alertmanager-77cfdf85db         1         1         1         1m
-replicaset.apps/prometheus-kube-state-metrics-74d5c694c7   1         1         1         1m
-replicaset.apps/prometheus-pushgateway-d5fdc4f5b           1         1         1         1m
-replicaset.apps/prometheus-server-6d665b876                1         1         1         1m
-```
+NAME                                                       DESIRED   CURRENT   READY   AGE
+replicaset.apps/prometheus-alertmanager-868f8db8c4         1         1         1       78s
+replicaset.apps/prometheus-kube-state-metrics-6df5d44568   1         1         1       78s
+replicaset.apps/prometheus-pushgateway-759689fbc6          1         1         1       78s
+replicaset.apps/prometheus-server-546c64d959               1         1         1       78s
+{{< /output >}}
 
 In order to access the Prometheus server URL, we are going to use the [kubectl port-forward](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/) command to access the application. In Cloud9, run:
 
-```
+```bash
 kubectl port-forward -n prometheus deploy/prometheus-server 8080:9090
 ```
 
 In your Cloud9 environment, click **Tools / Preview / Preview Running Application**.
 Scroll to the end of the URL and append:
 
-```
+{{< output >}}
 /targets
-```
+{{< /output >}}
 
 In the web UI, you can see all the targets and metrics being monitored by Prometheus:
 
