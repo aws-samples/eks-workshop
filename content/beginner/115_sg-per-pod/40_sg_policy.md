@@ -42,7 +42,7 @@ spec:
 EoF
 ```
 
-As we can see if, the pod has the label `app: green-pod` a security group will be attached to it.
+As we can see, if the pod has the label `app: green-pod`, a security group will be attached to it.
 
 We can finally deploy it in a specific `namespace`.
 

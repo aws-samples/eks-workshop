@@ -72,7 +72,7 @@ kubectl -n sg-per-pod rollout status deployment green-pod
 The container will try to:
 
 * Connect to the database and will output the content of a table to _STDOUT_.
-* If the database failed, the error message will also be outputted to _STDOUT_.
+* If the database connection failed, the error message will also be outputted to _STDOUT_.
 
 Let's verify the logs (use _CTRL+C_ to exit the log)
 
@@ -93,8 +93,8 @@ As we can see, our attempt was successful!
 
 Now let's verify that:
 
-* An ENI was attached to the pod.
-* And the ENI as the POD_SG attached to it.
+* An ENI is attached to the pod.
+* And the ENI has the POD_SG attached to it.
 
 We can find the ENI ID in the pod `Annotations` section using this command.
 
@@ -129,7 +129,7 @@ We will deploy the red pod and verify that it's unable to connect to the databas
 Just like for the green pod, the container will try to:
 
 * Connect to the database and will output to _STDOUT_ the content of a table.
-* If the database failed, the error message will also be outputted to _STDOUT_.
+* If the database connection failed, the error message will also be outputted to _STDOUT_.
 
 ```bash
 kubectl -n sg-per-pod apply -f ~/environment/sg-per-pod/red-pod.yaml

@@ -86,7 +86,7 @@ cd ~/environment
 rm -rf sg-per-pod
 ```
 
-Verify that RDS instance has been deleted
+Verify the RDS instance has been deleted.
 
 ```bash
 aws rds describe-db-instances \
