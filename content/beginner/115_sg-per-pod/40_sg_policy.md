@@ -3,14 +3,9 @@ title: "SecurityGroup Policy"
 date: 2020-11-26T16:24:15-05:00
 draft: false
 weight: 40
+tags:
+  - beginner
 ---
-
-To enable this new functionality, Amazon EKS clusters have two new components running on the Kubernetes control plane:
-
-* A **mutating webhook** responsible for adding limits and requests to pods requiring security groups.
-* A **resource controller** responsible for managing [network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) associated with those pods.
-
-To facilitate this feature, each worker node will be associated with a single trunk network interface, and multiple branch network interfaces. The trunk interface acts as a standard network interface attached to the instance. The VPC resource controller then associates branch interfaces to the trunk interface. This increases the number of network interfaces that can be attached per instance. Since security groups are specified with network interfaces, we are now able to schedule pods requiring specific security groups onto these additional network interfaces allocated to worker nodes.
 
 ### SecurityGroup Policy
 
@@ -29,7 +24,7 @@ securitygrouppolicies.vpcresources.k8s.aws   2020-11-04T17:01:27Z
 
 The webhook watches `SecurityGroupPolicy` custom resources for any changes, and automatically injects matching pods with the extended resource request required for the pod to be scheduled onto a node with available branch network interface capacity. Once the pod is scheduled, the resource controller will create and attach a branch interface to the trunk interface. Upon successful attachment, the controller adds an annotation to the pod object with the branch interface details.
 
-Now let's create our policy that will automatic
+Now let's create our policy.
 
 ```bash
 cat << EoF > ~/environment/sg-per-pod/sg-policy.yaml
@@ -49,7 +44,7 @@ EoF
 
 As we can see if, the pod has the label `app: green-pod` a security group will be attached to it.
 
-We can finally deploy it in specific `namespace`
+We can finally deploy it in a specific `namespace`.
 
 ```bash
 kubectl create namespace sg-per-pod

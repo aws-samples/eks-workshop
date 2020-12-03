@@ -3,7 +3,8 @@ title: "Cleanup"
 date: 2020-12-02T16:04:30-05:00
 draft: false
 weight: 90
-
+tags:
+  - beginner
 ---
 
 ```bash
@@ -23,6 +24,9 @@ export NODE_GROUP_SG=$(aws ec2 describe-security-groups \
     --query "SecurityGroups[0].GroupId" \
     --output text)
 
+# uninstall the RPM package
+sudo yum erase -y postgresql
+
 # delete database
 aws rds delete-db-instance \
     --db-instance-identifier rds-eksworkshop \
@@ -40,6 +44,9 @@ kubectl delete ns sg-per-pod
 # disable ENI trunking
 kubectl -n kube-system set env daemonset aws-node ENABLE_POD_ENI=false
 kubectl -n kube-system rollout status ds aws-node
+
+# remove the trunk label
+kubectl label node  --all 'vpc.amazonaws.com/has-trunk-attached'-
 
 # detach IAM policy
 aws iam detach-role-policy \

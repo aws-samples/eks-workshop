@@ -3,9 +3,18 @@ title: "CNI configuration"
 date: 2020-12-02T21:30:00-05:00
 draft: false
 weight: 30
+tags:
+  - beginner
 ---
 
-First we need to attach a new IAM policy the nodes' role to allow them to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances.
+To enable this new functionality, Amazon EKS clusters have two new components running on the Kubernetes control plane:
+
+* A **mutating webhook** responsible for adding limits and requests to pods requiring security groups.
+* A **resource controller** responsible for managing [network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) associated with those pods.
+
+To facilitate this feature, each worker node will be associated with a single trunk network interface, and multiple branch network interfaces. The trunk interface acts as a standard network interface attached to the instance. The VPC resource controller then associates branch interfaces to the trunk interface. This increases the number of network interfaces that can be attached per instance. Since security groups are specified with network interfaces, we are now able to schedule pods requiring specific security groups onto these additional network interfaces allocated to worker nodes.
+
+First we need to attach a new IAM policy the Node group role to allow the EC2 instances to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances.
 
 The following command adds the policy `AmazonEKSVPCResourceController` to a cluster role.
 

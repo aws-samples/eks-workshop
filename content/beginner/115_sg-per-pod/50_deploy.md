@@ -3,12 +3,14 @@ title: "Pods Deployments"
 date: 2020-12-02T23:37:35-05:00
 draft: false
 weight: 50
+tags:
+  - beginner
 ---
 
 ### Kubernetes secrets
 
 Before deploying our two pods we need to provide them with the RDS endpoint and password.
-We will create a kubernetes secret that will be define in the pods deployment files.
+We will create a kubernetes secret.
 
 ```bash
 export RDS_PASSWORD=$(cat ~/environment/sg-per-pod/rds_password)
@@ -44,7 +46,7 @@ password:  32 bytes
 
 ### Deployments
 
-Let's download both pod deployment files
+Let's download both pods deployment files
 
 ```bash
 cd ~/environment/sg-per-pod
@@ -67,7 +69,10 @@ kubectl -n sg-per-pod apply -f ~/environment/sg-per-pod/green-pod.yaml
 kubectl -n sg-per-pod rollout status deployment green-pod
 ```
 
-The container will try to connect to the database and will run `select * from welcome;` loop and output the result to _STDOUT_.
+The container will try to:
+
+* Connect to the database and will output the content of a table to _STDOUT_.
+* If the database failed, the error message will also be outputted to _STDOUT_.
 
 Let's verify the logs (use _CTRL+C_ to exit the log)
 
@@ -84,14 +89,14 @@ Output
 [('--------------------------',), ('Welcome to the eksworkshop',), ('--------------------------',)]
 {{% /output %}}
 
-As we can see, our attend was successful!
+As we can see, our attempt was successful!
 
 Now let's verify that:
 
-* An ENI was attached to the pod
+* An ENI was attached to the pod.
 * And the ENI as the POD_SG attached to it.
 
-We can find the _eniId_ as an pod `annotation` using this command.
+We can find the ENI ID in the pod `Annotations` section using this command.
 
 ```bash
 kubectl -n sg-per-pod  describe pod $GREEN_POD_NAME | head -11
@@ -119,9 +124,12 @@ You can verify that the POD_SG is attached to the `eni` shown above by opening t
 
 ### Red Pod
 
-We will deploy the red pod and verify that it was unable to connect to RDS.
+We will deploy the red pod and verify that it's unable to connect to the database.
 
-Just like for the green pod, the container will try to connect to the database and will run `select * from welcome;` loop and output the result to _STDOUT_.
+Just like for the green pod, the container will try to:
+
+* Connect to the database and will output to _STDOUT_ the content of a table.
+* If the database failed, the error message will also be outputted to _STDOUT_.
 
 ```bash
 kubectl -n sg-per-pod apply -f ~/environment/sg-per-pod/red-pod.yaml

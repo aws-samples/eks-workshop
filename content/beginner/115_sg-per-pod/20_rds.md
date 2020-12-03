@@ -3,9 +3,11 @@ title: "RDS creation"
 date: 2020-12-02T21:00:37-05:00
 draft: false
 weight: 20
+tags:
+  - beginner
 ---
 
-Now that our Security Groups are ready let's create our database. We will create an Amazon PostgreSQL RDS Database.
+Now that our security groups are ready let's create our Amazon RDS for PostgreSQL database.
 
 We first need to create a [DB subnet groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Subnets). We will use the same subnets as our EKS cluster.
 
@@ -53,7 +55,7 @@ aws rds create-db-instance \
 ```
 
 {{% notice info %}}
-It will take several minutes for the database to be created.
+It will take up to 4 minutes for the database to be created.
 {{% /notice %}}
 
 You can verify if it's available using this command.
@@ -71,7 +73,7 @@ Expected output
 available
 {{< /output >}}
 
-When available. Let's get the Endpoint.
+Now that the database is available, let's get the Endpoint.
 
 ```bash
 # get RDS endpoint
@@ -97,7 +99,6 @@ insert into welcome values ('Welcome to the eksworkshop');
 insert into welcome values ('--------------------------');
 EoF
 
-# just in case $RDS_PASSWORD is now empty
 export RDS_PASSWORD=$(cat ~/environment/sg-per-pod/rds_password)
 
 psql postgresql://eksworkshop:${RDS_PASSWORD}@${RDS_ENDPOINT}:5432/eksworkshop \

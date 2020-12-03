@@ -1,13 +1,15 @@
 ---
-title: "Security Groups"
+title: "Security groups creation"
 date: 2020-11-26T15:59:47-05:00
 draft: false
 weight: 10
+tags:
+  - beginner
 ---
 
-### Create and configure the Security Groups
+### Create and configure the security groups
 
-First, let's create the Amazon RDS Security Group.
+First, let's create the RDS_SG security group. It will be attached to Amazon RDS network during the creation of the database instance.
 
 ```bash
 export VPC_ID=$(aws eks describe-cluster \
@@ -15,7 +17,7 @@ export VPC_ID=$(aws eks describe-cluster \
     --query "cluster.resourcesVpcConfig.vpcId" \
     --output text)
 
-# create RDS Security group
+# create RDS security group
 aws ec2 create-security-group \
     --description 'RDS SG' \
     --group-name 'RDS_SG' \
@@ -29,10 +31,10 @@ export RDS_SG=$(aws ec2 describe-security-groups \
 echo "RDS security group ID: ${RDS_SG}"
 ```
 
-Now, let's create the pod Security Group.
+Now, let's create the pod security group POD_SG.
 
 ```bash
-# create the POD Security Group
+# create the POD security group
 aws ec2 create-security-group \
     --description 'POD SG' \
     --group-name 'POD_SG' \
@@ -46,14 +48,14 @@ export POD_SG=$(aws ec2 describe-security-groups \
 echo "POD security group ID: ${POD_SG}"
 ```
 
-The pod needs to communicate with the node for DNS resolution, so we will update the Node Group Security Group accordingly.
+The pod needs to communicate with the node for DNS resolution, so we will update the Node Group security group accordingly.
 
 ```bash
 export NODE_GROUP_SG=$(aws ec2 describe-security-groups \
     --filters Name=tag:Name,Values=eks-cluster-sg-eksworkshop-eksctl-* Name=vpc-id,Values=${VPC_ID} \
     --query "SecurityGroups[0].GroupId" \
     --output text)
-echo "Node Group Security Group ID: ${NODE_GROUP_SG}"
+echo "Node Group security group ID: ${NODE_GROUP_SG}"
 
 # allow POD_SG to connect to NODE_GROUP_SG using TCP 53
 aws ec2 authorize-security-group-ingress \
@@ -70,14 +72,14 @@ aws ec2 authorize-security-group-ingress \
     --source-group ${POD_SG}
 ```
 
-Finally, we will add two inbound traffic (ingress) [rules](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules) to the RDS Security Group:
+Finally, we will add two inbound traffic (ingress) [rules](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules) to the RDS_SG security group:
 
 * One for Cloud9 (to populate the database).
-* And a second one to allow the POD Security Group to connect to the database.
+* And a second one to allow POD_SG security group to connect to the database.
 
 ```bash
 # Cloud9 IP
-export C9_IP=$(curl -s ifconfig.me.)
+export C9_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
 # allow Cloud9 to connect to RDS
 aws ec2 authorize-security-group-ingress \
