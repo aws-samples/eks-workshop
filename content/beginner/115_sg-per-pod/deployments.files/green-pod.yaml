@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: green-pod
+  name: green-pod
+  namespace: sg-per-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: green-pod
+  template:
+    metadata:
+      labels:
+        app: green-pod
+    spec:
+      containers:
+      - image: fmedery/app:latest
+        name: green-pod
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1024m"
+        env:
+        - name: HOST
+          valueFrom:
+            secretKeyRef:
+              name: rds
+              key: host
+        - name: DBNAME
+          value: eksworkshop
+        - name: USER
+          value: eksworkshop
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rds
+              key: password
