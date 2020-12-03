@@ -46,7 +46,7 @@ export POD_SG=$(aws ec2 describe-security-groups \
 echo "POD security group ID: ${POD_SG}"
 ```
 
-The pod still needs to communicate with the node for DNS resolution, so we will update the Node Group Security Group accordingly.
+The pod needs to communicate with the node for DNS resolution, so we will update the Node Group Security Group accordingly.
 
 ```bash
 export NODE_GROUP_SG=$(aws ec2 describe-security-groups \

@@ -17,7 +17,7 @@ On AWS, controlling network level access between services is often accomplished 
 
 Before the release of this new functionality, you could only assign security groups at the node level and all the nodes included in a Node groupe shared the same security groups.
 
-So by allowing the Node group security group to access the RDS instace, all the pods will have access the database even if only the green pod needs to access it.
+So by allowing the Node group security group to access the RDS instance, all the pods will have access the database even if only the green pod should have access.
 
 ![sg-per-pod_1](/images/sg-per-pod/sg-per-pod_1.png)
 
@@ -37,7 +37,7 @@ During this section of the workshop:
 
 * We will create an [Amazon RDS database](https://aws.amazon.com/rds/) protected by a security group.
 * We will create a security group called POD_SG that will be able to access the RDS instance.
-* Then we will deploy a `SecurityGroupPolicy` that will automatically attach the POD_SG security group to a pod if it has the correct metadata.
-* When the RDS instance is ready we will deploy 2 pods (green and red) using the same image and verify that only one of them (green) can connect to RDS.
+* Then we will deploy a `SecurityGroupPolicy` that will automatically attach the POD_SG security group to a pod with the correct metadata.
+* When the RDS instance is ready we will deploy two pods (green and red) using the same image and verify that only one of them (green) can connect to RDS.
 
 ![sg-per-pod_3](/images/sg-per-pod/sg-per-pod_3.png)

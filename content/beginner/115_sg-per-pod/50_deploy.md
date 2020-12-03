@@ -94,10 +94,10 @@ Now let's verify that:
 We can find the _eniId_ as an pod `annotation` using this command.
 
 ```bash
-echo kubectl -n sg-per-pod  describe pod $GREEN_POD_NAME
+kubectl -n sg-per-pod  describe pod $GREEN_POD_NAME | head -11
 ```
 
-Sample output
+Output
 
 {{< output >}}
 Name:         green-pod-5c786d8dff-4kmvc
@@ -111,8 +111,6 @@ Annotations:  kubernetes.io/psp: eks.privileged
               vpc.amazonaws.com/pod-eni:
                 [{"eniId":"eni-0d8a3a3a7f2eb57ab","ifAddress":"06:20:0d:3c:5f:bc","privateIp":"192.168.47.64","vlanId":1,"subnetCidr":"192.168.32.0/19"}]
 Status:       Running
-
-...
 {{< /output >}}
 
 You can verify that the POD_SG is attached to the `eni` shown above by opening this [link](https://console.aws.amazon.com/ec2/home?#NIC:search=POD_SG).
@@ -148,23 +146,23 @@ Database connection failed due to timeout expired
 Finally let's verify that the pod doesn't have an ineId `annotation`.
 
 ```bash
-kubectl -n sg-per-pod  describe pod ${RED_POD_MAME}
+kubectl -n sg-per-pod  describe pod ${RED_POD_MAME} | head -11
 ```
 
-Sample output
+Output
 
 {{< output >}}
-Name:         red-pod-7f68d78475-btlsn
+Name:         red-pod-7f68d78475-vlm77
 Namespace:    sg-per-pod
 Priority:     0
 Node:         ip-192-168-6-158.us-east-2.compute.internal/192.168.6.158
-Start Time:   Thu, 03 Dec 2020 05:39:52 +0000
+Start Time:   Thu, 03 Dec 2020 07:08:28 +0000
 Labels:       app=red-pod
               pod-template-hash=7f68d78475
 Annotations:  kubernetes.io/psp: eks.privileged
 Status:       Running
-
-...
+IP:           192.168.0.188
+IPs:
 {{< /output >}}
 
 ### Conclusion

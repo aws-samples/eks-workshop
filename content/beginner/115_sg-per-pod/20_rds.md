@@ -7,9 +7,7 @@ weight: 20
 
 Now that our Security Groups are ready let's create our database. We will create an Amazon PostgreSQL RDS Database.
 
-We fist need to create a [DB subnet groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Subnets).
-
-We will use the same subnets as our EKS cluster.
+We first need to create a [DB subnet groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Subnets). We will use the same subnets as our EKS cluster.
 
 ```bash
 export PUBLIC_SUBNETS_ID=$(aws ec2 describe-subnets \
@@ -66,6 +64,8 @@ aws rds describe-db-instances \
     --query "DBInstances[].DBInstanceStatus" \
     --output text
 ```
+
+Expected output
 
 {{< output >}}
 available

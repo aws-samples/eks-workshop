@@ -33,7 +33,7 @@ aws rds delete-db-instance \
 kubectl -n sg-per-pod delete -f ~/environment/sg-per-pod/green-pod.yaml
 kubectl -n sg-per-pod delete -f ~/environment/sg-per-pod/red-pod.yaml
 kubectl -n sg-per-pod delete -f ~/environment/sg-per-pod/sg-policy.yaml
-kubectl -n sg-per-pod delete secret generic rds
+kubectl -n sg-per-pod delete secret rds
 
 kubectl delete ns sg-per-pod
 
@@ -71,9 +71,12 @@ aws ec2 revoke-security-group-ingress \
     --port 53 \
     --source-group ${POD_SG}
 
-# delete security group
+# delete POD SG
 aws ec2 delete-security-group \
     --group-id ${POD_SG}
+cd ~/environment
+
+rm -rf sg-per-pod
 ```
 
 Verify that RDS instance has been deleted
@@ -85,7 +88,7 @@ aws rds describe-db-instances \
     --output text
 ```
 
-Excepted outputw
+Excepted output
 
 {{< output >}}
 An error occurred (DBInstanceNotFound) when calling the DescribeDBInstances operation: DBInstance rds-eksworkshop not found.
