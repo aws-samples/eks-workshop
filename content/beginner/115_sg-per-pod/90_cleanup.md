@@ -85,7 +85,7 @@ aws rds describe-db-instances \
     --output text
 ```
 
-Excepted output
+Excepted outputw
 
 {{< output >}}
 An error occurred (DBInstanceNotFound) when calling the DescribeDBInstances operation: DBInstance rds-eksworkshop not found.
