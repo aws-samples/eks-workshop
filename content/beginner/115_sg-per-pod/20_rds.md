@@ -73,7 +73,7 @@ Expected output
 available
 {{< /output >}}
 
-Now that the database is available, let's get the Endpoint.
+Now that the database is available, let's get our database Endpoint.
 
 ```bash
 # get RDS endpoint
