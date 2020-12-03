@@ -18,7 +18,7 @@ export RDS_SG=$(aws ec2 describe-security-groups \
 export POD_SG=$(aws ec2 describe-security-groups \
     --filters Name=group-name,Values=POD_SG Name=vpc-id,Values=${VPC_ID} \
     --query "SecurityGroups[0].GroupId" --output text)
-export C9_IP=$(curl -s ifconfig.me.)
+export C9_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 export NODE_GROUP_SG=$(aws ec2 describe-security-groups \
     --filters Name=tag:Name,Values=eks-cluster-sg-eksworkshop-eksctl-* Name=vpc-id,Values=${VPC_ID} \
     --query "SecurityGroups[0].GroupId" \

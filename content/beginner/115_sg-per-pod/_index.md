@@ -19,19 +19,15 @@ Before the release of this new functionality, you could only assign security gro
 
 ![sg-per-pod_1](/images/sg-per-pod/sg-per-pod_1.png)
 
-[Security groups for pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html) integrate Amazon EC2 security groups with Kubernetes pods. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types. For a detailed explanation of this capability, [see the Introducing security groups for pods blog post](https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/).
-
-{{% notice note %}}
-For more information, don't hesitate to read our [blog](https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) or the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html).
-{{% /notice %}}
+[Security groups for pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html) integrate Amazon EC2 security groups with Kubernetes pods. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types. For a detailed explanation of this capability, see [the Introducing security groups for pods blog post](https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) and the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html).
 
 ### Objectives
 
 During this section of the workshop:
 
 * We will create an Amazon RDS database protected by a security group called RDS_SG.
-* We will create a security group called POD_SG that will be allow to connect to the RDS instance.
+* We will create a security group called POD_SG that will be allowed to connect to the RDS instance.
 * Then we will deploy a `SecurityGroupPolicy` that will automatically attach the POD_SG security group to a pod with the correct metadata.
-* When the database instance is ready we will deploy two pods (green and red) using the same image and verify that only one of them (green) can connect to Amazon RDS.
+* Finally we will deploy two pods (green and red) using the same image and verify that only one of them (green) can connect to the Amazon RDS database.
 
 ![sg-per-pod_3](/images/sg-per-pod/sg-per-pod_3.png)
