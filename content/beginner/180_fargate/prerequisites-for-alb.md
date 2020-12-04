@@ -79,6 +79,24 @@ The IAM role gets associated with a Kubernetes Service Account. You can see deta
 kubectl get sa aws-load-balancer-controller -n kube-system -o yaml
 ```
 
+Output
+
+{{< output >}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::197520326489:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-1MMJRJ4LWWHD8
+  creationTimestamp: "2020-12-04T19:31:57Z"
+  name: aws-load-balancer-controller
+  namespace: kube-system
+  resourceVersion: "3094"
+  selfLink: /api/v1/namespaces/kube-system/serviceaccounts/aws-load-balancer-controller
+  uid: aa940b27-796e-4cda-bbba-fe6ca8207c00
+secrets:
+- name: aws-load-balancer-controller-token-8pnww
+{{< /output >}}
+
 {{% notice info %}}
 For more information on IAM Roles for Service Accounts [follow this link](/beginner/110_irsa/).
 {{% /notice %}}
@@ -89,7 +107,7 @@ For more information on IAM Roles for Service Accounts [follow this link](/begin
 kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
 ```
 
-#### Deploy the Helm chart from the eks repo
+#### Deploy the Helm chart from the Amazon EKS charts repo
 
 Fist, We will verify if the AWS Load Balancer Controller version has beed set
 
@@ -109,11 +127,24 @@ If the result is <span style="color:red">${LBC_VERSION} has NOT been set.</span>
 ```bash
 helm repo add eks https://aws.github.io/eks-charts
 
+export VPC_ID=$(aws eks describe-cluster \
+                --name eksworkshop-eksctl \
+                --query "cluster.resourcesVpcConfig.vpcId" \
+                --output text)
+
 helm upgrade -i aws-load-balancer-controller \
     eks/aws-load-balancer-controller \
     -n kube-system \
     --set clusterName=eksworkshop-eksctl \
     --set serviceAccount.create=false \
     --set serviceAccount.name=aws-load-balancer-controller \
-    --set image.tag="${LBC_VERSION}"
+    --set image.tag="${LBC_VERSION}" \
+    --set awsRegion=${AWS_REGION} \
+    --set awsVpcID=${VPC_ID}
+```
+
+You can check if the `deployment` has completed
+
+```bash
+kubectl -n kube-system rollout status deployment aws-load-balancer-controller
 ```
