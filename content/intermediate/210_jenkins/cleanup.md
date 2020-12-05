@@ -8,6 +8,7 @@ To uninstall Jenkins and cleanup the service account and CodeCommit repository r
 
 ```
 helm uninstall cicd
+helm repo remove jenkins
 aws codecommit delete-repository --repository-name eksworkshop-app
 aws iam detach-user-policy --user-name git-user --policy-arn arn:aws:iam::aws:policy/AWSCodeCommitPowerUser
 aws iam delete-service-specific-credential --user-name git-user --service-specific-credential-id $CREDENTIAL_ID
