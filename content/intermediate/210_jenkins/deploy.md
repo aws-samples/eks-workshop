@@ -41,7 +41,8 @@ EOF
 Now we'll use the `helm` cli to create the Jenkins server as we've declared it in the `values.yaml` file.
 
 ```
-helm install cicd stable/jenkins -f values.yaml
+helm repo add jenkins https://charts.jenkins.io
+helm install cicd jenkins/jenkins -f values.yaml
 ```
 
 The output of this command will give you some additional information such as the
