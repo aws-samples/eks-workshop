@@ -16,7 +16,7 @@ We'll begin by creating the `values.yaml` to declare the configuration of our Je
 ```
 cat << EOF > values.yaml
 ---
-master:
+controller:
   additionalPlugins:
     - aws-codecommit-jobs:0.3.0
   resources:
