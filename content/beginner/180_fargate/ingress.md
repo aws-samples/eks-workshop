@@ -5,7 +5,7 @@ weight: 15
 draft: false
 ---
 
-## Ingress
+### Ingress
 
 After few seconds, verify that the Ingress resource is enabled:
 
