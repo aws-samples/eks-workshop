@@ -30,7 +30,7 @@ kubectl label namespace bookinfo istio-injection=enabled
  kubectl get ns bookinfo --show-labels
 ```
 
-Now, we can deploy a vanilla definition of the Bookinfo application inside the its own namespace, and the Mutating Webhook will alter the definition of any pod it sees to include the Envoy sidecar container.
+Now, we can deploy a vanilla definition of the Bookinfo application inside the `bookinfo` namespace, and the Mutating Webhook will alter the definition of any pod it sees to include the Envoy sidecar container.
 
 ## Architecture of the Bookinfo application
 

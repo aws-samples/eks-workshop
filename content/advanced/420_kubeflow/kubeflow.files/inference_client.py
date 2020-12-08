@@ -1,6 +1,13 @@
 # TensorFlow and tf.keras
-import tensorflow as tf
-from tensorflow import keras
+# Workaround to suppress FutureWarnings messages ref: https://www.cicoria.com/tensorflow-suppressing-futurewarning-numpy-messages-in-jupyter-notebooks/
+import warnings  
+with warnings.catch_warnings():  
+    warnings.filterwarnings("ignore",category=FutureWarning)
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras.preprocessing.text import Tokenizer
+#import tensorflow as tf
+#from tensorflow import keras
 
 # Helper libraries
 import numpy as np

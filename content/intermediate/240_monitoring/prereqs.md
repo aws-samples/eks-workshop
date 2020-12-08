@@ -9,7 +9,10 @@ draft: false
 
 We will use **helm** to install Prometheus & Grafana monitoring tools for this chapter. Please review  [installing helm chapter](/beginner/060_helm/helm_intro/install/index.html) for instructions if you don't have it installed.
 
-```
-helm list
-```
+```bash
+# add prometheus Helm repo
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
+# add grafana Helm repo
+helm repo add grafana https://grafana.github.io/helm-charts
+```

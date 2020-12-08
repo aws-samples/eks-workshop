@@ -5,13 +5,16 @@ metadata:
   labels:
     role: client
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: client 
   namespace: client
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: client
   template:
     metadata:
       labels:

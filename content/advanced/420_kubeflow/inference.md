@@ -46,7 +46,7 @@ Install `tensorflow` package:
 ```
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py --user
-pip3 install tensorflow --user
+pip3 install requests tensorflow --user
 ```
 
 #### Run inference

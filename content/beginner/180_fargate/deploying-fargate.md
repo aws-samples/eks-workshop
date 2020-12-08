@@ -5,7 +5,7 @@ weight: 13
 draft: false
 ---
 
-## Deploy the sample application
+### Deploy the sample application
 
 Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS Load Balancer Controller creates an Application Load Balancer as a result of the Ingress object.
 
@@ -13,7 +13,7 @@ Deploy the game [2048](https://play2048.co/) as a sample application to verify t
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
 ```
 
-You can check if a Deployment has completed
+You can check if the `deployment` has completed
 
 ```bash
 kubectl -n game-2048 rollout status deployment deployment-2048
