@@ -22,16 +22,16 @@ First, let's download the policy JSON document, and create an IAM Policy from it
 ```sh
 mkdir ~/environment/ebs_csi_driver
 cd ~/environment/ebs_csi_driver
-curl -sSL -o ebs-cni-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v0.4.0/docs/example-iam-policy.json
+curl -sSL -o ebs-csi-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v0.4.0/docs/example-iam-policy.json
 
-export EBS_CNI_POLICY_NAME="Amazon_EBS_CSI_Driver"
+export EBS_CSI_POLICY_NAME="Amazon_EBS_CSI_Driver"
 
 aws iam create-policy \
   --region ${AWS_REGION} \
-  --policy-name ${EBS_CNI_POLICY_NAME} \
-  --policy-document file://ebs-cni-policy.json
+  --policy-name ${EBS_CSI_POLICY_NAME} \
+  --policy-document file://ebs-csi-policy.json
 
-export EBS_CNI_POLICY_ARN=$(aws --region ${AWS_REGION} iam list-policies --query 'Policies[?PolicyName==`'$EBS_CNI_POLICY_NAME'`].Arn' --output text)
+export EBS_CSI_POLICY_ARN=$(aws --region ${AWS_REGION} iam list-policies --query 'Policies[?PolicyName==`'$EBS_CSI_POLICY_NAME'`].Arn' --output text)
 ```
 
 ## Configure IAM Role for Service Account
@@ -46,7 +46,7 @@ eksctl utils associate-iam-oidc-provider --region=$AWS_REGION --cluster=eksworks
 eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
   --name ebs-csi-controller-irsa \
   --namespace kube-system \
-  --attach-policy-arn $EBS_CNI_POLICY_ARN \
+  --attach-policy-arn $EBS_CSI_POLICY_ARN \
   --override-existing-serviceaccounts \
   --approve
 ```
