@@ -5,19 +5,21 @@ weight: 11
 draft: false
 ---
 
-#### Affinity and anti-affinity
+### Affinity and anti-affinity
 
-nodeSelector provides a very simple way to constrain pods to nodes with particular labels. The affinity/anti-affinity feature greatly extends the types of constraints you can express. The key enhancements are:
+`nodeSelector` provides a very simple way to constrain pods to nodes with particular labels. The affinity/anti-affinity feature greatly extends the types of constraints you can express.
+
+The key enhancements are:
 
 - The language is more expressive (not just “AND of exact match”)
 - You can indicate that the rule is “soft”/“preference” rather than a hard requirement, so if the scheduler can’t satisfy it, the pod will still be scheduled
 - You can constrain against labels on other pods running on the node (or other topological domain), rather than against labels on the node itself, which allows rules about which pods can and cannot be co-located
 
-The affinity feature consists of two types of affinity, “node affinity” and “inter-pod affinity/anti-affinity”. Node affinity is like the existing nodeSelector (but with the first two benefits listed above), while inter-pod affinity/anti-affinity constrains against pod labels rather than node labels, as described in the third item listed above, in addition to having the first and second properties listed above.
+The affinity feature consists of two types of affinity, “node affinity” and “inter-pod affinity/anti-affinity. Node affinity is like the existing `nodeSelector` (but with the first two benefits listed above), while inter-pod affinity/anti-affinity constrains against pod labels rather than node labels, as described in the third item listed above, in addition to having the first and second properties listed above.
 
-#### Node affinity
+### Node affinity
 
-Node affinity was introduced as alpha in Kubernetes 1.2. Node affinity is conceptually similar to nodeSelector – it allows you to constrain which nodes your pod is eligible to be scheduled on, based on labels on the node.
+Node affinity was introduced as alpha in Kubernetes 1.2. Node affinity is conceptually similar to `nodeSelector` – it allows you to constrain which nodes your pod is eligible to be scheduled on, based on labels on the node.
 
 There are currently two types of node affinity, called `requiredDuringSchedulingIgnoredDuringExecution` and `preferredDuringSchedulingIgnoredDuringExecution`.
 
@@ -29,10 +31,13 @@ Node affinity is specified as field nodeAffinity of field affinity in the PodSpe
 
 Let's see an example of a pod that uses node affinity:
 
-We are going to create another label in the same node that in the last example:
+We are going to create another label on the same node as in the last example
 
 ```bash
-kubectl label nodes ip-192-168-15-64.us-west-2.compute.internal azname=az1
+# export the first node name as a variable
+export FIRST_NODE_NAME=$(kubectl get nodes -o json | jq -r '.items[0].metadata.name')
+
+kubectl label nodes ${FIRST_NODE_NAME} azname=az1
 ```
 
 And create an affinity:
@@ -76,39 +81,65 @@ Let's apply this
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
 
-And check if it worked with `kubectl get pods -o wide`
+And check if it worked with
+
+```bash
+kubectl get pods -o wide
+```
+
 {{< output >}}
-NAME                 READY     STATUS    RESTARTS   AGE       IP               NODE                                          NOMINATED NODE
-nginx                1/1       Running   0          35m       192.168.10.13    ip-192-168-15-64.us-west-2.compute.internal   <none>
-with-node-affinity   1/1       Running   0          29s       192.168.14.121   ip-192-168-15-64.us-west-2.compute.internal   <none>
+NAME                 READY   STATUS    RESTARTS   AGE     IP               NODE                                          NOMINATED NODE   READINESS GATES
+nginx                1/1     Running   0          3m41s   192.168.6.179    ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
+with-node-affinity   1/1     Running   0          6s      192.168.23.118   ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
-Now let's try to put the affinity in another node
-We are going to put the label in a different node so first, let's clean the label and delete the Pod.
+
+We are going to put the label to a different node so first, let's clean the label and delete the Pod.
 
 ```bash
 kubectl delete -f ~/environment/pod-with-node-affinity.yaml
-kubectl label nodes ip-192-168-15-64.us-west-2.compute.internal azname-
+
+kubectl label nodes ${FIRST_NODE_NAME} azname-
 ```
 
-We are putting the label to the node ip-192-168-86-147.us-west-2.compute.internal now
+We are putting the label to second node now
 
 ```bash
-kubectl label nodes ip-192-168-86-147.us-west-2.compute.internal azname=az1
+export SECOND_NODE_NAME=$(kubectl get nodes -o json | jq -r '.items[1].metadata.name')
+
+kubectl label nodes ${SECOND_NODE_NAME} azname=az1
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
 
-And check if it works with `kubectl get pods -o wide`
+And check if it works with
+
+```bash
+kubectl get pods -o wide
+```
+
 {{< output >}}
-NAME                 READY     STATUS    RESTARTS   AGE       IP               NODE                                           NOMINATED NODE
-nginx                1/1       Running   0          43m       192.168.10.13    ip-192-168-15-64.us-west-2.compute.internal    <none>
-with-node-affinity   1/1       Running   0          42s       192.168.68.249   ip-192-168-86-147.us-west-2.compute.internal   <none>
+NAME                 READY   STATUS    RESTARTS   AGE     IP               NODE                                          NOMINATED NODE   READINESS GATES
+nginx                1/1     Running   0          7m30s   192.168.6.179    ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
+with-node-affinity   1/1     Running   0          28s     192.168.34.123   ip-192-168-58-41.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
 
-You can see the operator In being used in the example. The new node affinity syntax supports the following operators: `In, NotIn, Exists, DoesNotExist, Gt, Lt`. You can use `NotIn` and `DoesNotExist` to achieve node anti-affinity behavior.
 
-- If you specify both `nodeSelector` and `nodeAffinity`, both must be satisfied for the pod to be scheduled onto a candidate node.
-- If you specify multiple `nodeSelectorTerms` associated with `nodeAffinity` types, then the pod can be scheduled onto a node if one of the `nodeSelectorTerms` is satisfied.
-- If you specify multiple `matchExpressions` associated with `nodeSelectorTerms`, then the pod can be scheduled onto a node only if all `matchExpressions` can be satisfied.
-- If you remove or change the label of the node where the pod is scheduled, the pod won’t be removed. In other words, the affinity selection works only at the time of scheduling the pod.
+You can see the operator `In` being used in the example.
+
+The new node affinity syntax supports the following operators: `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt`, `Lt`. You can use `NotIn` and `DoesNotExist` to achieve node anti-affinity behavior.
+
+If you specify both `nodeSelector` and `nodeAffinity`, both must be satisfied for the pod to be scheduled onto a candidate node.
+
+If you specify multiple `nodeSelectorTerms` associated with `nodeAffinity` types, then the pod can be scheduled onto a node if one of the `nodeSelectorTerms` is satisfied.
+
+If you specify multiple `matchExpressions` associated with `nodeSelectorTerms`, then the pod can be scheduled onto a node only if all `matchExpressions` can be satisfied.
+
+If you remove or change the label of the node where the pod is scheduled, the pod won’t be removed. In other words, the affinity selection works only at the time of scheduling the pod.
 
 The weight field in `preferredDuringSchedulingIgnoredDuringExecution` is in the range 1-100. For each node that meets all of the scheduling requirements (resource request, RequiredDuringScheduling affinity expressions, etc.), the scheduler will compute a sum by iterating through the elements of this field and adding “weight” to the sum if the node matches the corresponding MatchExpressions. This score is then combined with the scores of other priority functions for the node. The node(s) with the highest total score are the most preferred.
+
+We are now ready to delete both pods
+
+```bash
+kubectl delete -f ~/environment/pod-nginx.yaml
+kubectl delete -f ~/environment/pod-with-node-affinity.yaml
+```
