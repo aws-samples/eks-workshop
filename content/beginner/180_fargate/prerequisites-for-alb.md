@@ -139,8 +139,8 @@ helm upgrade -i aws-load-balancer-controller \
     --set serviceAccount.create=false \
     --set serviceAccount.name=aws-load-balancer-controller \
     --set image.tag="${LBC_VERSION}" \
-    --set awsRegion=${AWS_REGION} \
-    --set awsVpcID=${VPC_ID}
+    --set region=${AWS_REGION} \
+    --set vpcId=${VPC_ID}
 ```
 
 You can check if the `deployment` has completed
