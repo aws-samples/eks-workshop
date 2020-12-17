@@ -16,10 +16,10 @@ IAM Users and Roles are bound to an EKS Kubernetes cluster via a ConfigMap named
 
 You'll need to determine the correct credential to add for your AWS Console access. If you know this already, you can skip ahead to the `eksctl create iamidentitymapping` step below.
 
-If you've built your cluster from Cloud9 as part of this tutorial, invoke the following within your environment to determine your IAM Role or User ARN. Your Cloud9 Environment ID can be copied from the Cloud9 IDE URL (it's the ID after '/cloud9/ide/..').
+If you've built your cluster from Cloud9 as part of this tutorial, invoke the following within your environment to determine your IAM Role or User ARN. 
 
 ```bash
-c9builder=$(aws cloud9 describe-environment-memberships --environment-id=$C9_ID | jq -r '.memberships[].userArn')
+c9builder=$(aws cloud9 describe-environment-memberships --environment-id=$C9_PID | jq -r '.memberships[].userArn')
 if echo ${c9builder} | grep -q user; then
 	rolearn=${c9builder}
         echo Role ARN: ${rolearn}
