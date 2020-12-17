@@ -5,14 +5,13 @@ weight: 12
 draft: false
 ---
 
-More Practical Use-cases
-AntiAffinity can be even more useful when they are used with higher level collections such as ReplicaSets, StatefulSets, Deployments, etc. One can easily configure that a set of workloads should be co-located in the same defined topology, eg., the same node.
+More Practical use-cases `AntiAffinity` can be even more useful when they are used with higher level collections such as `ReplicaSets`, `StatefulSets`, `Deployments`, etc. One can easily configure that a set of workloads should be co-located in the same defined topology, eg., the same node.
 
 ### Always co-located in the same node
 
 In a three node cluster, a web application has in-memory cache such as redis. We want the web-servers to be co-located with the cache as much as possible.
 
-Here is the yaml snippet of a simple redis deployment with three replicas and selector label app=store. The deployment has PodAntiAffinity configured to ensure the scheduler does not co-locate replicas on a single node.
+Here is the YAML snippet of a simple redis deployment with three replicas and selector label `app=store`. The deployment has `PodAntiAffinity` configured to ensure the scheduler does not co-locate replicas on a single node.
 
 ```bash
 cat <<EoF > ~/environment/redis-with-node-affinity.yaml
@@ -46,7 +45,7 @@ spec:
 EoF
 ```
 
-The below yaml snippet of the webserver deployment has podAntiAffinity and podAffinity configured. This informs the scheduler that all its replicas are to be co-located with pods that have selector label app=store. This will also ensure that each web-server replica does not co-locate on a single node.
+The below YAML snippet of the web-server deployment has `podAntiAffinity` and `podAffinity` configured. This informs the scheduler that all its replicas are to be co-located with pods that have selector label `app=store`. This will also ensure that each web-server replica does not co-locate on a single node.
 
 ```bash
 cat <<EoF > ~/environment/web-with-node-affinity.yaml
@@ -107,16 +106,16 @@ If we create the above two deployments, our three node cluster should look like 
 As you can see, all the 3 replicas of the web-server are automatically co-located with the cache as expected.
 
 ```bash
-kubectl get pods -o wide
+# We will use --sort-by to filter by nodes name
+ kubectl get pods -o wide --sort-by='.spec.nodeName'
 ```
 
 {{< output >}}
-
-NAME                           READY     STATUS    RESTARTS   AGE       IP           NODE
-redis-cache-1450370735-6dzlj   1/1       Running   0          8m        10.192.4.2   kube-node-3
-redis-cache-1450370735-j2j96   1/1       Running   0          8m        10.192.2.2   kube-node-1
-redis-cache-1450370735-z73mh   1/1       Running   0          8m        10.192.3.1   kube-node-2
-web-server-1287567482-5d4dz    1/1       Running   0          7m        10.192.2.3   kube-node-1
-web-server-1287567482-6f7v5    1/1       Running   0          7m        10.192.4.3   kube-node-3
-web-server-1287567482-s330j    1/1       Running   0          7m        10.192.3.2   kube-node-2
+NAME                           READY   STATUS    RESTARTS   AGE     IP               NODE                                          NOMINATED NODE   READINESS GATES
+redis-cache-6bc7d5b59d-r975n   1/1     Running   0          6m17s   192.168.4.62     ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
+web-server-655bf8bdf4-sxxc4    1/1     Running   0          6m16s   192.168.22.219   ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
+redis-cache-6bc7d5b59d-htzp2   1/1     Running   0          6m17s   192.168.49.70    ip-192-168-58-41.us-east-2.compute.internal   <none>           <none>
+web-server-655bf8bdf4-9x5tw    1/1     Running   0          6m16s   192.168.59.251   ip-192-168-58-41.us-east-2.compute.internal   <none>           <none>
+redis-cache-6bc7d5b59d-vmwrg   1/1     Running   0          6m17s   192.168.90.88    ip-192-168-95-39.us-east-2.compute.internal   <none>           <none>
+web-server-655bf8bdf4-8lb5g    1/1     Running   0          6m16s   192.168.91.140   ip-192-168-95-39.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}

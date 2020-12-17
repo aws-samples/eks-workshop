@@ -16,8 +16,7 @@ From here we can log in using:
 |----------|----------------------|
 | admin    | `command from below` |
 
-
-```
+```bash
 printf $(kubectl get secret --namespace default cicd-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
 ```
 
