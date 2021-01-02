@@ -77,12 +77,15 @@ You can test this with **integ** and **admin** also.
   
 ```bash
 aws sts get-caller-identity --profile admin
+```
+
+{{<output>}}
 {
     "UserId": "AROAUD5VMKW77KXQAL7ZX:botocore-session-1582022121",
     "Account": "xxxxxxxxxx",
     "Arn": "arn:aws:sts::xxxxxxxxxx:assumed-role/k8sAdmin/botocore-session-1582022121"
 }
-```
+{{</output>}}
 
 > When specifying the **--profile admin** parameter we automatically ask for temporary credentials for the role k8sAdmin
 </details>
