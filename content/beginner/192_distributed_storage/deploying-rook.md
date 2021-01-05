@@ -63,6 +63,9 @@ replicaset.apps/rook-ceph-operator-9c757c4fd                1         1         
 {{< /output >}}
 
 We successfully prepared our Amazon EKS Cluster and have our rook operator running.  
+
+#### Deploy the Ceph Storage Cluster
+
 Let's continue with the deployment of the the Ceph storage cluster.
 
 For our deployment we'll choose the deployment of the cluster based on Persistent Volume Claims. This is a good choise for our AWS based environment as we would like our PVs to be created on-Demand on top of Amazon EBS. Ceph will then consume these PVs and provide them as distributed storage to our workload. 
