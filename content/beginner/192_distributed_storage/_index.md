@@ -2,7 +2,6 @@
 title: "Building distributed storage with Amazon EBS, Rook and Ceph"
 chapter: true
 weight: 190
-pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 tags:
   - beginner
 ---
