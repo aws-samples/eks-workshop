@@ -38,13 +38,13 @@ Using output from the previous step, the sample command would be:
 
 Install `kube-bench` using the commands below.
 
-- Download kube-bench rpm 
+- Set latest version
 ```
-wget https://github.com/aquasecurity/kube-bench/releases/download/v0.3.1/kube-bench_0.3.1_linux_amd64.rpm
+KUBEBENCH_VERSION=$(curl -sL https://github.com/aquasecurity/kube-bench/releases | grep 'href="/aquasecurity/kube-bench/releases/tag/v0.[0-99]*.[0-99]*\"' | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}' | tr -d 'v')
 ```
-- Install kube-bench using yum
+- Download and install kube-bench using yum 
 ```
-sudo yum install kube-bench_0.3.1_linux_amd64.rpm -y
+sudo yum install -y https://github.com/aquasecurity/kube-bench/releases/download/v${KUBEBENCH_VERSION}/kube-bench_${KUBEBENCH_VERSION}_linux_amd64.rpm
 ```
 
 #### Run assessment against `eks-1.0`
@@ -52,7 +52,7 @@ sudo yum install kube-bench_0.3.1_linux_amd64.rpm -y
 Run the assessment against `eks-1.0` controls based on CIS Amazon EKS Benchmark node assessments.
 
 ```
-kube-bench --benchmark "eks-1.0"
+kube-bench --benchmark eks-1.0
 ```
 
 ##### Output
