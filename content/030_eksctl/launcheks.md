@@ -69,6 +69,10 @@ EOF
 
 Next, use the file you created as the input for the eksctl cluster creation.
 
+{{% notice info %}}
+We are deliberatly launching one version behind the latest (1.17 vs. 1.18) to allow you to perform a cluster upgrade in one of the Chapters.
+{{% /notice %}}
+
 ```bash
 eksctl create cluster -f eksworkshop.yaml
 ```
