@@ -5,15 +5,11 @@ weight: 20
 draft: false
 ---
 
-With our Storage Class configured we then need to create our Jenkins setup. To
-do this we'll create a `values.yaml` file then use the `helm` cli.
-
-
-#### Install Jenkins
+### Install Jenkins
 
 We'll begin by creating the `values.yaml` to declare the configuration of our Jenkins installation.
 
-```
+```bash
 cat << EOF > values.yaml
 ---
 master:
@@ -38,9 +34,10 @@ serviceAccount:
   name: "jenkins"
 EOF
 ```
+
 Now we'll use the `helm` cli to create the Jenkins server as we've declared it in the `values.yaml` file.
 
-```
+```bash
 helm install cicd stable/jenkins -f values.yaml
 ```
 
@@ -51,7 +48,7 @@ provisioned.
 Let's give this some time to provision and while we do let's watch for pods
 to boot.
 
-```
+```bash
 kubectl get pods -w
 ```
 
@@ -59,8 +56,9 @@ You should see the pods in `init`, `pending` or `running` state.
 
 Once this changes to `running` we can get the `load balancer` address.
 
-```
+```bash
 export SERVICE_IP=$(kubectl get svc --namespace default cicd-jenkins --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+
 echo http://$SERVICE_IP/login
 ```
 
@@ -71,5 +69,5 @@ The EXTERNAL-IP column contains a value that ends with "elb.amazonaws.com" - the
 {{% /notice %}}
 
 {{% notice tip %}}
-When the front-end service is first deployed, it can take up to several minutes for the ELB to be created and DNS updated. During this time the link above may display a "site unreachable" message. To check if the instances are in service, follow this [deep link](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:tag:kubernetes.io/service-name=default/cicd-jenkins;sort=loadBalancerName) to the load balancer console. On the load balancer select the instances tab and ensure that the instance status is listed as "InService" before proceeding to the jenkins login page. 
+When the front-end service is first deployed, it can take up to several minutes for the ELB to be created and DNS updated. During this time the link above may display a "site unreachable" message. To check if the instances are in service, follow this [deep link](https://console.aws.amazon.com/ec2/v2/home?#LoadBalancers:tag:kubernetes.io/service-name=default/cicd-jenkins;sort=loadBalancerName) to the load balancer console. On the load balancer select the instances tab and ensure that the instance status is listed as "InService" before proceeding to the jenkins login page.
 {{% /notice %}}

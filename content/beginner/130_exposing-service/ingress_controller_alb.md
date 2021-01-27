@@ -38,7 +38,7 @@ ALB supports multiple features including:
 
 #### Prerequisites
 
-We will verify if the AWS Load Balancer Controller version has beed set
+We will verify if the AWS Load Balancer Controller version has been set
 
 ```bash
 if [ ! -x ${LBC_VERSION} ]
@@ -103,7 +103,7 @@ eksctl create iamserviceaccount \
 #### Install the TargetGroupBinding CRDs
 
 ```bash
-kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master
+kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
 
 kubectl get crd
 ```

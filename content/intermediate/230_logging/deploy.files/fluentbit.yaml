@@ -160,11 +160,6 @@ spec:
         imagePullPolicy: Always
         ports:
           - containerPort: 2020
-        env:
-        - name: FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch"
-        - name: FLUENT_ELASTICSEARCH_PORT
-          value: "9200"
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -185,11 +180,3 @@ spec:
         configMap:
           name: fluent-bit-config
       serviceAccountName: fluent-bit
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
-      - operator: "Exists"
-        effect: "NoExecute"
-      - operator: "Exists"
-        effect: "NoSchedule"

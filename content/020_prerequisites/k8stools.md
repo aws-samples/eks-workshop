@@ -40,7 +40,7 @@ sudo yum -y install jq gettext bash-completion moreutils
 
 ```bash
 echo 'yq() {
-  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq yq "$@"
+  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
 }' | tee -a ~/.bashrc && source ~/.bashrc
 ```
 

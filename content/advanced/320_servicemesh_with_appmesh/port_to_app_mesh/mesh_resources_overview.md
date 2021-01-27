@@ -12,7 +12,7 @@ Kubernetes application objects that run within App Mesh must be defined as `Virt
 
 App Mesh also provides the `Virtual Service` construct which allows you to specify a logical service path for application traffic. In this example, they send traffic to `Virtual Routers`, which then route traffic to the `Virtual Nodes`.
 
-In the image below you see DJ App running within App Mesh. Each of the services (`dj`, `metal-v1`, and `jazz-v1`) has a virtual node defined, and each music category has a virtual service (`metal` and `jazz`). These virtual services send traffic to virtual routers within the mes, which in turn specify routing rules. This drives traffic to their respective virtual nodes and ultimately to the service endpoints within Kubernetes. 
+In the image below you see DJ App running within App Mesh. Each of the services (`dj`, `metal-v1`, and `jazz-v1`) has a virtual node defined, and each music category has a virtual service (`metal` and `jazz`). These virtual services send traffic to virtual routers within the mesh, which in turn specify routing rules. This drives traffic to their respective virtual nodes and ultimately to the service endpoints within Kubernetes. 
 
 ![App Mesh](/images/app_mesh_ga/135-v1-mesh.png)
 

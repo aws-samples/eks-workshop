@@ -10,52 +10,30 @@ Metrics Server is a scalable, efficient source of container resource metrics for
 
 These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
-We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
+We will deploy the metrics server using [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server).
 
 ```sh
-# create the metrics-service namespace
-kubectl create namespace metrics
-
-# deploy the metrics-server
-helm install metrics-server \
-    stable/metrics-server \
-    --version 2.11.1 \
-    --namespace metrics
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.1/components.yaml
 ```
 
-{{% notice warning %}}
-Some versions of EKS may get the following error once you [create the HPA in the next step](https://eksworkshop.com/beginner/080_scaling/test_hpa/)
-{{% /notice %}}
+Lets' verify the status of the metrics-server `APIService` (it could take a few minutes).
 
-```bash
-kubectl describe hpa
+```sh
+kubectl get apiservice v1beta1.metrics.k8s.io -o json | jq '.status'
 ```
 
 {{< output >}}
-... failed to get cpu utilization: unable to get metrics for resource cpu
-{{< /output >}}
-
-To fix, set the following values for the metric-server helm release [as described here](https://dev.to/setevoy/kubernetes-running-metrics-server-in-aws-eks-for-a-kubernetes-pod-autoscaler-4m9)
-
-```bash
-args:
-  - --kubelet-preferred-address-types=InternalIP
-```
-
-Lets' verify the status of the metrics-server `APIService` (it could take several minutes)
-
-```bash
-kubectl get apiservice v1beta1.metrics.k8s.io -o yaml | yq - r 'status'
-```
-
-{{< output >}}
-status:
-  conditions:
-  - lastTransitionTime: "2020-02-18T21:33:26Z"
-    message: all checks passed
-    reason: Passed
-    status: "True"
-    type: Available
+{
+  "conditions": [
+    {
+      "lastTransitionTime": "2020-11-10T06:39:13Z",
+      "message": "all checks passed",
+      "reason": "Passed",
+      "status": "True",
+      "type": "Available"
+    }
+  ]
+}
 {{< /output >}}
 
 **We are now ready to scale a deployed application**
