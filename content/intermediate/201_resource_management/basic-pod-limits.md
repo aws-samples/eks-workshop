@@ -14,26 +14,21 @@ We will create four pods:
 
 
 ### Deploy Metrics Server
-We will deploy metrics-server using `Helm` to help with monitoring resource utilization. `Helm` can be installed following the steps in the earlier [module] (/beginner/060_helm/helm_intro/install/)
+Follow the instructions in the module [Deploy the Metrics Server](/beginner/080_scaling/deploy_hpa/#deploy-the-metrics-server) to enable the Kubernetes Metrics Server.
 
+Verify that the metrics-server deployment is running the desired number of pods with the following command.
+```sh
+kubectl get deployment metrics-server -n kube-system
 ```
-# Create the metrics-service namespace
-kubectl create namespace metrics
+Output:
+{{< output >}}
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+metrics-server   1/1     1            1           19s
+{{< /output >}}
 
-# Install metrics-server into namespace
-helm install metrics-server \
-    stable/metrics-server \
-    --version 2.9.0 \
-    --namespace metrics
-
- # After 2 minutes verify current system metrics are shown
- kubectl top node
- kubectl top pod  --all-namespaces 
-```
 {{% notice info %}}
 CPU units are expressed as 1 CPU or 1000m, which equals to 1vCPU/Core. Additional details can be found [here](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes) 
 {{% /notice %}}
-
 
 ### Deploy Pods
 
