@@ -53,6 +53,7 @@ availabilityZones: ["${AWS_REGION}a", "${AWS_REGION}b", "${AWS_REGION}c"]
 managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 3
+  instanceType: t3.small
   ssh:
     allow: true
     publicKeyName: eksworkshop
