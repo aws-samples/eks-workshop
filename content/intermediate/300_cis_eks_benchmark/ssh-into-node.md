@@ -40,11 +40,11 @@ Install `kube-bench` using the commands below.
 
 - Set latest version
 ```
-KUBEBENCH_VERSION=$(curl -sL https://github.com/aquasecurity/kube-bench/releases | grep 'href="/aquasecurity/kube-bench/releases/tag/v0.[0-99]*.[0-99]*\"' | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}' | tr -d 'v')
+KUBEBENCH_URL=$(curl -s https://api.github.com/repos/aquasecurity/kube-bench/releases/latest | jq -r '.assets[] | select(.name | contains("amd64.rpm")) | .browser_download_url')
 ```
 - Download and install kube-bench using yum 
 ```
-sudo yum install -y https://github.com/aquasecurity/kube-bench/releases/download/v${KUBEBENCH_VERSION}/kube-bench_${KUBEBENCH_VERSION}_linux_amd64.rpm
+sudo yum install -y $KUBEBENCH_URL
 ```
 
 #### Run assessment against `eks-1.0`
