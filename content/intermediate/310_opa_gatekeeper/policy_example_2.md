@@ -1,6 +1,6 @@
 ---
-title: "OPA Policy Example 1: Approved container registry policy"
-weight: 20
+title: "OPA Policy Example 2: Approved container registry policy"
+weight: 25
 draft: false
 ---
 
