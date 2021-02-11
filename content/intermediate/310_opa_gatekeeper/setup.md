@@ -28,8 +28,8 @@ gatekeeper-controller-manager-744cdc8556-wwrb6   1/1     Running   0          25
 
 You can follow the OPA logs to see the webhook requests being issued by the Kubernetes API server:
 ```bash
-kubectl logs -l control-plane=controller-audit
-kubectl logs -l control-plane=controller-manager
+kubectl logs -l control-plane=controller-audit -n gatekeeper-system
+kubectl logs -l control-plane=controller-manager -n gatekeeper-system
 
 ```
 
