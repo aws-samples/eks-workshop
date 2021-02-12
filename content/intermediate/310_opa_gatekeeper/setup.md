@@ -30,8 +30,8 @@ gatekeeper-controller-manager-744cdc8556-wwrb6   1/1     Running   0          25
 
 You can follow the OPA logs to see the webhook requests being issued by the Kubernetes API server:
 ```bash
-kubectl logs -n gatekeeper-system -l control-plane=audit-controller -n gatekeeper-system
-kubectl logs -n gatekeeper-system -l control-plane=controller-manager -n gatekeeper-system
+kubectl logs -l control-plane=audit-controller -n gatekeeper-system
+kubectl logs -l control-plane=controller-manager -n gatekeeper-system
 ```
 
 This completes the OPA Gatekeeper setup on Amazon EKS cluster. To order to define and enforce the policy, OPA Gatekeeper uses a framework [OPA Constraint Framework](https://github.com/open-policy-agent/frameworks/tree/master/constraint)
