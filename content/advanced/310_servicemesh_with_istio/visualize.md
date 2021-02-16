@@ -5,24 +5,33 @@ weight: 60
 draft: false
 ---
 
-## Collecting new telemetry data
+## Install Grafana and Prometheus
+
+Istio provides a basic sample installation to quickly get Prometheus and Grafana up and running, bundled with all of the Istio dashboards already installed:
 
 ```bash
-kubectl apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/telemetry/metrics.yaml
+export ISTIO_RELEASE=$(echo $ISTIO_VERSION |cut -d. -f1,2)
+
+# Install Prometheus
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/prometheus.yaml
+
+# Install Grafana
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/grafana.yaml
 ```
 
-Make sure Prometheus and Grafana are running
+We can now verify that they have been installed:
 
 ```bash
-kubectl -n istio-system get svc prometheus grafana
+kubectl -n istio-system get deploy grafana prometheus
 ```
 
 {{< output >}}
-NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-prometheus   ClusterIP   10.100.3.219     <none>        9090/TCP   14h
-NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-grafana      ClusterIP   10.100.211.214   <none>        3000/TCP   14h
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+grafana      1/1     1            1           63s
+prometheus   1/1     1            1           64s
 {{< /output >}}
+
+## Collecting new telemetry data
 
 Open a new terminal tab and setup port-forwarding for Grafana by executing the following command
 
@@ -33,6 +42,9 @@ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=gr
 Open the Istio Dashboard via the Grafana UI
 
 * In your Cloud9 environment, click **Preview / Preview Running Application**
+
+![Open Grafana](/images/istio/istio_grafana_open.png)
+
 * Scroll to **the end of the URL** and append:
 
 ```bash
