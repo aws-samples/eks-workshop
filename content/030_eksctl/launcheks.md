@@ -48,11 +48,12 @@ metadata:
   region: ${AWS_REGION}
   version: "1.17"
 
-availabilityZones: ["${AWS_REGION}a", "${AWS_REGION}b", "${AWS_REGION}c"]
+availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
 
 managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 3
+  instanceType: t3.small
   ssh:
     allow: true
     publicKeyName: eksworkshop
