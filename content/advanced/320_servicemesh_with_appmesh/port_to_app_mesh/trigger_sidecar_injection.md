@@ -46,7 +46,9 @@ metal-v1-9f78fb8c8-67mqc   2/2     Running   0          14s
 Now you can see that 2 containers are running in each pod, verify that they are the application service and the Envoy proxy. Examine the pod and confirm these are the containers running within it.
 
 ```bash
-kubectl -n prod get pods dj-6544487b5f-7glpg -o jsonpath='{.spec.containers[*].name}'
+export DJ_POD_NAME=$(kubectl get pods -n prod -l app=dj -o jsonpath='{.items[].metadata.name}')
+
+kubectl -n prod get pods $DJ_POD_NAME -o jsonpath='{.spec.containers[*].name}'
 ```
 
 {{< output >}}
