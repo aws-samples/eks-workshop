@@ -7,7 +7,12 @@ draft: false
 chapter: false
 tags:
   - beginner
----
+--
+
+{{% notice warning %}}
+Security groups for pods are supported by most Nitro-based Amazon EC2 instance families, including the m5, c5, r5, p3, m6g, c6g, and r6g instance families. The t3 instance family is not supported.
+For this reason, this chapter lab won't work if you [created the cluster with t3 instance families for the managedNodeGroups](/030_eksctl/launcheks/#create-an-eks-cluster), as stated when creating the cluster in the first chapters of the workshop.
+{{% /notice %}}
 
 ### Introduction
 
