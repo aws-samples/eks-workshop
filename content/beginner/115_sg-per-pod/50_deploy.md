@@ -74,7 +74,7 @@ The container will try to:
 * Connect to the database and will output the content of a table to _STDOUT_.
 * If the database connection failed, the error message will also be outputted to _STDOUT_.
 
-Let's verify the logs (use _CTRL+C_ to exit the log)
+Let's verify the logs.
 
 ```bash
 export GREEN_POD_NAME=$(kubectl -n sg-per-pod get pods -l app=green-pod -o jsonpath='{.items[].metadata.name}')
@@ -89,12 +89,16 @@ Output
 [('--------------------------',), ('Welcome to the eksworkshop',), ('--------------------------',)]
 {{% /output %}}
 
+{{% notice note %}}
+use _CTRL+C_ to exit the log
+{{% /notice %}}
+
 As we can see, our attempt was successful!
 
 Now let's verify that:
 
 * An ENI is attached to the pod.
-* And the ENI has the POD_SG attached to it.
+* And the ENI has the security group POD_SG attached to it.
 
 We can find the ENI ID in the pod `Annotations` section using this command.
 
@@ -118,7 +122,7 @@ Annotations:  kubernetes.io/psp: eks.privileged
 Status:       Running
 {{< /output >}}
 
-You can verify that the POD_SG is attached to the `eni` shown above by opening this [link](https://console.aws.amazon.com/ec2/home?#NIC:search=POD_SG).
+You can verify that the security group POD_SG is attached to the `eni` shown above by opening this [link](https://console.aws.amazon.com/ec2/home?#NIC:search=POD_SG).
 
 ![sg-per-pod_6](/images/sg-per-pod/sg-per-pod_6.png)
 
@@ -151,7 +155,7 @@ Output
 Database connection failed due to timeout expired
 {{< /output >}}
 
-Finally let's verify that the pod doesn't have an ineId `annotation`.
+Finally let's verify that the pod doesn't have an _enitId_ `annotation`.
 
 ```bash
 kubectl -n sg-per-pod  describe pod ${RED_POD_MAME} | head -11
