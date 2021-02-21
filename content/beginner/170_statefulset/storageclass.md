@@ -4,24 +4,16 @@ title: "Define Storageclass"
 date: 2018-08-07T08:30:11-07:00
 weight: 5
 ---
-#### Introduction
+## Introduction
+
 [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/) allows storage volumes to be created on-demand. [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) should be pre-created to define which provisioner should be used and what parameters should be passed when dynamic provisioning is invoked.
 
-#### Define Storage Class
-Copy/Paste the following commands into your Cloud9 Terminal. 
-```sh
-mkdir ~/environment/templates
-cd ~/environment/templates
-wget https://eksworkshop.com/beginner/170_statefulset/storageclass.files/mysql-storageclass.yml
-```
+## Define Storage Class
 
-Check the configuration of `mysql-storageclass.yml` file by following command.
-```sh
-cat ~/environment/templates/mysql-storageclass.yml
-```
+Copy/Paste the following commands into your Cloud9 Terminal.
 
-You can see the provisioner is `ebs.csi.aws.com` and type is `gp2` specified as a parameter. 
-{{< output >}}
+```sh
+cat << EoF > ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
@@ -29,21 +21,31 @@ metadata:
 provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
 parameters:
   type: gp2
-  encrypted: 'true' #EBS volumes will always be encrypted
+  encrypted: 'true' # EBS volumes will always be encrypted by default
 reclaimPolicy: Delete
 mountOptions:
 - debug
-{{< /output >}}
-
-Create storageclass `mysql-gp2` by following command. 
-```sh
-kubectl create -f ~/environment/templates/mysql-storageclass.yml
+EoF
 ```
 
-You can verify the StorageClass and its options with this command. 
+You can see that:
+
+* The provisioner is `ebs.csi.aws.com`.
+* The volume type is [General Purpose SSD volumes (gp2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2).
+* The `encrypted` parameter will ensure the EBS volumes are encrypted by default.
+
+Create storageclass `mysql-gp2` by following command.
+
+```sh
+kubectl create -f ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
+```
+
+You can verify the StorageClass and its options with this command.
+
 ```sh
 kubectl describe storageclass mysql-gp2
 ```
+
 {{< output >}}
 Name:                  mysql-gp2
 IsDefaultClass:        No
@@ -58,7 +60,8 @@ VolumeBindingMode:  Immediate
 Events:             <none>
 {{< /output >}}
 
-We will specify `mysql-gp2` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later. 
+We will specify `mysql-gp2` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
+
 {{< output >}}
 volumeClaimTemplates:
   - metadata:
@@ -70,5 +73,3 @@ volumeClaimTemplates:
         requests:
           storage: 10Gi
 {{< /output >}}
-
-{{%attachments title="Related files" pattern=".yml"/%}}
