@@ -9,7 +9,7 @@ tags:
 
 ### Create and configure the security groups
 
-First, let's create the RDS_SG security group. It will be used by the Amazon RDS instance to control network access.
+First, let's create the RDS security group (RDS_SG). It will be used by the Amazon RDS instance to control network access.
 
 ```bash
 export VPC_ID=$(aws eks describe-cluster \
@@ -31,7 +31,7 @@ export RDS_SG=$(aws ec2 describe-security-groups \
 echo "RDS security group ID: ${RDS_SG}"
 ```
 
-Now, let's create the POD_SG security group.
+Now, let's create the pod security group (POD_SG).
 
 ```bash
 # create the POD security group

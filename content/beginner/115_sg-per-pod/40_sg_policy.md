@@ -49,7 +49,8 @@ We can finally deploy it in a specific `namespace`.
 ```bash
 kubectl create namespace sg-per-pod
 
-kubectl -n sg-per-pod apply -f sg-policy.yaml
+kubectl -n sg-per-pod apply -f ~/environment/sg-per-pod/sg-policy.yaml
+
 kubectl -n sg-per-pod describe securitygrouppolicy
 ```
 
