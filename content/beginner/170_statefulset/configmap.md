@@ -4,32 +4,26 @@ date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
 
-#### Introduction
-[ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) allow you to decouple configuration artifacts and secrets from image content to keep containerized applications portable. Using ConfigMap, you can independently control MySQL configuration. 
+## Introduction
 
-#### Create the mysql Namespace
+[ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) allow you to decouple configuration artifacts and secrets from image content to keep containerized applications portable. Using ConfigMap, you can independently control MySQL configuration.
+
+## Create the mysql Namespace
+
 We will create a new `Namespace` called `mysql` that will host all the components.
+
 ```sh
 kubectl create namespace mysql
 ```
 
-#### Create ConfigMap
+## Create ConfigMap
+
 Run the following commands to download the `ConfigMap`.
+
 ```sh
-cd ~/environment/templates
-wget https://eksworkshop.com/beginner/170_statefulset/configmap.files/mysql-configmap.yml
+cd ${HOME}/environment/ebs_statefulset
 
-```
-
-Check the configuration of mysql-configmap.yml file.
-```sh
-cat ~/environment/templates/mysql-configmap.yml
-```
-
-The `ConfigMap` stores master.cnf, slave.cnf and passes them when initializing leader and follower pods defined in StatefulSet:
-* **master.cnf** is for the MySQL leader pod which has binary log option (log-bin) to provides a record of the data changes to be sent to follower servers.
-* **slave.cnf** is for follower pods which have super-read-only option.
-{{< output >}}
+cat << EoF > ${HOME}/environment/ebs_statefulset/mysql-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -43,14 +37,19 @@ data:
     [mysqld]
     log-bin
   slave.cnf: |
-    # Apply this config only on follower.
+    # Apply this config only on followers.
     [mysqld]
     super-read-only
-{{< /output >}}
-
-Create "mysql-config" `ConfigMap`.
-```sh
-kubectl create -f ~/environment/templates/mysql-configmap.yml
+EoF
 ```
 
-{{%attachments title="Related files" pattern=".yml"/%}}
+The `ConfigMap` stores `master.cnf`, `slave.cnf` and passes them when initializing leader and follower pods defined in StatefulSet:
+
+* **master.cnf** is for the MySQL leader pod which has binary log option (log-bin) to provides a record of the data changes to be sent to follower servers.
+* **slave.cnf** is for follower pods which have super-read-only option.
+
+Create "mysql-config" `ConfigMap`.
+
+```sh
+kubectl create -f ${HOME}/environment/ebs_statefulset/mysql-configmap.yaml
+```
