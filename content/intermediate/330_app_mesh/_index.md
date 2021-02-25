@@ -1,13 +1,13 @@
 ---
-title: "Service Mesh with AWS App Mesh"
+title: "Getting Started with AWS App Mesh"
 date: 2018-08-07T08:30:11-07:00
-weight: 320
+weight: 330
 pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 aliases:
     - /mesh/
     - /appmesh/
 tags:
-  - advanced
+  - intermediate
   - operations
   - servicemesh
   - appmesh
