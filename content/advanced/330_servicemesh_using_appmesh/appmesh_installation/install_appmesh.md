@@ -92,7 +92,7 @@ kubectl get deployment appmesh-controller \
 v1.3.0
 {{< /output >}}
 
-Confirm all the resources are created in the App Mesh
+Confirm all the App Mesh CRDs are created in the Cluster 
 
 ```bash
 kubectl get crds | grep appmesh
