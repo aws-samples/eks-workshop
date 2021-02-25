@@ -18,6 +18,36 @@ you should see information coming from Product Catalog `proddetail-v2` V2 after 
 
 ![canaey](/images/app_mesh_fargate/lbfrontend-2.png)
 
+Once we gain confidence in our new service version 2, and we see no error or latency issue, then we can decide to divert more traffic gradually to version V2.
+In below example we shift the traffic weight to 50% for both proddetail service versions in VirualRouter.
+
+![canary](/images/app_mesh_fargate/canary50-1.png)
+
+{{< output >}}
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: proddetail-router
+  namespace: prodcatalog-ns
+spec:
+.....
+  routes:
+    - name: proddetail-route
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: proddetail-v1
+              weight: 50
+            - virtualNodeRef:
+                name: proddetail-v2
+              weight: 50
+---
+{{< /output >}}
+
 If anything were to go wrong, you can simply rollback to the known-good v1 version of the services by changing the weight in VirtualRouter to 100% to version 1. 
 Once you've verified things are good with the new versions, you can shift all traffic to them and deprecate v1.
 

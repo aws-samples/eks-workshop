@@ -9,7 +9,7 @@ draft: false
 Now lets deploy a new version (version 2) of Catalog Product Detail backend service. 
 And change the `proddetail` VirtualRouter to route traffic 90% to `proddetail-v1` version 1 and 10% to `proddetail-v2` version 2. 
 And as we gain confidence in the `proddetail-v2`, we can increase the % in a linear fashion. 
-![canary](/images/app_mesh_fargate/canary2.png)
+![canary](/images/app_mesh_fargate/canary1.png)
 
 #### Build Catalog Detail Version 2 service
 
@@ -28,7 +28,40 @@ done
 cd ../../.
 ```
 
-Deploy the new service and mesh resources for version 2 service
+#### Deploy Catalog Detail Version 2 service resources
+
+Looking at the section of [canary.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/canary.yaml#L27) shown below, 
+you can see we've added the route as 10% to new service `proddetail-v2` and 90% to existing service `proddetail-v1`.
+
+{{< output >}}
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: proddetail-router
+  namespace: prodcatalog-ns
+spec:
+  listeners:
+    - portMapping:
+        port: 3000
+        protocol: http
+  routes:
+    - name: proddetail-route
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: proddetail-v1
+              weight: 90
+            - virtualNodeRef:
+                name: proddetail-v2
+              weight: 10
+---
+{{< /output >}}
+
+Lets deploy the resources for proddetail service version v2
 
 ```bash
 envsubst < ./deployment/canary.yaml | kubectl apply -f -

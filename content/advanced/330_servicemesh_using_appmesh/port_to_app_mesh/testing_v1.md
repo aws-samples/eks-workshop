@@ -5,8 +5,7 @@ weight: 80
 ---
 
 Now it's time to test. 
-
-![App Mesh](/images/app_mesh_fargate/meshify0.png)
+![App Mesh](/images/app_mesh_fargate/meshify.png)
 
 To test if our ported Product Catalog App is working as expected, we'll first exec into the `frontend-node` container.
 

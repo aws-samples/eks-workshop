@@ -37,34 +37,6 @@ helm repo update
 Update Complete. ⎈Happy Helming!⎈
 {{< /output >}}
 
-Install App Mesh CRDs
-```bash
-kubectl apply -k "https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master"
- ```
-{{< output >}}
-customresourcedefinition.apiextensions.k8s.io/gatewayroutes.appmesh.k8s.aws created
-customresourcedefinition.apiextensions.k8s.io/meshes.appmesh.k8s.aws created
-customresourcedefinition.apiextensions.k8s.io/virtualgateways.appmesh.k8s.aws created
-customresourcedefinition.apiextensions.k8s.io/virtualnodes.appmesh.k8s.aws created
-customresourcedefinition.apiextensions.k8s.io/virtualrouters.appmesh.k8s.aws created
-customresourcedefinition.apiextensions.k8s.io/virtualservices.appmesh.k8s.aws created
-{{< /output >}}
-
-Confirm all the resources are created in the App Mesh
-
-```bash
-kubectl get crds | grep appmesh
-```
-{{< output >}}
-gatewayroutes.appmesh.k8s.aws                2020-11-02T16:02:14Z
-meshes.appmesh.k8s.aws                       2020-11-02T16:02:15Z
-virtualgateways.appmesh.k8s.aws              2020-11-02T16:02:15Z
-virtualnodes.appmesh.k8s.aws                 2020-11-02T16:02:15Z
-virtualrouters.appmesh.k8s.aws               2020-11-02T16:02:15Z
-virtualservices.appmesh.k8s.aws              2020-11-02T16:02:15Z    
-{{< /output >}}
-
-
 #### Install App Mesh Controller
 
 Create the appmesh-system namespace and attach IAM Policies for AWS App Mesh and AWS Cloud Map full access.
@@ -120,7 +92,21 @@ kubectl get deployment appmesh-controller \
 v1.3.0
 {{< /output >}}
 
-Get all the resources are created in appmesh-system Namespace
+Confirm all the resources are created in the App Mesh
+
+```bash
+kubectl get crds | grep appmesh
+```
+{{< output >}}
+gatewayroutes.appmesh.k8s.aws                2020-11-02T16:02:14Z
+meshes.appmesh.k8s.aws                       2020-11-02T16:02:15Z
+virtualgateways.appmesh.k8s.aws              2020-11-02T16:02:15Z
+virtualnodes.appmesh.k8s.aws                 2020-11-02T16:02:15Z
+virtualrouters.appmesh.k8s.aws               2020-11-02T16:02:15Z
+virtualservices.appmesh.k8s.aws              2020-11-02T16:02:15Z    
+{{< /output >}}
+
+Get all the resources created in appmesh-system Namespace
 
 ```bash
 kubectl -n appmesh-system get all          
