@@ -5,8 +5,7 @@ weight: 10
 ---
 
 #### App Mesh Design
-
-![App Mesh](/images/app_mesh_fargate/meshify0.png)
+![App Mesh](/images/app_mesh_fargate/meshify.png)
 
 In the image above you see all the services in Product Catalog Application are running within App Mesh. 
 Each of the services  has a VirtualNode defined (`frontend-node`, `prodcatalog`, and `proddetail-v1`), as well as VirtualService (`fontend-node`, `prodcatalog` and `proddetail`). 

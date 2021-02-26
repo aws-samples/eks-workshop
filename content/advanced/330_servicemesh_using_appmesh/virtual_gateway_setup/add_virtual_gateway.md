@@ -6,7 +6,7 @@ weight: 50
 
 #### Adding App Mesh VirtualGateway
 
-![gateway](/images/app_mesh_fargate/meshify3.png)
+![gateway](/images/app_mesh_fargate/meshify-vg.png)
 Until now we have verified the communication between services is routed through envoy proxy, lets expose the frontend service `frontend-node` using AWS App Mesh VirtualGateway.
 
 Create VirtualGateway components uisng the [virtual_gateway.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/virtual_gateway.yaml) as shown below. 
