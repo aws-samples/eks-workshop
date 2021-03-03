@@ -21,7 +21,7 @@ This URL will be needed when we will configure the application into ArgoCD.
 
 Connect with ArgoCD CLI using our cluster context:
 ```
-CONTEXT_NAME=`kubectl config view -o jsonpath='{.contexts[].name}'`
+CONTEXT_NAME=`kubectl config view -o jsonpath='{.current-context}'`
 argocd cluster add $CONTEXT_NAME
 ```
 
