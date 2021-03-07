@@ -40,12 +40,20 @@ eksctl utils associate-iam-oidc-provider \
   --cluster eksworkshop-eksctl \
   --approve
 
-# Create an IAM role for the appmesh-controller service account
+# Download the IAM policy document for the controller
+curl -o controller-iam-policy.json https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/config/iam/controller-iam-policy.json
+
+# Create an IAM policy for the controller from the policy document
+aws iam create-policy \
+    --policy-name AWSAppMeshK8sControllerIAMPolicy \
+    --policy-document file://controller-iam-policy.json
+
+# Create an IAM role and service account for the controller
 eksctl create iamserviceaccount \
   --cluster eksworkshop-eksctl \
   --namespace appmesh-system \
   --name appmesh-controller \
-  --attach-policy-arn  arn:aws:iam::aws:policy/AWSCloudMapFullAccess,arn:aws:iam::aws:policy/AWSAppMeshFullAccess \
+  --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSAppMeshK8sControllerIAMPolicy  \
   --override-existing-serviceaccounts \
   --approve
 ```
