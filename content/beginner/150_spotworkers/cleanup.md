@@ -19,13 +19,7 @@ kubectl delete -f kubernetes/service.yaml
 kubectl delete -f kubernetes/deployment.yaml
 ```
 
-Cleanup the AWS Node Termination Handler Daemonset
-
-```bash
-helm uninstall aws-node-termination-handler --namespace=kube-system
-```
-
-To delete the label and the Node Group created  by this module, run the following commands
+To delete the label and the Node Group created by this module, run the following commands
 
 ```bash
 kubectl label nodes --all lifecycle-

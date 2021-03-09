@@ -1,5 +1,6 @@
 ---
 title: "Using Spot Instances with EKS"
+date: 2021-03-08T10:00:00-08:00
 chapter: true
 weight: 150
 pre: '<i class="fa fa-film" aria-hidden="true"></i> '

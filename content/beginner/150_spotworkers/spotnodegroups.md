@@ -1,12 +1,12 @@
 ---
 title: "Add EC2 Workers - Spot"
-date: 2018-08-07T11:05:19-07:00
+date: 2021-03-08T10:00:00-08:00
 weight: 10
 draft: false
 ---
-We have our EKS Cluster and nodes already, but we need some Spot Instances configured to run the workload. We will be creating managed nodegroup to utilize Spot Instances. We also need a Node Labeling strategy to identify which instances are Spot and which are on-demand so that we can make more intelligent scheduling decisions. We will use `eksctl` to launch new worker nodes that will connect to the EKS cluster.
+We have our EKS Cluster and nodes already, but we need some Spot Instances configured to run the workload. We will be creating managed nodegroup to utilize Spot Instances. We also need a Node Labeling strategy to identify which instances are Spot and which are On-Demand so that we can make more intelligent scheduling decisions. We will use `eksctl` to launch new worker nodes that will connect to the EKS cluster.
 
-But first, we will add a new label to the OnDemand worker nodes
+But first, we will add a new label to the On-Demand nodes
 
 ```bash
 kubectl label nodes --all 'lifecycle=OnDemand'
@@ -22,9 +22,7 @@ eksctl create nodegroup --cluster=eksworkshop-eksctl --region=${AWS_REGION} --ma
 
 During the creation of the Node Group, we have configured a **node-label** so that kubernetes knows what type of nodes we have provisioned. We set the **lifecycle** for the nodes as **Ec2Spot**. 
 
-The created nodes are [tainted](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) with **PreferNoSchedule** to prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
-
-The node groups created also follows Spot best practices including using [capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/) as the spotAllocationStrategy, which will launch instances from the Spot Instance pools with the most available capacity (out of the instance types we specified), aiming to decrease the number of Spot interruptions in our cluster (when EC2 needs the capacity back).
+The node groups created follows Spot best practices including using [capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/) as the spotAllocationStrategy, which will launch instances from the Spot Instance pools with the most available capacity (out of the instance types we specified), aiming to decrease the number of Spot interruptions in our cluster (when EC2 needs the capacity back).
 
 {{% notice info %}}
 The creation of the nodes will take about 3 minutes.
@@ -56,7 +54,3 @@ kubectl get nodes --label-columns=lifecycle --selector=lifecycle=OnDemand
 ```
 
 ![OnDemand Output](/images/spotworkers/spot_get_od.png)
-
-You can use the `kubectl describe nodes` with one of the spot nodes to see the taints applied to the EC2 Spot Instances.
-
-![Spot Taints](/images/spotworkers/instance_taints.png)

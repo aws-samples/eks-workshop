@@ -1,6 +1,6 @@
 ---
 title: "AWS Node Termination Handler"
-date: 2018-08-07T12:32:40-07:00
+date: 2021-03-08T10:00:00-08:00
 weight: 20
 draft: false
 ---
