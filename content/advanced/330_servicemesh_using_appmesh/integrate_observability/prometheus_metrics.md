@@ -1,7 +1,7 @@
 ---
 title: "Prometheus Metrics"
 date: 2020-01-27T08:30:11-07:00
-weight: 94
+weight: 93
 draft: false
 ---
 CloudWatch Container Insights monitoring for Prometheus automates the discovery of Prometheus metrics from containerized systems and workloads. Prometheus is an open-source systems monitoring and alerting toolkit. 
