@@ -11,9 +11,9 @@ Observability includes the use of various signals (metrics, traces, logs) to mon
 
 * Container Insights
 * Cloudwatch Container logs
+* Prometheus App Mesh Metrics
 * Fargate Container logs
 * AWS X-Ray Tracing
-* Prometheus App Mesh Metrics
 
 {{% notice info %}}
 Make sure that you have completed the [Observability Setup](/advanced/330_servicemesh_using_appmesh/add_nodegroup_fargate/cloudwatch_setup/) chapter before proceeding to the next section. {{% /notice %}}
