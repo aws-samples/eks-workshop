@@ -10,6 +10,7 @@ Once you have completed this chapter, you can cleanup the files and resources yo
 ```bash
 unset AWS_SECRET_ACCESS_KEY
 unset AWS_ACCESS_KEY_ID
+kubectl get pods -n rbac-test -o json | jq -r '.items[0].metadata.name' | xargs -I {} kubectl delete pods {} -n rbac-test
 kubectl delete namespace rbac-test
 rm rbacuser_creds.sh
 rm rbacuser-role.yaml
