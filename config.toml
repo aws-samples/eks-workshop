@@ -31,6 +31,21 @@ pygmentsCodefencesGuessSyntax = true
 pygmentsStyle = "tango"
 
 
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = false
+    disable = true
+    respectDoNotTrack = false
+    useSessionStorage = false
+  [privacy.youtube]
+    disable = false
+    privacyEnhanced = true
+
+[services]
+  [services.youtube]
+    privacyEnhanced = true
+
+
 
 #
 
