@@ -23,16 +23,7 @@ ip-192-168-84-9.us-west-2.compute.internal     Ready    <none>   24h   v1.16.12-
 
 #### SSH into nodes
 
-From the output in the above step, log into one of the nodes by using the following command. Replace the `< >` with an IP address value within 'EXTERNAL-IP'.
-
-```
-ssh ec2-user@<replace with EXTERNAL-IP>
-```
-
-{{% notice info %}}
-Using output from the previous step, the sample command would be:
-`ssh ec2-user@34.220.140.125`
-{{% /notice %}}
+* Ssh (using SSM) via the AWS Console by clicking 'Connect'->'Session Manager`
 
 #### Install `kube-bench`
 
