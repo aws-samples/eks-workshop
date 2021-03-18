@@ -20,4 +20,4 @@ In addition to upgrades to Kuberentes, there are other related upgrades to think
 - The foundational DaemonSets that are on deployed onto every EKS cluster (kube-proxy, CoreDNS and the AWS CNI) which may need to be upgraded as you upgrade Kubernetes. Our documentation [tells you](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html#w665aac14c15b5c17) if this is required and which versions you should upgrade to.
 - And any Add-ons/Controllers/Drivers that you've added to extend Kubernetes and provide important cluster functionality may need to be upgraded as you upgrade Kuberentes
 
-In this Chapter you'll follow the AWS suggested process to upgrade your cluster from 1.17 to 1.18 including its Managed Node Group to get first-hand experience with this process and where EKS and Managed Node Groups help.
+In this Chapter you'll follow the AWS suggested process to upgrade your cluster from 1.18 to 1.19 including its Managed Node Group to get first-hand experience with this process and where EKS and Managed Node Groups help.
