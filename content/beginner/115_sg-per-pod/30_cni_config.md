@@ -19,6 +19,9 @@ First we need to attach a new IAM policy the Node group role to allow the EC2 in
 The following command adds the policy `AmazonEKSVPCResourceController` to a cluster role.
 
 ```bash
+export ROLE_NAME=$(aws eks describe-nodegroup --cluster-name=eksworkshop-eksctl --nodegroup-name nodegroup-sec-group \
+    --query "nodegroup.nodeRole" --output text | grep -o -E '[A-Za-z0-9-]*$')
+    
 aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
     --role-name ${ROLE_NAME}
@@ -29,7 +32,7 @@ Next, we will enable the CNI plugin to manage network interfaces for pods by set
 ```bash
 kubectl -n kube-system set env daemonset aws-node ENABLE_POD_ENI=true
 
-# let's way for the rolling update of the daemonset
+# let's wait for the rolling update of the daemonset
 kubectl -n kube-system rollout status ds aws-node
 ```
 
