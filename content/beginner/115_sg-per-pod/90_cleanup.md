@@ -23,6 +23,8 @@ export NODE_GROUP_SG=$(aws ec2 describe-security-groups \
     --filters Name=tag:Name,Values=eks-cluster-sg-eksworkshop-eksctl-* Name=vpc-id,Values=${VPC_ID} \
     --query "SecurityGroups[0].GroupId" \
     --output text)
+ export ROLE_NAME=$(aws eks describe-nodegroup --cluster-name=eksworkshop-eksctl --nodegroup-name nodegroup-sec-group \
+    --query "nodegroup.nodeRole" --output text | grep -o -E '[A-Za-z0-9-]*$')
 
 # uninstall the RPM package
 sudo yum erase -y postgresql
