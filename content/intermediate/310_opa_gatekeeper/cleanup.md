@@ -8,7 +8,6 @@ draft: false
 
 ```bash
 kubectl delete -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
-
 ```
 
 Make sure that all the CRD were deleted:
@@ -19,5 +18,4 @@ kubectl delete crd \
   constraintpodstatuses.status.gatekeeper.sh \
   constrainttemplatepodstatuses.status.gatekeeper.sh \
   constrainttemplates.templates.gatekeeper.sh
-  
 ```
