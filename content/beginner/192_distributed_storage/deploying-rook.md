@@ -12,7 +12,7 @@ You must complete the [Start the Workshop](/020_prerequisites/workspace/) and [L
 First of all we need to clone the Rook Github repository into our local file storage
 
 ```
-cd ~
+cd ~/environment/
 git clone https://github.com/rook/rook.git
 ```
 
@@ -27,12 +27,6 @@ The deployment and configuration can be triggered by simply using the pre-prepar
 ```
 kubectl apply -f ~/environment/rook/cluster/examples/kubernetes/ceph/crds.yaml 
 kubectl apply -f ~/environment/rook/cluster/examples/kubernetes/ceph/common.yaml
-~/environment/rook/cluster/examples/kubernetes/ceph/config-admission-controller.sh
-```
-
-Next as we do have the secrets and permissions in place we'll create the operator deployment itself. 
-
-```
 kubectl apply -f ~/environment/rook/cluster/examples/kubernetes/ceph/operator.yaml
 ```
 
