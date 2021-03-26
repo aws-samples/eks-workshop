@@ -14,7 +14,7 @@ There are restrictions on the range of secondary CIDRs you can use to extend you
 
 You can use below commands to add 100.64.0.0/16 to your EKS cluster VPC. Please note to change the Values parameter to EKS cluster name if you used different name than eksctl-eksworkshop
 ```
-VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=eksctl-eksworkshop* | jq -r '.Vpcs[].VpcId')
+VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=eksctl-eksworkshop* --query 'Vpcs[].VpcId' --output text)
 
 aws ec2 associate-vpc-cidr-block --vpc-id $VPC_ID --cidr-block 100.64.0.0/16
 ```
@@ -38,9 +38,9 @@ I have 3 instances and using 3 subnets in my environment. For simplicity, we wil
 export AZ1=us-east-2a
 export AZ2=us-east-2b
 export AZ3=us-east-2c
-CGNAT_SNET1=$(aws ec2 create-subnet --cidr-block 100.64.0.0/19 --vpc-id $VPC_ID --availability-zone $AZ1 | jq -r .Subnet.SubnetId)
-CGNAT_SNET2=$(aws ec2 create-subnet --cidr-block 100.64.32.0/19 --vpc-id $VPC_ID --availability-zone $AZ2 | jq -r .Subnet.SubnetId)
-CGNAT_SNET3=$(aws ec2 create-subnet --cidr-block 100.64.64.0/19 --vpc-id $VPC_ID --availability-zone $AZ3 | jq -r .Subnet.SubnetId)
+CGNAT_SNET1=$(aws ec2 create-subnet --cidr-block 100.64.0.0/19 --vpc-id $VPC_ID --availability-zone $AZ1 --query 'Subnet.SubnetId' --output text)
+CGNAT_SNET2=$(aws ec2 create-subnet --cidr-block 100.64.32.0/19 --vpc-id $VPC_ID --availability-zone $AZ2 --query 'Subnet.SubnetId' --output text)
+CGNAT_SNET3=$(aws ec2 create-subnet --cidr-block 100.64.64.0/19 --vpc-id $VPC_ID --availability-zone $AZ3 --query 'Subnet.SubnetId' --output text)
 ```
 Next step is to add Kubernetes tags on newer Subnets. You can check these tags by querying your current subnets
 ```
@@ -70,8 +70,8 @@ aws ec2 create-tags --resources $CGNAT_SNET3 --tags Key=kubernetes.io/role/elb,V
 ```
 As next step, we need to associate three new subnets into a route table. Again for simplicity, we chose to add new subnets to the Public route table that has connectivity to Internet Gateway
 ```
-SNET1=$(aws ec2 describe-subnets --filters Name=cidr-block,Values=192.168.0.0/19 | jq -r '.Subnets[].SubnetId')
-RTASSOC_ID=$(aws ec2 describe-route-tables --filters Name=association.subnet-id,Values=$SNET1 | jq -r '.RouteTables[].RouteTableId')
+SNET1=$(aws ec2 describe-subnets --filters Name=cidr-block,Values=192.168.0.0/19 --query 'Subnets[].SubnetId' --output text)
+RTASSOC_ID=$(aws ec2 describe-route-tables --filters Name=association.subnet-id,Values=$SNET1 --query 'RouteTables[].RouteTableId' --output text)
 aws ec2 associate-route-table --route-table-id $RTASSOC_ID --subnet-id $CGNAT_SNET1
 aws ec2 associate-route-table --route-table-id $RTASSOC_ID --subnet-id $CGNAT_SNET2
 aws ec2 associate-route-table --route-table-id $RTASSOC_ID --subnet-id $CGNAT_SNET3

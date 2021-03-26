@@ -39,21 +39,19 @@ kubectl -n sg-per-pod delete -f ~/environment/sg-per-pod/red-pod.yaml
 kubectl -n sg-per-pod delete -f ~/environment/sg-per-pod/sg-policy.yaml
 kubectl -n sg-per-pod delete secret rds
 
+# delete the namespace
 kubectl delete ns sg-per-pod
 
 # disable ENI trunking
 kubectl -n kube-system set env daemonset aws-node ENABLE_POD_ENI=false
 kubectl -n kube-system rollout status ds aws-node
 
-# remove the trunk label
-kubectl label node  --all 'vpc.amazonaws.com/has-trunk-attached'-
-
-# detach IAM policy
+# detach the IAM policy
 aws iam detach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
     --role-name ${ROLE_NAME}
 
-# remove security group rules
+# remove the security groups rules
 aws ec2 revoke-security-group-ingress \
     --group-id ${RDS_SG} \
     --protocol tcp \
@@ -78,12 +76,9 @@ aws ec2 revoke-security-group-ingress \
     --port 53 \
     --source-group ${POD_SG}
 
-# delete POD SG
+# delete POD security group
 aws ec2 delete-security-group \
     --group-id ${POD_SG}
-cd ~/environment
-
-rm -rf sg-per-pod
 ```
 
 Verify the RDS instance has been deleted.
@@ -95,18 +90,33 @@ aws rds describe-db-instances \
     --output text
 ```
 
-Excepted output
+Expected output
 
 {{< output >}}
 An error occurred (DBInstanceNotFound) when calling the DescribeDBInstances operation: DBInstance rds-eksworkshop not found.
 {{< /output >}}
+
+We can now safely delete the DB security group and the DB subnet group.
 
 ```bash
 # delete RDS SG
 aws ec2 delete-security-group \
     --group-id ${RDS_SG}
 
-## delete db-group
+# delete DB subnet group
 aws rds delete-db-subnet-group \
     --db-subnet-group-name rds-eksworkshop
+```
+
+Finally, we will delete the EKS Nodegroup
+
+```sh
+# delete the nodegroup
+eksctl delete nodegroup -f ${HOME}/environment/sg-per-pod/nodegroup-sec-group.yaml --approve
+
+# remove the trunk label
+kubectl label node  --all 'vpc.amazonaws.com/has-trunk-attached'-
+
+cd ~/environment
+rm -rf sg-per-pod
 ```

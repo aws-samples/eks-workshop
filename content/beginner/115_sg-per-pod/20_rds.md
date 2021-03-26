@@ -27,8 +27,6 @@ aws rds create-db-subnet-group \
 We can now create our database.
 
 ```bash
-mkdir sg-per-pod
-
 # get RDS SG ID
 export RDS_SG=$(aws ec2 describe-security-groups \
     --filters Name=group-name,Values=RDS_SG Name=vpc-id,Values=${VPC_ID} \

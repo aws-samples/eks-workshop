@@ -31,6 +31,21 @@ pygmentsCodefencesGuessSyntax = true
 pygmentsStyle = "tango"
 
 
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = false
+    disable = true
+    respectDoNotTrack = false
+    useSessionStorage = false
+  [privacy.youtube]
+    disable = false
+    privacyEnhanced = true
+
+[services]
+  [services.youtube]
+    privacyEnhanced = true
+
+
 
 #
 
@@ -83,14 +98,19 @@ url = "https://ecsworkshop.com"
 weight = 8
 
 [[menu.shortcuts]]
+name = "<i class='fas fa-chalkboard'></i> EKS Networking Workshops"
+url = "https://awsk8snetworkshops.com"
+weight = 9
+
+[[menu.shortcuts]]
 name = "<i class='fas fa-chalkboard'></i> AWS Partner Workshops"
 url = "https://awsworkshop.io"
-weight = 9
+weight = 10
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-bookmark'></i> More Resources"
 url = "/more_resources"
-weight = 10
+weight = 15
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-users'></i> Authors"

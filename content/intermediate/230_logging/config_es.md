@@ -15,7 +15,7 @@ We will add the Fluent Bit ARN as a _backend role_ to the _all\_access_ role usi
 
 ```bash
 # We need to retrieve the Fluent Bit Role ARN
-export FLUENTBIT_ROLE=$(eksctl get iamserviceaccount --cluster eksworkshop-eksctl --namespace logging -o json | jq '.iam.serviceAccounts[].status.roleARN' -r)
+export FLUENTBIT_ROLE=$(eksctl get iamserviceaccount --cluster eksworkshop-eksctl --namespace logging -o json | jq '.[].status.roleARN' -r) 
 
 # Get the Elasticsearch Endpoint
 export ES_ENDPOINT=$(aws es describe-elasticsearch-domain --domain-name ${ES_DOMAIN_NAME} --output text --query "DomainStatus.Endpoint")

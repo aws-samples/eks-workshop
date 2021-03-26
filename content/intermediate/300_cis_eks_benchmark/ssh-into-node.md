@@ -23,28 +23,19 @@ ip-192-168-84-9.us-west-2.compute.internal     Ready    <none>   24h   v1.16.12-
 
 #### SSH into nodes
 
-From the output in the above step, log into one of the nodes by using the following command. Replace the `< >` with an IP address value within 'EXTERNAL-IP'.
-
-```
-ssh ec2-user@<replace with EXTERNAL-IP>
-```
-
-{{% notice info %}}
-Using output from the previous step, the sample command would be:
-`ssh ec2-user@34.220.140.125`
-{{% /notice %}}
+* Ssh (using SSM) via the AWS Console by clicking 'Connect'->'Session Manager`
 
 #### Install `kube-bench`
 
 Install `kube-bench` using the commands below.
 
-- Download kube-bench rpm 
+- Set latest version
 ```
-wget https://github.com/aquasecurity/kube-bench/releases/download/v0.3.1/kube-bench_0.3.1_linux_amd64.rpm
+KUBEBENCH_URL=$(curl -s https://api.github.com/repos/aquasecurity/kube-bench/releases/latest | jq -r '.assets[] | select(.name | contains("amd64.rpm")) | .browser_download_url')
 ```
-- Install kube-bench using yum
+- Download and install kube-bench using yum 
 ```
-sudo yum install kube-bench_0.3.1_linux_amd64.rpm -y
+sudo yum install -y $KUBEBENCH_URL
 ```
 
 #### Run assessment against `eks-1.0`
@@ -52,7 +43,7 @@ sudo yum install kube-bench_0.3.1_linux_amd64.rpm -y
 Run the assessment against `eks-1.0` controls based on CIS Amazon EKS Benchmark node assessments.
 
 ```
-kube-bench --benchmark "eks-1.0"
+kube-bench --benchmark eks-1.0
 ```
 
 ##### Output
