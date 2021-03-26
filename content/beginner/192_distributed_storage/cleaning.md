@@ -83,10 +83,4 @@ If it's the case you can use the following command at a second terminal to enfor
 kubectl -n rook-ceph patch cephclusters.ceph.rook.io rook-ceph -p '{"metadata":{"finalizers": []}}' --type=merge
 ```
 
-Last we'll remove the created webhook configuration as it most likely has been missed by our prior deletion commands. 
-
-```
-kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io rook-ceph-webhook
-```
-
 Done. 
