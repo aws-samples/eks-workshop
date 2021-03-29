@@ -5,7 +5,7 @@ weight: 30
 draft: false
 ---
 
-We are redesigning our Microservice example and want our frontend service to be deployed on Spot Instances when they are available. We will ensure that the NodeJS and crystall backend services are deployed on On-Demand Instances. We will use Node Affinity in our manifest file to configure this.
+We are redesigning our Microservice example and want our frontend service to be deployed on Spot Instances when they are available. We will ensure that the NodeJS and crystal backend services are deployed on On-Demand Instances. We will use Node Affinity in our manifest file to configure this.
 
 #### Configure Node Affinity for the services
 
@@ -24,7 +24,8 @@ For examples of Node Affinity, check this [**link**](https://kubernetes.io/docs/
 **Configure Affinity**
 
 {{% expand "Expand here to see the solution"%}}
-Add this to your deployment file for the frontend service under spec.template.spec
+
+1. Add this to your deployment file for the frontend service under spec.template.spec
 
 ```yaml
       affinity:
@@ -39,7 +40,7 @@ Add this to your deployment file for the frontend service under spec.template.sp
                 - SPOT
 ```
 
-Add this to your deployment file for the backend services under spec.template.spec
+2. Add this to your deployment file for the backend services under spec.template.spec
 
 ```yaml
       affinity:
