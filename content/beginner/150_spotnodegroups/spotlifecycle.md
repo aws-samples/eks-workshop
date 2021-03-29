@@ -26,8 +26,10 @@ Spot Managed node groups automatically deploys the [AWS Node Termination Handler
 The workflow for the NTH can be summarized as:
 
 * Detects that a Spot Instance is being reclaimed or is at an elevated risk of being reclaimed
-* [**Taint**](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) the node and cordon it off to prevent new pods from being placed.
-* [**Drain**](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) connections on the running pods.
-* Replace the pods on remaining nodes to maintain the desired capacity.
+* Launches a new instance accordingly and waits for the new instance to report as healthy.
+* [**Taint**](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) and cordon the node to avoid scheduling more workload to the node, and finally
+* [**Drain**](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) the pod, issuing a SIGTERM signal to the containers on the Pod to effect a graceful termination
+
+This process avoids waiting for new capacity to be available when there is a termination notice, and instead procures capacity in advance, limiting the time that pods might be left pending.
 
 ![Spot Node Groups Architecture](/images/spotworkers/spot_rebalance_recommendation.png)
