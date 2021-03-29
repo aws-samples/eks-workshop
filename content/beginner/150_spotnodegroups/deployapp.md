@@ -33,10 +33,10 @@ Add this to your deployment file for the frontend service under spec.template.sp
           - weight: 1
             preference:
               matchExpressions:
-              - key: lifecycle
+              - key: eks.amazonaws.com/capacityType
                 operator: In
                 values:
-                - Ec2Spot
+                - SPOT
 ```
 
 Add this to your deployment file for the backend services under spec.template.spec
@@ -47,10 +47,10 @@ Add this to your deployment file for the backend services under spec.template.sp
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: lifecycle
+              - key: eks.amazonaws.com/capacityType
                 operator: In
                 values:
-                - OnDemand
+                - ON_DEMAND
 ```
 
 {{% notice tip %}}
@@ -67,7 +67,7 @@ Add this to your deployment file for the backend services under spec.template.sp
 First let's take a look at all pods deployed on Spot instances
 
 ```bash
- for n in $(kubectl get nodes -l lifecycle=Ec2Spot --no-headers | cut -d " " -f1); do echo "Pods on instance ${n}:";kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; echo ; done
+ for n in $(kubectl get nodes -l eks.amazonaws.com/capacityType=SPOT --no-headers | cut -d " " -f1); do echo "Pods on instance ${n}:";kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; echo ; done
 ```
 
 Now we will redeploy  our microservices with our edited Frontend Manifest
@@ -89,11 +89,11 @@ kubectl apply -f kubernetes/deployment.yaml
 We can again check all pods deployed on Spot Instances and should now see the frontend pods running on Spot instances
 
 ```bash
- for n in $(kubectl get nodes -l lifecycle=Ec2Spot --no-headers | cut -d " " -f1); do echo "Pods on instance ${n}:";kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; echo ; done
+ for n in $(kubectl get nodes -l eks.amazonaws.com/capacityType=SPOT --no-headers | cut -d " " -f1); do echo "Pods on instance ${n}:";kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; echo ; done
 ```
 
 Let's check all the pods deployed on On-Demand Instances and should now see all the backend pods running on On-Demand instances
 
 ```bash
- for n in $(kubectl get nodes -l lifecycle=OnDemand --no-headers | cut -d " " -f1); do echo "Pods on instance ${n}:";kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; echo ; done
+ for n in $(kubectl get nodes -l eks.amazonaws.com/capacityType=ON_DEMAND --no-headers | cut -d " " -f1); do echo "Pods on instance ${n}:";kubectl get pods --all-namespaces  --no-headers --field-selector spec.nodeName=${n} ; echo ; done
 ```

@@ -25,10 +25,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: lifecycle
+              - key: eks.amazonaws.com/capacityType
                 operator: In
                 values:
-                - OnDemand
+                - ON_DEMAND
       containers:
       - image: brentley/ecsdemo-nodejs:latest
         imagePullPolicy: Always

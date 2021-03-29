@@ -26,10 +26,10 @@ spec:
           - weight: 1
             preference:
               matchExpressions:
-              - key: lifecycle
+              - key: eks.amazonaws.com/capacityType
                 operator: In
                 values:
-                - Ec2Spot
+                - SPOT
       tolerations:
       - key: "spotInstance"
         operator: "Equal"
