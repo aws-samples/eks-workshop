@@ -5,30 +5,27 @@ weight: 20
 draft: false
 ---
 
-#### View the Spot Nodegroup Configuration
+#### View the Spot Managed Node Group Configuration
 
-Use the AWS Management Console to inspect your deployed Kubernetes cluster. Select **Elastic Kubernetes Service**, click on **Clusters**, and then on **eksworkshop-eksctl** cluster. Select the Configuration tab and Compute sub tab. You can see the nodegroups created one On-Demand nodegroup  and one Spot nodegroups.
+Use the AWS Management Console to inspect the Spot managed node group deployed in your Kubernetes cluster. Select **Elastic Kubernetes Service**, click on **Clusters**, and then on **eksworkshop-eksctl** cluster. Select the **Configuration** tab and **Compute** sub tab. You can see 2 node groups created - one On-Demand node group and one Spot node groups.
 
-Click on **ng-spot** group and you can see the instances types set from the create command.
+Click on **ng-spot** group and you can see the instance types set from the create command.
 
 Click on the Auto Scaling group name in the **Details** tab. Scroll to the Purchase options and instance types settings. Note how Spot best practices are applied out of the box: 
 * **Capacity Optimized** allocation strategy, which will launch Spot Instances from the most-available spare capacity pools. This results in minimizing the Spot Interruptions. 
-* **Capacity Rebalance** halps EKS managed node groups manage the lifecycle of the Spot Instance by proactively replacing instances that are at higher risk of being interrupted. This results in proactively augmenting your fleet with a new Spot Instance before a running instance is interrupted by EC2
+* **Capacity Rebalance** helps EKS managed node groups manage the lifecycle of the Spot Instance by proactively replacing instances that are at higher risk of being interrupted. This results in proactively augmenting your fleet with a new Spot Instance before a running instance is interrupted by EC2
 
 ![Spot Node Groups Configuration](/images/spotworkers/asg_configuration.png)
 
-#### Understand Spot Interruption
+#### Interruption Handling in Spot Managed Node Groups
 
-Spot instances are unused EC2 instances that might be reclaimed when OnDemand users require capacity from a specific capacity pool. A Spot capacity pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone. It is possible that your Spot Instance might be interrupted. In this case the Spot Instances are sent an interruption notice two minutes ahead to gracefully wrap up things. EKS Spot Managed node groups re-provision capacity from other available spot pools and redeploy the application elsewhere in the cluster.
+To handle Spot interruptions, you do not need to install any extra automation tools on the cluster, like, AWS Node Termination Handler. The managed node group handles Spot interruptions for you in the following way: the underlying EC2 Auto Scaling group is opted-in to Capacity Rebalancing, which means that when one of the Spot Instances in your node group is at elevated risk of interruption and gets an EC2 instance rebalance recommendation, it will attempt to launch a replacement instance. The more instance types you configure in the managed node group, the more chances EC2 Auto Scaling has of launching a replacement Spot Instance. 
 
-Spot Managed node groups automatically deploys the [AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler) as a Kubernetes Deployment operating in the Queue Processor mode. The aws-node-termination-handler (NTH) running in Queue Processor mode will monitor an SQS queue of events from Amazon EventBridge for ASG lifecycle events, EC2 status change events, and Spot Interruption Termination Notice events. When NTH detects an instance is going down, we use the Kubernetes API to cordon the node to ensure no new work is scheduled there, then drain it, removing any existing work. 
+When a Spot node receives a rebalance recommendation
 
-The workflow for the NTH can be summarized as:
-
-* Detects that a Spot Instance is being reclaimed or is at an elevated risk of being reclaimed
-* Launches a new instance accordingly and waits for the new instance to report as healthy.
-* [**Taint**](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) and cordon the node to avoid scheduling more workload to the node, and finally
-* [**Drain**](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) the pod, issuing a SIGTERM signal to the containers on the Pod to effect a graceful termination
+* Amazon EKS automatically attempts to launch a new replacement Spot node and waits until it successfully joins the cluster.
+* When a replacement Spot node is bootstrapped and in the Ready state on Kubernetes, Amazon EKS cordons and drains the Spot node that received the rebalance recommendation. Cordoning the Spot node ensures that the node is marked as 'unschedulable' and hence the service controller doesn't send any new requests to this Spot node. It also removes it from its list of healthy, active Spot nodes. [Draining](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) the Spot node ensures that running pods are evicted gracefully.
+* If a Spot two-minute interruption notice arrives before the replacement Spot node is in a Ready state, Amazon EKS starts draining the Spot node that received the rebalance recommendation.
 
 This process avoids waiting for new capacity to be available when there is a termination notice, and instead procures capacity in advance, limiting the time that pods might be left pending.
 
