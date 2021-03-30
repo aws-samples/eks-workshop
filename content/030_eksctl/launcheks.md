@@ -55,8 +55,7 @@ managedNodeGroups:
   desiredCapacity: 3
   instanceType: t3.small
   ssh:
-    allow: true
-    publicKeyName: eksworkshop
+    enableSsm: true
 
 # To enable all of the control plane logs, uncomment below:
 # cloudWatch:

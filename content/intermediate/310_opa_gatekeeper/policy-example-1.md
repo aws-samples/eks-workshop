@@ -12,6 +12,7 @@ ConstraintTemplate describes the [Rego](https://www.openpolicyagent.org/docs/lat
 In this example, the cluster admin will force the use of unprivileged containers in the cluseter. The OPA Gatekeeper will look for the securitycontext field and check if `privileged=true`. If it's the case, then, the request will fail.
 
 ```bash
+cat > /tmp/constrainttemplate.yaml <<EOF
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
@@ -39,13 +40,13 @@ spec:
         input_containers[c] {
             c := input.review.object.spec.initContainers[_]
         }
-
+EOF
 ```
 
 Create it
 
 ```bash
-kubectl create -f constrainttemplate.yaml
+kubectl create -f /tmp/constrainttemplate.yaml
 
 ```
 
@@ -55,6 +56,7 @@ The cluster admin will use the constraint to inform the OPA Gatekeeper to enforc
 For our example, as cluster admin we want to enforce that all the created pod should not be privileged.
 
 ```bash
+cat > /tmp/constraint.yaml <<EOF
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sPSPPrivilegedContainer
 metadata:
@@ -64,13 +66,13 @@ spec:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
-
+EOF
 ```
 
 Create it
 
 ```bash
-kubectl create -f constraint.yaml
+kubectl create -f /tmp/constraint.yaml
 
 ```
 
@@ -80,18 +82,12 @@ First, check for the CRD constraint and constrainttemplate were created.
 
 ```bash
 kubectl get constraint
-NAME                       AGE
-psp-privileged-container   47s
-
 kubectl get constrainttemplate
-NAME                        AGE
-k8spspprivilegedcontainer   60s
-
 ```
 
-Second, let's try deploy a privileged nginx pod:
+Second, let's try to deploy a privileged nginx pod:
 ```bash
-cat example.yaml
+cat > /tmp/example.yaml <<EOF
 apiVersion: v1
 kind: Pod
 metadata:
@@ -104,10 +100,14 @@ spec:
     image: nginx
     securityContext:
       privileged: true
-
-kubectl create -f example.yaml
-Error from server ([denied by psp-privileged-container] Privileged container is not allowed: nginx, securityContext: {"privileged": true}): error when creating "example.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [denied by psp-privileged-container] Privileged container is not allowed: nginx, securityContext: {"privileged": true}
-
+EOF
+kubectl create -f /tmp/example.yaml
 ```
 
-The requet was denied by kubernetes API, because it didn't meet the requirement from the constraint forced by OPA Gatekeeper.
+You should now see an error message similar to below:
+
+```bash
+Error from server ([denied by psp-privileged-container] Privileged container is not allowed: nginx, securityContext: {"privileged": true}): error when creating "example.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [denied by psp-privileged-container] Privileged container is not allowed: nginx, securityContext: {"privileged": true}
+```
+
+The request was denied by kubernetes API, because it didn't meet the requirement from the constraint forced by OPA Gatekeeper.

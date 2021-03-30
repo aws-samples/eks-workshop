@@ -20,7 +20,7 @@ EKS cluster `eksworkshop-eksctl`.
 
 * We assume that we have an existing EKS Cluster `eksworkshop-eksctl` created from [EKS Workshop](/030_eksctl/launcheks/).
 
-* We also assume that we have [increased the disk size on your Cloud9 instnace](020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance) as we need to build docker images for our application.
+* We also assume that we have [increased the disk size on your Cloud9 instance](020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance) as we need to build docker images for our application.
 
 * We will be using AWS Console to navigate and explore resources in Amazon EKS, AWS App Mesh, Amazon Cloudwatch, AWS X-Ray in this workshop. 
 So ensure that you have completed [Console Credentials](/030_eksctl/console/) to get full access to your existing EKS Cluster `eksworkshop-eksctl` in the EKS console.
