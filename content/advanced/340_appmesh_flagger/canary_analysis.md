@@ -12,7 +12,7 @@ Before we start the canary deployment setup, lets learn more about the canary an
 [Flagger](https://docs.flagger.app/) can be configured to automate the release process for Kubernetes workloads with a custom resource named canary which we installed in the previous chapter. 
 The canary custom resource defines the release process of an application running on Kubernetes. 
 
-We have defined the canary release with progressive traffic shifting for the deployment of backend service `detail` [here](https://github.com/aws-containers/eks-app-mesh-flagger-demo/blob/main/deployment/flagger-canary.yaml).
+We have defined the canary release with progressive traffic shifting for the deployment of backend service `detail` [here](https://github.com/aws-containers/eks-microservice-demo/blob/main/deployment/flagger-canary.yaml).
 
 When we deploy a new version of `detail` backend service, Flagger gradually shifts traffic to the canary, and at the same time, measures the requests success rate as well as the average response duration.
 
@@ -47,7 +47,7 @@ Below canary service section from Canary Resource dictates how the target worklo
     port: 3000
 {{< /output >}}
 
-Based on our [canary spec](https://github.com/aws-containers/eks-app-mesh-flagger-demo/blob/main/deployment/flagger-canary.yaml) service, Flagger creates the following Kubernetes ClusterIP service
+Based on our [canary spec](https://github.com/aws-containers/eks-microservice-demo/blob/main/deployment/flagger-canary.yaml) service, Flagger creates the following Kubernetes ClusterIP service
 * `detail.flagger.svc.cluster.local`
   
   selector `app=detail-primary`

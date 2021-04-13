@@ -13,8 +13,8 @@ Namespace deletion may take few minutes, please wait till the process completes.
 #### Delete ECR images
 
 ```bash
-aws ecr delete-repository --repository-name eks-app-mesh-demo/detail_flagger --force
-aws ecr delete-repository --repository-name eks-app-mesh-demo/frontend --force
+aws ecr delete-repository --repository-name eks-microservice-demo/detail_flagger --force
+aws ecr delete-repository --repository-name eks-microservice-demo/frontend --force
 ```
 
 #### Delete Flagger Resources

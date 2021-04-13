@@ -42,7 +42,7 @@ AWS App Mesh Gateway installed!
 
 #### Create the GatewayRoute
 
-In this [GatewayRoute](https://github.com/aws-containers/eks-app-mesh-flagger-demo/blob/main/deployment/gateway.yaml), we are routing the traffic coming into the VirtualGateway to `frontend` VirtualService.
+In this [GatewayRoute](https://github.com/aws-containers/eks-microservice-demo/blob/main/deployment/gateway.yaml), we are routing the traffic coming into the VirtualGateway to `frontend` VirtualService.
 
 ```bash
 kubectl apply -f deployment/gateway.yaml 

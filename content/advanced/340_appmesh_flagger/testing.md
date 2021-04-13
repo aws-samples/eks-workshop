@@ -16,7 +16,7 @@ We will trigger a canary deployment by updating the container image of `detail` 
 
 ```bash
 export APP_VERSION_2=2.0
-kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-app-mesh-demo/detail:${APP_VERSION_2}
+kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-microservice-demo/detail:${APP_VERSION_2}
 ```
 {{< output >}}
 deployment.apps/detail image updated
@@ -71,7 +71,7 @@ Trigger a canary deployment by updating the container image of `detail` service 
 
 ```bash
 export APP_VERSION_3=3.0
-kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-app-mesh-demo/detail:${APP_VERSION_3}
+kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-microservice-demo/detail:${APP_VERSION_3}
 ```
 {{< output >}}
 deployment.apps/detail image updated
