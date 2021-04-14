@@ -77,7 +77,7 @@ kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AW
 deployment.apps/detail image updated
 {{< /output >}}
 
-Wait till the canary analysis starts and you see the below message
+Once the canary analysis starts, you see the below message
 ```bash
 kubectl -n appmesh-system logs deploy/flagger --tail 10  -f | jq .msg
 ```
@@ -86,7 +86,7 @@ kubectl -n appmesh-system logs deploy/flagger --tail 10  -f | jq .msg
 "Starting canary analysis for detail.flagger"
 {{< /output >}}
 
-Then, Exec into the loadtester pod
+Exec into the loadtester pod
 ```bash
 kubectl -n flagger exec -it deploy/flagger-loadtester bash
 ```
@@ -96,7 +96,7 @@ Use 'kubectl describe pod/flagger-loadtester-5bdf76cfb7-wl59d -n flagger' to see
 bash-5.0$ 
 {{< /output >}}
 
-And inject HTTP 500 errors so that we start getting error from `http://detail-canary.flagger:3000/catalogDetail`
+Generate HTTP 500 errors from `http://detail-canary.flagger:3000/catalogDetail`
 
 ```bash
 curl http://detail-canary.flagger:3000/injectFault

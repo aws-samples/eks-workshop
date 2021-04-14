@@ -13,7 +13,7 @@ Namespace deletion may take few minutes, please wait till the process completes.
 #### Delete ECR images
 
 ```bash
-aws ecr delete-repository --repository-name eks-microservice-demo/detail_flagger --force
+aws ecr delete-repository --repository-name eks-microservice-demo/detail --force
 aws ecr delete-repository --repository-name eks-microservice-demo/frontend --force
 ```
 
@@ -55,6 +55,12 @@ done
 
 ```bash
 helm -n appmesh-system delete appmesh-prometheus
+```
+
+#### Uninstall Metric Server
+
+```bash
+kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.1/components.yaml
 ```
 
 #### (Optional) Uninstall AppMesh 

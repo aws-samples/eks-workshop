@@ -29,11 +29,7 @@ spec:
   progressDeadlineSeconds: 60
 {{< /output >}}
 
-Based on the above configuration, Flagger generates the following Kubernetes object:
-
-- deployment/detail-primary
-
-The primary deployment is considered the stable release of our `detail` service, by default all traffic is routed to this version and the target deployment is scaled to zero. Flagger will detect changes to the target deployment (including secrets and configmaps) and will perform a canary analysis before promoting the new version as primary.
+Based on the above configuration, Flagger generates deployment/detail-primary Kubernetes object during canary analysis. This primary deployment is considered the stable release of our `detail` service, by default all traffic is routed to this version and the target deployment is scaled to zero. Flagger will detect changes to the target deployment (including secrets and configmaps) and will perform a canary analysis before promoting the new version as primary.
 
 The progress deadline represents the maximum time in seconds for the canary deployment to make progress before it is rolled back, defaults to ten minutes.
 
@@ -78,9 +74,9 @@ The canary analysis defines:
 The canary analysis runs periodically until it reaches the maximum traffic weight or the number of iterations. On each run, Flagger calls the [webhooks](https://docs.flagger.app/usage/webhooks), checks the metrics and if the failed checks threshold is reached, stops the analysis and rolls back the canary. For more details, see Flagger documentation [here](https://docs.flagger.app/usage/how-it-works#canary-analysis).
 
 For the canary analyis of `detail` service, we have used the below setup. 
-* We are checking the failed metrics for every ireration of canary analysis and if the request-success-rate metrics is below 99% or if the latency is greater than 500ms which means the number of failures reach the threshold which is "1" in our setup, then canary analysis will fail and will rollback.
-* We are have webhook for doing pre-rollout acceptance-test that are executed before routing traffic to canary. The canary advancement is paused if a pre-rollout hook fails, the canary will rollback.
-* We also have rollout hook for load-test that are executed during the analysis on each iteration before the metric checks. If a rollout hook call fails the canary advancement is paused and eventfully rolled back.
+* We are checking the failed metrics for every iteration of canary analysis. If the request-success-rate metrics is below 99% or if the latency is greater than 500ms (which means the number of failures reach the threshold which is "1" in our setup), then canary analysis will fail and will rollback.
+* We have pre-rollout webhook for running acceptance-test that are executed before routing traffic to canary. The canary advancement is paused if the pre-rollout hook fails and the canary will rollback.
+* We also have rollout hook for load-test that are executed during the analysis on each iteration before the metric checks. If a rollout hook call fails; the canary advancement is paused and eventfully rolled back.
 
 
 {{< output >}}  
