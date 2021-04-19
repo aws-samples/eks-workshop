@@ -1,5 +1,5 @@
 ---
-title: "Prereqs"
+title: "Prerequisites"
 date: 2021-03-15T16:24:50-04:00
 weight: 10
 draft: false
@@ -27,7 +27,29 @@ eksctl utils associate-iam-oidc-provider --cluster eksworkshop-eksctl --approve
 
 ### Create IAM Role for job execution
 
-Next, we need to create an IAM role for job execution. This is the role, EMR jobs will assume when they run on EKS
+Let's create the role that EMR will use for job execution. This is the role, EMR jobs will assume when they run on EKS.
+
+```
+cat <<EoF > ~/environment/emr-trust-policy.json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "elasticmapreduce.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EoF
+
+aws iam create-role --role-name EMRContainers-JobExecutionRole --assume-role-policy-document file://~/environment/emr-trust-policy.json
+
+```
+
+Next, we need to attach the required IAM policies to the role so it can write logs to s3 and cloudwatch. 
 ```
 cat <<EoF > ~/environment/EMRContainers-JobExecutionRole.json
 {

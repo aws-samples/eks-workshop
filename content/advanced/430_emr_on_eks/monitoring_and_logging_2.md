@@ -1,0 +1,22 @@
+---
+title: "Monitoring and logging  Part 3 - Spark History server"
+date: 2021-04-08T04:25:46-07:00
+weight: 35
+draft: true
+---
+
+You can visit the spark history aerver from EMR console and look the execution details. 
+
+Navigate to the EMR console.
+
+![EMR on EKS cloudwatch logs](/images/emr-on-eks/spark_history_1.png)
+
+Click on **View logs**
+
+![EMR on EKS cloudwatch logs](/images/emr-on-eks/spark_history_2.png)
+
+Click on **App ID link**
+
+![EMR on EKS cloudwatch logs](/images/emr-on-eks/spark_history_3.png)
+
+From here you can navigate the spark history server to look at various metrics and details of the job.
