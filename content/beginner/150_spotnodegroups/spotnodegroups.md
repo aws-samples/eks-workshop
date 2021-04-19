@@ -24,11 +24,13 @@ We will now create the a Spot managed node group using the --spot option in `eks
 eksctl create nodegroup \
   --cluster=eksworkshop-eksctl --region=${AWS_REGION} \
   --managed --spot --name=ng-spot \
-  --instance-types=m5.large,m4.large,m5d.large,m5a.large,m5ad.large,m5n.large,m5dn.large
+  --instance-selector-vcpus=2 --instance-selector-memory=4
 ```
 
-{{% notice warning %}}
-Note, the instances above might not be present in your region. To select instances that meet that criteria in your region, you could install [https://github.com/aws/amazon-ec2-instance-selector](https://github.com/aws/amazon-ec2-instance-selector) and execute the command `ec2-instance-selector --base-instance-type m5.large --flexible` to get a diversified selection of instances available in your region of choice that meet the criteria of being similar to m4.large (in vCPU and memory terms)
+{{% notice %}}
+The above command will automatically provision a node group with a list of instance types matching the instance selector resource criteria. At the time of this writing the list would consist of the following instance types: c5.large, c5a.large, c5ad.large, c5d.large, t2.medium, t3.medium, t3a.medium, but the set of instance types returned may change over time as new instance types are made available.
+
+[Here](https://eksctl.io/usage/instance-selector) you can see more information about the instance selector.
 {{% /notice %}}
 
 Spot managed node group creates a label **eks.amazonaws.com/capacityType** and sets it to **SPOT** for the nodes.
