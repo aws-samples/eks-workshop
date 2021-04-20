@@ -78,5 +78,5 @@ eksctl create cluster -f eksworkshop.yaml
 ```
 
 {{% notice info %}}
-Launching EKS and all the dependencies will take approximately 15 minutes
+Launching EKS and all the dependencies will take approximately 9 minutes
 {{% /notice %}}
