@@ -22,7 +22,7 @@ Let's use Pixie's Live UI to run a script.
 
 ![select_script](/images/pixie/select_script.png)
 
-4. This script has one required argument (as denoted with an *). Enter `px-sock-shop` for the `namespace` argument.
+4. This script has one required argument (as denoted with an `*`). Enter `px-sock-shop` for the `namespace` argument.
 
 ![select_namespace](/images/pixie/select_namespace.png)
 
@@ -34,6 +34,6 @@ This script (`px/namespace`) shows:
 - A service graph of HTTP1/2 traffic between the pods in the specified namespace.
 - A list of the services and pods with high-level resource and application metrics.
 
-This script takes one other argument, `start_time`. This argument is specified as a negative time (e.g. `-30s`, `-30m`, `-1hr`) and provides the time window to return results for.
+This script takes one other argument, `start_time`. This argument is specified as a relative time (e.g. `-30s`, `-30m`, `-1hr`) and provides the time window for the query.
 
 ![select_starttime](/images/pixie/select_starttime.png)

@@ -7,7 +7,7 @@ draft: false
 
 ### Install Pixie's CLI
 
-Install Pixie’s CLI tool using the install script, run:
+Install Pixie’s CLI tool using the install script.
 
 ```bash
 bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
@@ -16,9 +16,9 @@ bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
 - Press enter to accept the Terms & Conditions.
 - Press enter to accept the default install path.
 - Visit the provided URL to sign in or sign up for a Pixie account.
-- Copy and paste the Auth token generated in the browser into the CLI.
+- Copy and paste the auth token generated in the browser into the CLI.
 
-### Deploy the Microservices Demo
+### Deploy the microservices demo
 
 To test out Pixie, we will deploy a modified version of [Weavework’s Sock Shop](https://microservices-demo.github.io/) microservices application. Deploy the demo using Pixie’s CLI:
 
@@ -26,7 +26,7 @@ To test out Pixie, we will deploy a modified version of [Weavework’s Sock Shop
 px demo deploy px-sock-shop
 ```
 
-- Enter ‘y’ to confirm the cluster.
+- Enter `y` to confirm the cluster.
 
 {{% notice info %}}
 Deploying the microservices demo will take about 7-9 minutes.
@@ -66,7 +66,7 @@ Use Pixie’s CLI to deploy Pixie:
 px deploy --cluster_name eksworkshop-eksctl --pem_memory_limit=1Gi
 ```
 
-- Enter ‘y’ to confirm the cluster to deploy pixie to.
+- Enter `y` to confirm the cluster to deploy pixie to.
 
 {{% notice info %}}
 Deploying Pixie will take about 5 minutes.
@@ -119,7 +119,13 @@ Click the “Catalogue” tab along the top of the page and you should see a var
 
 ![sock_shop](/images/pixie/sock_shop.png)
 
-This app has several bugs. Filtering the products with a single filter returns products with the specified tag. However, if two or more filters are selected (make sure to press the “Apply” button), no products will display. Select “clear” to clear the tags.
+This app has several bugs. One bug in the app is that filtering the catalogue doesn't work when two or more filters are selected.
+
+- Select at least two tags on the left panel, for example `geek` and `formal`.
+- Press `Apply`.
+- Notice that no socks show up when two or more filters are selected.
+- Make sure you hit `Clear` to clear and reselect the filters between retries.
+- You can repeat this as many times as you want.
 
 {{% notice info %}}
 Make sure to trigger this bug yourself. We will use Pixie to investigate this application bug.

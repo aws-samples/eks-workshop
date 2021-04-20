@@ -12,10 +12,11 @@ Select the `px/mysql_data` script from the script drop-down menu. This script sh
 Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac). On line 34, add the following line to filter the mysql requests to just those with errors:
 
 ```bash
+# Filter to requests with an error code
 df = df[df.resp_status == 3]
 ```
 
-Don’t forget to modify the script’s `start_time` to a larger time window.
+Don’t forget to modify the script’s `start_time` to a larger time window, so we can see the error you triggered in sock-shop in an earlier step.
 
 Re-run the script with the RUN button (top right of the page), or using the keyboard shortcut: `ctrl+enter` (Windows, Linux) or `cmd+enter` (Mac). You should the request with errors that you triggered in the web app.
 
@@ -23,7 +24,7 @@ Re-run the script with the RUN button (top right of the page), or using the keyb
 
 Click on the table row to expand. We can see that our error is a SQL syntax error: the `OR` condition was misspelled.
 
-The output should the request with the error you recently triggered. Click on a row to inspect the row data in json format. Scroll down to the `resp_body` json key and you can see that our error is a `SQL syntax error`: the `OR` condition was misspelled.
+The output should the request with the error you recently triggered. Click on a row to inspect the row data in json format. Scroll down to the `resp_body` json key and you can see that our error is a `SQL syntax error`: the `OR` condition was misspelled as `ORR`.
 
 ```bash
 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORR tag.name=? GROUP BY id ORDER BY ?' at line 1,

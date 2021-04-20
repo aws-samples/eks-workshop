@@ -24,5 +24,5 @@ Change the `start_time` argument to be `-30m` (note the negative symbol) to make
 ![px_service_error](/images/pixie/px_service_error.png)
 
 {{% notice info %}}
-If you don’t see an HTTP error, try increasing the time window or manually re-trigger the bug in the web application (and re-running the script afterwards).
+If you don’t see an HTTP error, increase the time window or manually re-trigger the bug in the sock-shop web application. Make sure to re-run the script afterwards.
 {{% /notice %}}

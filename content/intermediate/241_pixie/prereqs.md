@@ -5,11 +5,11 @@ weight: 5
 draft: false
 ---
 
-### Add a Nodegroup
+### Add a node group
 
-We will add a Managed Nodegroup to scale the `eksworkshop-eksctl` cluster in order to accommodate the pods deployed by Pixie and the microservices demo.
+First, we need to accommodate the pods that we're about to deploy for Pixie and our microservices demo application. We will add a managed node group to scale the `eksworkshop-eksctl` cluster.
 
-Create a Nodegroup config file by running:
+Create a node group config file by running:
 
 ```bash
 cat << EOF > clusterconfig.yaml
@@ -55,7 +55,7 @@ iam:
 EOF
 ```
 
-Use eksctl to create the new `pixie-demo-ng` Nodegroup:
+Use eksctl to create the new `pixie-demo-ng` node group:
 
 ```bash
 envsubst < clusterconfig.yaml | eksctl create nodegroup -f -
