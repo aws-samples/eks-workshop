@@ -1,0 +1,32 @@
+---
+title: "Inspect the MySQL Request"
+date: 2021-5-01T09:00:00-00:00
+weight: 24
+draft: false
+---
+
+From the demo app’s YAML file, we know that the catalog service talks to a MySQL database. Let’s inspect the `catalog` service's mysql requests to see if we can get more information about the type of database connection error.
+
+Select the `px/mysql_data` script from the script drop-down menu. This script shows all of the mysql requests Pixie has traced in the cluster. Let’s filter these requests.
+
+Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac). On line 34, add the following line to filter the mysql requests to just those with errors:
+
+```bash
+df = df[df.resp_status == 3]
+```
+
+Don’t forget to modify the script’s `start_time` to a larger time window.
+
+Re-run the script with the RUN button (top right of the page), or using the keyboard shortcut: `ctrl+enter` (Windows, Linux) or `cmd+enter` (Mac). You should the request with errors that you triggered in the web app.
+
+![mysql_request_error](/images/pixie/mysql_request_error.png)
+
+Click on the table row to expand. We can see that our error is a SQL syntax error: the `OR` condition was misspelled.
+
+The output should the request with the error you recently triggered. Click on a row to inspect the row data in json format. Scroll down to the `resp_body` json key and you can see that our error is a `SQL syntax error`: the `OR` condition was misspelled.
+
+```bash
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORR tag.name=? GROUP BY id ORDER BY ?' at line 1,
+```
+
+Congratulations! You've used Pixie to find [the bug](https://github.com/pixie-labs/sock-shop-catalogue/commit/8e627148b72d6c4cbf4d17d08dd60f3bad38961d) in the microservices app!
