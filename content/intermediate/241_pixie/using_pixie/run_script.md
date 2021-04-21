@@ -5,11 +5,7 @@ weight: 21
 draft: false
 ---
 
-Pixie comes with many [pre-built PxL scripts](https://github.com/pixie-labs/pixie/tree/main/src/pxl_scripts).
-
-These scripts are executed by the Pixie platform using the web-based Live UI, CLI or API.
-
-Let's use Pixie's Live UI to run a script.
+Let's use Pixie's Live UI to run a built-in PxL script.
 
 ### Run a PxL Script
 

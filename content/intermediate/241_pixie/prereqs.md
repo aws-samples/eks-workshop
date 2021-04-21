@@ -5,59 +5,20 @@ weight: 5
 draft: false
 ---
 
+To get ready to use Pixie to debug an application on a Kubernetes cluster, we will:
+
+- Add a node group to scale the EKS cluster.
+- Deploy a demo microservices app.
+- Visit the microservices app front-end and trigger a bug.
+
 ### Add a node group
 
-First, we need to accommodate the pods that we're about to deploy for Pixie and our microservices demo application. We will add a managed node group to scale the `eksworkshop-eksctl` cluster.
+To accommodate the pods deployed by Pixie and the microservices demo application, we will add a managed node group to scale the `eksworkshop-eksctl` cluster.
 
-Create a node group config file by running:
-
-```bash
-cat << EOF > clusterconfig.yaml
----
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: eksworkshop-eksctl
-  region: ${AWS_REGION}
-
-# https://eksctl.io/usage/eks-managed-nodegroups/
-managedNodeGroups:
-  - name: pixie-demo-ng
-    minSize: 2
-    maxSize: 3
-    desiredCapacity: 3
-    volumeSize: 20
-    labels: {role: ctrl-workers}
-    tags:
-      nodegroup-role: ctrl-workers
-    iam:
-      withAddonPolicies:
-        appMesh: true
-        xRay: true
-        cloudWatch: true
-
-# https://eksctl.io/usage/iamserviceaccounts/
-iam:
-  withOIDC: true
-  serviceAccounts:
-    - metadata:
-        name: pixie-demo-sa
-        namespace: pixie-demo-ns
-        labels: {aws-usage: "application"}
-      attachPolicyARNs:
-        - "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
-        - "arn:aws:iam::aws:policy/AWSCloudMapDiscoverInstanceAccess"
-        - "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-        - "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
-        - "arn:aws:iam::aws:policy/AWSAppMeshFullAccess"
-        - "arn:aws:iam::aws:policy/AWSCloudMapFullAccess"
-EOF
-```
-
-Use eksctl to create the new `pixie-demo-ng` node group:
+Curl the node group config file and use `eksctl` to create the new `pixie-demo-ng` node group:
 
 ```bash
+curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/433554512d79f87aef7404854113394b3e8f6f53/eks-workshop/clusterconfig.yaml
 envsubst < clusterconfig.yaml | eksctl create nodegroup -f -
 ```
 
@@ -80,3 +41,80 @@ ip-192-168-53-105.us-west-2.compute.internal   Ready    <none>   117s    v1.17.1
 ip-192-168-88-75.us-west-2.compute.internal    Ready    <none>   108s    v1.17.12-eks-7684af
 ip-192-168-26-175.us-west-2.compute.internal   Ready    <none>   103s    v1.17.12-eks-7684af
 {{< /output >}}
+
+### Deploy the demo microservices app
+
+To test out Pixie, we will deploy a modified version of [Weavework’s Sock Shop](https://microservices-demo.github.io/) microservices application. This demo app does not contain any manual instrumentation. Minimal modifications were made to set pod resource limits and create a bug in one of the services.
+
+Curl the config file and deploy the demo using `kubectl`:
+
+```bash
+curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/0bf62e55373ae74b86540e336ed79b8835f75f80/eks-workshop/complete-demo.yaml
+kubectl apply -f complete-demo.yaml
+```
+
+- Enter `y` to confirm the cluster.
+
+{{% notice info %}}
+Deploying the microservices demo will take about 7-9 minutes.
+{{% /notice %}}
+
+Confirm that the application components have been deployed to the `px-sock-shop` namespace:
+
+```bash
+kubectl get pods -n px-sock-shop
+```
+
+You should see output similar to that below. All pods should be ready and available before proceeding.
+
+{{< output >}}
+NAME                           READY   STATUS    RESTARTS   AGE
+carts-5fc45568c4-nhv2q         1/1     Running   0          35m
+carts-db-64ff6c747f-zhh7z      1/1     Running   0          35m
+catalogue-8f6fdb6d8-dl5fd      1/1     Running   0          35m
+catalogue-db-69cf48ff8-pz9w8   1/1     Running   0          35m
+front-end-5756d95c69-7n8pc     1/1     Running   0          35m
+load-test-5d887bfd7d-p7vfd     1/1     Running   0          35m
+orders-77c57c89dc-qm2gj        1/1     Running   0          35m
+orders-db-df75f545f-fbcnl      1/1     Running   0          35m
+payment-7f95f9f77-9c2rm        1/1     Running   0          35m
+queue-master-bd556c45-xq6pp    1/1     Running   0          35m
+rabbitmq-68d55c844f-swknh      1/1     Running   0          35m
+shipping-745b9d8755-glb8x      1/1     Running   0          35m
+user-5cf8959676-v6jtx          1/1     Running   0          35m
+user-db-794cfdf85b-4f6rq       1/1     Running   0          35m
+{{< /output >}}
+
+### Visit the Sock Shop application
+
+To visit the Sock Shop application, get the external IP of the `front-end` service:
+
+```bash
+kubectl -n px-sock-shop get svc front-end --watch
+```
+
+You should see output similar to that below.
+
+{{< output >}}
+NAME        TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)        AGE
+front-end   LoadBalancer   10.100.116.239   a8821cbb76e3f4735999aeb22965f81d-258266119.us-west-2.elb.amazonaws.com   80:30001/TCP   2m22s
+{{< /output >}}
+
+Navigate to the “External-IP” address in your browser. Click the “Catalogue” tab along the top of the page and you should see a variety of sock products.
+
+![sock_shop](/images/pixie/sock_shop.png)
+
+### Trigger the microservices application bug
+
+This app has several bugs. One bug in the app is that filtering the catalogue doesn't work when two or more filters are selected.
+
+- Navigate to the "Catalogue" tab
+- Select at least two tags from the left "Filter" panel, for example `geek` and `formal`.
+- Press `Apply`.
+- Notice that no socks show up when two or more filters are selected.
+- Press `Clear` to clear the filters between retries.
+- You can repeat this as many times as you want.
+
+{{% notice info %}}
+Make sure to trigger this bug for yourself. We will use Pixie to investigate this application bug.
+{{% /notice %}}

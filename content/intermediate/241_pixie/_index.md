@@ -23,11 +23,11 @@ In this chapter, we will deploy Pixie to monitor an application on a Kubernetes 
 
 **Progressive instrumentation**
 
-Pixie collects full-body request traces, system resource metrics, and Kubernetes events right out of box. Pixie's auto-instrumentation capabilities require no code changes by the user and consumes less than 5% overhead, because it powered by eBPF*. Users are also able to augment Pixie’s default instrumentation to collect custom metrics, traces, and logs.
+Pixie collects full-body request traces, system resource metrics, and Kubernetes events right out of box. Pixie's auto-instrumentation capabilities require no code changes by the user and consume less than 5% overhead, because it powered by eBPF*. Users are also able to augment Pixie’s default instrumentation to collect custom metrics, traces, and logs.
 
 **In-cluster edge compute and storage**
 
-Pixie performs all data storage and computation entirely within a user’s Kubernetes cluster. This architecture allows the user to isolate data storage and computation within their environment for finer-grained context, faster performance and a greater level of data security.
+Pixie performs all data storage and computation entirely within a user’s Kubernetes cluster. This architecture allows the user to isolate data storage and computation within their environment for finer-grained context, faster performance, and a greater level of data security.
 
 **Programmatic data access**
 
