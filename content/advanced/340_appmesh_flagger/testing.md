@@ -16,7 +16,7 @@ We will trigger a canary deployment by updating the container image of `detail` 
 
 ```bash
 export APP_VERSION_2=2.0
-kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-microservice-demo/detail:${APP_VERSION_2}
+kubectl -n flagger set image deployment/detail detail=public.ecr.aws/u2g6w7p2/eks-microservice-demo/detail:${APP_VERSION_2}
 ```
 {{< output >}}
 deployment.apps/detail image updated
@@ -71,7 +71,7 @@ Trigger a canary deployment by updating the container image of `detail` service 
 
 ```bash
 export APP_VERSION_3=3.0
-kubectl -n flagger set image deployment/detail detail=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-microservice-demo/detail:${APP_VERSION_3}
+kubectl -n flagger set image deployment/detail detail=public.ecr.aws/u2g6w7p2/eks-microservice-demo/detail:${APP_VERSION_3}
 ```
 {{< output >}}
 deployment.apps/detail image updated
@@ -131,7 +131,7 @@ The canary that failed has already been updated to the new image **version 3**, 
 
 ```bash
 export APP_VERSION_3=3.0
-envsubst < ./deployment/flagger-app_noerror.yaml | kubectl apply -f -
+envsubst < ./flagger/flagger-app_noerror.yaml | kubectl apply -f -
 ```
 {{< output >}}
 deployment.apps/detail configured

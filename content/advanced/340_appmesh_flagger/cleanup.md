@@ -10,13 +10,6 @@ Namespace deletion may take few minutes, please wait till the process completes.
 {{% /notice %}}
 
 
-#### Delete ECR images
-
-```bash
-aws ecr delete-repository --repository-name eks-microservice-demo/detail --force
-aws ecr delete-repository --repository-name eks-microservice-demo/frontend --force
-```
-
 #### Delete Flagger Resources
 
 ```bash
@@ -73,12 +66,3 @@ done
 eksctl delete iamserviceaccount  --cluster eksworkshop-eksctl --namespace appmesh-system --name appmesh-controller
 kubectl delete namespace appmesh-system
 ```
-
-#### (Optional) Delete Nodegroup
-```bash
-envsubst < ./deployment/clusterconfig.yaml | eksctl delete nodegroup -f -  --approve
-```
-
-{{% notice info %}}
-Nodegroup deletion may take few minutes even though it shows the message as "Deleted" in the command line response. You can log into console and navigate to EKS -> Cluster -> Configuration -> Compute and confirm the deletion.
-{{% /notice %}}

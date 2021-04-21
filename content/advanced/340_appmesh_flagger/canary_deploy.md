@@ -13,47 +13,9 @@ git clone https://github.com/aws-containers/eks-microservice-demo.git
 cd eks-microservice-demo
 ```
 
-#### Build and Push the container images
-Here we are building and pushing three versions of `detail` backend service container images and one version of `frontend` service container image to [Amazon ECR](https://aws.amazon.com/ecr/). Once completed, you can confirm the images are in ECR by logging into the console.
-
-
+#### Create a namespace and a mesh
 ```bash
-aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-PROJECT_NAME=eks-microservice-demo
-export APP_VERSION=1.0
-export APP_VERSION_2=2.0
-export APP_VERSION_3=3.0
-for app in detail; do
-  aws ecr describe-repositories --repository-name $PROJECT_NAME/$app >/dev/null 2>&1 || \
-  aws ecr create-repository --repository-name $PROJECT_NAME/$app >/dev/null
-  TARGET=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$app:$APP_VERSION
-  docker build -t $TARGET apps/$app
-  docker push $TARGET
-  cd apps/$app
-  TARGET2=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$app:$APP_VERSION_2
-  docker build -t $TARGET2 -f version2/Dockerfile .
-  docker push $TARGET2
-  TARGET3=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$app:$APP_VERSION_3
-  docker build -t $TARGET3 -f version3/Dockerfile .
-  docker push $TARGET3
-  cd ../../.
-done
-for app in frontend; do
-  aws ecr describe-repositories --repository-name $PROJECT_NAME/$app >/dev/null 2>&1 || \
-  aws ecr create-repository --repository-name $PROJECT_NAME/$app >/dev/null
-  TARGET=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$app:$APP_VERSION
-  docker build -t $TARGET apps/$app
-  docker push $TARGET
-done
-
-```
-{{% notice info %}}
-Building/Pushing Container images first time to ECR may take around 3-5 minutes
-{{% /notice %}}
-
-#### Create the namespace and mesh
-```bash
-kubectl apply -f deployment/mesh.yaml
+kubectl apply -f flagger/mesh.yaml
 ```
 
 {{< output >}}  
@@ -85,7 +47,7 @@ Flagger's load testing service is available at http://flagger-loadtester.flagger
 
 ```bash
 export APP_VERSION=1.0
-envsubst < ./deployment/flagger-app.yaml | kubectl apply -f -
+envsubst < ./flagger/flagger-app.yaml | kubectl apply -f -
 ```
 {{< output >}}  
 horizontalpodautoscaler.autoscaling/detail created
@@ -98,7 +60,7 @@ deployment.apps/detail created
 Now lets deploy the Flagger canary analysis for `detail` service
 
 ```bash
-kubectl apply -f deployment/flagger-canary.yaml
+kubectl apply -f flagger/flagger-canary.yaml
 ```
 
 {{< output >}}  

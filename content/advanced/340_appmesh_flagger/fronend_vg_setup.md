@@ -11,7 +11,7 @@ Since we want to visualize the automated canary deployment, we need an UI for wh
 
 ```bash
 export APP_VERSION=1.0
-envsubst < deployment/frontend.yaml | kubectl apply -f - 
+envsubst < flagger/frontend.yaml | kubectl apply -f - 
 ```
 
 {{< output >}}
@@ -42,10 +42,10 @@ AWS App Mesh Gateway installed!
 
 #### Create the GatewayRoute
 
-In this [GatewayRoute](https://github.com/aws-containers/eks-microservice-demo/blob/main/deployment/gateway.yaml), we are routing the traffic coming into the VirtualGateway to `frontend` VirtualService.
+In this [GatewayRoute](https://github.com/aws-containers/eks-microservice-demo/blob/main/flagger/gateway.yaml), we are routing the traffic coming into the VirtualGateway to `frontend` VirtualService.
 
 ```bash
-kubectl apply -f deployment/gateway.yaml 
+kubectl apply -f flagger/gateway.yaml 
 ```
 
 {{< output >}}  

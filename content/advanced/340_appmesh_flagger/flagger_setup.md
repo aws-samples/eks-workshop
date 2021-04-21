@@ -5,14 +5,32 @@ weight: 10
 draft: false
 ---
 
-#### PreRequisite
+#### Prerequisites
 
 We assume that we have already have the following setup before we start this chapter.
   * [**Required**] An existing EKS Cluster `eksworkshop-eksctl` created from [EKS Workshop](/030_eksctl/launcheks/)
   * [**Required**] [Nodegroup setup](/advanced/330_servicemesh_using_appmesh/add_nodegroup_fargate/create_nodegroup/) completed from AppMesh Workshop.
   * [**Required**] [AppMesh setup](/advanced/330_servicemesh_using_appmesh/appmesh_installation/install_appmesh/) completed from AppMesh Workshop.
-  * [**Required**] [increased the disk size on your Cloud9 instnace](020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance) as we need to build container images for our application.
+  * [**Optional**] [increased the disk size on your Cloud9 instance](020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance).
 
+#### Install App Mesh Prometheus Helm Chart
+
+```bash
+helm upgrade -i appmesh-prometheus eks/appmesh-prometheus \
+--wait --namespace appmesh-system
+```
+
+{{< output >}}
+Release "appmesh-prometheus" does not exist. Installing it now.
+NAME: appmesh-prometheus
+LAST DEPLOYED: Sat Mar 13 20:59:29 2021
+NAMESPACE: appmesh-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+AWS App Mesh Prometheus installed!
+{{< /output >}}
 
  #### Install Flagger
 
@@ -59,26 +77,7 @@ Flagger installed
 {{< /output >}}
 
 
-#### Install the App Mesh Prometheus
-
-```bash
-helm upgrade -i appmesh-prometheus eks/appmesh-prometheus \
---wait --namespace appmesh-system
-```
-
-{{< output >}}
-Release "appmesh-prometheus" does not exist. Installing it now.
-NAME: appmesh-prometheus
-LAST DEPLOYED: Sat Mar 13 20:59:29 2021
-NAMESPACE: appmesh-system
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-NOTES:
-AWS App Mesh Prometheus installed!
-{{< /output >}}
-
-#### Enable horizontal pod auto-scaling
+#### Set up the horizontol pod autoscaler
 
 Install the Horizontal Pod Autoscaler (HPA) metrics provider:
 ```bash
@@ -97,13 +96,23 @@ deployment.apps/metrics-server created
 apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
 {{< /output >}}
 
-After a minute, the metrics API should report CPU and memory usage for pods. You can verify the metrics API:
+After a minute, the metrics API should report CPU and memory usage for pods. You can verify status of the metrics API:
 ```bash
-kubectl -n kube-system get deployment/metrics-server
+kubectl get apiservice v1beta1.metrics.k8s.io -o json | jq '.status'
+
 ```
 {{< output >}}
-NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-metrics-server   1/1     1            1           2m34s
+{
+  "conditions": [
+    {
+      "lastTransitionTime": "2021-04-21T07:21:25Z",
+      "message": "all checks passed",
+      "reason": "Passed",
+      "status": "True",
+      "type": "Available"
+    }
+  ]
+}
 {{< /output >}}
 
 ```bash
