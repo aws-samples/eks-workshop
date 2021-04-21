@@ -27,6 +27,7 @@ After the script executes, you should see a view similar to the following:
 ![px_namespace](/images/pixie/px_namespace.png)
 
 This script (`px/namespace`) shows:
+
 - A service graph of HTTP1/2 traffic between the pods in the specified namespace.
 - A list of the services and pods with high-level resource and application metrics.
 

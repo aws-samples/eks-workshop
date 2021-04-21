@@ -7,10 +7,9 @@ draft: false
 
 Pixie automatically traces the full request/response bodies of application w for the following [supported protocols](https://docs.pixielabs.ai/about-pixie/observability/). Let’s use Pixie to see the contents of this failed HTTP request.
 
-
 ### Inspect the HTTP Request
 
-Select the `px/http_data` script from the script drop-down menu and change the `start_time` to `-30m` or any window that will include when you triggered the bug.
+Select the `px/http_data` script from the script drop-down menu. Change the `start_time` to `-30m` or any window that will include when you [triggered the bug](/intermediate/241_pixie/prereqs/#trigger-the-microservices-application-bug) in the Sock Shop app.
 
 This script shows the traced HTTP1/2 requests made within your cluster, as long as the request either originates or is received inside of your cluster. There is quite a bit of HTTP traffic in this cluster, so let’s filter it to only show errors.
 
@@ -44,4 +43,3 @@ Hide the script editor using the same command to show it: `ctrl+e` (Windows, Lin
 The output should show the request with the error you recently triggered. Click on a row to inspect the row data in json format. Scroll down to the `resp_body` json key and you can see that our error is a `database connection error`.
 
 ![http_request_error](/images/pixie/http_request_error.png)
-

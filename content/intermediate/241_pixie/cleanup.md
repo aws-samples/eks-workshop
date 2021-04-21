@@ -19,21 +19,25 @@ Ask questions and get help from the [Pixie's Community Slack](http://slackin.wit
 ### Cleanup
 
 Delete the microservices demo application:
+
 ```bash
 kubectl delete namespace px-sock-shop
 ```
 
 Delete Pixie from the cluster:
+
 ```bash
 px delete --clobber
 ```
 
 Remove the Pixie CLI:
+
 ```bash
 rm -rf ${HOME}/ec2-user/bin/px
 ```
 
 Delete the node group:
+
 ```bash
 envsubst < clusterconfig.yaml | eksctl delete nodegroup -f -  --approve
 ```

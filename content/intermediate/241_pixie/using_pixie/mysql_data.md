@@ -16,7 +16,7 @@ Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac). On line
 df = df[df.resp_status == 3]
 ```
 
-Don’t forget to modify the script’s `start_time` to a larger time window, so we can see the error you triggered in sock-shop in an earlier step.
+Don’t forget to modify the script’s `start_time` to `-30m` or any window that will include when you [triggered the bug](/intermediate/241_pixie/prereqs/#trigger-the-microservices-application-bug) in the Sock Shop app.
 
 Re-run the script with the RUN button (top right of the page), or using the keyboard shortcut: `ctrl+enter` (Windows, Linux) or `cmd+enter` (Mac). You should the request with errors that you triggered in the web app.
 
