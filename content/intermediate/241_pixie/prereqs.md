@@ -18,7 +18,7 @@ To accommodate the pods deployed by Pixie and the microservices demo application
 Curl the node group config file and use `eksctl` to create the new `pixie-demo-ng` node group:
 
 ```bash
-curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/433554512d79f87aef7404854113394b3e8f6f53/eks-workshop/clusterconfig.yaml
+curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/main/eks-workshop/clusterconfig.yaml
 envsubst < clusterconfig.yaml | eksctl create nodegroup -f -
 ```
 
@@ -49,7 +49,7 @@ To test out Pixie, we will deploy a modified version of [Weavework’s Sock Shop
 Curl the config file and deploy the demo using `kubectl`:
 
 ```bash
-curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/0bf62e55373ae74b86540e336ed79b8835f75f80/eks-workshop/complete-demo.yaml
+curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/main/eks-workshop/complete-demo.yaml
 kubectl apply -f complete-demo.yaml
 ```
 
