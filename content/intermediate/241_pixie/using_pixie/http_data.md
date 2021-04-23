@@ -13,7 +13,7 @@ Select the `px/http_data` script from the script drop-down menu. Change the `sta
 
 This script shows the traced HTTP1/2 requests made within your cluster, as long as the request either originates or is received inside of your cluster. There is quite a bit of HTTP traffic in this cluster, so let’s filter it to only show errors.
 
-Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac).
+Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac). Or by clicking on the edit script button circled in red below.
 
 ![script_editor](/images/pixie/script_editor.png)
 

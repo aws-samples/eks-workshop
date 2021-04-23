@@ -23,7 +23,7 @@ envsubst < clusterconfig.yaml | eksctl create nodegroup -f -
 ```
 
 {{% notice info %}}
-The creation of the Nodegroup will take about 3 - 5 minutes.
+The creation of the node group will take about 3 - 5 minutes.
 {{% /notice %}}
 
 Confirm that the new nodes joined the cluster correctly. You should see 3 nodes added to the cluster.
@@ -87,20 +87,27 @@ user-db-794cfdf85b-4f6rq       1/1     Running   0          35m
 
 ### Visit the Sock Shop application
 
-To visit the Sock Shop application, get the external IP of the `front-end` service:
+The Sock Shop's `front-end` service is exposed onto an external IP address using a `LoadBalancer`.  Grab the Load Balancer address using:
 
 ```bash
-kubectl -n px-sock-shop get svc front-end --watch
+export SERVICE_IP=$(kubectl -n px-sock-shop get svc front-end --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+
+echo http://$SERVICE_IP/
 ```
 
 You should see output similar to that below.
 
 {{< output >}}
-NAME        TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)        AGE
-front-end   LoadBalancer   10.100.116.239   a8821cbb76e3f4735999aeb22965f81d-258266119.us-west-2.elb.amazonaws.com   80:30001/TCP   2m22s
+workshop:~/environment $ echo http://$SERVICE_IP/
+http://a22bf691105874cf0a5468a2ddce7f19-2030728129.us-west-2.elb.amazonaws.com/
 {{< /output >}}
 
-Navigate to the “External-IP” address in your browser. Click the “Catalogue” tab along the top of the page and you should see a variety of sock products.
+{{% notice info %}}
+The Load Balancer may take 5 minutes to create and become available on the DNS.
+When the `front-end` service is first deployed, it can take several minutes for the Load Balancer to be created and DNS updated. During this time the link above may display a “site unreachable” message.
+{{% /notice %}}
+
+To visit the Sock Shop app, navigate to the Load Balancer address in your browser. Click the “Catalogue” tab along the top of the page and you should see a variety of sock products.
 
 ![sock_shop](/images/pixie/sock_shop.png)
 
