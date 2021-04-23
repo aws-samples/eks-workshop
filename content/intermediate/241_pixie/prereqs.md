@@ -103,7 +103,6 @@ http://a22bf691105874cf0a5468a2ddce7f19-2030728129.us-west-2.elb.amazonaws.com/
 {{< /output >}}
 
 {{% notice info %}}
-The Load Balancer may take 5 minutes to create and become available on the DNS.
 When the `front-end` service is first deployed, it can take several minutes for the Load Balancer to be created and DNS updated. During this time the link above may display a “site unreachable” message.
 {{% /notice %}}
 

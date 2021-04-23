@@ -28,9 +28,7 @@ The output should show one or more requests with errors.
 
 Click on the table row to see the row data in json format.
 
-We can see that our error is a SQL syntax error: the `OR` condition was misspelled.
-
-Scroll down to the `resp_body` json key, and you will see that our error is with the SQL syntax. In particular the `OR` condition was misspelled as `ORR`.
+Scroll down to the `resp_body` json key, and you will see that our error is a SQL syntax error. In particular the `OR` condition was misspelled as `ORR`.
 
 ```bash
 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORR tag.name=? GROUP BY id ORDER BY ?' at line 1,
