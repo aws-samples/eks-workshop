@@ -14,7 +14,7 @@ kubectl delete HorizontalPodAutoscaler detail -n flagger
 kubectl delete deployment detail -n  flagger
 ```
 
-#### Delete Flagger namespace
+#### Delete Flagger Namespace
 
 {{% notice info %}}
 Namespace deletion may take few minutes, please wait till the process completes.
@@ -24,7 +24,7 @@ Namespace deletion may take few minutes, please wait till the process completes.
 kubectl delete namespace flagger
 ```
 
-#### Delete the mesh
+#### Delete the Mesh
 
 ```bash
 kubectl delete meshes flagger
