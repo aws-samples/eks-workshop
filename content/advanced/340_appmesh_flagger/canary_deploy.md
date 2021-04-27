@@ -73,7 +73,7 @@ Flagger's load testing service is available at http://flagger-loadtester.flagger
 
 #### Create a canary definition
 
-Now lets deploy the Flagger canary analysis for `detail` service
+Now lets deploy the Flagger canary definition file for `detail` service
 
 ```bash
 kubectl apply -f flagger/flagger-canary.yaml
