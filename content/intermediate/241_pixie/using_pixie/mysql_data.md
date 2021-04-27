@@ -16,9 +16,13 @@ Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac).
 On line 34, add the following line to filter the mysql requests to just those with errors:
 
 ```bash
-# Filter requests to only include those with an error code.
-df = df[df.resp_status == 3]
+    # Filter requests to only include those with an error code.
+    df = df[df.resp_status == 3]
 ```
+
+{{% notice info %}}
+Make sure that the new lines just added match the indentation of the existing lines. If not, you will get an `invalid syntax` error when running the script.
+{{% /notice %}}
 
 Re-run the script with the RUN button (top right of the page), or using the keyboard shortcut: `ctrl+enter` (Windows, Linux) or `cmd+enter` (Mac).
 

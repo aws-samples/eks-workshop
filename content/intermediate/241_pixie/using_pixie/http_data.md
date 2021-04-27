@@ -20,15 +20,19 @@ Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac). Or by c
 Delete line 29 and replace it with the following.
 
 ```bash
-# Access the service name.
-df.service = df.ctx['service']
+    # Access the service name.
+    df.service = df.ctx['service']
 
-# Filter to only catalogue service.
-df = df[df.service == 'px-sock-shop/catalogue']
+    # Filter to only catalogue service.
+    df = df[df.service == 'px-sock-shop/catalogue']
 
-# Filter to errors greater or equal to 400.
-df = df[df.resp_status >= 400]
+    # Filter to errors greater or equal to 400.
+    df = df[df.resp_status >= 400]
 ```
+
+{{% notice info %}}
+Make sure that the new lines just added match the indentation of the existing lines. If not, you will get an `invalid syntax` error when running the script.
+{{% /notice %}}
 
 This code accesses the service of the pod receiving HTTP request. Then, it filters the requests to only include those made by the `catalogue` service that have an error code.
 
