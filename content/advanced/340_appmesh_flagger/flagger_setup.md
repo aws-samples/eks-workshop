@@ -5,19 +5,13 @@ weight: 10
 draft: false
 ---
 
-#### Prerequisites
-
-We assume that we have already have the following setup before we start this chapter.
-  * [**Required**] An existing EKS Cluster `eksworkshop-eksctl` created from [EKS Workshop](/030_eksctl/launcheks/)
-  * [**Required**] [Nodegroup setup](/advanced/330_servicemesh_using_appmesh/add_nodegroup_fargate/create_nodegroup/) completed from AppMesh Workshop.
-  * [**Required**] [AppMesh setup](/advanced/330_servicemesh_using_appmesh/appmesh_installation/install_appmesh/) completed from AppMesh Workshop.
-  * [**Optional**] [increased the disk size on your Cloud9 instance](020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance).
-
 #### Install App Mesh Prometheus Helm Chart
 
 ```bash
 helm upgrade -i appmesh-prometheus eks/appmesh-prometheus \
---wait --namespace appmesh-system
+	--namespace appmesh-system \
+	--set serviceAccount.create=false \
+	--set serviceAccount.name=appmesh-controller
 ```
 
 {{< output >}}
@@ -59,10 +53,12 @@ Deploy Flagger in the appmesh-system namespace:
 
 ```bash
 helm upgrade -i flagger flagger/flagger \
---namespace=appmesh-system \
---set crd.create=false \
---set meshProvider=appmesh:v1beta2 \
---set metricsServer=http://appmesh-prometheus:9090
+    --namespace=appmesh-system \
+ 	--set crd.create=false \
+    --set meshProvider=appmesh:v1beta2 \
+    --set metricsServer=http://appmesh-prometheus:9090 \
+    --set serviceAccount.create=false \
+    --set serviceAccount.name=appmesh-controller
 ```
 {{< output >}}    
 Release "flagger" does not exist. Installing it now.

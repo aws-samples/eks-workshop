@@ -7,7 +7,7 @@ draft: false
 
 #### Deploy the Frontend Service
 
-Since we want to visualize the automated canary deployment, we need an UI for which, we will use `frontend` service which then will call the backend service `detail` to get the vendor information. In order to expose the `frontend` service outside the mesh we will use AWS AppMesh VirtualGateway affiliated with Network Load Balancer. Lets deploy the `frontend` service.
+Since we want to visualize the automated canary deployment, we need an UI for which, we will use `frontend` service. This `frontend` service will call the backend service `detail` to get the vendor information. In order to expose the `frontend` service outside the mesh we will use AWS AppMesh VirtualGateway affiliated with Network Load Balancer. Lets deploy the `frontend` service.
 
 ```bash
 export APP_VERSION=1.0
@@ -25,7 +25,9 @@ virtualservice.appmesh.k8s.aws/frontend created
 
 ```bash
 helm upgrade -i appmesh-gateway eks/appmesh-gateway \
---namespace flagger
+	--namespace flagger \
+    --set serviceAccount.create=false \
+    --set serviceAccount.name=flagger-envoy-proxies
 ```
 
 {{< output >}}  

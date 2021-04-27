@@ -23,13 +23,41 @@ namespace/flagger created
 mesh.appmesh.k8s.aws/flagger created
 {{< /output >}}
 
+#### Create a deployment and a horizontal pod autoscaler
+
+```bash
+export APP_VERSION=1.0
+envsubst < ./flagger/flagger-app.yaml | kubectl apply -f -
+```
+{{< output >}}  
+horizontalpodautoscaler.autoscaling/detail created
+deployment.apps/detail created                                                                                                             
+{{< /output >}}
+
+#### Create IAM policy and Role for flagger-loadtester
+```bash
+# Create an IAM policy called AWSAppMeshK8sControllerIAMPolicy
+aws iam create-policy \
+    --policy-name FlaggerEnvoyNamespaceIAMPolicy \
+    --policy-document file://envoy-iam-policy.json
+
+# Create an IAM service account for flagger namespace 
+ eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
+  --namespace flagger \
+  --name flagger-envoy-proxies \
+  --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/FlaggerEnvoyNamespaceIAMPolicy \
+  --override-existing-serviceaccounts \
+  --approve 
+```
+
 #### Deploy the load testing service to generate traffic during the canary analysis
 ```bash
 helm upgrade -i flagger-loadtester flagger/loadtester \
---namespace=flagger \
---set appmesh.enabled=true \
---set "appmesh.backends[0]=detail" \
---set "appmesh.backends[1]=detail-canary"
+  --namespace=flagger \
+  --set appmesh.enabled=true \
+  --set "appmesh.backends[0]=detail" \
+  --set "appmesh.backends[1]=detail-canary" \
+  --set "serviceAccountName=flagger-envoy-proxies"
 ```
 
 {{< output >}}
@@ -40,18 +68,6 @@ NAMESPACE: flagger                                                              
 REVISION: 1                                                                                                                                       TEST SUITE: None                                                                                                                                  
 NOTES:                                                                                                                                            
 Flagger's load testing service is available at http://flagger-loadtester.flagger/  
-{{< /output >}}
-
-
-#### Create a deployment and a horizontal pod autoscaler
-
-```bash
-export APP_VERSION=1.0
-envsubst < ./flagger/flagger-app.yaml | kubectl apply -f -
-```
-{{< output >}}  
-horizontalpodautoscaler.autoscaling/detail created
-deployment.apps/detail created                                                                                                             
 {{< /output >}}
 
 
@@ -82,6 +98,12 @@ kubectl -n appmesh-system logs deploy/flagger --tail 15  -f | jq .msg
 "VirtualRouter detail-canary created"
 "VirtualService detail-canary created"
 "Deployment detail-primary.flagger created"
+"detail-primary.flagger not ready: waiting for rollout to finish: observed deployment generation less then desired generation"
+"all the metrics providers are available!"
+"Scaling down Deployment detail.flagger"
+"HorizontalPodAutoscaler detail-primary.flagger created"
+"Service detail.flagger created"
+"Initialization done! detail.flagger"
 {{< /output >}}
 
 You should see the below event from canary
@@ -96,13 +118,10 @@ Events:                                                                         
   Normal   Synced  85s (x2 over 2m24s)  flagger  all the metrics providers are available!                                                           Normal   Synced  84s                  flagger  Initialization done! detail.flagger 
 {{< /output >}}
 
-
-Here is how it looks like after the Canary Release is initialized.
-* After the bootstrap, `detail` deployment is scaled to zero. 
+After the bootstrap is completed, 
+* `detail` deployment is scaled to zero. 
 * Traffic to `detail.flagger` will be routed to the primary pods.
 * AppMesh resources like virtualnode, virtualservice, virtualrouter has been created for the `detail` service
-
-
 ```bash
 kubectl get pod,deployment,svc,virtualnode,virtualservice,virtualrouter -n flagger
 ```

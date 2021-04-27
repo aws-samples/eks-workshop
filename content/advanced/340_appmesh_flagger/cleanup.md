@@ -5,20 +5,20 @@ weight: 60
 draft: false
 ---
 
-{{% notice info %}}
-Namespace deletion may take few minutes, please wait till the process completes.
-{{% /notice %}}
-
-
 #### Delete Flagger Resources
 
 ```bash
 kubectl delete canary detail -n  flagger
 helm uninstall flagger-loadtester -n flagger
 kubectl delete HorizontalPodAutoscaler detail -n flagger
+kubectl delete deployment detail -n  flagger
 ```
 
 #### Delete Flagger namespace
+
+{{% notice info %}}
+Namespace deletion may take few minutes, please wait till the process completes.
+{{% /notice %}}
 
 ```bash
 kubectl delete namespace flagger
@@ -28,6 +28,13 @@ kubectl delete namespace flagger
 
 ```bash
 kubectl delete meshes flagger
+```
+
+#### Delete Policies and Service Accounts for `flagger` namespace
+
+```bash
+aws iam delete-policy --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/FlaggerEnvoyNamespaceIAMPolicy
+eksctl delete iamserviceaccount  --cluster eksworkshop-eksctl --namespace flagger --name flagger-envoy-proxies
 ```
 
 #### Uninstall the Flagger Helm Charts
@@ -56,9 +63,10 @@ helm -n appmesh-system delete appmesh-prometheus
 kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.1/components.yaml
 ```
 
-#### (Optional) Uninstall AppMesh 
+#### Uninstall AppMesh 
 
 ```bash
+
 helm -n appmesh-system delete appmesh-controller
 for i in $(kubectl get crd | grep appmesh | cut -d" " -f1) ; do
 kubectl delete crd $i

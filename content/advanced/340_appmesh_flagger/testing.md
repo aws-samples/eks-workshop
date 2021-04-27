@@ -159,11 +159,4 @@ kubectl -n appmesh-system logs deploy/flagger --tail 10  -f | jq .msg
 Go to the LoadBalancer endpoint in browser and verify if new **version 3** has been deployed.
 ![version3](/images/app_mesh_flagger/version3.png)
 
-#### X-Ray tracing
-
-You can log into console and go to X-Ray and you should able to see the tracing between different services as well as the track a specific service flow
-
-![trace](/images/app_mesh_flagger/traceview.png)
-
-![map](/images/app_mesh_flagger/mapview.png)
 
