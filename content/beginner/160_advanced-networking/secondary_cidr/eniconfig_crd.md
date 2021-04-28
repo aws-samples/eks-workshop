@@ -5,20 +5,20 @@ weight: 40
 ---
 
 ### Create custom resources for ENIConfig CRD
-As next step, we will add custom resources to ENIConfig custom resource definition (CRD). CRD's are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRD's so that Worker nodes can access them to configure VPC CNI plugin.
+As next step, we will add custom resources to ENIConfig custom resource definition (CRD). CRDs are extensions of Kubernetes API that stores collection of API objects of certain kind. In this case, we will store VPC Subnet and SecurityGroup configuration information in these CRDs so that Worker nodes can access them to configure VPC CNI plugin.
 
 You should have ENIConfig CRD already installed with latest CNI version (1.3+). You can check if its installed by running this command.
 ```
 kubectl get crd
 ```
-You should see response similar to this
+You should see a response similar to this
 {{< output >}}
 NAME                               CREATED AT
 eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
 {{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
 ```
 Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom resources.
 
@@ -34,7 +34,7 @@ spec:
  - $SECURITYGROUPID1
  - $SECURITYGROUPID2
 ```
-Check the AZ's and Subnet IDs for these subnets. Make note of AZ info as you will need this when you apply annotation to Worker nodes using custom network config
+Check the AZs and Subnet IDs for these subnets. Make note of AZ info as you will need this when you apply annotation to Worker nodes using custom network config
 ```
 aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'Subnets[*].[CidrBlock,SubnetId,AvailabilityZone]' --output table
 ```
@@ -49,7 +49,7 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 {{< /output >}}
 Check your Worker Node SecurityGroup
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text`)
+INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text`)
 for i in "${INSTANCE_IDS[@]}"
 do
   echo "SecurityGroup for EC2 instance $i ..."
@@ -88,7 +88,7 @@ Similarly, create custom resource **group3-pod-netconfig.yaml** for third subnet
 
 Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
 ```
-aws ec2 describe-instances --filters "Name=tag:Name,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`Name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table   
+aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`eks:nodegroup-name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table  
 ```
 {{< output >}}
 ------------------------------------------------------------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ aws ec2 describe-instances --filters "Name=tag:Name,Values=eksworkshop*" --query
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
 {{< /output >}}
 
-Apply the CRD's
+Apply the CRDs
 ```
 kubectl apply -f group1-pod-netconfig.yaml
 kubectl apply -f group2-pod-netconfig.yaml
@@ -120,3 +120,23 @@ As an example, here is what I would run in my environment
 kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
 {{< /output >}}
 You should now see secondary IP address from extended CIDR assigned to annotated nodes.
+
+#### Additional notes on ENIConfig naming and automatic matching
+
+Optionally, you specify which node label will be used to match the `ENIConfig` name. Consider the
+following example: you have one `ENIConfig` per availability zone, named after the AZ
+(`us-east-2a`, `us-east-2b`, `us-east-2c`). You can then use a label already applied to your nodes,
+such as `topology.kubernetes.io/zone` where the value of the label matches the `ENIConfig` name.
+
+{{< output >}}
+$ kubectl describe nodes | grep 'topology.kubernetes.io/zone'
+                    topology.kubernetes.io/zone=us-east-2a
+                    topology.kubernetes.io/zone=us-east-2c
+                    topology.kubernetes.io/zone=us-east-2b
+{{</ output >}}
+
+{{< output >}}
+kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
+{{</ output >}}
+
+Kubernetes will now apply the corresponding `ENIConfig` matching the nodes AZ.

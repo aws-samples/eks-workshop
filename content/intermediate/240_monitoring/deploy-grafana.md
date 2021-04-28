@@ -11,18 +11,33 @@ to gp2, admin password, configuring the datasource to point to Prometheus and cr
 [external load](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)
 balancer for the service.
 
+Create YAML file called `grafana.yaml` with following commands:
+
+```bash
+mkdir ${HOME}/environment/grafana
+
+cat << EoF > ${HOME}/environment/grafana/grafana.yaml
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.prometheus.svc.cluster.local
+      access: proxy
+      isDefault: true
+EoF
+```
+
 ```bash
 kubectl create namespace grafana
-helm install grafana stable/grafana \
+
+helm install grafana grafana/grafana \
     --namespace grafana \
     --set persistence.storageClassName="gp2" \
+    --set persistence.enabled=true \
     --set adminPassword='EKS!sAWSome' \
-    --set datasources."datasources\.yaml".apiVersion=1 \
-    --set datasources."datasources\.yaml".datasources[0].name=Prometheus \
-    --set datasources."datasources\.yaml".datasources[0].type=prometheus \
-    --set datasources."datasources\.yaml".datasources[0].url=http://prometheus-server.prometheus.svc.cluster.local \
-    --set datasources."datasources\.yaml".datasources[0].access=proxy \
-    --set datasources."datasources\.yaml".datasources[0].isDefault=true \
+    --values ${HOME}/environment/grafana/grafana.yaml \
     --set service.type=LoadBalancer
 ```
 
@@ -34,20 +49,22 @@ kubectl get all -n grafana
 
 You should see similar results. They should all be Ready and Available
 
-```text
-NAME                          READY     STATUS    RESTARTS   AGE
-pod/grafana-b9697f8b5-t9w4j   1/1       Running   0          2m
+{{< output >}}
+NAME                          READY   STATUS    RESTARTS   AGE
+pod/grafana-f64dbbcf4-794rk   1/1     Running   0          55s
+NAME              TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
+service/grafana   LoadBalancer   10.100.60.167   aa0fa7322d86e408786cdd21ebcc461c-1708627185.us-east-2.elb.amazonaws.com   80:31929/TCP   55s
 
-NAME              TYPE           CLUSTER-IP       EXTERNAL-IP                                                               PORT(S)        AGE
-service/grafana   LoadBalancer   10.100.49.172   abe57f85de73111e899cf0289f6dc4a4-1343235144.us-west-2.elb.amazonaws.com   80:31570/TCP   3m
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/grafana   1/1     1            1           55s
 
+NAME                                DESIRED   CURRENT   READY   AGE
+replicaset.apps/grafana-f64dbbcf4   1         1         1       55s
+{{< /output >}}
 
-NAME                      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/grafana   1         1         1            1           2m
-
-NAME                                DESIRED   CURRENT   READY     AGE
-replicaset.apps/grafana-b9697f8b5   1         1         1         2m
-```
+{{% notice warning %}}
+It can take several minutes before the ELB is up, DNS is propagated and the nodes are registered.
+{{% /notice %}}
 
 You can get Grafana ELB URL using this command. Copy & Paste the value into browser to access Grafana web UI.
 
@@ -62,7 +79,3 @@ When logging in, use the username **admin** and get the password hash by running
 ```bash
 kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
-
-{{% notice tip %}}
-It can take several minutes before the ELB is up, DNS is propagated and the nodes are registered.
-{{% /notice %}}

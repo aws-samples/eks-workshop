@@ -7,6 +7,7 @@ Let's cleanup this tutorial
 
 ```
 kubectl delete deployments --all
+kubectl delete service  nginx
 ```
 Edit aws-node configmap and comment AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG and its value
 ```
@@ -37,7 +38,7 @@ Use caution before you run the next command because it terminates all worker nod
 {{% /notice %}}
 
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:Name,Values=eksworkshop*" --output text` )
+INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text` )
 for i in "${INSTANCE_IDS[@]}"
 do
 	echo "Terminating EC2 instance $i ..."

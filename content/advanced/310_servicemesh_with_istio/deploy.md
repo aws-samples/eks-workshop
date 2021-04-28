@@ -30,7 +30,7 @@ kubectl label namespace bookinfo istio-injection=enabled
  kubectl get ns bookinfo --show-labels
 ```
 
-Now, we can deploy a vanilla definition of the Bookinfo application inside the its own namespace, and the Mutating Webhook will alter the definition of any pod it sees to include the Envoy sidecar container.
+Now, we can deploy a vanilla definition of the Bookinfo application inside the `bookinfo` namespace, and the Mutating Webhook will alter the definition of any pod it sees to include the Envoy sidecar container.
 
 ## Architecture of the Bookinfo application
 
@@ -77,35 +77,33 @@ kubectl -n bookinfo get pod,svc
 ```
 
 {{< output >}}
-NAME                                 READY   STATUS    RESTARTS   AGE
-pod/details-v1-c5b5f496d-p24pr       2/2     Running   0          15s
-pod/productpage-v1-c7765c886-6gt9c   2/2     Running   0          15s
-pod/ratings-v1-f745cf57b-jkhfn       2/2     Running   0          15s
-pod/reviews-v1-75b979578c-g6jct      2/2     Running   0          15s
-pod/reviews-v2-597bf96c8f-x2nnb      2/2     Running   0          15s
-pod/reviews-v3-54c6c64795-m544j      2/2     Running   0          15s
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/details-v1-5f449bdbb9-pmf66       2/2     Running   0          33s
+pod/productpage-v1-6f9df695b7-rxqww   2/2     Running   0          32s
+pod/ratings-v1-857bb87c57-95499       2/2     Running   0          32s
+pod/reviews-v1-68f9c47f69-f5psn       2/2     Running   0          33s
+pod/reviews-v2-5d56c488f5-g25r6       2/2     Running   0          33s
+pod/reviews-v3-869ff44845-c8c4c       2/2     Running   0          33s
 
 NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/details       ClusterIP   10.100.180.109   <none>        9080/TCP   15s
-service/productpage   ClusterIP   10.100.80.194    <none>        9080/TCP   15s
-service/ratings       ClusterIP   10.100.158.101   <none>        9080/TCP   15s
-service/reviews       ClusterIP   10.100.12.229    <none>        9080/TCP   15s
+service/details       ClusterIP   10.100.75.171    <none>        9080/TCP   33s
+service/productpage   ClusterIP   10.100.192.219   <none>        9080/TCP   33s
+service/ratings       ClusterIP   10.100.45.201    <none>        9080/TCP   33s
+service/reviews       ClusterIP   10.100.239.94    <none>        9080/TCP   33s
 {{< /output >}}
 
-Now we'll define the virtual service and ingress gateway.
+## Create an Istio Gateway
+
+Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your Kubernetes cluster, e.g., from a browser. An [Istio Gateway](https://istio.io/docs/concepts/traffic-management/#gateways) is used for this purpose.
+
+We'll define the virtual service and ingress gateway.
 
 ```bash
 kubectl -n bookinfo \
  apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
 
-Next we'll query the DNS name of the ingress gateway and use it to connect via the browser.
-
-```bash
-echo $(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-```
-
-{{% notice note %}}
+{{% notice warning %}}
 This may take a minute or two, first for the Ingress to be created, and secondly for the Ingress to hook up with the services it exposes.
 {{% /notice %}}
 
@@ -118,6 +116,6 @@ echo "http://${GATEWAY_URL}/productpage"
 
 ![Bookinfo](/images/istio/istio_bookinfo_1.png)
 
-{{% notice info %}}
+{{% notice note %}}
 Click reload multiple times to see how the layout and content of the reviews changes as different versions (v1, v2, v3) of the app are called.
 {{% /notice %}}

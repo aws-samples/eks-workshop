@@ -14,29 +14,56 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 {{% /notice %}}
 
 #### Install kubectl
-```
-sudo curl --silent --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
 
+```bash
+sudo curl --silent --location -o /usr/local/bin/kubectl \
+   https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl
 
 sudo chmod +x /usr/local/bin/kubectl
 ```
 
-#### Install jq, envsubst (from GNU gettext utilities) and bash-completion
+#### Update awscli
+
+Upgrade AWS CLI according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html).
+
+```bash
+sudo pip install --upgrade awscli && hash -r
 ```
-sudo yum -y install jq gettext bash-completion
+
+#### Install jq, envsubst (from GNU gettext utilities) and bash-completion
+
+```bash
+sudo yum -y install jq gettext bash-completion moreutils
+```
+
+#### Install yq for yaml processing
+
+```bash
+echo 'yq() {
+  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
+}' | tee -a ~/.bashrc && source ~/.bashrc
 ```
 
 #### Verify the binaries are in the path and executable
-```
-for command in kubectl jq envsubst
+
+```bash
+for command in kubectl jq envsubst aws
   do
     which $command &>/dev/null && echo "$command in path" || echo "$command NOT FOUND"
   done
 ```
 
 #### Enable kubectl bash_completion
-```
+
+```bash
 kubectl completion bash >>  ~/.bash_completion
 . /etc/profile.d/bash_completion.sh
 . ~/.bash_completion
+```
+
+#### set the AWS Load Balancer Controller version
+
+```bash
+echo 'export LBC_VERSION="v2.0.0"' >>  ~/.bash_profile
+.  ~/.bash_profile
 ```

@@ -5,6 +5,8 @@ disableToc: true
 
 Discover more AWS resources for building and running your application on AWS:
 
+* [Containers from the Couch](https://containersfromthecouch.com) - Check out our latest container shows, and learn all about running containers!
+
 #### More Workshops
 
 * [Amazon ECS Workshop](https://ecsworkshop.com) - Learn how to use Stelligent Mu to deploy a microservice architecture that runs in AWS Fargate

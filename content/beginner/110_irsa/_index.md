@@ -2,6 +2,7 @@
 title: "IAM Roles for Service Accounts"
 date: 2018-11-13T16:32:30+09:00
 weight: 110
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 tags:
   - intermediate
@@ -9,6 +10,8 @@ tags:
 ---
 
 ### Fine-Grained IAM Roles for Service Accounts
+
+{{< youtube lyMKskPXbEA >}}
 
 In Kubernetes version 1.12, support was added for a new **ProjectedServiceAccountToken** feature, which is an OIDC JSON web token that also contains the service account identity, and supports a configurable audience.
 

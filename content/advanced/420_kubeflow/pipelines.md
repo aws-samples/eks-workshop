@@ -2,10 +2,13 @@
 title: "Kubeflow pipeline"
 date: 2019-08-27T00:00:00-08:00
 weight: 80
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 ---
 
 ### Kubeflow Pipelines
+
+{{< youtube 2SEDBjNx_JU >}}
 
 Kubeflow Pipeline is one the core components of the toolkit and gets deployed automatically when you install Kubeflow. Kubeflow Pipelines consists of:
 

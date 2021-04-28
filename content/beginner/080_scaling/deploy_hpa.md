@@ -4,33 +4,36 @@ date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
 
-### Deploy the Metrics Server
-Metrics Server is a cluster-wide aggregator of resource usage data. These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). We will deploy the metrics server using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
+## Deploy the Metrics Server
+
+Metrics Server is a scalable, efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines.
+
+These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
+
+We will deploy the metrics server using [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server).
 
 ```sh
-# create the metrics-service namespace first
-kubectl create namespace metrics
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.1/components.yaml
+```
 
-helm install --name metrics-server \
-    stable/metrics-server \
-    --version 2.9.0 \
-    --namespace metrics
-```
-### Confirm the Metrics API is available.
+Lets' verify the status of the metrics-server `APIService` (it could take a few minutes).
 
-Return to the terminal in the Cloud9 Environment
+```sh
+kubectl get apiservice v1beta1.metrics.k8s.io -o json | jq '.status'
 ```
-kubectl get apiservice v1beta1.metrics.k8s.io -o yaml
-```
-If all is well, you should see a status message similar to the one below in the response
+
 {{< output >}}
-status:
-  conditions:
-  - lastTransitionTime: "2020-02-18T21:33:26Z"
-    message: all checks passed
-    reason: Passed
-    status: "True"
-    type: Available
+{
+  "conditions": [
+    {
+      "lastTransitionTime": "2020-11-10T06:39:13Z",
+      "message": "all checks passed",
+      "reason": "Passed",
+      "status": "True",
+      "type": "Available"
+    }
+  ]
+}
 {{< /output >}}
 
-#### We are now ready to scale a deployed application
+**We are now ready to scale a deployed application**

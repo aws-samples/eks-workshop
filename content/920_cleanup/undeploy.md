@@ -10,7 +10,8 @@ deployments and kubernetes dashboard.
 Note that if you followed the cleanup section of the modules, some of the commands below might fail because there is nothing to delete and its ok.
 
 Undeploy the applications:
-```
+
+```bash
 cd ~/environment/ecsdemo-frontend
 kubectl delete -f kubernetes/service.yaml
 kubectl delete -f kubernetes/deployment.yaml
@@ -23,6 +24,7 @@ cd ~/environment/ecsdemo-nodejs
 kubectl delete -f kubernetes/service.yaml
 kubectl delete -f kubernetes/deployment.yaml
 
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+export DASHBOARD_VERSION="v2.0.0"
 
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/src/deploy/recommended/kubernetes-dashboard.yaml
 ```

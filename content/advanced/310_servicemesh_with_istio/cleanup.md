@@ -17,29 +17,33 @@ killall watch
 When you’re finished experimenting with the `Bookinfo` sample, uninstall and clean it up using the following instructions
 
 ```bash
+export ISTIO_RELEASE=$(echo $ISTIO_VERSION |cut -d. -f1,2)
+
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/prometheus.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/grafana.yaml
+
 export NAMESPACE="bookinfo"
 
 ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/platform/kube/cleanup.sh
 
+
+istioctl manifest generate --set profile=demo | kubectl delete -f -
+
 kubectl delete ns bookinfo
+kubectl delete ns istio-system
 ```
-
-`istioctl` will delete:
-
-* The RBAC permissions
-* The `istio-system` namespace
-* All resources hierarchically under it
 
 {{% notice info %}}
-you can ignore the errors for non-existent resources because they may have been deleted hierarchically.
+You can ignore the errors for non-existent resources because they may have been deleted hierarchically.
 {{% /notice %}}
 
-```bash
-istioctl manifest generate --set profile=demo | kubectl delete -f -
-```
-
-Finally, we can remove the Istio version variable from `.bash_profile`
+Finally, we can delete the istio folder and clean up the `~/.bash_profile`.
 
 ```bash
+cd ~/environment
+rm -rf istio-${ISTIO_VERSION}
+
 sed -i '/ISTIO_VERSION/d' ${HOME}/.bash_profile
+unset ISTIO_VERSION
 ```

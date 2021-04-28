@@ -2,22 +2,27 @@
 title: "Fairing"
 date: 2019-11-13T21:55:32-05:00
 weight: 60
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 ---
 ### Kubeflow Fairing
 
+{{< youtube diGPUFu7fJw >}}
+
 Jupyter notebooks are a great way to author your model creation. You can write the algorithms, train the model and if you need a way to publish the inference endpoint directly from this interface, you can use Kubeflow fairing to do so
 
-#### Assign ECR permissions
+#### Assign S3 and ECR permissions
 
-For this chapter, we will create a training image and store it in ECR. We need to add an IAM policy to Worker nodes so that we can write to ECR. Run below commands in Cloud9 and assign desired permission
+For this chapter, we will make use of both S3 and ECR services. We'll use S3 to store and access pipeline data. We'll use ECR as our container registry for the training image. We need to add IAM policies to Worker nodes so that we can access both S3 and ECR. Run below commands in Cloud9 and assign desired permission
 
 ```
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+
+aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
 ```
 
 #### Create Jupyter notebook server
-Create new notebook server by following [Jupyter notebook chapter] (/advanced/420_kubeflow/jupyter). Before you jump to the link, take a note of custom image (**seedjeffwan/tensorflow-1.13.1-notebook-cpu:awscli-v2**) that you will use for **eks-kubeflow-workshop** notebook server. Below screenshot depicts how to use custom image
+Create new notebook server by following [Jupyter notebook chapter] (/advanced/420_kubeflow/jupyter). Before you jump to the link, take a note of custom image (**527798164940.dkr.ecr.us-west-2.amazonaws.com/tensorflow-1.15.2-notebook-cpu:1.0.0**) that you will use for **eks-kubeflow-workshop** notebook server. Below screenshot depicts how to use custom image
 
 ![dashboard](/images/kubeflow/eks-kubeflow-workshop-notebook-server.png)
 
@@ -70,7 +75,7 @@ Let's run next cell. Fairing pushes the image to ECR and then deploys the model 
 
 Now that we have demonstrated how to use Fairing to train locally and remotely, let's train and deploy XGBoost model and review an end to end implementation
 
-#### Run fairing end to end deployment notebook 
+#### Run fairing end to end deployment notebook
 
 For this exercise, we will use another notebook called **02_06_fairing_e2e.ipynb**
 

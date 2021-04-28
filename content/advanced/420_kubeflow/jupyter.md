@@ -2,10 +2,13 @@
 title: "Jupyter Notebook"
 date: 2019-08-26T00:00:00-08:00
 weight: 30
+pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 ---
 
 ### Jupyter Notebook using Kubeflow on Amazon EKS
+
+{{< youtube soMDyqpKMK4 >}}
 
 [The Jupyter Notebook](https://jupyter.org/) is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. It is often used for data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and more.
 

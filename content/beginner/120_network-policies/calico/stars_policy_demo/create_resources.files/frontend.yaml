@@ -10,13 +10,16 @@ spec:
   selector:
     role: frontend 
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: frontend 
   namespace: stars
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      role: frontend
   template:
     metadata:
       labels:

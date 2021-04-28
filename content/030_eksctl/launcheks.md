@@ -10,6 +10,7 @@ weight: 20
 {{% /notice %}}
 
 #### Challenge:
+
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
@@ -29,8 +30,51 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
 
 ### Create an EKS cluster
+
+{{% notice warning %}}
+`eksctl` version must be 0.24.0 or above to deploy EKS 1.17, [click here](/030_eksctl/prerequisites) to get the latest version.
+{{% /notice %}}
+
+Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
+
+```bash
+cat << EOF > eksworkshop.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+  version: "1.17"
+
+availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
+
+managedNodeGroups:
+- name: nodegroup
+  desiredCapacity: 3
+  instanceType: t3.small
+  ssh:
+    enableSsm: true
+
+# To enable all of the control plane logs, uncomment below:
+# cloudWatch:
+#  clusterLogging:
+#    enableTypes: ["*"]
+
+secretsEncryption:
+  keyARN: ${MASTER_ARN}
+EOF
 ```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --managed --alb-ingress-access --region=${AWS_REGION}
+
+Next, use the file you created as the input for the eksctl cluster creation.
+
+{{% notice info %}}
+We are deliberatly launching one version behind the latest (1.17 vs. 1.18) to allow you to perform a cluster upgrade in one of the Chapters.
+{{% /notice %}}
+
+```bash
+eksctl create cluster -f eksworkshop.yaml
 ```
 
 {{% notice info %}}

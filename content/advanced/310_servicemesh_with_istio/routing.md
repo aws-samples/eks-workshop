@@ -5,11 +5,11 @@ weight: 50
 draft: false
 ---
 
+## Create the default destination rules
+
 Deploying a microservice-based application in an Istio service mesh allows one to externally control service monitoring and tracing, request (version) routing, resiliency testing, security and policy enforcement, and more in a consistent manner across the services, and the application.
 
 Before you can use Istio to control the Bookinfo version routing, you'll need to define the available versions, called [**subsets**](https://istio.io/docs/reference/config/networking/destination-rule/#Subset).
-
-## Service versions (a.k.a. subsets)
 
 In a continuous deployment scenario, for a given service, there can be distinct subsets of instances running different variants of the application binary. These variants are not necessarily different API versions. They could be iterative changes to the same service, deployed in different environments (prod, staging, dev, etc.). Common scenarios where this occurs include A/B testing, canary rollouts, etc. The choice of a particular version can be decided based on various criterion (headers, url, etc.) and/or by weights assigned to each version. Each service has a default version consisting of all its instances.
 
@@ -33,7 +33,7 @@ kubectl -n bookinfo \
   apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/virtual-service-all-v1.yaml
 ```
 
-We can display the virtual service with the following command.
+We can display the review virtual service with the following command.
 
 ```bash
 kubectl -n bookinfo get virtualservices reviews -o yaml
@@ -92,7 +92,12 @@ spec:
         subset: v1
 {{< /output >}}
 
-To test, click **Sign in** from the top right corner of the page, and login using **jason** as user name with a blank password. You will only see `reviews:v2` all the time. Others will see `reviews:v1`.
+To test:
+
+- Click **Sign in** from the top right corner of the page.
+- Log in using **jason** as user name with a blank password.
+
+You will only see `reviews:v2` all the time. Others will see `reviews:v1`.
 
 ## Injecting an HTTP delay fault
 
@@ -136,6 +141,8 @@ spec:
 
 Logout, then click **Sign in** from the top right corner of the page, using **jason** as the user name with a blank password. You will see the delays and it ends up display error for reviews. Others will see reviews without error.
 
+![istio timeout error](/images/istio/istio_bookinfo_timeout_error.png)
+
 The timeout between the `productpage` and the reviews service is 6 seconds - coded as 3s + 1 retry for 6s total.
 
 To test for another resiliency, we will introduce an HTTP abort to the ratings microservices for the test user jason. The page will immediately display the “<span style="color:orange">*Ratings service is currently unavailable*</span>”
@@ -178,7 +185,11 @@ spec:
 
 To test, click **Sign in** from the top right corner of the page and login using **jason** for the user name with a blank password. As **jason** you will see the error message.
 
+![istio timeout error 2](/images/istio/istio_bookinfo_timeout_error2.png)
+
 Others (not logged in as **jason**) will see no error message.
+
+![istio timeout no error](/images/istio/istio_bookinfo_timeout_no_error.png)
 
 ## Traffic Shifting
 
@@ -224,10 +235,10 @@ spec:
 
 To test it, refresh your browser over and over, and you'll see only reviews:v1 and reviews:v3.
 
-Assuming you decide tat the `reviews:v3` microservice is stable, you can route 100% of the traffic to it
+Assuming you decide that the `reviews:v3` microservice is stable, you can route 100% of the traffic to it
 
 ```bash
-kubectl -n bookinfo apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+kubectl -n bookinfo apply -f ${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 ```
 
 Now when you refresh the `/productpage` you will always see `reviews:v3` (red colored star ratings).

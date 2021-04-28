@@ -5,28 +5,26 @@ weight: 40
 draft: false
 ---
 
-### Specifying an IAM Role for your Service Account
+In the previous step, we created the IAM role that is associated with a service account named **iam-test** in the cluster.
 
-In the previous step, we created the IAM role that associated with a service account named **iam-test** in the cluster and this has already been done for you with the service account you specified when creating the role.
+First, let's verify your service account `iam-test` exists
 
-##### Be sure your service account iam-test is exist:
-
-```
-kubectl get sa
+```bash
+kubectl get sa iam-test
 ```
 
-| NAME | SECRETS | AGE |
-| ---- | ------- | --- |
-| default | 1 | 85m |
-| **iam-test** | 1 | 44m |
+{{< output >}}
+NAME       SECRETS   AGE
+iam-test   1         5m
+{{< /output >}}
 
-##### Make sure your service account with the ARN of the IAM role is annotated:
+Make sure your service account with the ARN of the IAM role is annotated
 
-```
+```bash
 kubectl describe sa iam-test
 ```
-{{< output >}}
 
+{{< output >}}
 Name:                iam-test
 Namespace:           default
 Labels:              <none>

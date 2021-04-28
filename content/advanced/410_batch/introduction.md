@@ -5,8 +5,6 @@ weight: 10
 draft: false
 ---
 
-### Introduction
-
 Batch processing refers to performing units of work, referred to as a `job` in a repetitive and unattended fashion. Jobs are typically grouped together and processed in batches (hence the name).
 
 Kubernetes includes native support for [running Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/). Jobs can run multiple pods in parallel until receiving a set number of completions. Each pod can contain multiple containers as a single unit of work.

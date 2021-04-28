@@ -33,7 +33,7 @@ Now create a Helm release manifest.  This is a custom resource definition provid
 ```
 cat << EOF > releases/nginx.yaml
 ---
-apiVersion: flux.weave.works/v1beta1
+apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: mywebserver
@@ -49,7 +49,7 @@ spec:
   chart:
     repository: https://charts.bitnami.com/bitnami/
     name: nginx
-    version: 3.3.2
+    version: 5.0.0
   values:
     usePassword: true
     image:

@@ -1,0 +1,135 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: storage
+  
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: efs-provisioner
+  namespace: storage
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: efs-provisioner
+rules:
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["get", "list", "watch", "update"]
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "update", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: efs-provisioner
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: efs-provisioner
+subjects:
+- kind: ServiceAccount
+  name: efs-provisioner
+  namespace: storage
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-efs-provisioner
+  namespace: storage
+rules:
+- apiGroups: [""]
+  resources: ["endpoints"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-efs-provisioner
+  namespace: storage
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: leader-locking-efs-provisioner
+subjects:
+- kind: ServiceAccount
+  name: efs-provisioner
+  namespace: storage
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: efs-provisioner
+  namespace: storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: efs-provisioner
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: efs-provisioner
+    spec:
+      serviceAccount: efs-provisioner
+      containers:
+      - name: efs-provisioner
+        image: eksworkshop/efs-provisioner:latest
+        env:
+        - name: FILE_SYSTEM_ID
+          valueFrom:
+            configMapKeyRef:
+              name: efs-provisioner-config
+              key: file.system.id
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: efs-provisioner-config
+              key: aws.region
+        - name: DNS_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: efs-provisioner-config
+              key: dns.name
+              optional: true
+        - name: PROVISIONER_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: efs-provisioner-config
+              key: provisioner.name
+        volumeMounts:
+        - name: pv-volume
+          mountPath: /efs-mount
+      volumes:
+      - name: pv-volume
+        nfs:
+          server: YOUR_FILE_SYSTEM_DNS_NAME
+          path: /data
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: efs-provisioner-config
+  namespace: storage
+data:
+  file.system.id: YOUR_FILE_SYSTEM_ID
+  aws.region: YOUR_FILE_SYSTEM_REGION
+  provisioner.name: aws.io/aws-efs
+  dns.name: ""

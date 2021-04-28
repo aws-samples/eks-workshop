@@ -23,9 +23,9 @@ You should see something similar to below, where we're now making API calls as r
 {{< output >}}
 
 {
-"Account": <AWS Account ID>,
-"UserId": <AWS User ID>,
-"Arn": "arn:aws:iam::<AWS Account ID>:user/rbac-user"
+    "Account": <AWS Account ID>,
+    "UserId": <AWS User ID>,
+    "Arn": "arn:aws:iam::<AWS Account ID>:user/rbac-user"
 }
 
 {{< /output >}}
@@ -42,6 +42,6 @@ You should get a response back similar to:
 No resources found.  Error from server (Forbidden): pods is forbidden: User "rbac-user" cannot list resource "pods" in API group "" in the namespace "rbac-test"
 {{< /output >}}
 
-We already created the rbac-user, so why did we get that error?  
+We already created the rbac-user, so why did we get that error?
 
 Just creating the user doesn't give that user access to any resources in the cluster.  In order to achieve that, we'll need to define a role, and then bind the user to that role.  We'll do that next.

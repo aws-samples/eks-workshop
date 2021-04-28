@@ -10,6 +10,11 @@ not the root account user. Please ensure you are logged in as an IAM user, not t
 account user.
 {{% /notice %}}
 
+{{% notice info %}}
+A list of supported browsers for AWS Cloud9 is found [here]( https://docs.aws.amazon.com/cloud9/latest/user-guide/browsers.html).
+{{% /notice %}}
+
+
 <!---
 {{% notice info %}}
 This workshop was designed to run in the **Oregon (us-west-2)** region. **Please don't
@@ -25,6 +30,7 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 {{% /notice %}}
 
 ### Launch Cloud9 in your closest region:
+
 {{< tabs name="Region" >}}
 {{{< tab name="Oregon" include="us-west-2.md" />}}
 {{{< tab name="Ireland" include="eu-west-1.md" />}}
@@ -34,13 +40,57 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 
 - Select **Create environment**
 - Name it **eksworkshop**, click Next.
-- Choose **"t3.small"** for instance type, take all default values and click **Create environment**
-- When it comes up, customize the environment by closing the **welcome tab**
-and **lower work area**, and opening a new **terminal** tab in the main work area:
-![c9before](/images/c9before.png)
+- Choose **t3.small** for instance type, take all default values and click **Create environment**
 
-- Your workspace should now look like this:
-![c9after](/images/c9after.png)
+When it comes up, customize the environment by:
 
-- If you like this theme, you can choose it yourself by selecting **View / Themes / Solarized / Solarized Dark**
-in the Cloud9 workspace menu.
+- Closing the **Welcome tab**
+![c9before](/images/prerequisites/cloud9-1.png)
+- Opening a new **terminal** tab in the main work area
+![c9newtab](/images/prerequisites/cloud9-2.png)
+- Closing the lower work area
+![c9newtab](/images/prerequisites/cloud9-3.png)
+- Your workspace should now look like this
+![c9after](/images/prerequisites/cloud9-4.png)
+
+{{% notice info %}}
+If you intend to run all the sections in this workshop, it will be useful to have more storage available for all the repositories and tests.
+{{% /notice %}}
+
+### Increase the disk size on the Cloud9 instance
+
+```bash
+pip3 install --user --upgrade boto3
+export instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+python -c "import boto3
+import os
+from botocore.exceptions import ClientError 
+ec2 = boto3.client('ec2')
+volume_info = ec2.describe_volumes(
+    Filters=[
+        {
+            'Name': 'attachment.instance-id',
+            'Values': [
+                os.getenv('instance_id')
+            ]
+        }
+    ]
+)
+volume_id = volume_info['Volumes'][0]['VolumeId']
+try:
+    resize = ec2.modify_volume(    
+            VolumeId=volume_id,    
+            Size=30
+    )
+    print(resize)
+except ClientError as e:
+    if e.response['Error']['Code'] == 'InvalidParameterValue':
+        print('ERROR MESSAGE: {}'.format(e))"
+if [ $? -eq 0 ]; then
+    sudo reboot
+fi
+
+```
+
+- *Note*: The above command is adding more disk space to the root volume of the EC2 instance that Cloud9 runs on. Once the command completes, we reboot the instance which could take a minute or two for the IDE to come back online.
+

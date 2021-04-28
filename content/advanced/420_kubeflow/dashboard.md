@@ -7,13 +7,14 @@ draft: false
 
 ### Kubeflow Dashboard
 
-Get Kubeflow service endpoint:
+Use **port-forward** to access Kubeflow dashboard
 
 ```
-kubectl get ingress -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'
+kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 ```
+In your Cloud9 environment, click **Tools / Preview / Preview Running Application** to access dashboard. You can click on Pop out window button to maximize browser into new tab.
 
-Access the endpoint address in a browser to see Kubeflow dashboard. It could take couple of minutes for Load Balancer to launch and health checks to pass
+Leave the current terminal running because if you kill the process, you will loose access to the dashboard. Open new Terminal to follow rest of the workshop
 
 ![dashboard](/images/kubeflow/dashboard-welcome.png)
 

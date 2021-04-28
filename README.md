@@ -1,7 +1,5 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/aws-samples/eks-workshop) 
 
-master branch: ![Build Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiUmYrQzlvK2JVYWloK3N5NFh5WUZNS1duYUtVeFN2eWJLNk9VdU9NdzdDdGtobldPcHBKYjdVQ0YxV0NQLzRZeXhWbkJVTkc2Ymd2TEpJblNYb1BraXFNPSIsIml2UGFyYW1ldGVyU3BlYyI6IjRObVVDcVUyb3JJUEFYQTciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
-
 # eksworkshop
 
 ### Setup:
@@ -25,7 +23,7 @@ exposed." -- press the expose button. After that, choose "open browser" to get a
 tab with your preview site. As you save edits, this tab should refresh.
 
 When you're happy with your edits, commit, push, and open a pull request to the upstream
-repo's master branch. Once merged, the preview site (linked above) will be refreshed.
+repo's main branch. Once merged, the preview site (linked above) will be refreshed.
 
 #### On a Mac:
 Install Hugo:
@@ -67,7 +65,7 @@ Visit http://localhost:8080/ to see the site.
 As you save edits to a page, the site will live-reload to show your changes.
 
 #### Auto Deploy:
-Any commits to master will auto build and deploy in a couple of minutes. You can see the currently
+Any commits to main will auto build and deploy in a couple of minutes. You can see the currently
 deployed hash at the bottom of the menu panel.
 
 Any commits to a branch will auto build and deploy in a couple of minutes to a custom route named with the branch name. You can see the currently
@@ -75,4 +73,5 @@ deployed hash at the bottom of the menu panel.
 An example is the "jenkinsworld" branch would be deployed to https://eksworkshop.com/jenkinsworld/
 
 note: shift-reload may be necessary in your browser to reflect the latest changes.
+
 
