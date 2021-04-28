@@ -15,7 +15,7 @@ bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
 
 - Press enter to accept the Terms & Conditions.
 - Press enter to accept the default install path.
-- Visit the provided URL to sign in or sign up for a new Pixie account.
+- Visit the provided URL. Select `SIGN UP` if you do not have an existing Pixie account, otherwise log in with your Google account.
 - Copy and paste the auth token generated in the browser into the CLI.
 
 ### Deploy Pixie

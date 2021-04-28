@@ -44,6 +44,6 @@ Re-run the script with the `RUN` button (top right of the page), or using the ke
 
 Hide the script editor using the same command to show it: `ctrl+e` (Windows, Linux) or `cmd+e` (Mac).
 
-The output should show the request with the error you recently triggered. Click on a row to inspect the row data in json format. Scroll down to the `resp_body` json key and you can see that our error is a `database connection error`.
+The output shows the request with the error you recently triggered. Click on a row to inspect the row data in json format. Scroll down to the `resp_body` json key and you can see that our error is a `database connection error`.
 
 ![http_request_error](/images/pixie/http_request_error.png)

@@ -53,10 +53,8 @@ curl -O https://raw.githubusercontent.com/pixie-labs/pixie-demos/main/eks-worksh
 kubectl apply -f complete-demo.yaml
 ```
 
-- Enter `y` to confirm the cluster.
-
 {{% notice info %}}
-Deploying the microservices demo will take about 7-9 minutes.
+Deploying the microservices demo will take about 3-5 minutes.
 {{% /notice %}}
 
 Confirm that the application components have been deployed to the `px-sock-shop` namespace:
