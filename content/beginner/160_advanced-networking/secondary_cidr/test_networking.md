@@ -8,12 +8,14 @@ weight: 50
 
 Let's launch few pods and test networking
 ```
-kubectl run nginx --image=nginx
-kubectl scale --replicas=3 deployments/nginx
+kubectl run nginx --image=nginx --replicas=3
 kubectl expose deployment/nginx --type=NodePort --port 80
-kubectl get pods -o wide
 ```
+You should see that 3 new pods added, and the new CIDR range is scheduled on new worker nodes.
+
 {{< output >}}
+kubectl get pods -o wide
+
 NAME                     READY     STATUS    RESTARTS   AGE       IP              NODE                                           NOMINATED NODE
 nginx-64f497f8fd-k962k   1/1       Running   0          40m       100.64.6.147    ip-192-168-52-113.us-east-2.compute.internal   <none>
 nginx-64f497f8fd-lkslh   1/1       Running   0          40m       100.64.53.10    ip-192-168-74-125.us-east-2.compute.internal   <none>

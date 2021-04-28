@@ -9,12 +9,11 @@ As next step, we will add custom resources to ENIConfig custom resource definiti
 
 You should have ENIConfig CRD already installed with latest CNI version (1.3+). You can check if its installed by running this command.
 ```
-kubectl get crd
+kubectl get crd | grep eni
 ```
 You should see a response similar to this
 {{< output >}}
-NAME                               CREATED AT
-eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
+eniconfigs.crd.k8s.amazonaws.com   2021-04-28T00:35:54Z
 {{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
@@ -34,7 +33,7 @@ spec:
  - $SECURITYGROUPID1
  - $SECURITYGROUPID2
 ```
-Check the AZs and Subnet IDs for these subnets. Make note of AZ info as you will need this when you apply annotation to Worker nodes using custom network config
+Compare the subnet-ID's stored in environment variables `CGNAT_SNET1`, `CGNAT_SNET2`, `CGNAT_SNET3` against the command below:
 ```
 aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'Subnets[*].[CidrBlock,SubnetId,AvailabilityZone]' --output table
 ```
@@ -47,96 +46,56 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 |  100.64.0.0/19  |  subnet-04f960ffc8be6865c  |  us-east-2b |
 +-----------------+----------------------------+-------------+
 {{< /output >}}
-Check your Worker Node SecurityGroup
-```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text`)
-for i in "${INSTANCE_IDS[@]}"
-do
-  echo "SecurityGroup for EC2 instance $i ..."
-  aws ec2 describe-instances --instance-ids $i | jq -r '.Reservations[].Instances[].SecurityGroups[].GroupId'
-done  
-```
-{{< output >}}
-SecurityGroup for EC2 instance i-03ea1a083c924cd78 ...
-sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
-SecurityGroup for EC2 instance i-0a635aed890c7cc3e ...
-sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
-SecurityGroup for EC2 instance i-048e5ec8815e5ea8a ...
-sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
-{{< /output >}}
-Create custom resource **group1-pod-netconfig.yaml** for first subnet (100.64.0.0/19). Replace the SubnetId and SecuritGroupIds with the values from above. Here is how it looks with the configuration values for my environment
 
-Note: We are using same SecurityGroup for pods as your Worker Nodes but you can change these and use custom SecurityGroups for your Pod Networking
+Create `ENIConfig` custom resources for all Availability Zones & Subnets:
 
 ```
+cat <<EOF  | kubectl apply -f -
 apiVersion: crd.k8s.amazonaws.com/v1alpha1
 kind: ENIConfig
 metadata:
- name: group1-pod-netconfig
+ name: $AZ1
 spec:
- subnet: subnet-04f960ffc8be6865c
- securityGroups:
- - sg-070d03008bda531ad
- - sg-06e5cab8e5d6f16ef
-```
-Create custom resource **group2-pod-netconfig.yaml** for second subnet (100.64.32.0/19). Replace the SubnetId and SecuritGroupIds as above.
+  subnet: $CGNAT_SNET1
+EOF
 
-Similarly, create custom resource **group3-pod-netconfig.yaml** for third subnet (100.64.64.0/19). Replace the SubnetId and SecuritGroupIds as above.
+cat <<EOF | kubectl apply -f -
+apiVersion: crd.k8s.amazonaws.com/v1alpha1
+kind: ENIConfig
+metadata:
+ name: $AZ2
+spec:
+  subnet: $CGNAT_SNET2
+EOF
 
-Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
+cat <<EOF | kubectl apply -f -
+apiVersion: crd.k8s.amazonaws.com/v1alpha1
+kind: ENIConfig
+metadata:
+ name: $AZ3
+spec:
+  subnet: $CGNAT_SNET3
+EOF
 ```
-aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`eks:nodegroup-name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table  
-```
-{{< output >}}
-------------------------------------------------------------------------------------------------------------------------------------------
-|                                                            DescribeInstances                                                           |
-+-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
-|  ip-192-168-9-228.us-east-2.compute.internal  |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2c |  192.168.9.228  |  18.191.57.131 |
-|  ip-192-168-71-211.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2a |  192.168.71.211 |  18.221.77.249 |
-|  ip-192-168-33-135.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2b |  192.168.33.135 |  13.59.167.90  |
-+-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
-{{< /output >}}
+{{% notice info %}}
+The ENIConfig should match the Availability Zone of your worker nodes.
+{{% /notice %}}
 
-Apply the CRDs
-```
-kubectl apply -f group1-pod-netconfig.yaml
-kubectl apply -f group2-pod-netconfig.yaml
-kubectl apply -f group3-pod-netconfig.yaml
-```
-As last step, we will annotate nodes with custom network configs.
+{{% notice note %}}
+Since we didn't specify a security group, the default security group for the VPC is assigned to secondary ENI's. If you want to assign different security groups to individual pods, then you can use [Security groups for pods](https://www.eksworkshop.com/beginner/115_sg-per-pod/). Security groups for pods create additional network interfaces that can each be assigned a unique security group. Security groups for pods can be used with or without custom networking.
+{{% /notice %}}
+
+Terminate worker nodes so that Autoscaling launches newer nodes that come bootstrapped with custom network config
 
 {{% notice warning %}}
-Be sure to annotate the instance with config that matches correct AZ. For ex, in my environment instance ip-192-168-33-135.us-east-2.compute.internal is in us-east-2b. So, I will apply **group1-pod-netconfig.yaml** to this instance. Similarly, I will apply **group2-pod-netconfig.yaml** to ip-192-168-71-211.us-east-2.compute.internal and **group3-pod-netconfig.yaml** to ip-192-168-9-228.us-east-2.compute.internal
+Use caution before you run the next command because it terminates all worker nodes including running pods in your workshop
 {{% /notice %}}
 
 ```
-kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
+INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=alpha.eksctl.io/cluster-name" "Name=tag-value,Values=eksworkshop-eksctl*" --output text` )
+for i in "${INSTANCE_IDS[@]}"
+do
+	echo "Terminating EC2 instance $i ..."
+	aws ec2 terminate-instances --instance-ids $i
+done
 ```
-As an example, here is what I would run in my environment
-{{< output >}}
-kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
-{{< /output >}}
-You should now see secondary IP address from extended CIDR assigned to annotated nodes.
-
-#### Additional notes on ENIConfig naming and automatic matching
-
-Optionally, you specify which node label will be used to match the `ENIConfig` name. Consider the
-following example: you have one `ENIConfig` per availability zone, named after the AZ
-(`us-east-2a`, `us-east-2b`, `us-east-2c`). You can then use a label already applied to your nodes,
-such as `topology.kubernetes.io/zone` where the value of the label matches the `ENIConfig` name.
-
-{{< output >}}
-$ kubectl describe nodes | grep 'topology.kubernetes.io/zone'
-                    topology.kubernetes.io/zone=us-east-2a
-                    topology.kubernetes.io/zone=us-east-2c
-                    topology.kubernetes.io/zone=us-east-2b
-{{</ output >}}
-
-{{< output >}}
-kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
-{{</ output >}}
-
-Kubernetes will now apply the corresponding `ENIConfig` matching the nodes AZ.
