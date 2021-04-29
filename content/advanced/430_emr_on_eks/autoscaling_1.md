@@ -5,12 +5,7 @@ weight: 45
 draft: false
 ---
 
-Now that we have autoscaling configured. Let's create  spark job that will require more resources than 
-Autoscaling in EKS is achieved using Cluster Autoscaler.
-
-When resources are not available EKS will add new nodes to the cluster to create new pods and execute the jobs.
-
-Refer to [Cluster autoscaler](beginner/080_scaling/deploy_ca/) section in order to configure the cluster autoscaler.
+Now that we have autoscaling configured. Let's create  spark job that will require more resources than what is aviailable in the cluster.
 
 
 

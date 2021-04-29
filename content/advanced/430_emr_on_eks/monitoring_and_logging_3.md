@@ -39,3 +39,4 @@ Once the job is started, head over to the dashboard and select the namespace spa
 ![EMR on EKS cloudwatch logs](/images/emr-on-eks/grafana_1.png)
 
 You will be able to see the resource utilization by spark for running your job.
+

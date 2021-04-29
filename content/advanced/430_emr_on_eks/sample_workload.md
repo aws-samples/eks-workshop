@@ -62,4 +62,4 @@ You will be able to see the completed job in EMR console. It should look like be
 
 ![EMR Console of virtual cluster and jobs](/images/emr-on-eks/virtual-cluster1.png)
 
-In the next section we will cover how to use spark history server to view job history. We will also take a look at how to send logs to s3 and cloudwatch.
+In the next section we will cover how to monitor our jobs.

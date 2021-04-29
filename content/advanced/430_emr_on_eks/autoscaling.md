@@ -7,6 +7,6 @@ draft: false
 
 Autoscaling in EKS is achieved using Cluster Autoscaler.
 
-When resources are not available EKS will add new nodes to the cluster to create new pods and execute the jobs.
+When resources are not available, EKS will add new nodes to the cluster to create new pods and execute the jobs.
 
 Refer to [Cluster autoscaler](beginner/080_scaling/deploy_ca/) section in order to configure the cluster autoscaler.

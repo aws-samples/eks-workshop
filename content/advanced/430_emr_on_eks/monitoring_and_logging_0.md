@@ -72,7 +72,6 @@ Output:
 ```
 
 
-Describe how to use spark history server, how to use S3 for logging, how to monitor jobs using prometheus & grafana.
 
 
 
