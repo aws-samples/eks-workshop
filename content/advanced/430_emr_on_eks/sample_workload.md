@@ -2,12 +2,12 @@
 title: "Run sample workload"
 date: 2021-04-08T03:21:44-07:00
 weight: 20
-draft: true
+draft: false
 ---
 
 Now let's run a sample workload using one of the inbuilt example scripts that calculates the value of pi.
 
-List the virtual EMR clusters that you have using the below command.
+List the virtual EMR clusters that you have, using the below command.
 
 
 ```

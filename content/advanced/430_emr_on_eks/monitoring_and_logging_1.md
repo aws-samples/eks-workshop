@@ -1,8 +1,8 @@
 ---
-title: "Monitoring and logging  Part 2 - Cloudwatch & S3"
+title: "Monitoring and logging Part 2 - Cloudwatch & S3"
 date: 2021-04-08T04:25:46-07:00
-weight: 30
-draft: true
+weight: 31
+draft: false
 ---
 
 Let's head over to cloudwatch logs.
