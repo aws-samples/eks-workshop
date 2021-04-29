@@ -1,5 +1,5 @@
 ---
-title: "Configure Autoscaling"
+title: "Autoscaling - Part 1"
 date: 2021-04-08T01:29:46-07:00
 weight: 40
 draft: false

@@ -1,8 +1,8 @@
 ---
-title: "Monitoring and logging  Part 1 - Setup"
+title: "Monitoring and logging Part 1 - Setup"
 date: 2021-04-08T04:25:46-07:00
 weight: 30
-draft: true
+draft: false
 ---
 
 Logs from the EMR jobs can be sent to cloudwatch and s3. In the last section of running sample job, we did not configure logging
