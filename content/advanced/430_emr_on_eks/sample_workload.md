@@ -7,7 +7,11 @@ draft: false
 
 Now let's run a sample workload using one of the inbuilt example scripts that calculates the value of pi.
 
+
 Before we begin with the sample workload, lets add a EKS managed nodegroup to have more resources for the sample spark job. 
+
+List the virtual EMR clusters that you have, using the below command.
+
 
 Create a config file (addnodegroup.yaml) with details of a new EKS managed nodegroup. 
 
@@ -71,7 +75,7 @@ aws emr-containers start-job-run \
       "sparkSubmitParameters": "--conf spark.executor.instances=1 --conf spark.executor.memory=2G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
     }
   }'
-  ```
+```
 
 You will be able to see the completed job in EMR console. It should look like below:
 

@@ -1,11 +1,11 @@
 ---
 title: "Monitoring and logging  Part 3 - Spark History server"
 date: 2021-04-08T04:25:46-07:00
-weight: 35
-draft: true
+weight: 32
+draft: false
 ---
 
-You can visit the spark history aerver from EMR console and look the execution details. 
+You can visit the spark history server from EMR console and look the execution details. 
 
 Navigate to the EMR console.
 
