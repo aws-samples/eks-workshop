@@ -20,7 +20,7 @@ bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
 
 ### Deploy Pixie
 
-Deploy Pixie to the `eksworkshop-eksctl` cluster using the CLI:
+Deploy the hosted version of Pixie to the `eksworkshop-eksctl` cluster using the CLI:
 
 ```bash
 px deploy --cluster_name eksworkshop-eksctl --pem_memory_limit=1Gi
