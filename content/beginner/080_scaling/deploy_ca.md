@@ -57,7 +57,7 @@ aws autoscaling \
 ## IAM roles for service accounts
 
 {{% notice note %}}
-[Click here](/beginner/110_irsa/) if you are not familiar wit IAM Roles for Service Accounts (IRSA).
+[Click here](/beginner/110_irsa/) if you are not familiar with IAM Roles for Service Accounts (IRSA).
 {{% /notice %}}
 
 With IAM roles for service accounts on Amazon EKS clusters, you can associate an IAM role with a [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). This service account can then provide AWS permissions to the containers in any pod that uses that service account. With this feature, you no longer need to provide extended permissions to the node IAM role so that pods on that node can call AWS APIs.
