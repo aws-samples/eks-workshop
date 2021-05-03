@@ -16,77 +16,75 @@ eksctl utils associate-iam-oidc-provider \
     --approve
 ```
 {{< output >}}
-[ℹ]  eksctl version 0.36.2
-[ℹ]  using region us-west-2
-[ℹ]  will create IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "us-west-2"
-[✔]  created IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "us-west-2"
+2021-05-02 17:37:05 [ℹ]  eksctl version 0.45.0
+2021-05-02 17:37:05 [ℹ]  using region $AWS_REGION
+2021-05-02 17:37:05 [ℹ]  will create IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "$AWS_REGION"
+2021-05-02 17:37:05 [✔]  created IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "$AWS_REGION"
 {{< /output >}}
 
-#### Create a IAM role and ServiceAccount 
+#### Create the Namespace and IAM Role and ServiceAccount 
 
-Looking at the [clusterconfig.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/clusterconfig.yaml), you can see the below IRSA configuration.
-
-{{< output >}}
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: eksworkshop-eksctl
-  region: ${AWS_REGION}
-
-....
-....
-iam:
-  withOIDC: true
-  serviceAccounts:
-    - metadata:
-        name: prodcatalog-sa
-        namespace: prodcatalog-ns
-        labels: {aws-usage: "application"}
-      attachPolicyARNs:
-        - "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
-        - "arn:aws:iam::aws:policy/AWSCloudMapDiscoverInstanceAccess"
-        - "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-        - "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
-        - "arn:aws:iam::aws:policy/AWSAppMeshFullAccess"
-        - "arn:aws:iam::aws:policy/AWSCloudMapFullAccess"
-{{< /output >}}
-
-Using this [clusterconfig.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/clusterconfig.yaml) we will create a Kubernetes Service Account for the Fargate in the application namespace `prodcatalog-ns` by executing the following command. 
-This command deploys a CloudFormation template that creates an Application Namespace `prodcatalog-ns` and Service Account `prodcatalog-ns/prodcatalog-sa` 
-that has IAM role with all the IAM policies that we see in the above yaml.
-
-This step is required to give IAM permissions to a Fargate pod running in the cluster using the IAM for Service Accounts feature.
+We will create the `prodcatalog-ns` and the IRSA for this namespace which will give permission to X-Ray, AppMesh and Cloudwatch Logs policies.
 
 ```bash
-envsubst < ./deployment/clusterconfig.yaml | eksctl create iamserviceaccount -f - --approve
+kubectl create namespace prodcatalog-ns
+
+cd eks-app-mesh-polyglot-demo
+aws iam create-policy \
+    --policy-name ProdEnvoyNamespaceIAMPolicy \
+    --policy-document file://deployment/envoy-iam-policy.json
+
+eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
+  --namespace prodcatalog-ns \
+  --name prodcatalog-envoy-proxies \
+  --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/ProdEnvoyNamespaceIAMPolicy \
+  --override-existing-serviceaccounts \
+  --approve 
 ```
 {{< output >}}
-[ℹ]  eksctl version 0.36.2
-[ℹ]  using region us-west-2
-[ℹ]  1 iamserviceaccount (prodcatalog-ns/prodcatalog-sa) was included (based on the include/exclude rules)
-[!]  serviceaccounts that exists in Kubernetes will be excluded, use --override-existing-serviceaccounts to override
-[ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "prodcatalog-ns/prodcatalog-sa", create serviceaccount "prodcatalog-ns/prodcatalog-sa" } }
-[ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-sa"
-[ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-sa"
-[ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-sa"
-[ℹ]  created namespace "prodcatalog-ns"
-[ℹ]  created serviceaccount "prodcatalog-ns/prodcatalog-sa"
+namespace/prodcatalog-ns created
+
+{
+    "Policy": {
+        "PolicyName": "ProdEnvoyNamespaceIAMPolicy", 
+        "PermissionsBoundaryUsageCount": 0, 
+        "CreateDate": "2021-05-02T17:41:59Z", 
+        "AttachmentCount": 0, 
+        "IsAttachable": true, 
+        "PolicyId": "ANPAV45SCB72ZHQFMQFXR", 
+        "DefaultVersionId": "v1", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::$ACCOUNT_ID:policy/ProdEnvoyNamespaceIAMPolicy", 
+        "UpdateDate": "2021-05-02T17:41:59Z"
+    }
+}
+
+2021-05-02 17:42:00 [ℹ]  eksctl version 0.45.0
+2021-05-02 17:42:00 [ℹ]  using region $AWS_REGION
+2021-05-02 17:42:00 [ℹ]  1 iamserviceaccount (prodcatalog-ns/prodcatalog-envoy-proxies) was included (based on the include/exclude rules)
+2021-05-02 17:42:00 [!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+2021-05-02 17:42:00 [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "prodcatalog-ns/prodcatalog-envoy-proxies", create serviceaccount "prodcatalog-ns/prodcatalog-envoy-proxies" } }
+2021-05-02 17:42:00 [ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-envoy-proxies"
+2021-05-02 17:42:00 [ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-envoy-proxies"
+2021-05-02 17:42:00 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-envoy-proxies"
+2021-05-02 17:42:17 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-envoy-proxies"
+2021-05-02 17:42:34 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-prodcatalog-ns-prodcatalog-envoy-proxies"
+2021-05-02 17:42:34 [ℹ]  created serviceaccount "prodcatalog-ns/prodcatalog-envoy-proxies"
 {{< /output >}}
 
 The IAM role gets associated with a Kubernetes Service Account. You can see details of the service account created with the following command.
 
 ```bash
-kubectl describe sa prodcatalog-sa -n prodcatalog-ns
+kubectl describe sa prodcatalog-envoy-proxies -n prodcatalog-ns
 ```
 {{< output >}}
-Name:                prodcatalog-sa
+Name:                prodcatalog-envoy-proxies
 Namespace:           prodcatalog-ns
-Labels:              aws-usage=application
-Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::$ACCOUNT_ID:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-1EP800J16RHBX
+Labels:              app.kubernetes.io/managed-by=eksctl
+Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::$ACCOUNT_ID:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-1PWNQ4AJFMVBF
 Image pull secrets:  <none>
-Mountable secrets:   prodcatalog-sa-token-g8f2x
-Tokens:              prodcatalog-sa-token-g8f2x
+Mountable secrets:   prodcatalog-envoy-proxies-token-69pql
+Tokens:              prodcatalog-envoy-proxies-token-69pql
 Events:              <none>
 {{< /output >}}
 
@@ -125,10 +123,18 @@ fargateProfiles:
 
 Run the below command to create the Fargate Profile
 ```bash
+cd eks-app-mesh-polyglot-demo
 envsubst < ./deployment/clusterconfig.yaml | eksctl create fargateprofile -f -
 ```
 {{< output >}}
-[ℹ]  creating Fargate profile "fargate-productcatalog" on EKS cluster "eksworkshop-eksctl"
+2021-05-02 17:44:51 [ℹ]  eksctl version 0.45.0
+2021-05-02 17:44:51 [ℹ]  using region $AWS_REGION
+2021-05-02 17:44:51 [ℹ]  deploying stack "eksctl-eksworkshop-eksctl-fargate"
+2021-05-02 17:44:51 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-fargate"
+2021-05-02 17:45:08 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-fargate"
+2021-05-02 17:45:24 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-fargate"
+2021-05-02 17:45:25 [ℹ]  creating Fargate profile "fargate-productcatalog" on EKS cluster "eksworkshop-eksctl"
+2021-05-02 17:49:43 [ℹ]  created Fargate profile "fargate-productcatalog" on EKS cluster "eksworkshop-eksctl"
 {{< /output >}}
 
 When your EKS cluster schedules pods on Fargate, the pods will need to make calls to AWS APIs on your behalf to do things like pull container 
@@ -160,7 +166,7 @@ eksctl get fargateprofile --cluster eksworkshop-eksctl -o yaml
 {{< /output >}}
 
 Log into console and navigate to Amazon EKS -> Cluster -> Click `eksworkshop-eksctl` -> Configuration -> Compute, you should see the new Fargate Profile `fargate-productcatalog` you created:
-![fargate](/images/app_mesh_fargate/fargate1.png)
+![fargate](/images/app_mesh_fargate/fargate.png)
 
 Notice that the profile includes the private subnets in your EKS cluster. Pods running on Fargate are not assigned public IP addresses, 
 so only private subnets (with no direct route to an Internet Gateway) are supported when you create a Fargate profile. Hence, 

@@ -10,6 +10,7 @@ Let's create the Product Catalog Application!
 
 Build and Push the Container images to ECR for all the three services
 ```bash
+cd eks-app-mesh-polyglot-demo
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 PROJECT_NAME=eks-app-mesh-demo
 export APP_VERSION=1.0
@@ -84,10 +85,10 @@ kubectl describe pod ${BE_POD_NAME} -n  prodcatalog-ns | grep 'AWS_ROLE_ARN\|AWS
 
 You should see the below output which has the same role that we had associated with the Service Account as part of Fargate setup.
 {{< output >}}
-AWS_ROLE_ARN:                  arn:aws:iam::$ACCOUNT_ID:role/eksctl-eksworkshop-eksctl-addon-iamserviceacco-Role1-1TOYRBNITUROL 
-AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token     
-    /var/run/secrets/eks.amazonaws.com/serviceaccount from aws-iam-token (ro)     
-    /var/run/secrets/kubernetes.io/serviceaccount from prodcatalog-sa-token-22dbx (ro)
+AWS_ROLE_ARN:                 arn:aws:iam::$ACCOUNT_ID:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-1PWNQ4AJFMVBF
+AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+/var/run/secrets/eks.amazonaws.com/serviceaccount from aws-iam-token (ro)
+/var/run/secrets/kubernetes.io/serviceaccount from prodcatalog-envoy-proxies-token-69pql (ro)
 {{< /output >}}
 
 #### Confirm that the fargate pod logging is enabled

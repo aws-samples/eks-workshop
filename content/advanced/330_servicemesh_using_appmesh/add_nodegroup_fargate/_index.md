@@ -1,20 +1,16 @@
 ---
-title: "EKS Nodegroup and Fargate setup"
+title: "EKS Fargate and Observability setup"
 date: 2020-01-27T08:30:11-07:00
 weight: 10
 draft: false
 ---
 
-In this chapter, we will execute [eksctl](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) command using a 
-config file [clusterconfig.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/clusterconfig.yaml) to perform the following tasks in your existing 
-EKS cluster `eksworkshop-eksctl`.
-
-* Create new Managed NodeGroup with three nodes
+In this chapter, we will perform the following tasks in your existing EKS cluster `eksworkshop-eksctl`.
 * Create Fargate Profile
 * Enable OIDC Provider
-* Create IRSA (IAM Role for Service Account) for Fargate Pod
 * Create Namespace for Application Deployment
-* Enable Observability for both NodeGroup and Fargate
+* Create IRSA (IAM Role for Service Account) for Application Namespace `prodcatalog-ns`
+* Enable Observability for Logs and Metrics
 
 #### PreRequisite
 
@@ -43,4 +39,4 @@ git clone https://github.com/aws-containers/eks-app-mesh-polyglot-demo.git
 cd eks-app-mesh-polyglot-demo
 ```
 
-Now lets, create the Managed Nodegroup in our EKS cluster for the Product Catalog Application.
+Now lets, create the Fargate Profile in our EKS cluster to deploy one `prodcatalog` service in our Product Catalog Application.
