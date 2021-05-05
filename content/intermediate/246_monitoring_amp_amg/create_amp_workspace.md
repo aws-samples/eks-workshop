@@ -15,7 +15,7 @@ Go to the [AMP console](https://console.aws.amazon.com/prometheus/) and type-in 
 
 Alternatively, you can also use AWS CLI to create the workspace using the following command:
 ```
-aws amp create-workspace --alias eks-workshop --region us-east-1
+aws amp create-workspace --alias eks-workshop --region $AWS_REGION
 ```
 
 The AMP workspace should be created in just a few seconds. Once created, you will be able to see the workspace as shown below:
