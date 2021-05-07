@@ -15,15 +15,19 @@ For this workshop, please ignore warnings about the version of pip being used.
 aws --version
 ```
 
-2. Update to the latest version:
+2. Remove v1 version:
 ```
-pip uninstall awscli && \
+pip uninstall awscli 
+```
+
+3. Upgrade to the latest version:
+```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
 unzip awscliv2.zip && \
 sudo ./aws/install 
 ```
 
-3. Confirm you have a newer version:
+4. Confirm you have a newer version:
 ```
 aws --version
 ```
