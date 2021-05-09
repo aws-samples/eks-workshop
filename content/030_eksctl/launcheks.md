@@ -32,50 +32,31 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 ### Create an EKS cluster
 
 {{% notice warning %}}
-`eksctl` version must be 0.24.0 or above to deploy EKS 1.17, [click here](/030_eksctl/prerequisites) to get the latest version.
+`eksctl` version must be 0.48.0 or above to deploy EKS 1.19, [click here](/030_eksctl/prerequisites) to get the latest version.
 {{% /notice %}}
 
-Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
+Create your cluster using the following syntax:
 
 ```bash
-cat << EOF > eksworkshop.yaml
----
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: eksworkshop-eksctl
-  region: ${AWS_REGION}
-  version: "1.17"
-
-availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
-
-managedNodeGroups:
-- name: nodegroup
-  desiredCapacity: 3
-  instanceType: t3.small
-  ssh:
-    enableSsm: true
-
-# To enable all of the control plane logs, uncomment below:
-# cloudWatch:
-#  clusterLogging:
-#    enableTypes: ["*"]
-
-secretsEncryption:
-  keyARN: ${MASTER_ARN}
-EOF
+eksctl create cluster \
+--name eksworkshop-eksctl \
+--version 1.19 \
+--tags cluster-type=workshop,department=dev \
+--region "${AWS_REGION}" \
+--zones "${AZS[0]},${AZS[1]},${AZS[2]}" \
+--nodes 3 \
+--node-type t3.medium \
+--node-private-networking \
+--enable-ssm \
+--managed
 ```
 
-Next, use the file you created as the input for the eksctl cluster creation.
+Here we are creating EKS cluster with managed nodes by specifying `--managed` flag. It is good practice to tag resources in AWS for easier maintenance and cost allocation purpose. `--tags` option will propagate tags to ec2 instances and ebs volumes in cluster.
+`eksctl` utility supports many other options to fine tune cluster, see [official documentation](https://eksctl.io/introduction/) to learn more about eksctl.
 
 {{% notice info %}}
-We are deliberatly launching one version behind the latest (1.17 vs. 1.18) to allow you to perform a cluster upgrade in one of the Chapters.
+We are deliberatly launching one version behind the latest (1.19 vs. 1.20) to allow you to perform a cluster upgrade in one of the Chapters.
 {{% /notice %}}
-
-```bash
-eksctl create cluster -f eksworkshop.yaml
-```
 
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
