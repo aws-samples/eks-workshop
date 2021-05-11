@@ -19,4 +19,4 @@ Click on **App ID link**
 
 ![EMR on EKS cloudwatch logs](/images/emr-on-eks/spark_history_3.png)
 
-
+From here you can navigate the spark history server to look at various metrics and details of the job.
