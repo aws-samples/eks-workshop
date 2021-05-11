@@ -22,6 +22,7 @@ export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRol
 Lets start a sample spark job. 
 
 
+
 ```sh
 aws emr-containers start-job-run \
   --virtual-cluster-id=$VIRTUAL_CLUSTER_ID \
@@ -41,4 +42,4 @@ You will be able to see the completed job in EMR console. It should look like be
 ![EMR Console of virtual cluster and jobs](/images/emr-on-eks/virtual-cluster1.png)
 
 
-In the next section we will cover how to use spark history server to view job history. We will also take a look at how to send logs to s3 and cloudwatch.
+In the next few sections we will cover how to use spark history server to view job history. We will also take a look at how to send logs to s3 and cloudwatch.
