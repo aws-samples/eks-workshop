@@ -8,45 +8,7 @@ draft: false
 Now let's run a sample workload using one of the inbuilt example scripts that calculates the value of pi.
 
 
-Before we begin with the sample workload, lets add a EKS managed nodegroup to have more resources for the sample spark job. 
-
-Create a config file (addnodegroup.yaml) with details of a new EKS managed nodegroup. 
-
-```sh
-cat << EOF > addnodegroup.yaml
----
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: eksworkshop-eksctl
-  region: ${AWS_REGION}
-
-managedNodeGroups:
-- name: emrnodegroup
-  desiredCapacity: 3
-  instanceType: m5.large
-  ssh:
-    enableSsm: true
-
-EOF
-```
-Create the new EKS managed nodegroup. 
-
-```sh
-eksctl create nodegroup --config-file=addnodegroup.yaml
-```
-{{% notice info %}}
-Launching a new EKS managed nodegroup will take a few minutes.
-{{% /notice %}}
-
-Check if the new nodegroup has been added to your cluster. 
-
-```sh
-kubectl get nodes # if we see 6 nodes in total with the 3 newly added nodes, we know we have authenticated correctly
-```
-
-Now lets get the virtual EMR clusters id and arn of the role that EMR uses for job execution.
+First get the virtual EMR clusters id and arn of the role that EMR uses for job execution.
 
 
 ```sh

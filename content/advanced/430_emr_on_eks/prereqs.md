@@ -113,3 +113,44 @@ After you register, you should get confirmation that your EMR virtual cluster is
     "name": "eksworkshop-eksctl",
     "arn": "arn:aws:emr-containers:us-west-2:xxxxxxxxxxxx:/virtualclusters/av6h2hk8fsyu12m5ru8zjg8ht"
 {{< /output >}}
+
+### Create EKS Managed Node Group
+
+Lets add a EKS managed nodegroup to this EKS cluster to have more resources to run sample spark jobs.
+
+Create a config file (addnodegroup.yaml) with details of a new EKS managed nodegroup. 
+
+```sh
+cat << EOF > addnodegroup.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+
+managedNodeGroups:
+- name: emrnodegroup
+  desiredCapacity: 3
+  instanceType: m5.large
+  ssh:
+    enableSsm: true
+
+EOF
+```
+Create the new EKS managed nodegroup. 
+
+```sh
+eksctl create nodegroup --config-file=addnodegroup.yaml
+```
+{{% notice info %}}
+Launching a new EKS managed nodegroup will take a few minutes.
+{{% /notice %}}
+
+Check if the new nodegroup has been added to your cluster. 
+
+```sh
+kubectl get nodes # if we see 6 nodes in total with the 3 newly added nodes, we know we have authenticated correctly
+```
+
