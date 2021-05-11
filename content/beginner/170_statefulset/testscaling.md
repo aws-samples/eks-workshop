@@ -163,5 +163,5 @@ kubectl -n mysql delete pvc data-mysql-2
 ```
 
 {{< output >}}
-persistentvolumeclaim "data-mysql-3" deleted
+persistentvolumeclaim "data-mysql-2" deleted
 {{< /output >}}

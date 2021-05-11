@@ -7,7 +7,52 @@ draft: false
 
 #### Enable Amazon Cloudwatch Container Insights 
 
-We already saw that the policy **CloudWatchAgentServerPolicy** is added to instance role of Nodegroup for Amazon Cloudwatch access. (This policy will be added during Nodegroup creation)
+Create an IAM role for the cloudwatch-agent service account
+```bash
+eksctl create iamserviceaccount \
+  --cluster eksworkshop-eksctl \
+  --namespace amazon-cloudwatch \
+  --name cloudwatch-agent \
+  --attach-policy-arn  arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+  --override-existing-serviceaccounts \
+  --approve
+```
+{{< output >}}
+2021-05-02 17:52:36 [ℹ]  eksctl version 0.45.0
+2021-05-02 17:52:36 [ℹ]  using region $AWS_REGION
+2021-05-02 17:52:36 [ℹ]  1 existing iamserviceaccount(s) (prodcatalog-ns/prodcatalog-envoy-proxies) will be excluded
+2021-05-02 17:52:36 [ℹ]  1 iamserviceaccount (amazon-cloudwatch/cloudwatch-agent) was included (based on the include/exclude rules)
+2021-05-02 17:52:36 [!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+2021-05-02 17:52:36 [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "amazon-cloudwatch/cloudwatch-agent", create serviceaccount "amazon-cloudwatch/cloudwatch-agent" } }
+2021-05-02 17:52:36 [ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-cloudwatch-agent"
+2021-05-02 17:52:37 [ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-cloudwatch-agent"
+2021-05-02 17:52:37 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-cloudwatch-agent"
+2021-05-02 17:53:10 [ℹ]  created namespace "amazon-cloudwatch"
+2021-05-02 17:53:10 [ℹ]  created serviceaccount "amazon-cloudwatch/cloudwatch-agent"
+{{< /output >}}
+
+Create an IAM role for the fluent service account
+```bash
+eksctl create iamserviceaccount \
+  --cluster eksworkshop-eksctl \
+  --namespace amazon-cloudwatch \
+  --name fluentd \
+  --attach-policy-arn  arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+  --override-existing-serviceaccounts \
+  --approve
+```
+{{< output >}}
+2021-05-02 17:54:09 [ℹ]  eksctl version 0.45.0
+2021-05-02 17:54:09 [ℹ]  using region $AWS_REGION
+2021-05-02 17:54:10 [ℹ]  2 existing iamserviceaccount(s) (amazon-cloudwatch/cloudwatch-agent,prodcatalog-ns/prodcatalog-envoy-proxies) will be excluded
+2021-05-02 17:54:10 [ℹ]  1 iamserviceaccount (amazon-cloudwatch/fluentd) was included (based on the include/exclude rules)
+2021-05-02 17:54:10 [!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+2021-05-02 17:54:10 [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "amazon-cloudwatch/fluentd", create serviceaccount "amazon-cloudwatch/fluentd" } }
+2021-05-02 17:54:10 [ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-fluentd"
+2021-05-02 17:54:10 [ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-fluentd"
+2021-05-02 17:54:10 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-fluentd"
+2021-05-02 17:54:44 [ℹ]  created serviceaccount "amazon-cloudwatch/fluentd"
+{{< /output >}}
 
 Now, Deploy Container Insights for Managed Nodegroup
 ```bash
@@ -17,18 +62,17 @@ curl -s https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-containe
 % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                 Dload  Upload   Total   Spent    Left  Speed
 100 15552  100 15552    0     0  45840      0 --:--:-- --:--:-- --:--:-- 45876
-namespace/amazon-cloudwatch created
-serviceaccount/cloudwatch-agent created
+namespace/amazon-cloudwatch configured
+serviceaccount/cloudwatch-agent configured
 clusterrole.rbac.authorization.k8s.io/cloudwatch-agent-role created
 clusterrolebinding.rbac.authorization.k8s.io/cloudwatch-agent-role-binding created
 configmap/cwagentconfig created
 daemonset.apps/cloudwatch-agent created
 configmap/cluster-info created
-serviceaccount/fluentd created
+serviceaccount/fluentd configured
 clusterrole.rbac.authorization.k8s.io/fluentd-role created
 clusterrolebinding.rbac.authorization.k8s.io/fluentd-role-binding created
 configmap/fluentd-config created
-daemonset.apps/fluentd-cloudwatch created
 {{< /output >}}
 
 The command above will:
@@ -62,6 +106,31 @@ You can also verify the deployment of `DaemonSets` by logging into console and n
 ![DaemonSets](/images/app_mesh_fargate/cloudwatchd.png)
 
 #### Enable Prometheus Metrics in CloudWatch
+
+Create an IAM role for the prometheus service account
+```bash
+eksctl create iamserviceaccount \
+  --cluster eksworkshop-eksctl \
+  --namespace amazon-cloudwatch \
+  --name cwagent-prometheus \
+  --attach-policy-arn  arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+  --override-existing-serviceaccounts \
+  --approve
+```
+{{< output >}}
+2021-05-02 18:00:25 [ℹ]  eksctl version 0.45.0
+2021-05-02 18:00:25 [ℹ]  using region $AWS_REGION
+2021-05-02 18:00:26 [ℹ]  3 existing iamserviceaccount(s) (amazon-cloudwatch/cloudwatch-agent,amazon-cloudwatch/fluentd,prodcatalog-ns/prodcatalog-envoy-proxies) will be excluded
+2021-05-02 18:00:26 [ℹ]  1 iamserviceaccount (amazon-cloudwatch/cwagent-prometheus) was included (based on the include/exclude rules)
+2021-05-02 18:00:26 [!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+2021-05-02 18:00:26 [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "amazon-cloudwatch/cwagent-prometheus", create serviceaccount "amazon-cloudwatch/cwagent-prometheus" } }
+2021-05-02 18:00:26 [ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-cwagent-prometheus"
+2021-05-02 18:00:26 [ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-cwagent-prometheus"
+2021-05-02 18:00:26 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-amazon-cloudwatch-cwagent-prometheus"
+2021-05-02 18:00:59 [ℹ]  created serviceaccount "amazon-cloudwatch/cwagent-prometheus"
+{{< /output >}}
+
+Install Prometheus Agent
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/service/cwagent-prometheus/prometheus-eks.yaml
 ```
@@ -69,7 +138,7 @@ kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch
 namespace/amazon-cloudwatch unchanged
 configmap/prometheus-cwagentconfig created
 configmap/prometheus-config created
-serviceaccount/cwagent-prometheus created
+serviceaccount/cwagent-prometheus configured
 clusterrole.rbac.authorization.k8s.io/cwagent-prometheus-role created
 clusterrolebinding.rbac.authorization.k8s.io/cwagent-prometheus-role-binding created
 deployment.apps/cwagent-prometheus created
@@ -84,29 +153,6 @@ NAME                                 READY   STATUS    RESTARTS   AGE
 cwagent-prometheus-95896694d-99pwb   1/1     Running   0          2m33s
 {{< /output >}}
 
-#### (Optional) Enable Amazon EKS Control Plane logs 
-
-{{% notice info %}}
-If you enable Amazon EKS Control Plane logging, you will be charged the standard CloudWatch Logs data ingestion and storage costs for any logs sent to CloudWatch Logs from your cluster. You are also charged for any AWS resources, such as Amazon EC2 instances or Amazon EBS volumes, that you provision as part of your cluster.
-{{% /notice %}}
-
-CloudWatch logging for EKS control plane is not enabled by default due to data ingestion and storage costs. You can enable using below command.
-```bash
-eksctl utils update-cluster-logging \
-	--enable-types all \
-    --region ${AWS_REGION} \
-    --cluster eksworkshop-eksctl \
-    --approve
-```
-
-{{< output >}}
-[ℹ]  eksctl version 0.37.0
-[ℹ]  using region us-west-2
-[✔]  CloudWatch logging for cluster "eksworkshop-eksctl" in "us-west-2" is already up-to-date
-{{< /output >}}
-
-You can log into console and navigate to Amazon EKS -> Cluster -> Logging
-![\[Image NOT FOUND\]](/images/app_mesh_fargate/consolecontrol.png)
 
 #### Enable Logging for Fargate
 
@@ -117,6 +163,7 @@ In this workshop, we will show you how to use cloudwatch_logs to send logs from 
 
 First, create the dedicated aws-observability namespace and the ConfigMap for Fluent Bit
 ```bash
+cd eks-app-mesh-polyglot-demo
 envsubst < ./deployment/fluentbit-config.yaml | kubectl apply -f -
 ```
 {{< output >}}
@@ -179,6 +226,30 @@ Log into console and navigate to EKS -> Cluster -> Configuration-> Compute, sele
 
 Click on the Pod Execution Role. You should see the below `FluentBitEKSFargate` policy that was attached to the Pod Execution Role.
 ![nodegroup](/images/app_mesh_fargate/fluentbit.png)
+
+#### (Optional) Enable Amazon EKS Control Plane logs 
+
+{{% notice info %}}
+If you enable Amazon EKS Control Plane logging, you will be charged the standard CloudWatch Logs data ingestion and storage costs for any logs sent to CloudWatch Logs from your cluster. You are also charged for any AWS resources, such as Amazon EC2 instances or Amazon EBS volumes, that you provision as part of your cluster.
+{{% /notice %}}
+
+CloudWatch logging for EKS control plane is not enabled by default due to data ingestion and storage costs. You can enable using below command.
+```bash
+eksctl utils update-cluster-logging \
+    --enable-types all \
+    --region ${AWS_REGION} \
+    --cluster eksworkshop-eksctl \
+    --approve
+```
+
+{{< output >}}
+[ℹ]  eksctl version 0.37.0
+[ℹ]  using region us-west-2
+[✔]  CloudWatch logging for cluster "eksworkshop-eksctl" in "us-west-2" is already up-to-date
+{{< /output >}}
+
+You can log into console and navigate to Amazon EKS -> Cluster -> Logging
+![\[Image NOT FOUND\]](/images/app_mesh_fargate/consolecontrol.png)
 
 Congratulations!! You have completed the basic setup for EKS and Observability, Now lets move to the fun part of deploying our Product Catalog Application.
 

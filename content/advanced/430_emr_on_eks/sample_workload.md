@@ -10,9 +10,6 @@ Now let's run a sample workload using one of the inbuilt example scripts that ca
 
 Before we begin with the sample workload, lets add a EKS managed nodegroup to have more resources for the sample spark job. 
 
-List the virtual EMR clusters that you have, using the below command.
-
-
 Create a config file (addnodegroup.yaml) with details of a new EKS managed nodegroup. 
 
 ```sh
@@ -80,5 +77,6 @@ aws emr-containers start-job-run \
 You will be able to see the completed job in EMR console. It should look like below:
 
 ![EMR Console of virtual cluster and jobs](/images/emr-on-eks/virtual-cluster1.png)
+
 
 In the next section we will cover how to use spark history server to view job history. We will also take a look at how to send logs to s3 and cloudwatch.

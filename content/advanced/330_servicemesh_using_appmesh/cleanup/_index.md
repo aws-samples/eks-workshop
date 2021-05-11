@@ -84,12 +84,6 @@ aws iam detach-role-policy \
 aws iam delete-policy --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/FluentBitEKSFargate
 ```
 
-
-#### Delete the Fargate service account
-```bash
-eksctl delete iamserviceaccount --cluster eksworkshop-eksctl   --namespace prodcatalog-ns --name prodcatalog-sa
-```
-
 #### Delete Fargate profile
 ```bash
 eksctl delete fargateprofile \
@@ -97,11 +91,8 @@ eksctl delete fargateprofile \
   --cluster eksworkshop-eksctl
 ```
 
-#### Delete Nodegroup
+#### Delete the policy and IRSA 
 ```bash
-envsubst < ./deployment/clusterconfig.yaml | eksctl delete nodegroup -f -  --approve
+eksctl delete iamserviceaccount --cluster eksworkshop-eksctl   --namespace prodcatalog-ns --name prodcatalog-envoy-proxies
+aws iam delete-policy --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/ProdEnvoyNamespaceIAMPolicy
 ```
-
-{{% notice info %}}
-Nodegroup and Fargate Profile deletion may take few minutes even though it shows the message as "Deleted" in the command line response. You can log into console and navigate to EKS -> Cluster -> Configuration -> Compute and confirm the deletion.
-{{% /notice %}}

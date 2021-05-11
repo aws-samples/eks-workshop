@@ -5,6 +5,7 @@ weight: 40
 draft: false
 ---
 
+
 ## EKS Cluster Autoscaler
 
 Cluster autoscaling in EKS is achieved using Cluster Autoscaler. The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) automatically adjusts the number of nodes in your cluster based on the resources required and execute the jobs. 
@@ -211,6 +212,3 @@ watch kubectl get nodes
 You can also take a look at the spark history server to observe the event timeline for executors - where spark dynamically adds in executors and removes as they are not needed. 
 
 ![Spark History Server Event Pipeline for spark job](/images/emr-on-eks/threadsleep_dra.png)
-
-
-

@@ -24,7 +24,9 @@ For a pod in your application to join a mesh, it must have an open source [Envoy
 App Mesh uses the Envoy sidecar container as a proxy for all ingress and egress traffic to the primary microservice. Using this sidecar pattern with Envoy we create the backbone of the service mesh, without impacting our applications.
 
 The controller will handle routine App Mesh tasks such as creating and injecting Envoy proxy containers into your application pods. Automated sidecar injection is controlled by enabling a webhook on a per-namespace basis.
-
 ![App Mesh](/images/app_mesh_fargate/pcapp.png)
+
+Our Product Catalog Application services uses the below App Mesh Configuration and we will explore how to create these in detail.
+![App Mesh](/images/app_mesh_fargate/appmeshconfig.png)
 
 

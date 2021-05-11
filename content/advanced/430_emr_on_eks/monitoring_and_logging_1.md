@@ -27,8 +27,11 @@ You should be able to find its contents similar as below:
 
 > Pi is roughly 3.138760
 
+<<<<<<< HEAD
 Describe how to use spark history server, how to use S3 for logging, how to monitor jobs using prometheus & grafana.
 
+=======
+>>>>>>> 533142d8096b19820bb5412394fb6e79d569be03
 
 
 
