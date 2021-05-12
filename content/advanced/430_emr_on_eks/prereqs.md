@@ -133,7 +133,7 @@ metadata:
 managedNodeGroups:
 - name: emrnodegroup
   desiredCapacity: 3
-  instanceType: m5.large
+  instanceType: m5.xlarge
   ssh:
     enableSsm: true
 
