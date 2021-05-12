@@ -61,3 +61,15 @@ We are deliberatly launching one version behind the latest (1.19 vs. 1.20) to al
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}
+
+Kubernetes secrets are just base64 encoded strings. It is highly recommended to encrypt secrets using trusted and secure encryption service. 
+Next, we will enable kubernetes secrets encryption using AWS KMS. It will also encrypt existing secrets in cluster.
+ 
+```bash
+eksctl utils enable-secrets-encryption \
+--region "${AWS_REGION}" \
+--cluster eksworkshop-eksctl \
+--encrypt-existing-secrets \
+--key-arn "${MASTER_ARN}" \
+--approve
+```
