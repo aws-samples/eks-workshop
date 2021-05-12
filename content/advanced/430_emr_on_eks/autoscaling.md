@@ -84,7 +84,7 @@ EOF
 aws s3 cp threadsleep.py s3://emr-eks-demo-threadsleep-1212
 ```
 
-Let's run the same inbuilt example scripts that calculates the value of pi, but this time lets increase the number of executors to 10 by modifying `spark.executor.instances`. 
+Let's run the same inbuilt example scripts that calculates the value of pi, but this time lets increase the number of executors to 15 by modifying `spark.executor.instances`. 
 
 
 ```sh
@@ -102,7 +102,7 @@ aws emr-containers start-job-run \
   --job-driver='{
     "sparkSubmitJobDriver": {
       "entryPoint": "s3://emr-eks-demo-threadsleep-1212/threadsleep.py",
-      "sparkSubmitParameters": "--conf spark.executor.instances=10 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
+      "sparkSubmitParameters": "--conf spark.executor.instances=15 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
     }
   }'\
   --configuration-overrides='{
