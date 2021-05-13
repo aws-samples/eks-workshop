@@ -48,8 +48,8 @@ Parameters:
 
   CodeBuildDockerImage:
     Type: String
-    Default: aws/codebuild/docker:17.09.0
-    Description: Default AWS CodeBuild Docker optimized image
+    Default: aws/codebuild/standard:4.0
+    Description: Default AWS CodeBuild image for Ubuntu 18.04
     MinLength: 3
     MaxLength: 100
     ConstraintDescription: You must enter a CodeBuild Docker image
@@ -221,6 +221,7 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Type: LINUX_CONTAINER
         Image: !Ref CodeBuildDockerImage
+        PrivilegedMode: true
         EnvironmentVariables:
           - Name: REPOSITORY_URI
             Value: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${EcrDockerRepository}
