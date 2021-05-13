@@ -37,7 +37,59 @@ We are now ready to deploy our Windows IIS container
 ```bash
 kubectl create namespace windows
 
-kubectl apply -f https://www.eksworkshop.com/beginner/300_windows/sample_app_deploy.files/windows_server_iis.yaml
+cat << EoF > ~/environment/windows/windows_server_iis.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: windows-server-iis
+  namespace: windows
+spec:
+  selector:
+    matchLabels:
+      app: windows-server-iis
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: windows-server-iis
+        tier: backend
+        track: stable
+    spec:
+      containers:
+      - name: windows-server-iis
+        image: mcr.microsoft.com/windows/servercore:2004
+        ports:
+        - name: http
+          containerPort: 80
+        imagePullPolicy: IfNotPresent
+        command:
+        - powershell.exe
+        - -command
+        - "Add-WindowsFeature Web-Server; Invoke-WebRequest -UseBasicParsing -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\\ServiceMonitor.exe'; echo '<html><body><br/><br/><marquee><H1>Hello EKS!!!<H1><marquee></body><html>' > C:\\inetpub\\wwwroot\\default.html; C:\\ServiceMonitor.exe 'w3svc'; "
+      nodeSelector:
+        kubernetes.io/os: windows
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: windows-server-iis-service
+  namespace: windows
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: windows-server-iis
+    tier: backend
+    track: stable
+  sessionAffinity: None
+  type: LoadBalancer
+EoF
+
+kubectl apply -f ~/environment/windows/windows_server_iis.yaml
 ```
 
 Let's verify what we just deployed
