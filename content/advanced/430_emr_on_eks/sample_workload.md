@@ -12,11 +12,9 @@ First get the virtual EMR clusters id and arn of the role that EMR uses for job 
 
 
 ```sh
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[].id" --output text)
-```
-
-```sh
+export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
 export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
+
 ```
 
 Lets start a sample spark job. 

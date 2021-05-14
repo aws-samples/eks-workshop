@@ -20,9 +20,9 @@ Now run the below job:
 
 ```
 aws emr-containers start-job-run \
-  --virtual-cluster-id=jokbdf64kj891f7iaaot3qo9q \
+  --virtual-cluster-id=${VIRTUAL_CLUSTER_ID} \
   --name=pi-2 \
-  --execution-role-arn=arn:aws:iam::525158249545:role/EMRContainers-JobExecutionRole \
+  --execution-role-arn=${EMR_ROLE_ARN} \
   --release-label=emr-6.2.0-latest \
   --job-driver='{
     "sparkSubmitJobDriver": {
