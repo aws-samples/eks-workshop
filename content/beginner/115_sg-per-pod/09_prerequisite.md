@@ -10,7 +10,7 @@ Security groups for pods are supported by most Nitro-based Amazon EC2 instance f
 {{% /notice %}}
 
 ```bash
-mkdir sg-per-pod
+mkdir ${HOME}/environment/sg-per-pod
 
 cat << EoF > ${HOME}/environment/sg-per-pod/nodegroup-sec-group.yaml
 apiVersion: eksctl.io/v1alpha5
