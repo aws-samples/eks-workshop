@@ -62,6 +62,49 @@ Output example
 2020-02-12 01:48:05 eksworkshop-logs
 {{< /output >}}
 
+{{% notice info %}}
+If you have an output, please move on to "List EC2 Instances."
+
+If the output is empty, it is possible your account doesn't have any s3 buckets.
+Please try to run theses extra commands.
+{{% /notice %}}
+
+Let's create an S3 bucket.
+
+```bash
+aws s3 mb s3://eksworkshop-$ACCOUNT_ID-$AWS_REGION --region $AWS_REGION
+```
+
+Output example
+{{< output >}}
+make_bucket: eksworkshop-886836808448-us-east-1
+{{< /output >}}
+
+Now, let's try that job again.
+
+1st, we delete the old job.
+```bash
+kubectl delete job -l app=eks-iam-test-s3
+
+```
+
+We can re-create the job.
+```bash
+kubectl apply -f ~/environment/irsa/job-s3.yaml
+```
+
+Finally, we can have a look at the output.
+```bash
+kubectl logs -l app=eks-iam-test-s3
+```
+
+Output example
+{{< output >}}
+2021-05-17 15:44:41 eksworkshop-886836808448-us-east-1
+{{< /output >}}
+
+
+
 ### List EC2 Instances
 
 Now Let's confirm that the service account cannot list the EC2 instances
@@ -117,3 +160,5 @@ Output
 
 An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation.
 {{< /output >}}
+
+
