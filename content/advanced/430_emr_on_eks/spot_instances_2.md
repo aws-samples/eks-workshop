@@ -9,7 +9,7 @@ draft: false
 With Amazon EMR versions `5.33.0 and later`, Amazon EMR on EKS supports pod template feature in Spark. Pod templates are specifications that determine how to run each pod. You can use pod template files to define the driver or executor pod’s configurations that Spark configurations do not support.
 
 {{% notice info %}}
-For more information about the pod template support in EMR on EKS, see [Pod Template](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/pod-templates.html).
+For more information about the pod templates support in EMR on EKS, see [Pod Templates](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/pod-templates.html).
 {{% /notice %}}
 
 To reduce costs, you can schedule Spark driver tasks to run on On-Demand instances while scheduling Spark executor tasks to run on Spot instances.
