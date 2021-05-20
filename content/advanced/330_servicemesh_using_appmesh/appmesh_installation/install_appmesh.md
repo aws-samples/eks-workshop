@@ -1,10 +1,10 @@
 ---
-title: "Installation of AWS App Mesh Controller"
-date: 2020-01-27T08:30:11-07:00
-weight: 40
+title: "Install AWS App Mesh Controller"
+date: 2020-04-27T08:30:11-07:00
+weight: 31
 draft: false
 ---
-      
+     
 #### Install App Mesh Helm Chart
 
 Check that Helm is installed. 
@@ -28,37 +28,39 @@ helm repo add eks https://aws.github.io/eks-charts
 "eks" has been added to your repositories
 {{< /output >}}
 
-Update Helm Repo
-```bash
-helm repo update
-```
-{{< output >}}
-....
-Update Complete. ⎈Happy Helming!⎈
-{{< /output >}}
-
 #### Install App Mesh Controller
 
-Create the appmesh-system namespace and attach IAM Policies for AWS App Mesh and AWS Cloud Map full access.
+Create the namespace `appmesh-system`, enable OIDC and create IRSA (IAM for Service Account) for AWS App Mesh installation
 ```bash
+# Create the namespace
 kubectl create ns appmesh-system
+
+# Install the App Mesh CRDs
+kubectl apply -k "github.com/aws/eks-charts/stable/appmesh-controller//crds?ref=master"
 
 # Create your OIDC identity provider for the cluster
 eksctl utils associate-iam-oidc-provider \
   --cluster eksworkshop-eksctl \
   --approve
 
+# Download the IAM policy for AWS App Mesh Kubernetes Controller
+curl -o controller-iam-policy.json https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/config/iam/controller-iam-policy.json
+
+# Create an IAM policy called AWSAppMeshK8sControllerIAMPolicy
+aws iam create-policy \
+    --policy-name AWSAppMeshK8sControllerIAMPolicy \
+    --policy-document file://controller-iam-policy.json
+
 # Create an IAM role for the appmesh-controller service account
-eksctl create iamserviceaccount \
-  --cluster eksworkshop-eksctl \
-  --namespace appmesh-system \
-  --name appmesh-controller \
-  --attach-policy-arn  arn:aws:iam::aws:policy/AWSCloudMapFullAccess,arn:aws:iam::aws:policy/AWSAppMeshFullAccess \
-  --override-existing-serviceaccounts \
-  --approve
+eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
+    --namespace appmesh-system \
+    --name appmesh-controller \
+    --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSAppMeshK8sControllerIAMPolicy  \
+    --override-existing-serviceaccounts \
+    --approve
 ```
 
-Install App Mesh Controller into the appmesh-system namespace with X-Ray enabled
+Install App Mesh Controller into the appmesh-system namespace
 
 ```bash
 helm upgrade -i appmesh-controller eks/appmesh-controller \
@@ -68,6 +70,7 @@ helm upgrade -i appmesh-controller eks/appmesh-controller \
     --set serviceAccount.name=appmesh-controller \
     --set tracing.enabled=true \
     --set tracing.provider=x-ray
+
 ```
 {{< output >}}
 Release "appmesh-controller" has been upgraded. Happy Helming!     
@@ -122,7 +125,5 @@ NAME                                            D kubectl get crds ESIRED   CURR
 replicaset.apps/appmesh-controller-fcc7c4ffc    1         1         1       47s 
 {{< /output >}}
 
-Congratulations on installing the AWS App Mesh Controller for Kubernetes in your cluster!
-
-Next, we'll enable observability, analytics, and routing functionality into our Product Catalog App by porting it to run within App Mesh, and we'll demonstrate how to simplify various types of deployments.
+Congratulations on installing the AWS App Mesh Controller in your EKS Cluster!
 

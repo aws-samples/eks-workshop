@@ -19,7 +19,7 @@ In this chapter, we will deploy Pixie to monitor an application on a Kubernetes 
 
 ## What is Pixie?
 
-[Pixie](https://pixielabs.ai/) is an open-source observability platform for Kubernetes. It helps developers explore, monitor and debug their applications. Pixie’s features include:
+[Pixie](https://px.dev/) is an open-source observability platform for Kubernetes. It helps developers explore, monitor and debug their applications. Pixie’s features include:
 
 **Progressive instrumentation**
 

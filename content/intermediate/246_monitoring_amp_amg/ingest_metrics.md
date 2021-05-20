@@ -12,41 +12,59 @@ Amazon Managed Service for Prometheus does not directly scrape operational metri
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 kubectl create ns prometheus
-helm install prometheus-for-amp prometheus-community/prometheus -n prometheus
 ```
-The AWS signing proxy can now be deployed to the Amazon EKS cluster with the following YAML manifest. Now substitute the placeholder variable `${AWS_REGION}` with the appropriate AWS Region name, replace `${IAM_PROXY_PROMETHEUS_ROLE_ARN}` with the ARN of the EKS-AMP-ServiceAccount-Role you created and replace the placeholder `${WORKSPACE_ID}` with the AMP workspace ID you created earlier. The signing proxy references a Docker image from a public repository in ECR.
 
 #### Create a file called amp_ingest_override_values.yaml with the following content in it.
 
 ```
 serviceAccounts:
-    server:
+  ## Disable alert manager roles
+  ##
+  server:
         name: "iamproxy-service-account"
-        annotations:
-            eks.amazonaws.com/role-arn: "${IAM_PROXY_PROMETHEUS_ROLE_ARN}"
+  alertmanager:
+    create: false
+
+  ## Disable pushgateway
+  ##
+  pushgateway:
+    create: false
+
 server:
-  sidecarContainers:
-    aws-sigv4-proxy-sidecar:
-        image: public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0
-        args:
-        - --name
-        - aps
-        - --region
-        - ${AWS_REGION}
-        - --host
-        - aps-workspaces.${AWS_REGION}.amazonaws.com
-        - --port
-        - :8005
-        ports:
-        - name: aws-sigv4-proxy
-          containerPort: 8005
-  statefulSet:
-      enabled: "true"
   remoteWrite:
-      - url: http://localhost:8005/workspaces/${WORKSPACE_ID}/api/v1/remote_write
+    -
+      queue_config:
+        max_samples_per_send: 1000
+        max_shards: 200
+        capacity: 2500
+
+  ## Use a statefulset instead of a deployment for resiliency
+  ##
+  statefulSet:
+    enabled: true
+
+  ## Store blocks locally for short time period only
+  ##
+  retention: 1h
+  
+## Disable alert manager
+##
+alertmanager:
+  enabled: false
+
+## Disable pushgateway
+##
+pushgateway:
+  enabled: false
 ```
-#### Execute the following command to modify the Prometheus server configuration to deploy the signing proxy and configure the remoteWrite endpoint
+#### Execute the following command to install the Prometheus server configuration and configure the remoteWrite endpoint
 
 ```
-helm upgrade --install prometheus-for-amp prometheus-community/prometheus -n prometheus -f ./amp_ingest_override_values.yaml
+export SERVICE_ACCOUNT_IAM_ROLE=EKS-AMP-ServiceAccount-Role
+export SERVICE_ACCOUNT_IAM_ROLE_ARN=$(aws iam get-role --role-name $SERVICE_ACCOUNT_IAM_ROLE --query 'Role.Arn' --output text)
+WORKSPACE_ID=$(aws amp list-workspaces --alias eks-workshop | jq .workspaces[0].workspaceId -r)
+helm install prometheus-for-amp prometheus-community/prometheus -n prometheus -f ./amp_ingest_override_values.yaml \
+--set serviceAccounts.server.annotations."eks\.amazonaws\.com/role-arn"="${SERVICE_ACCOUNT_IAM_ROLE_ARN}" \
+--set server.remoteWrite[0].url="https://aps-workspaces.${AWS_REGION}.amazonaws.com/workspaces/${WORKSPACE_ID}/api/v1/remote_write" \
+--set server.remoteWrite[0].sigv4.region=${AWS_REGION}
 ```

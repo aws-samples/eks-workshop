@@ -1,26 +1,22 @@
 ---
-title: "EKS Nodegroup and Fargate setup"
+title: "EKS Fargate and Observability setup"
 date: 2020-01-27T08:30:11-07:00
 weight: 10
 draft: false
 ---
 
-In this chapter, we will execute [eksctl](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) command using a 
-config file [clusterconfig.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/clusterconfig.yaml) to perform the following tasks in your existing 
-EKS cluster `eksworkshop-eksctl`.
-
-* Create new Managed NodeGroup with three nodes
+In this chapter, we will perform the following tasks in your existing EKS cluster `eksworkshop-eksctl`.
 * Create Fargate Profile
 * Enable OIDC Provider
-* Create IRSA (IAM Role for Service Account) for Fargate Pod
 * Create Namespace for Application Deployment
-* Enable Observability for both NodeGroup and Fargate
+* Create IRSA (IAM Role for Service Account) for Application Namespace `prodcatalog-ns`
+* Enable Observability for Logs and Metrics
 
 #### PreRequisite
 
 * We assume that we have an existing EKS Cluster `eksworkshop-eksctl` created from [EKS Workshop](/030_eksctl/launcheks/).
 
-* We also assume that we have [increased the disk size on your Cloud9 instance](020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance) as we need to build docker images for our application.
+* We also assume that we have [increased the disk size on your Cloud9 instance](/020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance) as we need to build docker images for our application.
 
 * We will be using AWS Console to navigate and explore resources in Amazon EKS, AWS App Mesh, Amazon Cloudwatch, AWS X-Ray in this workshop. 
 So ensure that you have completed [Console Credentials](/030_eksctl/console/) to get full access to your existing EKS Cluster `eksworkshop-eksctl` in the EKS console.
@@ -43,4 +39,4 @@ git clone https://github.com/aws-containers/eks-app-mesh-polyglot-demo.git
 cd eks-app-mesh-polyglot-demo
 ```
 
-Now lets, create the Managed Nodegroup in our EKS cluster for the Product Catalog Application.
+Now lets, create the Fargate Profile in our EKS cluster to deploy one `prodcatalog` service in our Product Catalog Application.
