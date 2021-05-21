@@ -13,26 +13,33 @@ metadata:
   name: spinnaker
 spec:
   spinnakerConfig:
-    files: 
-        kubeconfig-sp: |
-          <FILE CONTENTS HERE> # Content from kubeconfig created by Spinnaker Tool
-    profiles:
-      igor:
-        docker-registry:
-          enabled: true
-      clouddriver:
-        dockerRegistry:
-          enabled: true
-          primaryAccount: my-ecr-registry
-          accounts:
-          - name: my-ecr-registry
-            address: https://$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-            username: AWS
-            passwordFile: /etc/passwords/my-ecr-registry.pass
-            trackDigests: true
-            repositories:
-            - $ECR_REPOSITORY
     config:
+      version: $SPINNAKER_VERSION   # the version of Spinnaker to be deployed
+      persistentStorage:
+        persistentStoreType: s3
+        s3:
+          bucket: $S3_BUCKET
+          rootFolder: front50
+          region: $AWS_REGION
+          accessKeyId: $AWS_ACCESS_KEY_ID
+          secretAccessKey: $AWS_SECRET_ACCESS_KEY
+      deploymentEnvironment:
+        sidecars:
+          spin-clouddriver:
+          - name: token-refresh
+            dockerImage: quay.io/skuid/ecr-token-refresh:latest
+            mountPath: /etc/passwords
+            configMapVolumeMounts:
+            - configMapName: token-refresh-config
+              mountPath: /opt/config/ecr-token-refresh
+      features:
+        artifacts: true
+      artifacts:
+        github:
+          enabled: true
+          accounts:
+          - name: $GITHUB_USER
+            token: $GITHUB_TOKEN  # GitHub's personal access token. This fields supports `encrypted` references to secrets.
       providers:
           dockerRegistry:
             enabled: true
@@ -57,33 +64,26 @@ spec:
               onlySpinnakerManaged: false
               kubeconfigFile: kubeconfig-sp  # File name must match "files" key
             primaryAccount: spinnaker-workshop  # Change to a desired account from the accounts array
-      version: $SPINNAKER_VERSION   # the version of Spinnaker to be deployed
-      persistentStorage:
-        persistentStoreType: s3
-        s3:
-          bucket: $S3_BUCKET
-          rootFolder: front50
-          region: $AWS_REGION
-          accessKeyId: $AWS_ACCESS_KEY_ID
-          secretAccessKey: $AWS_SECRET_ACCESS_KEY
-      # spec.expose - This section defines how Spinnaker should be publicly exposed
-      deploymentEnvironment:
-        sidecars:
-          spin-clouddriver:
-          - name: token-refresh
-            dockerImage: quay.io/skuid/ecr-token-refresh:latest
-            mountPath: /etc/passwords
-            configMapVolumeMounts:
-            - configMapName: token-refresh-config
-              mountPath: /opt/config/ecr-token-refresh
-      features:
-        artifacts: true
-      artifacts:
-        github:
-          enabled: true
-          accounts:
-          - name: $GITHUB_USER
-            token: $GITHUB_TOKEN  # GitHub's personal access token. This fields supports `encrypted` references to secrets.
+    profiles:
+        clouddriver:
+          dockerRegistry:
+            enabled: true
+            primaryAccount: my-ecr-registry
+            accounts:
+            - name: my-ecr-registry
+              address: https://$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+              username: AWS
+              passwordFile: /etc/passwords/my-ecr-registry.pass
+              trackDigests: true
+              repositories:
+              - $ECR_REPOSITORY
+        igor:
+          docker-registry:
+            enabled: true
+    files: 
+        kubeconfig-sp: |
+          <FILE CONTENTS HERE> # Content from kubeconfig created by Spinnaker Tool
+  # spec.expose - This section defines how Spinnaker should be publicly exposed
   expose:
     type: service  # Kubernetes LoadBalancer type (service/ingress), note: only "service" is supported for now
     service:
@@ -91,12 +91,6 @@ spec:
  {{< /output >}} 
 
 #### Install Spinnaker Service
-
-Pick a release from https://spinnaker.io/community/releases/versions/ and export that version. Below we are using the latest Spinnaker release when this workshop was written,
-
-```
-export SPINNAKER_VERSION=1.25.4 
-```
 
 Confirm if all the environment variables is set correctly
 
@@ -117,7 +111,7 @@ If you do not see output from the above command for all the Environment Variable
 {{% /notice %}}
 
 ```
-cd spinnaker-operator/
+cd ~/environment/spinnaker-operator/
 envsubst < deploy/spinnaker/basic/spinnakerservice.yml | kubectl -n spinnaker apply -f -
 ```
 {{< output >}}
@@ -205,16 +199,6 @@ spec:
 ```
 ![Spinnaker](/images/spinnnaker/manifest1.png)
 
-##### Test the deployment
-
-First create a namespace for our testing in Cloud9 Terminal
-```
-kubectl create namespace detail
-```
-{{< output >}}
-namespace/detail created
-{{< /output >}} 
-
 In the Spinnaker UI, Go to `Pipelines` and click on `Start Manual Execution`
 ![Spinnaker](/images/spinnnaker/manual.png)
 ![Spinnaker](/images/spinnnaker/step1.png)
@@ -236,9 +220,9 @@ Go to `Clusters` and verify the deployment
 
 You can also go to Cloud9 terminal and verify the deployment
 ```
-kubectl get deployment nginx-deployment -n detail
+kubectl get deployment nginx-deployment -n spinnaker
 
-kubectl get pods -l app=nginx -n detail
+kubectl get pods -l app=nginx -n spinnaker
 ```
 {{< output >}}
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE

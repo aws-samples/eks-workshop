@@ -4,14 +4,7 @@ weight: 60
 draft: false
 ---
 
-We now have Spinnaker Service up and running, we will now loginto Spinnaker UI.
-
-#### Clone Application Git Repo
-```
-cd ~/environment
-git clone https://github.com/aws-containers/eks-microservice-demo.git
-cd eks-microservice-demo
-```
+Now lets deploy Helm Based Application to EKS using Spinnaker pipeline.
 
 #### Spinnaker UI
 
@@ -20,7 +13,7 @@ Click on `Create Application` and enter details as `Product-Detail`
 ![Spinnaker](/images/spinnnaker/proddetail.png)
 
 ##### Create Pipeline
-Click on `Pipelines` under `test-application` and click on `Configure a new pipeline` and add the name as below.
+Click on `Pipelines` under `Product-Detail` and click on `Configure a new pipeline` and add the name as below.
 ![Spinnaker](/images/spinnnaker/helmpipeline.png)
 
 ##### Setup Trigger
@@ -28,11 +21,12 @@ Click on `Configuration` under `Pipelines` and click on `Add Trigger`. This is t
 ![Spinnaker](/images/spinnnaker/trigger.png)
 
 ##### Setup Bake Stage
-- Click on `Add Stage` and select `Bake Manifest` from the dropdown 
-- Select "create new artifact" for **Expected Artifact** and select the Git account that shows in dropdown. This is the Git account we had setup in Spinnaker manifest in [Configure Artifact](/265_spinnaker_eks/configure_artifact/) chapter. And then enter the below git location.
+- Click on `Add Stage` and select `Bake Manifest` for Type from the dropdown 
+- Select "Helm3" as Render Engine and enter name.
+- Select "Define a new artifact" for **Expected Artifact** and select your Git account that shows in dropdown. This is the Git account we had setup in Spinnaker manifest in [Configure Artifact](/265_spinnaker_eks/configure_artifact/) chapter. And then enter the below git location in the Content URL and add `main` as the Commit/Branch. This is to provide the the Helm template for the deployment.
 	
 	https://api.github.com/repos/aws-containers/eks-microservice-demo/contents/spinnaker/proddetail-0.1.0.tgz
-- Select "create new artifact" for **Expected Artifact** and select the Git account that shows in dropdown. This is the Git account we had setup in Spinnaker manifest in [Configure Artifact](/265_spinnaker_eks/configure_artifact/) chapter. And then enter the below git location.
+- Under the `Overrides` section, Select "create new artifact" for **Expected Artifact** and select your Git account that shows in dropdown. This is the Git account we had setup in Spinnaker manifest in [Configure Artifact](/265_spinnaker_eks/configure_artifact/) chapter. And then enter the below git location in the Content URL and add `main` as the Commit/Branch. This is to provide the overrides for the Helm template using values.yaml.
 	
 	https://api.github.com/repos/aws-containers/eks-microservice-demo/contents/spinnaker/helm-chart/values.yaml
 
@@ -61,7 +55,10 @@ To ensure that the ECR trigger will work in Spinnaker UI:
 ```
 // commenting for file for docker image generation
 ```
--  Ensure that the image tag (APP_VERSION) you are adding below does not exist in the ECR repository `eks-microservice-demo/test`
+
+{{% notice info %}}
+Ensure that the image tag (APP_VERSION) you are adding below does not exist in the ECR repository `eks-microservice-demo/test` otherwise the trigger will not work. Spinnaker pipeline only triggers when a new version of image is added to ECR.
+{{% /notice %}}
 
 And then run the below command in Cloud9 terminal.
 

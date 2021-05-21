@@ -104,7 +104,8 @@ Created kubeconfig file at /home/ec2-user/Kubeconfig-ws-sa
 
 #### Configure EKS Account
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig.profiles`.
+
+Open the `SpinnakerService` manifest located under `deploy/spinnaker/basic/spinnakerservice.yml`, then add the below to the section `spec.spinnakerConfig.config`.
 
   {{< output >}}
         providers:
@@ -134,7 +135,7 @@ Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnaker
    {{< /output >}}
 
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig`. Replace the `<FILE CONTENTS HERE>` in below section with kubeconfig file content created from [previous step](/265_spinnaker_eks/add_eks-cccount/#create-the-service-account) from the location ${HOME}/Kubeconfig-ws-sa. 
+Open the `SpinnakerService` manifest located under `deploy/spinnaker/basic/spinnakerservice.yml`, then add the below section under `spec.spinnakerConfig`. Replace the `<FILE CONTENTS HERE>` in below section with kubeconfig file content created from [previous step](/265_spinnaker_eks/add_eks-cccount/#create-the-service-account) from the location ${HOME}/Kubeconfig-ws-sa. 
 
   {{< output >}}
     files: 

@@ -4,7 +4,19 @@ weight: 30
 draft: false
 ---
 
-Lets configure all the artifacts and storage that we will need for our usecase.
+Lets configure all the artifacts and storage for Spinnaker services that we will need for our usecase. We will adding all the configuration to the file located at `deploy/spinnaker/basic/spinnakerservice.yml` which got created by Spinnaker Operator install in previous chapter.
+
+#### Configure Spinnaker Release Version
+Pick a release from https://spinnaker.io/community/releases/versions/ and export that version. Below we are using the latest Spinnaker release when this workshop was written,
+
+```
+export SPINNAKER_VERSION=1.25.4 
+```
+
+Open the SpinnakerService manifest located at `deploy/spinnaker/basic/spinnakerservice.yml`, and change below for Spinnaker Version
+{{< output >}}
+  version: $SPINNAKER_VERSION   # the version of Spinnaker to be deployed
+{{< /output >}}
 
 #### Configure S3 Artifact
 We will configure Spinnaker to access an  bucket as a source of artifacts. Spinnaker stages such as a Deploy Manifest read configuration from S3 files directly. Lets enable S3 as an artifact source.
@@ -14,14 +26,29 @@ Spinnaker requires an external storage provider for persisting our Application s
 
 * **Create S3 Bucket first**
 
-	Go to AWS Console >>> S3 and create the bucket as below
+  You can create S3 bucket either using Admin Console or using AWS CLI (Use one of the option from below)
 
-	![Spinnaker](/images/spinnnaker/s3bucket.png)
-	![Spinnaker](/images/spinnnaker/s3bucketdetail.png)
+    * Using Admin Console
+
+	   Go to AWS Console >>> S3 and create the bucket as below
+
+  	![Spinnaker](/images/spinnnaker/s3bucket.png)
+  	![Spinnaker](/images/spinnnaker/s3bucketdetail.png)
+
+    * Using AWS CLI
+
+      ```
+      export S3_BUCKET=spinnaker-workshop-$(cat /dev/urandom | LC_ALL=C tr -dc "[:alpha:]" | tr '[:upper:]' '[:lower:]' | head -c 10)
+      aws s3 mb s3://$S3_BUCKET
+      aws s3api put-public-access-block \
+      --bucket $S3_BUCKET \
+      --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+      echo $S3_BUCKET
+      ```
 
 * **Set up environment variables**
 
-`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are the AWS profile credentials for the user who have created the above S3 bucket.
+`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are the AWS profile credentials for the user who has created the above S3 bucket.
 
 {{< output >}}
 export S3_BUCKET=<your_s3_bucket>
@@ -32,7 +59,7 @@ export AWS_SECRET_ACCESS_KEY=<your_secret_access_key>
 
 * **Configure persistentStorage**
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig.config`.
+Open the `SpinnakerService` manifest located at `deploy/spinnaker/basic/spinnakerservice.yml`, then update the section `spec.spinnakerConfig.config` as below.
 
 {{< output >}}
   persistentStorage:
@@ -52,6 +79,13 @@ Amazon ECR requires access tokens to access the images and those access tokens e
 The sidecar needs to be able to request an access token from ECR. The Spinnaker installation must have the `AmazonEC2ContainerRegistryReadOnly` policy attached to the role assigned in order to request and update the required access token.
 
 - **Create ECR Repository**
+
+Clone Application Git Repo
+```
+cd ~/environment
+git clone https://github.com/aws-containers/eks-microservice-demo.git
+cd eks-microservice-demo
+```
 
 We need to push a test container image to the newly created ECR repository. The resaon being, empty ECR respository does not show up in the Spinnaker UI when we set up the trigger in pipeline.
 
@@ -94,7 +128,7 @@ kubectl describe configmap token-refresh-config -n spinnaker
 
 * **Add a sidecar for token refresh**
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig.config`.
+Open the `SpinnakerService` manifest located under `deploy/spinnaker/basic/spinnakerservice.yml`, then add the below snippet under `spec.spinnakerConfig.config`.
 
 {{< output >}}
       deploymentEnvironment:
@@ -110,21 +144,22 @@ Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnaker
 
 * **Define an ECR Registry**
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig.profiles`.
+Open the `SpinnakerService` manifest located under `deploy/spinnaker/basic/spinnakerservice.yml`, then add the below section under `spec.spinnakerConfig`.
 
 {{< output >}}
-      clouddriver:
-        dockerRegistry:
-          enabled: true
-          primaryAccount: my-ecr-registry
-          accounts:
-          - name: my-ecr-registry
-            address: https://$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-            username: AWS
-            passwordFile: /etc/passwords/my-ecr-registry.pass
-            trackDigests: true
-            repositories:
-            - $ECR_REPOSITORY
+      profiles:
+        clouddriver:
+          dockerRegistry:
+            enabled: true
+            primaryAccount: my-ecr-registry
+            accounts:
+            - name: my-ecr-registry
+              address: https://$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+              username: AWS
+              passwordFile: /etc/passwords/my-ecr-registry.pass
+              trackDigests: true
+              repositories:
+              - $ECR_REPOSITORY
  {{< /output >}}
 
 #### Configure Igor
@@ -133,7 +168,7 @@ Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnaker
 
 [Clouddriver](https://github.com/spinnaker/clouddriver) can be configured to poll the ECR registries. When that is the case, igor can then create a poller that will list the registries indexed by clouddriver, check each one for new images and submit events to echo (hence allowing Docker triggers)
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig.profiles`.
+Open the `SpinnakerService` manifest located under `deploy/spinnaker/basic/spinnakerservice.yml`, then add the below section to `spec.spinnakerConfig.profiles`.
 
 {{< output >}}
       igor:
@@ -143,7 +178,7 @@ Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnaker
 
 #### Add GitHub Repository
 
-* **Set up environment variablesß**
+* **Set up environment variables**
 
 {{< output >}}
 export GITHUB_USER=<your_github_username>
@@ -154,7 +189,7 @@ export GITHUB_TOKEN=<your_github_accesstoken>
 
 To access a GitHub repo as a source of artifacts. If you actually want to use a file from the GitHub commit in your pipeline, you’ll need to configure GitHub as an artifact source in Spinnaker.
 
-Open the `SpinnakerService` manifest located at deploy/spinnaker/basic/spinnakerservice.yml, then add the below section under `spec.spinnakerConfig.config`.
+Open the `SpinnakerService` manifest located under `deploy/spinnaker/basic/spinnakerservice.yml`, then add the below under section `spec.spinnakerConfig.config`.
 
 {{< output >}}
       features:

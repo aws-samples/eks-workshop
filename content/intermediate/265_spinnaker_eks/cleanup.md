@@ -4,30 +4,34 @@ weight: 70
 draft: false
 ---
 
-Congratulations on completing the Continuous Deployment with ArgoCD module.
+#### Delete Spinnaker artifacts
+{{% notice info %}}
+Namespace deletion may take few minutes, please wait till the process completes.
+{{% /notice %}}
+```bash
+for i in $(kubectl get crd | grep spinnaker | cut -d" " -f1) ; do
+kubectl delete crd $i
+done
 
-This module is not used in subsequent steps, so you can remove the resources now, or at the end of the workshop:
-```
-argocd app delete ecsdemo-nodejs
-watch argocd app get ecsdemo-nodejs
-```
+kubectl delete ns spinnaker-operator
 
-Wait until all ressources are cleared with this message:
-```
-FATA[0000] rpc error: code = NotFound desc = applications.argoproj.io "ecsdemo-nodejs" not found 
-```
+kubectl delete ns spinnaker
 
-And then delete ArgoCD from your cluster:
-
-```
-kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl delete ns detail
 ```
 
-Delete namespaces created for this chapter:
-
+#### (Optional) Create Old Nodegroup
+In case you have existing workloads to evit to this nodegroup before we delete the nodegroup created for this chapter
+{{% notice info %}}
+Nodegroup creation will take few minutes.
+{{% /notice %}}
+```bash
+eksctl create nodegroup --cluster=eksworkshop-eksctl --name=nodegroup --nodes=3 --node-type=t3.small --enable-ssm --managed
 ```
-kubectl delete ns argocd
-kubectl delete ns ecsdemo-nodejs
+
+#### Delete Nodegroup
+```bash
+eksctl delete nodegroup --cluster=eksworkshop-eksctl --name=spinnaker
 ```
 
-You may also delete the cloned repository `ecsdemo-nodejs` within your GitHub account.
+

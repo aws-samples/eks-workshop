@@ -17,9 +17,9 @@ The Operator unlocks the scalability of a GitOps workflow by defining Spinnaker 
 
 More details on the benefits of Sipnnaker Operator can be found in [Armory Docs](https://www.armory.io/spinnaker-community/spinnaker-operator/)
 
-#### Prequisite
+#### PreRequisite
 
-* Here we are using Cloud9 IDE whcih is setup based on the instructions from [eksworkshop](/020_prerequisites/)
+* We assume that we have an existing EKS Cluster eksworkshop-eksctl created from [EKS Workshop](/030_eksctl/launcheks/).
 
 * We also assume that we have [increased the disk size on your Cloud9 instance](/020_prerequisites/workspace/#increase-the-disk-size-on-the-cloud9-instance) as we need to build docker images for our application.
 
@@ -57,6 +57,9 @@ export AWS_REGION=<your_aws_region>
 #### EKS cluster setup
 
 We need bigger instance type for installing spinnaker services, hence we are creating new EKS cluster.
+{{% notice info %}}
+We are also deleting the existng nodegroup `nodegroup` that was created as part of cluster creation as we need Spinnaker Operator to create the services in the new nodegroup `spinnaker`
+{{% /notice %}}
 ```
 cat << EOF > spinnakerworkshop.yaml
 ---
@@ -64,46 +67,51 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: spinnaker-workshop
+  name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: "1.19"
 
-availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
-
+# https://eksctl.io/usage/eks-managed-nodegroups/
 managedNodeGroups:
-- name: spinnaker
-  desiredCapacity: 3
-  instanceType: m5.large
-  ssh:
-    enableSsm: true
-
-# To enable all of the control plane logs, uncomment below:
-cloudWatch:
-  clusterLogging:
-    enableTypes: ["*"]
-
-secretsEncryption:
-  keyARN: ${MASTER_ARN}
+  - name: spinnaker
+    minSize: 2
+    maxSize: 3
+    desiredCapacity: 3
+    instanceType: m5.large
+    ssh:
+      enableSsm: true
+    volumeSize: 20
+    labels: {role: spinnaker}
+    tags:
+      nodegroup-role: spinnaker
 EOF
 
- eksctl create cluster -f spinnakerworkshop.yaml
+eksctl create nodegroup -f spinnakerworkshop.yaml
+eksctl delete nodegroup --cluster=eksworkshop-eksctl --name=nodegroup
+
 ```
 {{< output >}}
 .....
 .....
 .....
-2021-04-19 17:13:44 [✔]  EKS cluster "spinnaker-workshop" in "us-west-2" region is ready
+2021-05-20 16:45:15 [ℹ]  waiting for at least 2 node(s) to become ready in "spinnaker"
+2021-05-20 16:45:15 [ℹ]  nodegroup "spinnaker" has 3 node(s)
+2021-05-20 16:45:15 [ℹ]  node "ip-192-y-x-184.${AWS_REGION}.compute.internal" is ready
+2021-05-20 16:45:15 [ℹ]  node "ip-192-y-x-128.${AWS_REGION}.compute.internal" is ready
+2021-05-20 16:45:15 [ℹ]  node "ip-192-y-x-105.${AWS_REGION}.compute.internal" is ready
+2021-05-20 16:45:15 [✔]  created 1 managed nodegroup(s) in cluster "eksworkshop-eksctl"
+2021-05-20 16:45:16 [ℹ]  checking security group configuration for all nodegroups
+2021-05-20 16:45:16 [ℹ]  all nodegroups have up-to-date configuration
 {{< /output >}}
 
-* Confirm the setup
+Confirm the setup
 ```
 kubectl get nodes
 ```
 {{< output >}}
 NAME                                           STATUS   ROLES    AGE     VERSION
-ip-192-yy-21-xx.us-west-2.compute.internal   Ready    <none>   4m45s   v1.19.6-eks-49a6c0
-ip-192-yy-59-xx.us-west-2.compute.internal   Ready    <none>   4m37s   v1.19.6-eks-49a6c0
-ip-192-yy-87-xx.us-west-2.compute.internal    Ready    <none>   4m47s   v1.19.6-eks-49a6c0
+ip-192-y-x-184.${AWS_REGION}.compute.internal   Ready    <none>   4m45s   v1.17.12-eks-7684af
+ip-192-y-x-128.${AWS_REGION}.compute.internal   Ready    <none>   4m37s   v1.17.12-eks-7684af
+ip-192-y-x-105.${AWS_REGION}.compute.internal    Ready    <none>   4m47s   v1.17.12-eks-7684afå
 {{< /output >}}
 
 
@@ -146,7 +154,9 @@ serviceaccount/spinnaker-operator created
 {{< /output >}}
 
 Make sure the Spinnaker-Operator pod is running
-
+{{% notice info %}}
+This may take couple of minutes
+{{% /notice %}}
 ```
 kubectl get pod -n spinnaker-operator
 ```

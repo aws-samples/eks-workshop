@@ -9,7 +9,7 @@ draft: false
 You can also see the detailed architecture of spinnaker at [Armory docs](https://docs.armory.io/docs/overview/architecture/).
 
 ![architecture](/images/spinnnaker/architecture.png)
-Image source:https://dzone.com/articles/new-way-of-cicd-in-kubernetes-with-jenkins-and-spi 
+Image source:https://docs.armory.io/docs/overview/architecture/
 
 **Deck**: Browser-based UI for Spinnaker.
 
