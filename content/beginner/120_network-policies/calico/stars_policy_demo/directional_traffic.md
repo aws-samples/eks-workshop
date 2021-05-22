@@ -34,7 +34,9 @@ spec:
 **After reviewing the manifest, you'll see we have intentionally left few of the configuration fields for you to EDIT. Please edit the configuration as suggested. You can find helpful info in this [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/)**
 
 {{%expand "Expand here to see the solution" %}}
-{{< output >}}
+
+
+```
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -52,7 +54,7 @@ spec:
       ports:
         - protocol: TCP
           port: 6379
-{{< /output >}}
+```
 {{% /expand %}}
 
 Let's examine the frontend policy with `cat frontend-policy.yaml`:
@@ -77,8 +79,9 @@ spec:
 #### Challenge:
 **Please edit the configuration as suggested. You can find helpful info in this [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/)**
 
-{{% expand "Expand here to see the solution" %}}
-{{< output >}}
+{{%expand "Expand here to see the solution" %}}
+
+```
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -96,7 +99,8 @@ spec:
       ports:
         - protocol: TCP
           port: 80
-{{< /output >}}
+```
+
 {{% /expand %}}
 To allow traffic from frontend service to the backend service apply the following manifest:
 
