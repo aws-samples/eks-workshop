@@ -53,7 +53,7 @@ spec:
         - protocol: TCP
           port: 6379
 {{< /output >}}
-{{% /expand% }}
+{{% /expand %}}
 
 Let's examine the frontend policy with `cat frontend-policy.yaml`:
 
