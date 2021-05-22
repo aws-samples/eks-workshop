@@ -35,7 +35,57 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 `eksctl` version must be 0.48.0 or above to deploy EKS 1.19, [click here](/030_eksctl/prerequisites) to get the latest version.
 {{% /notice %}}
 
-Create your cluster using the following syntax:
+`eksctl` allows you to create cluster two ways.
+
+>### Option 1: Cluster configuration file (recommended)
+
+Cluster configuration file uses YAML file to represent EKS cluster properties and options to fine tune cluster behavior. Please see official documentation for schema of [cluster configuration](https://eksctl.io/usage/schema/) file.
+
+Lets create eksctl configuration file for cluster deployment
+
+```bash
+cat << EOF > eksworkshop.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+  version: "1.19"
+
+availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
+
+managedNodeGroups:
+- name: nodegroup
+  desiredCapacity: 3
+  instanceType: t3.small
+  ssh:
+    enableSsm: true
+
+secretsEncryption:
+  keyARN: ${MASTER_ARN}
+EOF
+```
+
+Next, use the file you created as the input for the `eksctl` cluster creation.
+
+{{% notice info %}}
+Launching EKS and all the dependencies will take approximately 15 minutes
+{{% /notice %}}
+
+```bash
+eksctl create cluster -f eksworkshop.yaml
+```
+{{% notice info %}}
+Launching EKS and all the dependencies will take approximately 15 minutes
+{{% /notice %}}
+
+>### Option 2: Create cluster using `eksctl` cli.
+
+{{% notice info %}}
+We recommend creating cluster using configuration file. It will allow you to store configuration file in source control and keep track of changes to cluster overtime. Infrastructure as code (IaC) is preferred over manual changs.
+{{% /notice %}}
 
 ```bash
 eksctl create cluster \
@@ -51,17 +101,6 @@ eksctl create cluster \
 --managed
 ```
 
-Here we are creating EKS cluster with managed nodes by specifying `--managed` flag. It is good practice to tag resources in AWS for easier maintenance and cost allocation purpose. `--tags` option will propagate tags to ec2 instances and ebs volumes in cluster.
-`eksctl` utility supports many other options to fine tune cluster, see [official documentation](https://eksctl.io/introduction/) to learn more about eksctl.
-
-{{% notice info %}}
-We are deliberatly launching one version behind the latest (1.19 vs. 1.20) to allow you to perform a cluster upgrade in one of the Chapters.
-{{% /notice %}}
-
-{{% notice info %}}
-Launching EKS and all the dependencies will take approximately 15 minutes
-{{% /notice %}}
-
 Kubernetes secrets are just base64 encoded strings. It is highly recommended to encrypt secrets using trusted and secure encryption service. 
 Next, we will enable kubernetes secrets encryption using AWS KMS. It will also encrypt existing secrets in cluster.
  
@@ -73,3 +112,26 @@ eksctl utils enable-secrets-encryption \
 --key-arn "${MASTER_ARN}" \
 --approve
 ```
+
+Here we are creating EKS cluster with managed nodes by specifying `--managed` flag. It is good practice to tag resources in AWS for easier maintenance and cost allocation purpose. `--tags` option will propagate tags to ec2 instances and ebs volumes in cluster.
+`eksctl` utility supports many other options to fine tune cluster, see [official documentation](https://eksctl.io/introduction/) to learn more about eksctl.
+
+We can also generate cluster configuration file using cli by using `--dry-run` flag, which will be a good starting point for custom configuration file.
+
+```bash
+eksctl create cluster \
+--name eksworkshop-eksctl \
+--version 1.19 \
+--tags cluster-type=workshop,department=dev \
+--region "${AWS_REGION}" \
+--zones "${AZS[0]},${AZS[1]},${AZS[2]}" \
+--nodes 3 \
+--node-type t3.medium \
+--node-private-networking \
+--enable-ssm \
+--managed \
+--dry-run
+```
+
+This will generate eksctl configuration file similar to one we stored in eksworkshop.yaml earlier.
+
