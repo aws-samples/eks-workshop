@@ -35,9 +35,9 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 `eksctl` version must be 0.48.0 or above to deploy EKS 1.19, [click here](/030_eksctl/prerequisites) to get the latest version.
 {{% /notice %}}
 
-`eksctl` allows you to create cluster two ways.
+`eksctl` allows you to create cluster in two ways.
 
->### Option 1: Cluster configuration file (recommended)
+>#### Option 1: Cluster configuration file (recommended)
 
 Cluster configuration file uses YAML file to represent EKS cluster properties and options to fine tune cluster behavior. Please see official documentation for schema of [cluster configuration](https://eksctl.io/usage/schema/) file.
 
@@ -81,7 +81,7 @@ eksctl create cluster -f eksworkshop.yaml
 Launching EKS and all the dependencies will take approximately 15 minutes
 {{% /notice %}}
 
->### Option 2: Create cluster using `eksctl` cli.
+>#### Option 2: Create cluster using `eksctl` cli.
 
 {{% notice info %}}
 We recommend creating cluster using configuration file. It will allow you to store configuration file in source control and keep track of changes to cluster overtime. Infrastructure as code (IaC) is preferred over manual changs.
