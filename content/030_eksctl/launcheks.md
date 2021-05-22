@@ -39,7 +39,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 >#### Option 1: Cluster configuration file (recommended)
 
-Cluster configuration file uses YAML file to represent EKS cluster properties and options to fine tune cluster behavior. Please see official documentation for schema of [cluster configuration](https://eksctl.io/usage/schema/) file.
+Cluster configuration file uses YAML file to represent EKS cluster properties and options to fine tune cluster behavior. See official documentation for schema of [cluster configuration](https://eksctl.io/usage/schema/) and [example configuration](https://github.com/weaveworks/eksctl/tree/main/examples) files.
 
 Lets create eksctl configuration file for cluster deployment
 
