@@ -53,6 +53,9 @@ metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
   version: "1.19"
+  tags:
+    cluster-type: workshop
+    department: dev
 
 availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
 
@@ -95,8 +98,7 @@ eksctl create cluster \
 --region "${AWS_REGION}" \
 --zones "${AZS[0]},${AZS[1]},${AZS[2]}" \
 --nodes 3 \
---node-type t3.medium \
---node-private-networking \
+--node-type t3.small \
 --enable-ssm \
 --managed
 ```
@@ -126,8 +128,7 @@ eksctl create cluster \
 --region "${AWS_REGION}" \
 --zones "${AZS[0]},${AZS[1]},${AZS[2]}" \
 --nodes 3 \
---node-type t3.medium \
---node-private-networking \
+--node-type t3.small \
 --enable-ssm \
 --managed \
 --dry-run
