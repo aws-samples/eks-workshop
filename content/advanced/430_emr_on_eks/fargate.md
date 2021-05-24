@@ -2,7 +2,7 @@
 title: "Serverless EMR job"
 date: 2021-05-19T04:02:10+10:00
 weight: 60
-draft: true
+draft: false
 ---
 
 ### Submit job to AWS Fargate
@@ -18,7 +18,7 @@ eksctl create fargateprofile --cluster eksworkshop-eksctl --name emr --namespace
 
 ```
 
-The sample job was built in a [Jupyter notebook](https://raw.githubusercontent.com/aws-samples/sql-based-etl-on-amazon-eks/main/emr-on-eks/green_taxi_load.ipynb), so you use the '`notebook`' job type to tag the Spark pods. The configuration looks like this:
+The sample job was built in a [Jupyter notebook](https://raw.githubusercontent.com/aws-samples/sql-based-etl-on-amazon-eks/main/emr-on-eks/green_taxi_load.ipynb), so you use the '`notebook`' job type to tag the Spark pods. Ensure they are hosted by the serverless compute engine AWS Fargate only. The configuration looks like this:
 
 ```yaml
 --conf spark.kubernetes.driver.label.type=notebook 
