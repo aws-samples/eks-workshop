@@ -28,8 +28,6 @@ nodeSelector:
 Our deployment file already has the proper node selectors so you won't have to add them yourself.
 {{% /notice %}}
 
-{{%attachments title="Related files" pattern=".yaml"/%}}
-
 ### Deploy a Windows sample application
 
 We are now ready to deploy our Windows IIS container
