@@ -13,9 +13,7 @@ As an example, we will define three profiles.
 #### Add in `~/.aws/config`:
 
 ```bash
-if [ ! -d ~/.aws ]; then
-  mkdir ~/.aws
-fi
+mkdir -p ~/.aws
 
 cat << EoF >> ~/.aws/config
 [profile admin]
