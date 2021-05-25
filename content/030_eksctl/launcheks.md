@@ -32,7 +32,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 ### Create an EKS cluster
 
 {{% notice warning %}}
-`eksctl` version must be 0.48.0 or above to deploy EKS 1.19, [click here](/030_eksctl/prerequisites) to get the latest version.
+`eksctl` version must be 0.48.0 or above to deploy EKS 1.17, [click here](/030_eksctl/prerequisites) to get the latest version.
 {{% /notice %}}
 
 `eksctl` allows you to create cluster in two ways.
@@ -52,7 +52,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: "1.19"
+  version: "1.17"
   tags:
     cluster-type: workshop
     department: dev
@@ -93,7 +93,7 @@ We recommend creating cluster using configuration file. It will allow you to sto
 ```bash
 eksctl create cluster \
 --name eksworkshop-eksctl \
---version 1.19 \
+--version 1.17 \
 --tags cluster-type=workshop,department=dev \
 --region "${AWS_REGION}" \
 --zones "${AZS[0]},${AZS[1]},${AZS[2]}" \
@@ -123,7 +123,7 @@ We can also generate cluster configuration file using cli by using `--dry-run` f
 ```bash
 eksctl create cluster \
 --name eksworkshop-eksctl \
---version 1.19 \
+--version 1.17 \
 --tags cluster-type=workshop,department=dev \
 --region "${AWS_REGION}" \
 --zones "${AZS[0]},${AZS[1]},${AZS[2]}" \
