@@ -30,19 +30,36 @@ For example, a single node group can be configured with: **m5**.xlarge, **m4**.x
 {{% /notice %}}
 
 
-We will now create a managed node group with Spot Instances, using the `--spot` option in `eksctl create nodegroup` command.
+We will now create a managed node group with Spot Instances, let's create a config file (addnodegroup-spot.yaml) with details of a new managed node group. 
 
-```bash
-eksctl create nodegroup \
-  --cluster=eksworkshop-eksctl --region=${AWS_REGION} \
-  --managed \
-  --spot \
-  --name=emrnodegroup-spot \
-  --instance-types=m5.xlarge,m4.xlarge,m5d.xlarge,m5a.xlarge,m5ad.xlarge,m5n.xlarge,m5dn.xlarge \
-  --nodes-min=1 \
-  --nodes-max=10 \
-  --enable-ssm=true
+```sh
+cat << EOF > addnodegroup-spot.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+
+managedNodeGroups:
+- name: emrnodegroup-spot
+  minSize: 1
+  desiredCapacity: 3
+  maxSize: 10
+  instanceTypes: ["m5.xlarge","m4.xlarge","m5d.xlarge","m5n.xlarge","m5dn.xlarge","m5a.xlarge","m5ad.xlarge"]
+  spot: true
+  ssh:
+    enableSsm: true
+
+EOF
 ```
+Create the new EKS managed nodegroup. 
+
+```sh
+eksctl create nodegroup --config-file=addnodegroup-spot.yaml
+```
+
 You can use the **eks.amazonaws.com/capacityType** label to identify the lifecycle of the nodes. The output of this command should return nodes with the **capacityType** set to **SPOT**.
 
 ```bash

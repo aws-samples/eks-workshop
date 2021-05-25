@@ -37,4 +37,7 @@ kubectl delete namespace spark
 eksctl delete nodegroup --cluster=eksworkshop-eksctl --region=${AWS_REGION} --name=emrnodegroup
 eksctl delete nodegroup --cluster=eksworkshop-eksctl --region=${AWS_REGION} --name=emrnodegroup-spot
 
+eksctl delete nodegroup --config-file=addnodegroup.yaml --approve
+eksctl delete nodegroup --config-file=addnodegroup-spot.yaml --approve
+
 ```
