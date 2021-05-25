@@ -54,7 +54,7 @@ managedNodeGroups:
 
 EOF
 ```
-Create the new EKS managed nodegroup. 
+Create the new EKS managed nodegroup with Spot Instances. 
 
 ```sh
 eksctl create nodegroup --config-file=addnodegroup-spot.yaml
