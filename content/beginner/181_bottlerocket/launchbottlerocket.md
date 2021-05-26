@@ -1,6 +1,6 @@
 ---
 title: "Launch Bottlerocket"
-date: 2018-08-07T13:34:24-07:00
+date: 2021-05-26T00:00:00-03:00
 weight: 20
 ---
 
@@ -52,16 +52,39 @@ Next, use the file you created as the input for the eksctl cluster update.
 eksctl create nodegroup -f eksworkshop_bottlerocket.yaml
 ```
 
-Confirm your nodes
-```
-kubectl get nodes # if we see our 6 nodes, we know we have deployed bottlerocket correctly
-```
 
 {{% notice info %}}
-It's possible to have a cluster with both managed and unmanaged nodegroups. Unmanaged nodegroups do not show up in the AWS EKS console but eksctl get nodegroup will list both types of nodegroups.
+Launching Bottlerocket nodes will take approximately 10 minutes
 {{% /notice %}}
+
+Output: 
+{{< output >}}
+2021-05-26 16:23:34 [ℹ]  node "ip-192-168-36-124.us-east-2.compute.internal" is ready
+2021-05-26 16:23:34 [ℹ]  node "ip-192-168-4-14.us-east-2.compute.internal" is ready
+2021-05-26 16:23:34 [ℹ]  node "ip-192-168-87-9.us-east-2.compute.internal" is ready
+{{< /output >}}
+
+Next, run the following command to list all the nodes in the EKS cluster and you should see output as follows:
+
+```bash
+kubectl get nodes
+```
+
+Output:
+{{< output >}}
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-21-9.us-east-2.compute.internal     Ready    <none>   8h   v1.17.12-eks-7684af
+ip-192-168-36-124.us-east-2.compute.internal   Ready    <none>   72s   v1.17.17
+ip-192-168-4-14.us-east-2.compute.internal     Ready    <none>   71s   v1.17.17
+ip-192-168-42-0.us-east-2.compute.internal     Ready    <none>   8h   v1.17.12-eks-7684af
+ip-192-168-71-214.us-east-2.compute.internal   Ready    <none>   8h   v1.17.12-eks-7684af
+ip-192-168-87-9.us-east-2.compute.internal     Ready    <none>   71s   v1.17.17
+{{< /output >}}
+
+Your cluster now has 6 worker nodes, 3 of them are using Bottlerocket in an unmanaged nodegroup.
+
+Unmanaged nodegroups do not show up in the AWS EKS console but eksctl get nodegroup will list both types of nodegroups.
 
 #### Congratulations!
 
 You now have a fully working Amazon EKS Cluster with Bottlerocket nodes that is ready to use!
-
