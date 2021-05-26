@@ -1,0 +1,1 @@
+Ref: https://github.com/bottlerocket-os/bottlerocket/blob/develop/QUICKSTART-EKS.md#launch
