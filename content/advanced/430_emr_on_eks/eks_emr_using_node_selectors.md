@@ -45,7 +45,9 @@ eksctl create nodegroup --config-file=addnodegroup-nytaxi.yaml
 
 ### Spark Pod Template 
 
-Next, you will create a pod template for Spark Executor. Here, we are specifying nodeSelector as eks.amazonaws.com/nodegroup: emr-ny-taxi and topology.kubernetes.io/zone: us-west-2a. This will ensure that spark executors are running in a single AZ (us-west-2 in this example) and are part of nodegroup which we created for analyzing New York taxi dataset.
+Next, you will create a pod template for Spark Executor. Here, we are specifying nodeSelector as eks.amazonaws.com/nodegroup: emr-ny-taxi and topology.kubernetes.io/zone: us-west-2a. This will ensure that spark executors are running in a single AZ (us-west-2 in this example) and are part of nodegroup which we created for analyzing New York taxi dataset. 
+
+We chose us-west-2 as this example was ran in Oregon. If you are running in a different region, make sure that the correct zone is selected.
 
 ```sh
 cat > spark_executor_nyc_taxi_template.yml <<EOF 
@@ -227,7 +229,7 @@ The results of the spark job are avilable in CloudWatch under log group "/emr-on
 
 As we can see, for yellow cabs, the most famous pickup locations are "132" and "138" for both 2019 and 2020. "132" and "138" are the codes for JFK and LaGuardia airports. The code to location mapping is defined at https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page under "Taxi Zone Lookup Table".
 
-Even though, "132"/JFK is the busiest location for both 2019 and 2020, we can see the significant drop in traffic due to covid-19. For 2019, the cumulative distance travelled by all yellow cabs from JFK as a pickup location was 41.1 million miles. The number dropped to 9 million miles for 2020. 
+"132"/JFK is the busiest location for both 2019 and 2020 and we can see the significant drop in traffic due to covid-19. For 2019, the cumulative distance travelled by all yellow cabs from JFK as a pickup location was 41.1 million miles. The number dropped to 9 million miles for 2020. 
 
 Similarly, the total distance travelled for second most busiest pick up location (138/LaGuardia) dropped from 19.8 million miles to 3.6 million miles. 
 
