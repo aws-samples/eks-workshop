@@ -1,32 +1,51 @@
 ---
-title: "Example - Running Spark jobs on NY Taxi Data"
+title: "Using Node Selectors"
 date: 2021-05-19T10:30:14-04:00
 weight: 61
 draft: true
 ---
 
-In this chater, you will use spark jobs running on EKS to analyze the New York City Taxi and Limousine Commision (TLC) Trip Record Data . The data is available at Registry of Open Data on AWS at https://registry.opendata.aws/nyc-tlc-trip-records-pds/ . For calendar years 2019 and 2020, you will calculate top-10 pickup locations in New York area based on total amount of distance travelled by the taxi's.  
+AWS EKS clusters can span multiple AZs in a VPC. A Spark application whose driver and executor pods are distributed across multiple AZs can incur inter-AZ data transfer costs. To minimize or eliminate inter-AZ data transfer costs, you can configure the application to only run on the nodes within a single AZ. In this example, we use the kubernetes node selector "topology.kubernetes.io/zone" to specify which AZ should the job run on.
 
-
-You can find more details about Yellow Cabs and Green Cabs at https://www1.nyc.gov/site/tlc/businesses/yellow-cab.page and https://www1.nyc.gov/site/tlc/businesses/green-cab.page.
+You will use spark jobs running on EKS to analyze the New York City Taxi and Limousine Commision (TLC) Trip Record Data .  For calendar years 2019 and 2020, you will calculate top-10 pickup locations in New York area based on total amount of distance travelled by the taxi's. The data is available at Registry of Open Data on AWS at https://registry.opendata.aws/nyc-tlc-trip-records-pds/. 
 
 
 ### Creating Nodegroup
 
-Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes (Amazon EC2 instances) for Amazon EKS Kubernetes clusters. All managed nodes are provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS. All resources including the instances and Auto Scaling groups run within your AWS account. Each node group run across multiple Availability Zones that you define. 
+Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes (Amazon EC2 instances) for Amazon EKS Kubernetes clusters. All managed nodes are provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS. All resources including the instances and Auto Scaling groups run within your AWS account. Each node group run across multiple Availability Zones that you define.
 
-We always recommend our customers to use multiple AZs (Availability Zones) for building services with high availability and fault tolerance. Sometimes for certain analytics scenarios, where you are processing vast amounts of data in Spark and wish to minimize the inter-AZ data transfer charges between Spark executors, you may provision your managed nodegroup in a single AZ.
-
-Lets create a managed nodegroup called emr-ny-taxi. Please note that for this example all the nodes will be provisioned in a single zone in a private subnet. 
-
+We will now create a managed node group for our example, let’s create a config file (addnodegroup-nytaxi.yaml) with details of a new managed node group. 
 
 ```sh
-eksctl create nodegroup --cluster=eksworkshop-eksctl --region=${AWS_REGION} --managed --name=emr-ny-taxi --instance-types=m5.xlarge --nodes-min=3 --nodes-max=3 --node-zones=${AZS[0]} --node-private-networking 
+cat << EOF > addnodegroup-nytaxi.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: ${AWS_REGION}
+
+managedNodeGroups:
+- name: emr-ny-taxi
+  minSize: 6
+  desiredCapacity: 6
+  maxSize: 6
+  instanceType: m5.xlarge
+  ssh:
+    enableSsm: true
+EOF
+```
+
+Create the new EKS managed nodegroup. This node group will have 6 EC2s running across three AZs. 
+
+```sh
+eksctl create nodegroup --config-file=addnodegroup-nytaxi.yaml
 ```
 
 ### Spark Pod Template 
 
-Next, you will create a pod template for Spark Executor. Here, we are specifying nodeSelector as eks.amazonaws.com/nodegroup: emr-ny-taxi.
+Next, you will create a pod template for Spark Executor. Here, we are specifying nodeSelector as eks.amazonaws.com/nodegroup: emr-ny-taxi and topology.kubernetes.io/zone: us-west-2a. This will ensure that spark executors are running in a single AZ (us-west-2 in this example) and are part of nodegroup which we created for analyzing New York taxi dataset.
 
 ```sh
 cat > spark_executor_nyc_taxi_template.yml <<EOF 
@@ -40,12 +59,13 @@ spec:
       emptyDir: {}
   nodeSelector:
     eks.amazonaws.com/nodegroup: emr-ny-taxi
+    topology.kubernetes.io/zone: us-west-2a
   containers:
   - name: spark-kubernetes-executor # This will be interpreted as Spark executor container
 EOF
 ```
 
-Next, you will create a pod template for Spark Driver. Here, we are specifying nodeSelector as eks.amazonaws.com/nodegroup: emr-ny-taxi.
+Next, you will create a pod template for Spark Driver. Here, we are specifying nodeSelector as eks.amazonaws.com/nodegroup: emr-ny-taxi and topology.kubernetes.io/zone: us-west-2a. The Spark Driver pods will run in the same AZ as Spark executor pods.
 
 ```sh
 cat > spark_driver_nyc_taxi_template.yml <<EOF 
@@ -59,13 +79,13 @@ spec:
       emptyDir: {}
   nodeSelector:
     eks.amazonaws.com/nodegroup: emr-ny-taxi
+    topology.kubernetes.io/zone: us-west-2a
   containers:
   - name: spark-kubernetes-driver # This will be interpreted as Spark driver container
 EOF
 ```
 
 Lets create a nytaxi.py file which will have spark code for analyzing the data set. 
-
 
 ```sh
 cat << EOF > nytaxi.py
@@ -188,7 +208,7 @@ Finally, let's trigger the Spark job
 aws emr-containers start-job-run --cli-input-json file://request-nytaxi.json
 ```
 
-The spark job will run for around 5 minutes. You can watch the EKS pods using below command
+The spark job will run for around 5-7 minutes. You can watch the EKS pods using below command
 
 ```sh
 watch kubectl get pods -n spark
@@ -216,10 +236,4 @@ Similarly, the total distance travelled for second most busiest pick up location
 For Green Cabs, top two locations in 2019 were "74" and "75" in 2019. This changed to "254" and "235" in 2020. 
 
 ![CloudWatch Green Cab Result](/images/emr-on-eks/green-cab-nyc.png)
-
-
-
-
-
-
 
