@@ -105,9 +105,9 @@ kubectl -n mysql  get pvc -l app=mysql
 
 {{< output >}}
 NAME           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-data-mysql-0   Bound    pvc-fdb74a5e-ba51-4ccf-925b-e64761575059   10Gi       RWO            mysql-gp2      18m
-data-mysql-1   Bound    pvc-355b9910-c446-4f66-8da6-629989a34d9a   10Gi       RWO            mysql-gp2      17m
-data-mysql-2   Bound    pvc-12c304e4-2b3e-4621-8521-0dc17f41d107   10Gi       RWO            mysql-gp2      9m35s
+data-mysql-0   Bound    pvc-fdb74a5e-ba51-4ccf-925b-e64761575059   10Gi       RWO            mysql-gp3      18m
+data-mysql-1   Bound    pvc-355b9910-c446-4f66-8da6-629989a34d9a   10Gi       RWO            mysql-gp3      17m
+data-mysql-2   Bound    pvc-12c304e4-2b3e-4621-8521-0dc17f41d107   10Gi       RWO            mysql-gp3      9m35s
 {{< /output >}}
 
 ## Challenge
@@ -140,9 +140,9 @@ kubectl get persistentvolume
 
 {{< output >}}
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                STORAGECLASS   REASON   AGE
-pvc-12c304e4-2b3e-4621-8521-0dc17f41d107   10Gi       RWO            Retain           Bound    mysql/data-mysql-2   mysql-gp2               9m51s
-pvc-355b9910-c446-4f66-8da6-629989a34d9a   10Gi       RWO            Delete           Bound    mysql/data-mysql-1   mysql-gp2               18m
-pvc-fdb74a5e-ba51-4ccf-925b-e64761575059   10Gi       RWO            Delete           Bound    mysql/data-mysql-0   mysql-gp2               18m
+pvc-12c304e4-2b3e-4621-8521-0dc17f41d107   10Gi       RWO            Retain           Bound    mysql/data-mysql-2   mysql-gp3               9m51s
+pvc-355b9910-c446-4f66-8da6-629989a34d9a   10Gi       RWO            Delete           Bound    mysql/data-mysql-1   mysql-gp3               18m
+pvc-fdb74a5e-ba51-4ccf-925b-e64761575059   10Gi       RWO            Delete           Bound    mysql/data-mysql-0   mysql-gp3               18m
 {{< /output >}}
 
 Now, if you delete the PersistentVolumeClaim data-mysql-2, you can still see the EBS volume in your AWS EC2 console, with its state as "available".
