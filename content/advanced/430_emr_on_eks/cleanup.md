@@ -39,4 +39,7 @@ eksctl delete nodegroup --cluster=eksworkshop-eksctl --region=${AWS_REGION} --na
 eksctl delete nodegroup --cluster=eksworkshop-eksctl --region=${AWS_REGION} --name=emrnodegroup-spot
 eksctl delete fargateprofile --cluster=eksworkshop-eksctl --name emr --wait
 
+eksctl delete nodegroup --config-file=addnodegroup.yaml --approve
+eksctl delete nodegroup --config-file=addnodegroup-spot.yaml --approve
+
 ```
