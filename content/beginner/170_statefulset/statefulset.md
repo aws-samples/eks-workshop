@@ -10,7 +10,7 @@ StatefulSet consists of serviceName, replicas, template and volumeClaimTemplates
 * **serviceName** is "mysql", headless service we created in previous section
 * **replicas** is 3, the desired number of pod
 * **template** is the configuration of pod
-* **volumeClaimTemplates** is to claim volume for pod based on storageClassName, `mysql-gp2` that we created in the [Define Storageclass](/beginner/170_statefulset/storageclass/) section.
+* **volumeClaimTemplates** is to claim volume for pod based on storageClassName, `mysql-gp3` that we created in the [Define Storageclass](/beginner/170_statefulset/storageclass/) section.
 
 {{% notice info %}}
 [Percona Xtrabackup](https://www.percona.com/software/mysql-database/percona-xtrabackup) is used in the template to clone source MySQL server to its followers.
@@ -81,12 +81,12 @@ Check the dynamically created PVC by following command.
 kubectl -n mysql get pvc -l app=mysql
 ```
 
-We can see `data-mysql-0`, and `data-mysql-1` have been created with the STORAGECLASS `mysql-gp2`.
+We can see `data-mysql-0`, and `data-mysql-1` have been created with the STORAGECLASS `mysql-gp3`.
 
 {{< output >}}
 NAME           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-data-mysql-0   Bound    pvc-2a9bb222-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RWO            mysql-gp2      22m
-data-mysql-1   Bound    pvc-47076f1d-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RWO            mysql-gp2      21m
+data-mysql-0   Bound    pvc-2a9bb222-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RWO            mysql-gp3      22m
+data-mysql-1   Bound    pvc-47076f1d-3fbe-11ea-94be-0aff3e98c5a0   10Gi       RWO            mysql-gp3      21m
 {{< /output >}}
 
 And now the same information from the EC2 console.

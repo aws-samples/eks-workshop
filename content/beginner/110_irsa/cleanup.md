@@ -18,4 +18,6 @@ eksctl delete iamserviceaccount \
     --wait
 
 rm -rf ~/environment/irsa/
+
+aws s3 rb s3://eksworkshop-$ACCOUNT_ID-$AWS_REGION --region $AWS_REGION --force
 ```
