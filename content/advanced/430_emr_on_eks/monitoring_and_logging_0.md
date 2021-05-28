@@ -9,11 +9,9 @@ Logs from the EMR jobs can be sent to cloudwatch and s3. In the last section of 
 
 We will run the job again now, only this time we will send the logs to s3 and cloudwatch.
 
-Let's create a cloudwatch log group and an s3 bucket before we can start sending the logs.
+Let's create a cloudwatch log group before we can start sending the logs.
 
 ```
-aws s3 mb s3://emr-eks-logs-5656
-
 aws logs create-log-group --log-group-name=/emr-on-eks/eksworkshop-eksctl
 
 ```
@@ -24,8 +22,8 @@ Now let's run the job again with logging enabled.
 cat > request.json <<EOF 
 {
     "name": "pi-4",
-    "virtualClusterId": "jokbdf64kj891f7iaaot3qo9q",
-    "executionRoleArn": "arn:aws:iam::525158249545:role/EMRContainers-JobExecutionRole",
+    "virtualClusterId": "{virtualClusterId}",
+    "executionRoleArn": "{executionRoleArn}",
     "releaseLabel": "emr-6.2.0-latest",
     "jobDriver": {
         "sparkSubmitJobDriver": {
@@ -49,16 +47,28 @@ cat > request.json <<EOF
                 "logStreamNamePrefix": "pi"
             },
             "s3MonitoringConfiguration": {
-                "logUri": "s3://emr-eks-logs-5656/"
+                "logUri": "{s3DemoBucket}/"
             }
         }
     }
 }
 EOF
 
-aws emr-containers start-job-run --cli-input-json file://request.json
+```
 
-  ```
+Next we will replace placeholder variables in the the request.json file
+```sh
+sed -i "s|{virtualClusterId}|${VIRTUAL_CLUSTER_ID}|g" request.json
+sed -i "s|{executionRoleArn}|${EMR_ROLE_ARN}|g" request.json
+sed -i "s|{s3DemoBucket}|${s3DemoBucket}|g" request.json
+```
+
+Finally, let's trigger the Spark job
+```
+aws emr-containers start-job-run --cli-input-json file://request.json
+```
+
+
 
 Output:
 
@@ -66,12 +76,10 @@ Output:
 {
     "id": "00000002u5ipstrq84e",
     "name": "pi-3",
-    "arn": "arn:aws:emr-containers:us-west-2:525158249545:/virtualclusters/jokbdf64kj891f7iaaot3qo9q/jobruns/00000002u5ipstrq84e",
+    "arn": "arn:aws:emr-containers:us-west-2:xxxxxxxxxxx:/virtualclusters/jokbdf64kj891f7iaaot3qo9q/jobruns/00000002u5ipstrq84e",
     "virtualClusterId": "jokbdf64kj891f7iaaot3qo9q"
 }
 ```
-
-
 
 
 
