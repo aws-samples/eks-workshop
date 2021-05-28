@@ -17,10 +17,10 @@ cat << EoF > ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: mysql-gp2
+  name: mysql-gp3
 provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
 parameters:
-  type: gp2
+  type: gp3
   encrypted: 'true' # EBS volumes will always be encrypted by default
 reclaimPolicy: Delete
 mountOptions:
@@ -31,10 +31,10 @@ EoF
 You can see that:
 
 * The provisioner is `ebs.csi.aws.com`.
-* The volume type is [General Purpose SSD volumes (gp2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2).
+* The volume type is [General Purpose SSD volumes (gp3)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp3).
 * The `encrypted` parameter will ensure the EBS volumes are encrypted by default.
 
-Create storageclass `mysql-gp2` by following command.
+Create storageclass `mysql-gp3` by following command.
 
 ```sh
 kubectl create -f ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
@@ -43,15 +43,15 @@ kubectl create -f ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
 You can verify the StorageClass and its options with this command.
 
 ```sh
-kubectl describe storageclass mysql-gp2
+kubectl describe storageclass mysql-gp3
 ```
 
 {{< output >}}
-Name:                  mysql-gp2
+Name:                  mysql-gp3
 IsDefaultClass:        No
 Annotations:           <none>
 Provisioner:           ebs.csi.aws.com
-Parameters:            encrypted=true,type=gp2
+Parameters:            encrypted=true,type=gp3
 AllowVolumeExpansion:  <unset>
 MountOptions:
   debug
@@ -60,7 +60,7 @@ VolumeBindingMode:  Immediate
 Events:             <none>
 {{< /output >}}
 
-We will specify `mysql-gp2` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
+We will specify `mysql-gp3` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
 
 {{< output >}}
 volumeClaimTemplates:
@@ -68,7 +68,7 @@ volumeClaimTemplates:
       name: data
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: mysql-gp2
+      storageClassName: mysql-gp3
       resources:
         requests:
           storage: 10Gi
