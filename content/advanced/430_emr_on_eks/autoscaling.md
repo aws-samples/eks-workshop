@@ -57,12 +57,6 @@ Now that we have setup Cluster Autoscale, lets test out a few ways of customizin
 
 For a sample workload, lets use the following code, which creates multiple parallel threads and waits for a few seconds to test out cluster autoscaling. 
 
-Create a s3 bucket for your sample workload.
-
-```sh
-aws s3 mb s3://emr-eks-demo-threadsleep-1212
-```
-
 ```sh
 cat << EOF > threadsleep.py
 import sys
@@ -81,7 +75,7 @@ spark.stop()
 EOF
 ```
 ```sh
-aws s3 cp threadsleep.py s3://emr-eks-demo-threadsleep-1212
+aws s3 cp threadsleep.py ${s3DemoBucket}
 ```
 
 Let's run the same inbuilt example scripts that calculates the value of pi, but this time lets increase the number of executors to 15 by modifying `spark.executor.instances`. 
@@ -101,10 +95,10 @@ aws emr-containers start-job-run \
   --release-label=emr-6.2.0-latest \
   --job-driver='{
     "sparkSubmitJobDriver": {
-      "entryPoint": "s3://emr-eks-demo-threadsleep-1212/threadsleep.py",
+      "entryPoint": "'${s3DemoBucket}'/threadsleep.py",
       "sparkSubmitParameters": "--conf spark.executor.instances=15 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
     }
-  }'\
+  }' \
   --configuration-overrides='{
   	"applicationConfiguration": [
       {
@@ -173,7 +167,7 @@ aws emr-containers start-job-run \
   --release-label=emr-6.2.0-latest \
   --job-driver='{
     "sparkSubmitJobDriver": {
-      "entryPoint": "s3://emr-eks-demo-threadsleep-1212/threadsleep.py",
+      "entryPoint": "'${s3DemoBucket}'/threadsleep.py",
       "sparkSubmitParameters": "--conf spark.executor.instances=1 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
     }
   }'\
@@ -211,4 +205,12 @@ watch kubectl get nodes
 
 You can also take a look at the spark history server to observe the event timeline for executors - where spark dynamically adds in executors and removes as they are not needed. 
 
+Navigate to the Spark history server on EMR console:
+```sh
+echo -e "Go to the URL:\nhttps://console.aws.amazon.com/elasticmapreduce/home?region="${AWS_REGION}"#virtual-cluster-jobs:"${VIRTUAL_CLUSTER_ID}
+```
+Click on `View logs`:
+![](/images/emr-on-eks/dra-spark-log.png) 
+
+Check the `Event Pipeline`:
 ![Spark History Server Event Pipeline for spark job](/images/emr-on-eks/threadsleep_dra.png)

@@ -47,7 +47,7 @@ cat > request.json <<EOF
                 "logStreamNamePrefix": "pi"
             },
             "s3MonitoringConfiguration": {
-                "logUri": "{s3DemoBucket}/"
+                "logUri": "${s3DemoBucket}/"
             }
         }
     }
