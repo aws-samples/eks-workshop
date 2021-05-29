@@ -34,14 +34,13 @@ prometheus   1/1     1            1           64s
 ## Install Jaeger and Kiali
 
 
-Jaeger is an open source end to end distributed tracing system, allowing users to monitor and troubleshoot complex distributed systems.
+[Jaeger](https://www.jaegertracing.io/) is an open source end to end distributed tracing system, allowing users to monitor and troubleshoot complex distributed systems. Jaeger addresses issues with distributed transaction monitoring, performance and latency optimization, root cause and service dependency analysis etc.
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/jaeger.yaml
 ```
 
-
-Kiali is an observability console for Istio with service mesh configuration and validation capabilities. It helps you understand the structure and health of your service mesh by monitoring traffic flow to infer the topology and report errors.
+[Kiali](https://kiali.io/) is a management console for an Istio-based service mesh. It provides dashboards, observability, and lets you operate your mesh with robust configuration and validation capabilities. It shows the structure of your service mesh by inferring traffic topology and displays the health of your mesh. Kiali provides detailed metrics, powerful validation, Grafana access, and strong integration for distributed tracing with Jaeger. You may visit official site to view [features](https://kiali.io/documentation/latest/features/) it offers.
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/kiali.yaml
@@ -59,7 +58,7 @@ jaeger       1/1     1            1           63s
 kiali        1/1     1            1           64s
 {{< /output >}}
 
-## Generate traffic to collect telemetry data
+#### Generate traffic to collect telemetry data
 Open a new terminal tab and use these commands to send a traffic to the mesh
 
 ```bash
@@ -69,7 +68,7 @@ watch --interval 1 curl -s -I -XGET "http://${GATEWAY_URL}/productpage"
 ```
 
 Next, we will launch Kiali to visualize application tracing and metrics.
-## Launch Kiali
+#### Launch Kiali
 
 Open a new terminal tab and launch kiali dashboard by executing the following command
 
@@ -93,7 +92,7 @@ Navigate to Graph from left panel to view graphical view of application
 Navigate Kiali interface to see powerful tracing and monitoring features
 
 ![Kiali Workload Metrics](/images/istio/istio_kiali_metrics.png)
-## Launch Grafana Dashboard
+#### Launch Grafana Dashboard
 
 {{% notice warning %}}
 Currently Cloud9 IDE does not support previewing multiple running applications. Stop Kiali listener before launching Grafana.
