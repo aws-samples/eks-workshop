@@ -19,6 +19,10 @@ When you’re finished experimenting with the `Bookinfo` sample, uninstall and c
 ```bash
 export ISTIO_RELEASE=$(echo $ISTIO_VERSION |cut -d. -f1,2)
 
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/jaeger.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/kiali.yaml
+
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/prometheus.yaml
 
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/grafana.yaml
