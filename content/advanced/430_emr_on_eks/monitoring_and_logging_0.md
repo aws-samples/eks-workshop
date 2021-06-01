@@ -22,8 +22,8 @@ Now let's run the job again with logging enabled.
 cat > request.json <<EOF 
 {
     "name": "pi-4",
-    "virtualClusterId": "{virtualClusterId}",
-    "executionRoleArn": "{executionRoleArn}",
+    "virtualClusterId": "${VIRTUAL_CLUSTER_ID}",
+    "executionRoleArn": "${EMR_ROLE_ARN}",
     "releaseLabel": "emr-6.2.0-latest",
     "jobDriver": {
         "sparkSubmitJobDriver": {
@@ -56,14 +56,7 @@ EOF
 
 ```
 
-Next we will replace placeholder variables in the the request.json file
-```sh
-sed -i "s|{virtualClusterId}|${VIRTUAL_CLUSTER_ID}|g" request.json
-sed -i "s|{executionRoleArn}|${EMR_ROLE_ARN}|g" request.json
-sed -i "s|{s3DemoBucket}|${s3DemoBucket}|g" request.json
-```
-
-Finally, let's trigger the Spark job
+Trigger the Spark job
 ```
 aws emr-containers start-job-run --cli-input-json file://request.json
 ```

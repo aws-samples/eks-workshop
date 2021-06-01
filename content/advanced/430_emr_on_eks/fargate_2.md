@@ -7,9 +7,9 @@ draft: false
 
 #### Monitoring job status
 
-With zero manual effort, the number of Fargate instances change dynamically and distribute across mutliple availability zones. Both autoscaling and multi-AZs support are Out-of-the-Box features.
+With zero manual effort, the number of Fargate instances change dynamically and distribute across mutliple availability zones. 
 
-Watch autoscaling status:
+Watch scaling status:
 ```sh
 watch kubectl get pod -n spark
 ```
@@ -32,7 +32,9 @@ aws s3 ls ${s3DemoBucket}/output/ --summarize --human-readable --recursive
 
 #### Troubleshooting
 
-Fargate supports 4vCPUs max. Let's submit the same job with 5 vCPUs to force the failure.
+Fargate has flexible configuration options to run your workloads. However, it supports up to 4 vCPU and 30 GB Memory per compute instance. It applies to each of your Spark executors or the driver. Check out the current supported configurations and limits [here](https://aws.amazon.com/fargate/pricing/).
+
+Let's submit the same job with 5 vCPUs that is over the limit to force the failure.
 ```sh
 aws emr-containers start-job-run \
   --virtual-cluster-id $VIRTUAL_CLUSTER_ID \
