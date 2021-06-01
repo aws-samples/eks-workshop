@@ -27,7 +27,9 @@ kubectl get pods -n kube-system -w
 
 Edit aws-node DaemonSet and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
 
-Note: You only need to set one environment variable in the CNI daemonset configuration:
+{{% notice note %}}
+You only need to set one environment variable in the CNI daemonset configuration:
+{{% /notice %}}
 ```
 kubectl set env ds aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
 ```
@@ -36,23 +38,22 @@ kubectl describe daemonset aws-node -n kube-system | grep -A5 Environment
 ```
 {{< output >}}
     Environment:
-      AWS_VPC_K8S_CNI_LOGLEVEL:  	  DEBUG
-      AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG: true
-      MY_NODE_NAME:               	  (v1:spec.nodeName)
+      DISABLE_TCP_EARLY_DEMUX:  false
+    Mounts:
+      /host/opt/cni/bin from cni-bin-dir (rw)
+  Containers:
+   aws-node:
+--
+    Environment:
+      ADDITIONAL_ENI_TAGS:                 {}
+      AWS_VPC_CNI_NODE_PORT_SUPPORT:       true
+      AWS_VPC_ENI_MTU:                     9001
+      AWS_VPC_K8S_CNI_CONFIGURE_RPFILTER:  false
+      AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG:  true
 ...
 {{< /output >}}
 
-Terminate worker nodes so that Autoscaling launches newer nodes that come bootstrapped with custom network config
-
-{{% notice warning %}}
-Use caution before you run the next command because it terminates all worker nodes including running pods in your workshop
-{{% /notice %}}
-
+Add the **ENIConfig** label for identifying your worker nodes:
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text` )
-for i in "${INSTANCE_IDS[@]}"
-do
-	echo "Terminating EC2 instance $i ..."
-	aws ec2 terminate-instances --instance-ids $i
-done
+kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=failure-domain.beta.kubernetes.io/zone
 ```
