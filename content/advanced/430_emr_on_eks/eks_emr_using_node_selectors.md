@@ -2,7 +2,7 @@
 title: "Using Node Selectors"
 date: 2021-05-19T10:30:14-04:00
 weight: 61
-draft: true
+draft: false
 ---
 
 AWS EKS clusters can span multiple AZs in a VPC. A Spark application whose driver and executor pods are distributed across multiple AZs can incur inter-AZ data transfer costs. To minimize or eliminate inter-AZ data transfer costs, you can configure the application to only run on the nodes within a single AZ. In this example, we use the kubernetes node selector "topology.kubernetes.io/zone" to specify which AZ should the job run on.
