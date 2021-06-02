@@ -49,7 +49,10 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 {{< /output >}}
 Check your Worker Node SecurityGroup
 ```
-INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text`)
+INSTANCE_IDS=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=instance-state-name,Values=running" "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*"  --output text`!
+![EKS Woekshop Issue-b](https://user-images.githubusercontent.com/37997251/120508853-b108c080-c3e5-11eb-980c-59d199fcb403.JPG)
+![EKS Workshop Issue-a](https://user-images.githubusercontent.com/37997251/120508859-b2d28400-c3e5-11eb-881a-5766b36f9692.JPG)
+![EKS Workshop Issue solution](https://user-images.githubusercontent.com/37997251/120508865-b36b1a80-c3e5-11eb-8060-b492c18d5360.JPG)
 for i in "${INSTANCE_IDS[@]}"
 do
   echo "SecurityGroup for EC2 instance $i ..."
