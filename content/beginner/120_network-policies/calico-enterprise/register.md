@@ -22,6 +22,8 @@ The team at Tigera offers a free access to [Calico Enterprise Edition](https://w
 
 - You may follow the instructions provided in the email to register your EKS cluster and go through the advanced labs!
 
+- You may need to change the EKS node-group instance types from `t3.small` to `t3.medium` to be able to successfully complete Calico Enterprise deployment (each instance type has limitations on how many pods can be created, that is why `t3.small` may not be able to accommodate required number of pods)
+
 
 ```
 🐯 → curl -s https://tigera-installer.storage.googleapis.com/XXXXXXXX--management_install.sh | bash
