@@ -163,7 +163,7 @@ spec:
       name: data
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: mysql-gp3
+      storageClassName: mysql-gp2
       resources:
         requests:
           storage: 10Gi

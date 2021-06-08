@@ -17,10 +17,10 @@ cat << EoF > ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: mysql-gp3
+  name: mysql-gp2
 provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
 parameters:
-  type: gp3
+  type: gp2
   encrypted: 'true' # EBS volumes will always be encrypted by default
 volumeBindingMode: WaitForFirstConsumer # EBS volumes are AZ specific
 reclaimPolicy: Delete
@@ -32,11 +32,11 @@ EoF
 You can see that:
 
 * The provisioner is `ebs.csi.aws.com`.
-* The volume type is [General Purpose SSD volumes (gp3)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp3).
+* The volume type is [General Purpose SSD volumes (gp2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2).
 * The `encrypted` parameter will ensure the EBS volumes are encrypted by default.
 * The [volumeBindingMode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) is `WaitForFirstConsumer` to ensure persistent volume will be provisioned after Pod is created so they reside in the same AZ
 
-Create storageclass `mysql-gp3` by following command.
+Create storageclass `mysql-gp2` by following command.
 
 ```sh
 kubectl create -f ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
@@ -45,15 +45,15 @@ kubectl create -f ${HOME}/environment/ebs_statefulset/mysql-storageclass.yaml
 You can verify the StorageClass and its options with this command.
 
 ```sh
-kubectl describe storageclass mysql-gp3
+kubectl describe storageclass mysql-gp2
 ```
 
 {{< output >}}
-Name:                  mysql-gp3
+Name:                  mysql-gp2
 IsDefaultClass:        No
 Annotations:           <none>
 Provisioner:           ebs.csi.aws.com
-Parameters:            encrypted=true,type=gp3
+Parameters:            encrypted=true,type=gp2
 AllowVolumeExpansion:  <unset>
 MountOptions:
   debug
@@ -62,7 +62,7 @@ VolumeBindingMode:  Immediate
 Events:             <none>
 {{< /output >}}
 
-We will specify `mysql-gp3` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
+We will specify `mysql-gp2` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
 
 {{< output >}}
 volumeClaimTemplates:
@@ -70,7 +70,7 @@ volumeClaimTemplates:
       name: data
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: mysql-gp3
+      storageClassName: mysql-gp2
       resources:
         requests:
           storage: 10Gi

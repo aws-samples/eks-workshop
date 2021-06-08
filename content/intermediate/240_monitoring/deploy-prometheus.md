@@ -8,7 +8,7 @@ draft: false
 #### Deploy Prometheus
 
 First we are going to install Prometheus. In this example, we are primarily going to use the standard configuration, but we do override the
-storage class. We will use [gp3 EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html) for
+storage class. We will use [gp2 EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html) for
 simplicity and demonstration purpose. When deploying in production, you would use
 [io1](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html) volumes
 with desired IOPS and increase the default storage size in the manifests to get better performance. Run the following command:
@@ -18,8 +18,8 @@ kubectl create namespace prometheus
 
 helm install prometheus prometheus-community/prometheus \
     --namespace prometheus \
-    --set alertmanager.persistentVolume.storageClass="gp3" \
-    --set server.persistentVolume.storageClass="gp3"
+    --set alertmanager.persistentVolume.storageClass="gp2" \
+    --set server.persistentVolume.storageClass="gp2"
 ```
 
 Make note of the prometheus endpoint in helm response (you will need this later). It should look similar to below:
