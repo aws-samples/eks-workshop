@@ -4,5 +4,5 @@ metadata:
   name: staging
 provisioner: kubernetes.io/aws-ebs
 parameters:
-  type: gp3
+  type: gp2
   fsType: ext4

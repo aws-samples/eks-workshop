@@ -7,7 +7,7 @@ draft: false
 
 We are now going to install Grafana. For this example, we are primarily using the Grafana defaults,
 but we are overriding several parameters. As with Prometheus, we are setting the storage class
-to gp3, admin password, configuring the datasource to point to Prometheus and creating an
+to gp2, admin password, configuring the datasource to point to Prometheus and creating an
 [external load](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)
 balancer for the service.
 
@@ -34,7 +34,7 @@ kubectl create namespace grafana
 
 helm install grafana grafana/grafana \
     --namespace grafana \
-    --set persistence.storageClassName="gp3" \
+    --set persistence.storageClassName="gp2" \
     --set persistence.enabled=true \
     --set adminPassword='EKS!sAWSome' \
     --values ${HOME}/environment/grafana/grafana.yaml \
