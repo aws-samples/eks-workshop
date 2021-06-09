@@ -6,8 +6,8 @@ draft: false
 ---
 
 {{% notice info %}}
-This chapter has been updated to Istio 1.9.x.
-[Click here](https://istio.io/latest/news/releases/1.9.x/) to know more about this new release.
+This chapter has been updated to Istio 1.10.x
+[Click here](https://istio.io/latest/news/releases/1.10.x/) to know more about this new release.
 {{% /notice %}}
 
 Istio is a completely open source service mesh that layers transparently onto existing distributed applications. It's also a platform, including APIs, that let it integrate into any logging platform, or telemetry or policy system.
