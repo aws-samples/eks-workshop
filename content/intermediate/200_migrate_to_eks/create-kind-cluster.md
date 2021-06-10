@@ -13,6 +13,8 @@ sudo iptables -t nat -A PREROUTING -p tcp -d 169.254.170.2 --dport 80 -j DNAT --
 sudo iptables -t nat -A OUTPUT -d 169.254.170.2 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 51679
 
 # Write iptables rules to persist after reboot
+sudo yum install -y iptables-services
+sudo systemctl enable --now iptables
 sudo iptables-save | sudo tee /etc/sysconfig/iptables >/dev/null
 ```
 

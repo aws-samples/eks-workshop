@@ -31,7 +31,7 @@ aws ec2 authorize-security-group-ingress \
 ```
 
 Create an Application Load Balancer (ALB) in the same security group and subnet.
-An ALB needs to be spread accross a minimum of two subnets.
+An ALB needs to be spread across a minimum of two subnets.
 
 ```bash
 export ALB_ARN=$(aws elbv2 create-load-balancer \

@@ -73,7 +73,7 @@ rm -f ./kind
 curl -sLo "awscliv2.zip" "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
 unzip awscliv2.zip
 sudo ./aws/install
-rm -f ./awscliv2.zip ./aws
+rm -rf ./awscliv2.zip ./aws
 
 # setup tab completion
 /usr/local/bin/kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl >/dev/null
