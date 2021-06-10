@@ -1,6 +1,6 @@
 ---
 title: "OPA Policy Example 1: Approved container registry policy"
-weight: 310
+weight: 20
 draft: false
 ---
 
