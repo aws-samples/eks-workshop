@@ -38,3 +38,9 @@ Create the local kind cluster
 ```bash
 kind create cluster --config kind.yaml
 ```
+
+Set the default context to the EKS cluster.
+
+```bash
+kubectl config use-context "${INSTANCE_ID}@${CLUSTER}.${AWS_REGION}.eksctl.io"
+```

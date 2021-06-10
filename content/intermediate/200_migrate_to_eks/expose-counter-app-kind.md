@@ -84,6 +84,6 @@ echo "http://"$(aws elbv2 describe-load-balancers \
     --query 'LoadBalancers[0].DNSName' --output text)
 ```
 
-Make sure you click the button a lot of times because that's the important data we're going to migrate to EKS later.
+Make sure you click the button a lot because that's the important data we're going to migrate to EKS later.
 
 ![counter app screenshot](/images/migrate_to_eks/counter-app.gif)
