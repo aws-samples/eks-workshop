@@ -22,7 +22,7 @@ if [ "`echo "${EKS_CLUSTER_VERSION} < 1.19" | bc`" -eq 1 ]; then
     | kubectl delete -f -
 fi
 
-if [ "`echo "${EKS_CLUSTER_VERSION} > 1.19" | bc`" -eq 1 ]; then     
+if [ "`echo "${EKS_CLUSTER_VERSION} >= 1.19" | bc`" -eq 1 ]; then     
     curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full_latest.yaml \
     | sed 's=alb.ingress.kubernetes.io/target-type: ip=alb.ingress.kubernetes.io/target-type: instance=g' \
     | kubectl delete -f -
