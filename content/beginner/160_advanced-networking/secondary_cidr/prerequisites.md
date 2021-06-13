@@ -1,6 +1,6 @@
 ---
 title: "Prerequisites"
-date: 2019-02-08T00:35:29-05:00
+date: 2021-06-13T16:34:28+0000
 weight: 20
 ---
 
@@ -33,40 +33,17 @@ aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Nam
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
 {{< /output >}}
 
-I have 3 instances and using 3 subnets in my environment. For simplicity, we will use the same AZ's and create 3 secondary CIDR subnets but you can certainly customize according to your networking requirements. Remember to change the AZ names according to your environment
+I have 3 instances and using 3 subnets in my environment. For simplicity, we will use the same AZ's and create 3 secondary CIDR subnets but you can certainly customize according to your networking requirements.
 ```
-export AZ1=us-east-2a
-export AZ2=us-east-2b
-export AZ3=us-east-2c
-CGNAT_SNET1=$(aws ec2 create-subnet --cidr-block 100.64.0.0/19 --vpc-id $VPC_ID --availability-zone $AZ1 --query 'Subnet.SubnetId' --output text)
-CGNAT_SNET2=$(aws ec2 create-subnet --cidr-block 100.64.32.0/19 --vpc-id $VPC_ID --availability-zone $AZ2 --query 'Subnet.SubnetId' --output text)
-CGNAT_SNET3=$(aws ec2 create-subnet --cidr-block 100.64.64.0/19 --vpc-id $VPC_ID --availability-zone $AZ3 --query 'Subnet.SubnetId' --output text)
-```
-Next step is to add Kubernetes tags on newer Subnets. You can check these tags by querying your current subnets
-```
-aws ec2 describe-subnets --filters Name=cidr-block,Values=192.168.0.0/19 --output text
-```
-Output shows similar to this
-{{< output >}}
-TAGS    aws:cloudformation:logical-id   SubnetPublicUSEAST2C
-TAGS    kubernetes.io/role/elb  1
-TAGS    eksctl.cluster.k8s.io/v1alpha1/cluster-name     eksworkshop-eksctl
-TAGS    Name    eksctl-eksworkshop-eksctl-cluster/SubnetPublicUSEAST2C
-TAGS    aws:cloudformation:stack-name   eksctl-eksworkshop-eksctl-cluster
-TAGS    kubernetes.io/cluster/eksworkshop-eksctl        shared
-TAGS    aws:cloudformation:stack-id     arn:aws:cloudformation:us-east-2:012345678901:stack/eksctl-eksworkshop-eksctl-cluster/8da51fc0-2b5e-11e9-b535-022c6f51bf82
-{{< /output >}}
-Here are the commands to add tags to both the subnets
-```
-aws ec2 create-tags --resources $CGNAT_SNET1 --tags Key=eksctl.cluster.k8s.io/v1alpha1/cluster-name,Value=eksworkshop-eksctl
-aws ec2 create-tags --resources $CGNAT_SNET1 --tags Key=kubernetes.io/cluster/eksworkshop-eksctl,Value=shared
-aws ec2 create-tags --resources $CGNAT_SNET1 --tags Key=kubernetes.io/role/elb,Value=1
-aws ec2 create-tags --resources $CGNAT_SNET2 --tags Key=eksctl.cluster.k8s.io/v1alpha1/cluster-name,Value=eksworkshop-eksctl
-aws ec2 create-tags --resources $CGNAT_SNET2 --tags Key=kubernetes.io/cluster/eksworkshop-eksctl,Value=shared
-aws ec2 create-tags --resources $CGNAT_SNET2 --tags Key=kubernetes.io/role/elb,Value=1
-aws ec2 create-tags --resources $CGNAT_SNET3 --tags Key=eksctl.cluster.k8s.io/v1alpha1/cluster-name,Value=eksworkshop-eksctl
-aws ec2 create-tags --resources $CGNAT_SNET3 --tags Key=kubernetes.io/cluster/eksworkshop-eksctl,Value=shared
-aws ec2 create-tags --resources $CGNAT_SNET3 --tags Key=kubernetes.io/role/elb,Value=1
+export POD_AZS=($(aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone]' --output text | sort | uniq))
+
+echo ${POD_AZS[@]}
+
+CGNAT_SNET1=$(aws ec2 create-subnet --cidr-block 100.64.0.0/19 --vpc-id $VPC_ID --availability-zone ${POD_AZS[0]} --query 'Subnet.SubnetId' --output text)
+CGNAT_SNET2=$(aws ec2 create-subnet --cidr-block 100.64.32.0/19 --vpc-id $VPC_ID --availability-zone ${POD_AZS[1]} --query 'Subnet.SubnetId' --output text)
+CGNAT_SNET3=$(aws ec2 create-subnet --cidr-block 100.64.64.0/19 --vpc-id $VPC_ID --availability-zone ${POD_AZS[2]} --query 'Subnet.SubnetId' --output text)
+
+unset POD_AZS
 ```
 As next step, we need to associate three new subnets into a route table. Again for simplicity, we chose to add new subnets to the Public route table that has connectivity to Internet Gateway
 ```
