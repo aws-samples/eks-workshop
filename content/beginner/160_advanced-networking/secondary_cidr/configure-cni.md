@@ -1,6 +1,6 @@
 ---
 title: "Configure CNI"
-date: 2019-02-13T01:12:49-05:00
+date: 2021-06-13T16:34:28+0000
 weight: 30
 ---
 
@@ -13,16 +13,10 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ```
 Here is a sample response
 {{< output >}}
-amazon-k8s-cni:1.6.1
+amazon-k8s-cni-init:v1.7.5-eksbuild.1
+amazon-k8s-cni:v1.7.5-eksbuild.1
 {{< /output >}}
-Upgrade to the latest v1.7 config if you have an older version:
-```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
-```
-Wait until all the pods are recycled. You can check the status of pods by using this command
-```
-kubectl get pods -n kube-system -w
-```
+
 ### Configure Custom networking
 
 Edit aws-node DaemonSet and add AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG environment variable to the node container spec and set it to true
@@ -56,3 +50,15 @@ do
 	aws ec2 terminate-instances --instance-ids $i
 done
 ```
+
+#### Additional notes on 'maxPodsPerNode'
+Enabling a custom network effectively removes an available network interface (and all of its available IP addresses for pods) from each node that uses it. The primary network interface for the node is not used for pod placement when a custom network is enabled. Determine the maximum number of pods that can be scheduled on each node using the following formula.
+
+{{< output >}}
+ maxPodsPerNode = (number of interfaces - 1) * (max IPv4 addresses per interface - 1) + 2
+ 
+ For example, use the following value for t3.small
+ maxPodsPerNode = (3 - 1) * (4 - 1) + 2 = 8
+{{< /output >}}
+ 
+ In your production setup, replace your existing nodegroup with a new nodegroup and apply the value of maxPodsPerNode option. For simplicity, this workshop continues with the existing nodegroup without custom maxPodsPerNode value.
