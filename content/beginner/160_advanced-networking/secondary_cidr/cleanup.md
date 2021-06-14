@@ -1,6 +1,6 @@
 ---
 title: "Cleanup"
-date: 2019-03-02T16:47:38-05:00
+date: 2021-06-13T18:41:54+0000
 weight: 60
 ---
 Let's cleanup this tutorial
@@ -13,6 +13,7 @@ Edit aws-node configmap and comment AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG and its v
 ```
 kubectl edit daemonset -n kube-system aws-node
 ```
+
 ```
 ...
     spec:
@@ -25,11 +26,11 @@ kubectl edit daemonset -n kube-system aws-node
         - name: MY_NODE_NAME
 ...
 ```
-Delete custom resource objects from ENIConfig CRD
+Delete custom resource objects from ENIConfig CRD. Replace yaml filenames based on your region and AZs.
 ```
-kubectl delete eniconfig/group1-pod-netconfig
-kubectl delete eniconfig/group2-pod-netconfig
-kubectl delete eniconfig/group3-pod-netconfig
+kubectl delete -f eniconfig
+
+rm -rf pod-netconfig.template eniconfig
 ```
 Terminate EC2 instances so that fresh instances are launched with default CNI configuration
 
@@ -45,7 +46,7 @@ do
 	aws ec2 terminate-instances --instance-ids $i
 done
 ```
-Delete secondary CIDR from your VPC
+Wait for instance termination. Delete secondary CIDR from your VPC
 ```
 VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=eksctl-eksworkshop* | jq -r '.Vpcs[].VpcId')
 ASSOCIATION_ID=$(aws ec2 describe-vpcs --vpc-id $VPC_ID | jq -r '.Vpcs[].CidrBlockAssociationSet[] | select(.CidrBlock == "100.64.0.0/16") | .AssociationId')
