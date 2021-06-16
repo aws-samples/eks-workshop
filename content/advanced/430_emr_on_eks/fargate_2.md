@@ -13,6 +13,7 @@ Watch scaling status:
 ```sh
 watch kubectl get pod -n spark
 ```
+Press ctl+c to exit, then execute the command:
 ```sh
 watch kubectl get node \
 --label-columns=eks.amazonaws.com/capacityType,topology.kubernetes.io/zone
@@ -52,13 +53,14 @@ aws emr-containers start-job-run \
 
 Problem - the job is stuck with pending status.
 ```sh
-kubectl get pod -n spark
+watch kubectl get pod -n spark
 ```
+Wait for about 2 minutes. Press ctl+c to exit, as oon as the Spark driver is running. 
 ![](/images/emr-on-eks/job_hang.png)
 
-Check Spark driver's log once it's running.
+Check the driver’s log:
 ```sh
-driver_name=$(kubectl get po -n spark | grep "driver" | awk '{print $1}')
+driver_name=$(kubectl get pod -n spark | grep "driver" | awk '{print $1}')
 kubectl logs ${driver_name} -n spark -c spark-kubernetes-driver
 ```
 The job is not accepted by any resources:
@@ -66,8 +68,17 @@ The job is not accepted by any resources:
 
 Investigate a hanging executor pod:
 ```sh
-exec_name=$(kubectl get po -n spark | grep "exec-1" | awk '{print $1}')
-kubectl describe po ${exec_name} -n spark
+exec_name=$(kubectl get pod -n spark | grep "exec-1" | awk '{print $1}')
+kubectl describe pod ${exec_name} -n spark
 ```
 Congratulations! You found the root cause:
 ![](/images/emr-on-eks/executor_log.png)
+
+Delete the driver pod to stop the hanging job:
+```sh
+kubectl delete pod ${driver_name} -n spark
+
+# check job status
+kubectl get pod -n spark
+```
+![](/images/emr-on-eks/submitter_terminate.png)

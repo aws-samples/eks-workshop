@@ -100,11 +100,11 @@ aws emr-containers start-job-run \
       "entryPointArguments":["'$s3DemoBucket'/output/"], 
       "sparkSubmitParameters": "--conf spark.kubernetes.driver.label.type=etl --conf spark.kubernetes.executor.label.type=etl --conf spark.executor.instances=8 --conf spark.executor.memory=2G --conf spark.driver.cores=1 --conf spark.executor.cores=3"}}' \
   --configuration-overrides '{
-  	"applicationConfiguration": [{
+    "applicationConfiguration": [{
         "classification": "spark-defaults", 
         "properties": {"spark.kubernetes.allocation.batch.size": "8"}
     }],
-  	"monitoringConfiguration": {
+    "monitoringConfiguration": {
       "s3MonitoringConfiguration": {
          "logUri": "'${s3DemoBucket}'/fargate-logs/"}}
   }'
