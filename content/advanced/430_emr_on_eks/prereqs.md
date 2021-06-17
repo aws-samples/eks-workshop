@@ -154,3 +154,13 @@ Check if the new nodegroup has been added to your cluster.
 kubectl get nodes # if we see 6 nodes in total with the 3 newly added nodes, we know we have authenticated correctly
 ```
 
+<<<<<<< HEAD
+=======
+Let's create a s3 bucket to upload sample scripts and logs.
+
+```sh
+export s3DemoBucket=s3://emr-eks-demo-${ACCOUNT_ID}-${AWS_REGION}
+aws s3 mb $s3DemoBucket
+
+```
+>>>>>>> 19f58a5b756bc97d503ffde3f04c553a47d36f4e

@@ -7,7 +7,7 @@ draft: false
 
 You will need to have prometheus and grafana installed before you can proceed with this section.
 
-You can follow the [Prometheus](beginner/080_scaling/deploy_ca/) and [Grafana](beginner/080_scaling/deploy_ca/) sections to get the steps to install both of these. 
+You can follow the [Prometheus](/intermediate/240_monitoring/) and [Grafana](/intermediate/240_monitoring/) sections to get the steps to install both of these. 
 
 You can also use [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/) and [Amazon Managed Service for Grafana](https://aws.amazon.com/grafana/). In order to get started with these, follow the official docs for [AMP](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-getting-started.html) and [AMG](https://docs.aws.amazon.com/grafana/latest/userguide/getting-started-with-AMG.html).
 
@@ -20,9 +20,9 @@ Now run the below job:
 
 ```
 aws emr-containers start-job-run \
-  --virtual-cluster-id=jokbdf64kj891f7iaaot3qo9q \
+  --virtual-cluster-id=${VIRTUAL_CLUSTER_ID} \
   --name=pi-2 \
-  --execution-role-arn=arn:aws:iam::525158249545:role/EMRContainers-JobExecutionRole \
+  --execution-role-arn=${EMR_ROLE_ARN} \
   --release-label=emr-6.2.0-latest \
   --job-driver='{
     "sparkSubmitJobDriver": {
