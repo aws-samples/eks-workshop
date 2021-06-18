@@ -29,5 +29,9 @@
     "hugo-lunr": "0.0.4",
     "ini": ">=1.3.6",
     "mermaid": "^8.4.2"
+  },
+  "devDependencies": {
+    "normalize-url": ">=4.5.1",
+    "cacheable-request": ">=7.0.2"
   }
 }
