@@ -95,11 +95,7 @@ aws emr-containers start-job-run \
   --release-label=emr-6.2.0-latest \
   --job-driver='{
     "sparkSubmitJobDriver": {
-<<<<<<< HEAD
-      "entryPoint": "s3://emr-eks-demo-threadsleep-1212/threadsleep.py",
-=======
       "entryPoint": "'${s3DemoBucket}'/threadsleep.py",
->>>>>>> 19f58a5b756bc97d503ffde3f04c553a47d36f4e
       "sparkSubmitParameters": "--conf spark.executor.instances=15 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
     }
   }' \

@@ -159,5 +159,4 @@ Let's create a s3 bucket to upload sample scripts and logs.
 ```sh
 export s3DemoBucket=s3://emr-eks-demo-${ACCOUNT_ID}-${AWS_REGION}
 aws s3 mb $s3DemoBucket
-
 ```
