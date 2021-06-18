@@ -9,14 +9,6 @@ Now let's run a sample workload using one of the inbuilt example scripts that ca
 
 
 First get the virtual EMR clusters id and arn of the role that EMR uses for job execution.
-<<<<<<< HEAD
-
-
-```sh
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[].id" --output text)
-```
-=======
->>>>>>> 19f58a5b756bc97d503ffde3f04c553a47d36f4e
 
 ```sh
 export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
