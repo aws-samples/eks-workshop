@@ -1,7 +1,7 @@
 ---
 title: "Install Velero"
 weight: 20
-draft: false
+draft: true
 ---
 
 #### Install Velero binary

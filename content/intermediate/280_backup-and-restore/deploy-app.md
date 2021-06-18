@@ -1,7 +1,7 @@
 ---
 title: "Deploy Test Application"
 weight: 30
-draft: false
+draft: true
 ---
 
 #### Create namespace and install application
