@@ -148,6 +148,8 @@ ip-192-168-79-114.us-east-2.compute.internal   Ready    <none>   15h     v1.18.9
 
 You can also change CPU and memory of your Spark executors by modifying `spark.executor.cores` and `spark.executor.memory`. Learn more about it [here](https://spark.apache.org/docs/latest/running-on-kubernetes.html). 
 
+Let the job run to completion before moving ahead to next section of Dynamic Resource Allocation. 
+
 ## Dynamic Resource Allocation
 
 You can also optimize your jobs by using Dynamic Resource Allocation (DRA) provided by Spark. Its a mechanism to dynamically adjust the resources your application occupies based on the workload. With DRA, the spark driver spawns the initial number of executors and then scales up the number until the specified maximum number of executors is met to process the pending tasks. Idle executors are terminated when there are no pending tasks. 
