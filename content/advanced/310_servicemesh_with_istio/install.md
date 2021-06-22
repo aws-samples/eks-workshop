@@ -15,7 +15,7 @@ For more information about Istio profile, [click here](https://istio.io/docs/set
 Istio will be installed in the `istio-system` namespace.
 
 ```bash
-yes | istioctl manifest apply --set profile=demo
+yes | istioctl install --set profile=demo
 ```
 
 {{< output >}}

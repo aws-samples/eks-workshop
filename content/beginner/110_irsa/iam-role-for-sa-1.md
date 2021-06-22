@@ -42,5 +42,5 @@ eksctl create iamserviceaccount \
 {{< /output >}}
 
 {{% notice info %}}
-If you go to the [CloudFormation in IAM Console](https://console.aws.amazon.com/cloudformation/), you will thats find the stack "**eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test**" has created a role for your service account.
+If you go to the [CloudFormation in IAM Console](https://console.aws.amazon.com/cloudformation/), you will find that the stack "**eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test**" has created a role for your service account.
 {{% /notice %}}

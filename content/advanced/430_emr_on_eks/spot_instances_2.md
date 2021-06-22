@@ -60,27 +60,25 @@ aws s3 cp spark_driver_pod_template.yml ${s3DemoBucket}/pod_templates/
 aws s3 cp spark_executor_pod_template.yml ${s3DemoBucket}/pod_templates/
 ```
 
-Let's create a json input file for emr-container cli.
+Next we submit the job.
 
 ```sh
-cat > request-spot.json <<EOF 
-{
-    "name": "pi-spot",
-    "virtualClusterId": "{virtualClusterId}",
-    "executionRoleArn": "{executionRoleArn}",
-    "releaseLabel": "emr-5.33.0-latest",
-    "jobDriver": {
-        "sparkSubmitJobDriver": {
-            "entryPoint": "{s3DemoBucket}/threadsleep.py",
-            "sparkSubmitParameters": "--conf spark.kubernetes.driver.podTemplateFile={s3DemoBucket}/pod_templates/spark_driver_pod_template.yml \
-            --conf spark.kubernetes.executor.podTemplateFile={s3DemoBucket}/pod_templates/spark_executor_pod_template.yml \
-            --conf spark.executor.instances=15 \
-            --conf spark.executor.memory=2G \
-            --conf spark.executor.cores=2 \
-            --conf spark.driver.cores=1"
-        }
-    },
-    "configurationOverrides": {
+#Get required virtual cluster-id and role arn
+export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
+
+export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
+
+#start spark job with start-job-run
+aws emr-containers start-job-run \
+  --virtual-cluster-id $VIRTUAL_CLUSTER_ID \
+  --name pi-spot \
+  --execution-role-arn $EMR_ROLE_ARN \
+  --release-label emr-5.33.0-latest \
+  --job-driver '{
+    "sparkSubmitJobDriver": {
+      "entryPoint": "'${s3DemoBucket}'/threadsleep.py",
+      "sparkSubmitParameters": "--conf spark.kubernetes.driver.podTemplateFile=\"'${s3DemoBucket}'/pod_templates/spark_driver_pod_template.yml\" --conf spark.kubernetes.executor.podTemplateFile=\"'${s3DemoBucket}'/pod_templates/spark_executor_pod_template.yml\" --conf spark.executor.instances=15 --conf spark.executor.memory=2G --conf spark.executor.cores=2 --conf spark.driver.cores=1"}}' \
+  --configuration-overrides '{
         "applicationConfiguration": [
             {
                 "classification": "spark-defaults",
@@ -96,29 +94,10 @@ cat > request-spot.json <<EOF
                 "logStreamNamePrefix": "pi"
             },
             "s3MonitoringConfiguration": {
-                "logUri": "{s3DemoBucket}/"
+                "logUri": "'${s3DemoBucket}'/"
             }
         }
-    }
-}
-EOF
-```
-Next we will replace placeholder variables in the the request-spot.json file
-
-```sh
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
-export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
-
-sed -i "s|{virtualClusterId}|${VIRTUAL_CLUSTER_ID}|g" request-spot.json
-sed -i "s|{executionRoleArn}|${EMR_ROLE_ARN}|g" request-spot.json
-sed -i "s|{s3DemoBucket}|${s3DemoBucket}|g" request-spot.json
-
-```
-
-Finally, let's trigger the Spark job
-
-```
-aws emr-containers start-job-run --cli-input-json file://request-spot.json
+    }'
 ```
 
 You will be able to see the completed job in EMR console. 

@@ -22,6 +22,7 @@ provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
 parameters:
   type: gp2
   encrypted: 'true' # EBS volumes will always be encrypted by default
+volumeBindingMode: WaitForFirstConsumer # EBS volumes are AZ specific
 reclaimPolicy: Delete
 mountOptions:
 - debug
@@ -33,6 +34,7 @@ You can see that:
 * The provisioner is `ebs.csi.aws.com`.
 * The volume type is [General Purpose SSD volumes (gp2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2).
 * The `encrypted` parameter will ensure the EBS volumes are encrypted by default.
+* The [volumeBindingMode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) is `WaitForFirstConsumer` to ensure persistent volume will be provisioned after Pod is created so they reside in the same AZ
 
 Create storageclass `mysql-gp2` by following command.
 
