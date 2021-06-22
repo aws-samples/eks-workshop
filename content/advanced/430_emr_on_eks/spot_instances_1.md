@@ -59,6 +59,9 @@ Create the new EKS managed nodegroup with Spot Instances.
 ```sh
 eksctl create nodegroup --config-file=addnodegroup-spot.yaml
 ```
+{{% notice info %}}
+Creation of node group will take 3-4 minutes. 
+{{% /notice %}}
 
 You can use the **eks.amazonaws.com/capacityType** label to identify the lifecycle of the nodes. The output of this command should return nodes with the **capacityType** set to **SPOT**.
 
