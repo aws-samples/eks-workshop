@@ -16,12 +16,33 @@ To facilitate this feature, each worker node will be associated with a single tr
 
 First we need to attach a new IAM policy the Node group role to allow the EC2 instances to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances.
 
-The following command adds the policy `AmazonEKSVPCResourceController` to a cluster role.
+The following command adds the policy `AmazonEKSVPCResourceController` to a cluster's nodegroup roles (both primary and secondary).
 
 ```bash
+eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq -r '.[].StackName'
+
+eksctl-eksworkshop-eksctl-nodegroup-nodegroup
+eksctl-eksworkshop-eksctl-nodegroup-nodegroup-sec-group
+```
+
+Primary, the one based on t3-instances
+
+```bash
+stack_role=$(aws cloudformation describe-stack-resources --stack-name eksctl-eksworkshop-eksctl-nodegroup-nodegroup | jq -r '.StackResources[] | select(.ResourceType=="AWS::IAM::Role") | .PhysicalResourceId')
+
 aws iam attach-role-policy \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
-    --role-name ${ROLE_NAME}
+   --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
+   --role-name $stack_role
+```
+
+Secondary, the other one based on m5-instances
+
+```
+stack_role=$(aws cloudformation describe-stack-resources --stack-name eksctl-eksworkshop-eksctl-nodegroup-nodegroup-sec-group | jq -r '.StackResources[] | select(.ResourceType=="AWS::IAM::Role") | .PhysicalResourceId')
+
+aws iam attach-role-policy \
+   --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
+   --role-name $stack_role
 ```
 
 Next, we will enable the CNI plugin to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to true in the aws-node `DaemonSet`.
