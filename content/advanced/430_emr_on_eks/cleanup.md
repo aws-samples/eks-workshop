@@ -42,10 +42,9 @@ To delete the namespace, the node group and the Fargate profile created by this 
 kubectl delete namespace spark
 
 eksctl delete fargateprofile --cluster=eksworkshop-eksctl --name emr --wait
-eksctl delete nodegroup --config-file=addnodegroup.yaml --approve
-eksctl delete nodegroup --config-file=addnodegroup-spot.yaml --approve
 
 eksctl delete nodegroup --config-file=addnodegroup.yaml --approve
 eksctl delete nodegroup --config-file=addnodegroup-spot.yaml --approve
+eksctl delete nodegroup --config-file=addnodegroup-nytaxi.yaml --approve
 
 ```
