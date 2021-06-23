@@ -66,7 +66,7 @@ The following command adds more disk space to the root volume of the EC2 instanc
 ```bash
 pip3 install --user --upgrade boto3
 export instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
-python -c "import boto3
+python3 -c "import boto3
 import os
 from botocore.exceptions import ClientError 
 ec2 = boto3.client('ec2')
