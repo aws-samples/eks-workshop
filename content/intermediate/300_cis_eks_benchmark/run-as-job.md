@@ -6,9 +6,15 @@ draft: false
 
 #### Create a job file
 
+In order to run benchmark on all nodes in cluster, we will be creating job with `.spec.completions` equals to `n`, where n is number of nodes in cluster. To make sure each job runs on individual node, we'll set `.spec.parallelism` to `n`. Job will have `podAntiAffinity` set, so that each job run on separate node.
+
+
+
 Create a job file named `job-eks.yaml` using the command below.
 
 ```bash
+NODE_COUNT=$(kubectl get nodes | sed 1d | wc -l)
+
 cat << EOF > job-eks.yaml
 ---
 apiVersion: batch/v1
@@ -16,8 +22,23 @@ kind: Job
 metadata:
   name: kube-bench
 spec:
+  completions: ${NODE_COUNT}
+  parallelism: ${NODE_COUNT}
   template:
+    metadata:
+      labels:
+        name: kube-bench
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: name
+                operator: In
+                values:
+                - kube-bench
+            topologyKey: kubernetes.io/hostname
       hostPID: true
       containers:
         - name: kube-bench
@@ -58,19 +79,35 @@ kubectl apply -f job-eks.yaml
 
 Find the pod that was created. It should be in the `default` namespace.
 
-```
-kubectl get pods --all-namespaces
+```bash
+kubectl get pods -l name=kube-bench --all-namespaces
 ```
 
-Retrieve the value of this pod and the output report. Note the pod name will be different for your environment.
+Retrieve the value of this pods and the output report. Note the pod name will be different for your environment.
 
-```
-kubectl logs kube-bench-<value>
+```bash
+POD_NODES_MAP=($(kubectl get po -l name=kube-bench -o custom-columns=POD:.metadata.name,NODE:.spec.nodeName | sed 1d))
+
+LEN=${#POD_NODES_MAP[@]}
+
+for((i=0;i<$LEN;i+=2))
+do
+  echo -e "\n\n-------------------------------------------"
+  echo -e "NODE:\t${POD_NODES_MAP[$i+1]}"
+  echo -e "-------------------------------------------\n"
+
+  kubectl logs "${POD_NODES_MAP[$i]}"
+done
+
 ```
 
 ##### Output
 
 ```
+-------------------------------------------
+NODE: ip-192-168-63-165.ec2.internal
+-------------------------------------------
+
 [INFO] 3 Worker Node Security Configuration
 [INFO] 3.1 Worker Node Configuration Files
 [PASS] 3.1.1 Ensure that the proxy kubeconfig file permissions are set to 644 or more restrictive (Scored)
@@ -111,7 +148,7 @@ systemctl restart kubelet.service
 
 - Delete the resources
 
-```
+```bash
 kubectl delete -f job-eks.yaml
 rm -f job-eks.yaml
 ```
