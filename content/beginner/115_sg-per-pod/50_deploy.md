@@ -144,9 +144,9 @@ kubectl -n sg-per-pod rollout status deployment red-pod
 Let's verify the logs (use _CTRL+C_ to exit the log)
 
 ```bash
-export RED_POD_MAME=$(kubectl -n sg-per-pod get pods -l app=red-pod -o jsonpath='{.items[].metadata.name}')
+export RED_POD_NAME=$(kubectl -n sg-per-pod get pods -l app=red-pod -o jsonpath='{.items[].metadata.name}')
 
-kubectl -n sg-per-pod  logs -f ${RED_POD_MAME}
+kubectl -n sg-per-pod  logs -f ${RED_POD_NAME}
 ```
 
 Output
@@ -158,7 +158,7 @@ Database connection failed due to timeout expired
 Finally let's verify that the pod doesn't have an _enitId_ `annotation`.
 
 ```bash
-kubectl -n sg-per-pod  describe pod ${RED_POD_MAME} | head -11
+kubectl -n sg-per-pod  describe pod ${RED_POD_NAME} | head -11
 ```
 
 Output
