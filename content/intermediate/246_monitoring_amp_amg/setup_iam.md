@@ -63,7 +63,7 @@ EOF
 # Get the old trust policy, if one exists, and append it to the new trust policy
 #
 OLD_TRUST_RELATIONSHIP=$(aws iam get-role --role-name $SERVICE_ACCOUNT_IAM_ROLE --query 'Role.AssumeRolePolicyDocument.Statement[]' --output json)
-COMBINED_TRUST_RELATIONSHIP=$(echo $OLD_TRUST_RELATIONSHIP $NEW_TRUST_RELATIONSHIP | jq -s add)
+COMBINED_TRUST_RELATIONSHIP=$(echo $OLD_TRUST_RELATIONSHIP $NEW_TRUST_RELATIONSHIP | jq -s add | jq '. | unique')
 echo "Appending to the existing trust policy"
 read -r -d '' TRUST_POLICY <<EOF
 {
