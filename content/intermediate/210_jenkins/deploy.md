@@ -52,13 +52,15 @@ serviceAccount:
 EOF
 ```
 
-Now we'll use the `helm` cli to create the Jenkins server as we've declared it in the `values.yaml` file.
+Now we'll use the `helm` cli to add the latest jenkins chart repo and create the Jenkins server as we've declared it in the `values.yaml` file.
 
 ```bash
-helm install cicd stable/jenkins -f values.yaml
+helm repo add jenkins https://charts.jenkins.io
+
+helm install cicd jenkins/jenkins -f values.yaml
 ```
 
-The output of this command will give you some additional information such as the
+The output of the last command will give you some additional information such as the
 `admin` password and the way to get the host name of the ELB that was
 provisioned.
 
