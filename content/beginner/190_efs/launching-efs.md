@@ -18,13 +18,13 @@ Next, create a security group to be associated with the mount targets. Then, add
 ```
 MOUNT_TARGET_GROUP_NAME="eks-efs-group"
 MOUNT_TARGET_GROUP_DESC="NFS access to EFS from EKS worker nodes"
-MOUNT_TARGET_GROUP_ID=$(aws ec2 create-security-group --group-name $MOUNT_TARGET_GROUP_NAME --description "$MOUNT_TARGET_GROUP_DESC" --vpc-id $VPC_ID | jq --raw-output '.GroupId')
+MOUNT_TARGET_GROUP_ID=$(aws ec2 create-security-group --group-name $MOUNT_TARGET_GROUP_NAME --description "$MOUNT_TARGET_GROUP_DESC" --vpc-id $VPC_ID --output json | jq --raw-output '.GroupId')
 aws ec2 authorize-security-group-ingress --group-id $MOUNT_TARGET_GROUP_ID --protocol tcp --port 2049 --cidr $CIDR_BLOCK
 ```
 
 Now, create an EFS file system.
 ```
-FILE_SYSTEM_ID=$(aws efs create-file-system | jq --raw-output '.FileSystemId')
+FILE_SYSTEM_ID=$(aws efs create-file-system --output json | jq --raw-output '.FileSystemId')
 ```
 
 Check the **LifeCycleState** of the file system using the following command and wait until it changes from **creating** to **available** before you proceed to the next step.
@@ -38,7 +38,7 @@ The following set of commands identifies the public subnets in your cluster VPC 
 ```
 TAG1=tag:kubernetes.io/cluster/$CLUSTER_NAME
 TAG2=tag:kubernetes.io/role/elb
-subnets=($(aws ec2 describe-subnets --filters "Name=$TAG1,Values=shared" "Name=$TAG2,Values=1" | jq --raw-output '.Subnets[].SubnetId'))
+subnets=($(aws ec2 describe-subnets --filters "Name=$TAG1,Values=shared" "Name=$TAG2,Values=1" --output json | jq --raw-output '.Subnets[].SubnetId'))
 for subnet in ${subnets[@]}
 do
     echo "creating mount target in " $subnet
