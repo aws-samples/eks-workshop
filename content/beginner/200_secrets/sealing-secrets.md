@@ -79,8 +79,8 @@ Looking at the logs of the contoller, you can see that it picks up the SealedSec
 ```
 kubectl logs -n kube-system sealed-secrets-controller-7bdbc75d47-5wxvf
 ```
-{{< output >}}
 Output:
+{{< output >}}
 (...)
 2021/07/14 21:27:01 HTTP server serving on :8080
 2021/07/15 13:22:20 Updating octank/database-credentials
@@ -91,6 +91,7 @@ Verfiy that the **database-credentials** Secret unsealed from the SealedSecret w
 ```
 kubectl get secret -n octank database-credentials
 ```
+Output:
 {{< output >}}
 NAME                   TYPE     DATA   AGE
 database-credentials   Opaque   2      90s
