@@ -17,10 +17,9 @@ NAME                  TYPE                                  DATA   AGE
 default-token-gv8nr   kubernetes.io/service-account-token   3      2d23h
 {{< /output >}}
 
-Now, create the Secret and SealedSecret YAML manifests with Kubectl, Kustomize and Kubeseal.
+Now, let's reuse the Secret created previously to create SealedSecret YAML manifests with *kubeseal*.
 ```
 cd ~/environment/secrets
-kubectl kustomize . > secret.yaml
 kubeseal --format=yaml < secret.yaml > sealed-secret.yaml
 ```
 
@@ -58,18 +57,18 @@ metadata:
   namespace: octank
 spec:
   encryptedData:
-    password: AgB3s2m3c2wzDmfyFXPgZWzXG2Ad2s2DF5K8H4Z . . .
-    username: AgAHJTiY9kEQCgFw90i3H1mKPRkGKFr85wDCDxU . . .
+    password: AgBR2S0Orv6YKLgEboBbPBsV6PX9gP9gUUTrISv(...)daQtadX6XnFqoYwOQ==
+    username: AgBtkiM4Q7w3kesVDbZgKOpiVQ+9XMmlqr9xABf(...)B9quqLBF80QFSsZpQ==
   template:
+    data: null
     metadata:
       creationTimestamp: null
       name: database-credentials
       namespace: octank
     type: Opaque
-status: {}
 {{< /output >}}
 
-Note that the keys in the original Secret, namely, *username* and *password*, are not encrypted in the SealedSecret; only their values. You may change the names of these keys, if necessary, in the SealedSecret YAML file and still be able to deploy it successfully to the cluster. However, you cannot change the name and namespace of the SealedSecret. The SealedSecret and Secret **must have the same namespace and name**
+Note that the keys in the original Secret, namely, *username* and *password*, are not encrypted in the SealedSecret; only their values. You may change the names of these keys, if necessary, in the SealedSecret YAML file and still be able to deploy it successfully to the cluster. However, you cannot change the name and namespace of the SealedSecret. The SealedSecret and Secret **must have the same namespace and name**.
  
 Now, deploy the SealedSecret to your cluster:
 ```
@@ -77,35 +76,23 @@ kubectl apply -f sealed-secret.yaml
 ```
 Looking at the logs of the contoller, you can see that it picks up the SealedSecret custom resource that was just deployed, unseals it to create a regular Secret.
 ```
-kubectl logs sealed-secrets-controller-84fcdcd5fd-9qb5j -n kube-system
+kubectl logs -n kube-system sealed-secrets-controller-7bdbc75d47-5wxvf
 ```
-Output:
 {{< output >}}
-2020/03/07 22:11:20 Starting sealed-secrets controller version: v0.9.8
-2020/03/07 22:11:20 Searching for existing private keys
-2020/03/07 22:11:23 New key written to kube-system/sealed-secrets-key8d8z2
-2020/03/07 22:11:23 Certificate is 
------BEGIN CERTIFICATE-----
-MIIErTCCApWgAwIBAgIQJsQQhEXabaLWTUIzkH+EeDANBgkqhkiG9w0BAQsFADAA
-MB4XDTIwMDMwNzIyMTEyM1oXDTMwMDMwNTIyMTEyM1owADCCAiIwDQYJKoZIhvcN
-. . . . .
-Se0Lk6ZACjiFqNMdL/VkSG2pYkjdFg64KZzDLad7lBrB3tOtCW8xG5T8jZuzDewB
-65pXxa+MvFjnfukUE3LfC1xM17pPjRQmJ5YgcQCXsTorFXHIw21t3mF6EZfuZgpJ
-XA==
------END CERTIFICATE-----
-
-2020/03/07 22:11:23 HTTP server serving on :8080
-2020/03/07 22:27:15 Updating octank/database-credentials
-2020/03/07 22:27:15 Event(v1.ObjectReference{Kind:"SealedSecret", Namespace:"octank", Name:"database-credentials", UID:"cc4d3675-60c2-11ea-a6b7-0e57dc790b09", APIVersion:"bitnami.com/v1alpha1", ResourceVersion:"6403704", FieldPath:""}): type: 'Normal' reason: 'Unsealed' SealedSecret unsealed successfully
+Output:
+(...)
+2021/07/14 21:27:01 HTTP server serving on :8080
+2021/07/15 13:22:20 Updating octank/database-credentials
+2021/07/15 13:22:20 Event(v1.ObjectReference{Kind:"SealedSecret", Namespace:"octank", Name:"database-credentials", UID:"abc9b6ab-fe69-453a-8654-c9593de935c7", APIVersion:"bitnami.com/v1alpha1", ResourceVersion:"104915", FieldPath:""}): type: 'Normal' reason: 'Unsealed' SealedSecret unsealed successfully
 {{< /output >}}
 
 Verfiy that the **database-credentials** Secret unsealed from the SealedSecret was deployed by the controller to the *octank* namespace.
 ```
-kubectl get Secret database-credentials -n octank
+kubectl get secret -n octank database-credentials
 ```
 {{< output >}}
 NAME                   TYPE     DATA   AGE
-database-credentials   Opaque   2      4m18s
+database-credentials   Opaque   2      90s
 {{< /output >}}
 
 Redeploy the pod that reads from the above Secret and verify that the keys have been exposed as environment variables with the correct literal values.
