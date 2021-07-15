@@ -98,12 +98,14 @@ database-credentials   Opaque   2      90s
 
 Redeploy the pod that reads from the above Secret and verify that the keys have been exposed as environment variables with the correct literal values.
 ```
-kubectl delete pod pod-variable -n octank
-kubectl apply -f pod-variable.yaml -n octank
-kubectl logs pod-variable -n octank
+kubectl apply -f pod-variable.yaml
+kubectl wait -n octank pod/pod-variable --for=condition=Ready
+kubectl logs -n octank pod-variable
 ```
 Output:
 {{< output >}}
+pod/pod-variable created
+pod/pod-variable condition met
 DATABASE_USER = admin
 DATABASE_PASSWROD = Tru5tN0!
 {{< /output >}}
