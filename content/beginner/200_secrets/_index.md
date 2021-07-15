@@ -1,5 +1,6 @@
 ---
 title: "Securing Secrets using SealedSecrets"
+date: 2021-07-15T00:00:00-03:00
 chapter: true
 weight: 200
 tags:

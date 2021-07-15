@@ -1,6 +1,6 @@
 ---
 title: "Managing the Sealing Key"
-date: 2019-04-09T00:00:00-03:00
+date: 2021-07-15T00:00:00-03:00
 weight: 15
 draft: false
 ---
@@ -28,7 +28,7 @@ kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-ke
 Output:
 {{< output >}}
 NAME                      TYPE                DATA   AGE
-sealed-secrets-keyvk4pr   kubernetes.io/tls   2      23s
+sealed-secrets-keydw62x   kubernetes.io/tls   2      13s
 {{< /output >}}
 
 
@@ -49,26 +49,25 @@ kubectl logs sealed-secrets-controller-84fcdcd5fd-ds5t6 -n kube-system
 
 Output:
 {{< output >}}
-2020/03/07 23:07:15 Starting sealed-secrets controller version: v0.9.8
-2020/03/07 23:07:15 Searching for existing private keys
-2020/03/07 23:07:16 ----- sealed-secrets-keyvk4pr
-2020/03/07 23:07:16 HTTP server serving on :8080
+2021/07/15 13:55:56 Starting sealed-secrets controller version: v0.16.0
+2021/07/15 13:55:56 Searching for existing private keys
+controller version: v0.16.0
+2021/07/15 13:55:56 ----- sealed-secrets-keydw62x
+2021/07/15 13:55:56 HTTP server serving on :8080
 {{< /output >}}
 
 As you can see from the logs, the controller was able to find the existing Secret **sealed-secrets-keyvk4pr** in the *kube-system* namespace and therefore does not create a new key pair. Now, let's redeploy the SealedSecret and verify that the controller is able to successfully unseal it.
 ```
 kubectl apply -f sealed-secret.yaml 
-kubectl logs sealed-secrets-controller-84fcdcd5fd-gznc2  -n kube-system
+kubectl logs sealed-secrets-controller-84fcdcd5fd-ds5t6 -n kube-system
 ```
 
 Output:
 {{< output >}}
-2020/03/07 23:07:15 Starting sealed-secrets controller version: v0.9.8
-2020/03/07 23:07:15 Searching for existing private keys
-2020/03/07 23:07:16 ----- sealed-secrets-keyvk4pr
-2020/03/07 23:07:16 HTTP server serving on :8080
-2020/03/07 23:07:54 Updating octank/database-credentials
-2020/03/07 23:07:54 Event(v1.ObjectReference{Kind:"SealedSecret", Namespace:"octank", Name:"database-credentials", UID:"7a27919c-60c8-11ea-a6b7-0e57dc790b09", APIVersion:"bitnami.com/v1alpha1", ResourceVersion:"6409442", FieldPath:""}): type: 'Normal' reason: 'Unsealed' SealedSecret unsealed successfully
+(...)
+2021/07/15 13:55:56 HTTP server serving on :8080
+2021/07/15 13:57:42 Updating octank/database-credentials
+2021/07/15 13:57:42 Event(v1.ObjectReference{Kind:"SealedSecret", Namespace:"octank", Name:"database-credentials", UID:"7b1a3942-df08-4df0-9957-1cfa133fc9b5", APIVersion:"bitnami.com/v1alpha1", ResourceVersion:"108846", FieldPath:""}): type: 'Normal' reason: 'Unsealed' SealedSecret unsealed successfully
 {{< /output >}}
 
 {{% notice info %}}
