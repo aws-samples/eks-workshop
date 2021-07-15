@@ -18,13 +18,11 @@ FATA[0000] rpc error: code = NotFound desc = applications.argoproj.io "ecsdemo-n
 ```
 
 And then delete ArgoCD from your cluster:
-
 ```
-kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/install.yaml
 ```
 
 Delete namespaces created for this chapter:
-
 ```
 kubectl delete ns argocd
 kubectl delete ns ecsdemo-nodejs
