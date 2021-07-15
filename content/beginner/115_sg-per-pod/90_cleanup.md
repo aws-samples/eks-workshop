@@ -46,10 +46,19 @@ kubectl delete ns sg-per-pod
 kubectl -n kube-system set env daemonset aws-node ENABLE_POD_ENI=false
 kubectl -n kube-system rollout status ds aws-node
 
-# detach the IAM policy
+# detach the IAM policy, first nodegroup
+stack_role=$(aws cloudformation describe-stack-resources --stack-name eksctl-eksworkshop-eksctl-nodegroup-nodegroup | jq -r '.StackResources[] | select(.ResourceType=="AWS::IAM::Role") | .PhysicalResourceId')
+
 aws iam detach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
-    --role-name ${ROLE_NAME}
+    --role-name $stack_role
+
+# detach the IAM policy, second nodegroup
+stack_role=$(aws cloudformation describe-stack-resources --stack-name eksctl-eksworkshop-eksctl-nodegroup-nodegroup-sec-group | jq -r '.StackResources[] | select(.ResourceType=="AWS::IAM::Role") | .PhysicalResourceId')
+
+aws iam detach-role-policy \
+    --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
+    --role-name $stack_role
 
 # remove the security groups rules
 aws ec2 revoke-security-group-ingress \
