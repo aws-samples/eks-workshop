@@ -6,6 +6,21 @@ weight: 20
 
 ### Deploy a sample pod.
 
+First a new namespace that has a fargate profile attach needs to be created. In this case the namespace needs to be called fragate.
+
+```bash
+cat > fargate-ns.yaml <<EOF
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: fargate
+EOF
+
+kubectl apply -f fargate-ns.yaml
+```
+
+Next a sample app is deployed.
+
 ```bash
 cat > sample-app.yaml <<EOF
 apiVersion: apps/v1
@@ -40,10 +55,12 @@ Watch the created pods and wait until they are up and running
 kubectl get pods --watch -n fargate
 ```
 
+Press CTRL-c to get out of the watch mode.
+
 Execute a curl command inside one of the pods to create logs
 
 ```bash
-kubectl exec -it $(kubectl get pods -n fargate -o json | jq -r '.items[0].metadata.name') -- curl localhost
+kubectl exec -it $(kubectl get pods -n fargate -o json | jq -r '.items[0].metadata.name') -n fargate -- curl localhost
 ```
 
 Open [Cloudwatch](https://console.aws.amazon.com/cloudwatch/) and navigate to `Log Groups` in the navigation menu. 
