@@ -111,11 +111,11 @@ As you can see, all the 3 replicas of the web-server are automatically co-locate
 ```
 
 {{< output >}}
-NAME                           READY   STATUS    RESTARTS   AGE     IP               NODE                                          NOMINATED NODE   READINESS GATES
-redis-cache-6bc7d5b59d-r975n   1/1     Running   0          6m17s   192.168.4.62     ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
-web-server-655bf8bdf4-sxxc4    1/1     Running   0          6m16s   192.168.22.219   ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
-redis-cache-6bc7d5b59d-htzp2   1/1     Running   0          6m17s   192.168.49.70    ip-192-168-58-41.us-east-2.compute.internal   <none>           <none>
-web-server-655bf8bdf4-9x5tw    1/1     Running   0          6m16s   192.168.59.251   ip-192-168-58-41.us-east-2.compute.internal   <none>           <none>
-redis-cache-6bc7d5b59d-vmwrg   1/1     Running   0          6m17s   192.168.90.88    ip-192-168-95-39.us-east-2.compute.internal   <none>           <none>
-web-server-655bf8bdf4-8lb5g    1/1     Running   0          6m16s   192.168.91.140   ip-192-168-95-39.us-east-2.compute.internal   <none>           <none>
+NAME                          READY   STATUS    RESTARTS   AGE     IP                NODE                                            NOMINATED NODE   READINESS GATES
+redis-cache-d5f6b6855-pvnq9   1/1     Running   0          6m15s   192.168.105.235   ip-192-168-120-42.us-east-2.compute.internal    <none>           <none>
+web-server-7886dfdc59-m4g2s   1/1     Running   0          6m14s   192.168.105.33    ip-192-168-120-42.us-east-2.compute.internal    <none>           <none>
+redis-cache-d5f6b6855-2m58b   1/1     Running   0          6m15s   192.168.153.148   ip-192-168-149-120.us-east-2.compute.internal   <none>           <none>
+web-server-7886dfdc59-f2wc7   1/1     Running   0          6m14s   192.168.150.168   ip-192-168-149-120.us-east-2.compute.internal   <none>           <none>
+redis-cache-d5f6b6855-9574n   1/1     Running   0          6m15s   192.168.162.182   ip-192-168-168-227.us-east-2.compute.internal   <none>           <none>
+web-server-7886dfdc59-5r7ww   1/1     Running   0          6m14s   192.168.185.74    ip-192-168-168-227.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
