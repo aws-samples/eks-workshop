@@ -31,7 +31,7 @@
     "mermaid": "^8.4.2"
   },
   "devDependencies": {
-    "normalize-url": ">=4.5.1",
-    "cacheable-request": ">=7.0.2"
+    "cacheable-request": ">=7.0.2",
+    "normalize-url": ">=4.5.1"
   }
 }

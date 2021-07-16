@@ -57,6 +57,11 @@ managedNodeGroups:
   ssh:
     enableSsm: true
 
+fargateProfiles:
+  - name: fp-default
+    selectors:
+      - namespace: fargate
+
 # To enable all of the control plane logs, uncomment below:
 # cloudWatch:
 #  clusterLogging:

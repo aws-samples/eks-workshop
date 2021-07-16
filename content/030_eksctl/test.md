@@ -18,6 +18,13 @@ ROLE_NAME=$(aws cloudformation describe-stack-resources --stack-name $STACK_NAME
 echo "export ROLE_NAME=${ROLE_NAME}" | tee -a ~/.bash_profile
 ```
 
+#### Export the Pod Execution Role ARN for use throughout the workshop:
+
+```bash
+POD_EXECUTION_ROLE=$(eksctl get fargateprofile --cluster eksworkshop-eksctl -o json | jq -r '.[].podExecutionRoleARN')
+echo "export POD_EXECUTION_ROLE=${POD_EXECUTION_ROLE}" | tee -a ~/.bash_profile
+```
+
 #### Congratulations!
 
 You now have a fully working Amazon EKS Cluster that is ready to use! Before you move on to any other labs, make sure to complete the steps on the next page to update the EKS Console Credentials.
