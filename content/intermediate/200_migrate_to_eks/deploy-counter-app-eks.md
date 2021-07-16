@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: counter
-        image: public.ecr.aws/jg/counter:latest
+        image: public.ecr.aws/aws-containers/stateful-counter:latest
         env:
         - name: DB_HOST
           value: $IP
