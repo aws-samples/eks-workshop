@@ -65,14 +65,13 @@ aws emr-containers start-job-run --cli-input-json file://request.json
 
 Output:
 
-```
-{
+{{< output >}}
     "id": "00000002u5ipstrq84e",
-    "name": "pi-3",
+    "name": "pi-4",
     "arn": "arn:aws:emr-containers:us-west-2:xxxxxxxxxxx:/virtualclusters/jokbdf64kj891f7iaaot3qo9q/jobruns/00000002u5ipstrq84e",
     "virtualClusterId": "jokbdf64kj891f7iaaot3qo9q"
-}
-```
+{{< /output >}}
+
 
 
 

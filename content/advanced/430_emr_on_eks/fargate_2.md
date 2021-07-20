@@ -55,7 +55,7 @@ Problem - the job is stuck with pending status.
 ```sh
 watch kubectl get pod -n spark
 ```
-Wait for about 2 minutes. Press ctl+c to exit, as oon as the Spark driver is running. 
+Wait for about 2 minutes. Press ctl+c to exit, as soon as the Spark driver is running. 
 ![](/images/emr-on-eks/job_hang.png)
 
 Check the driver’s log:

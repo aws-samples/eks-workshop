@@ -83,7 +83,7 @@ Let's run the same inbuilt example scripts that calculates the value of pi, but 
 
 ```sh
 #Get required virtual cluster-id and role arn
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[].id" --output text)
+export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
 
 export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
 
@@ -156,7 +156,7 @@ You can also optimize your jobs by using Dynamic Resource Allocation (DRA) provi
 
 It is particularly useful if you are not familiar of your workload or want to use the flexibility of kubernetes to request resources as necesaary.
 
-Dynamic resource allocation (DRA) is available in Spark 3 (EMR 6.x) without the need for an external shuffle service. Spark on Kubernetes doesn't support external shuffle service as of spark 3.1, but DRA can be achieved by enabling shuffle tracking.
+Dynamic resource allocation (DRA) is available in Spark 3 (EMR 6.x) without the need for an external shuffle service. Spark on Kubernetes doesn't support external shuffle service as of Spark 3.1, but DRA can be achieved by enabling shuffle tracking.
 
 To add DRA, we will enable it and define executor behavior in `--configuration-overrides` section. 
 
