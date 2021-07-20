@@ -7,13 +7,13 @@ draft: false
 
 #### Monitoring job status
 
-With zero manual effort, the number of Fargate instances change dynamically and distribute across mutliple availability zones. 
+With zero manual effort, the number of Fargate instances change dynamically and distribute across mutliple availability zones. You can again open up couple of terminals and use watch command to see this change.
 
-Watch scaling status:
+Watch pod status:
 ```sh
 watch kubectl get pod -n spark
 ```
-Press ctl+c to exit, then execute the command:
+Watch node scaling activities: 
 ```sh
 watch kubectl get node \
 --label-columns=eks.amazonaws.com/capacityType,topology.kubernetes.io/zone

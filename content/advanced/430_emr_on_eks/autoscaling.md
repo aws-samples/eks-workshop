@@ -199,7 +199,7 @@ You can open up couple of terminals and use watch command to see how DRA scales 
 watch kubectl get pods -n spark
 ```
 
-As executor instances are scaled up by DRA, kubernetes cluster autoscaler adds nodes to shchedule those nodes. 
+As executor instances are scaled up by DRA, kubernetes cluster autoscaler adds nodes to schedule those nodes. 
 
 ```sh
 watch kubectl get nodes
