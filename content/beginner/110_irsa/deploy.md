@@ -10,6 +10,8 @@ Now that we have completed all the necessary configuration, we will run two kube
 * **job-s3.yaml**: that will output the result of the command `aws s3 ls` (this job should be successful).
 * **job-ec2.yaml**: that will output the result of the command `aws ec2 describe-instances --region ${AWS_REGION}` (this job should failed).
 
+Before deploying the workloads, make sure to have the environment variables `AWS_REGION` and `ACCOUNT_ID` configured in your terminal prompt.
+
 ### List S3 buckets
 
 Let's start by testing if the service account can list the S3 buckets
