@@ -5,7 +5,7 @@ weight: 20
 draft: false
 ---
 
-To use IAM roles for service accounts in your cluster, you must create an OIDC identity provider in the IAM console
+To use IAM roles for service accounts in your cluster, you must create an IAM OIDC Identity Provider. This can be done using the AWS Console, AWS CLIs and `eksctl`. For the sake of this workshop, we will use the last.
 
 ##### Check your eksctl version that your eksctl version is at least 0.57.0
 

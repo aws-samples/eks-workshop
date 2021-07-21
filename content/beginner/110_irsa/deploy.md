@@ -64,10 +64,7 @@ Output:
 {{< /output >}}
 
 {{% notice info %}}
-If you have an output, please move on to "List EC2 Instances."
-
-If the output is empty, it is possible your account doesn't have any s3 buckets.
-Please try to run theses extra commands.
+If the output lists some buckets, please move on to [**List EC2 Instances**](#list-ec2-instances). If not, it is possible your account doesn't have any s3 buckets. Please try to run theses extra commands.
 {{% /notice %}}
 
 Let's create an S3 bucket.
