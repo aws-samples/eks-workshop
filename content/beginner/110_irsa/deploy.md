@@ -39,12 +39,13 @@ EoF
 kubectl apply -f ~/environment/irsa/job-s3.yaml
 ```
 
-Make sure your job  is **completed**
+Make sure your job is **completed**.
 
 ```bash
 kubectl get job -l app=eks-iam-test-s3
 ```
 
+Output:
 {{< output >}}
 NAME              COMPLETIONS   DURATION   AGE
 eks-iam-test-s3   1/1           2s         21m
@@ -56,7 +57,7 @@ Let's check the logs to verify that the command ran successfully.
 kubectl logs -l app=eks-iam-test-s3
 ```
 
-Output example
+Output:
 {{< output >}}
 2021-07-17 20:09:41 eksworkshop-eksctl-helm-charts
 2021-07-18 19:22:37 eksworkshop-logs
@@ -75,34 +76,33 @@ Let's create an S3 bucket.
 aws s3 mb s3://eksworkshop-$ACCOUNT_ID-$AWS_REGION --region $AWS_REGION
 ```
 
-Output example
+Output:
 {{< output >}}
 make_bucket: eksworkshop-40XXXXXXXX75-us-east-1
 {{< /output >}}
 
-Now, let's try that job again.
+Now, let's try that job again. But first, we should remove the old job.
 
-1st, we delete the old job.
 ```bash
 kubectl delete job -l app=eks-iam-test-s3
 ```
 
-We can re-create the job.
+Then we can re-create the job.
+
 ```bash
 kubectl apply -f ~/environment/irsa/job-s3.yaml
 ```
 
 Finally, we can have a look at the output.
+
 ```bash
 kubectl logs -l app=eks-iam-test-s3
 ```
 
-Output example
+Output:
 {{< output >}}
 2021-07-21 14:06:24 eksworkshop-40XXXXXXXX75-us-east-1
 {{< /output >}}
-
-
 
 ### List EC2 Instances
 
@@ -138,6 +138,7 @@ Let's verify the job status
 kubectl get job -l app=eks-iam-test-ec2
 ```
 
+Output:
 {{< output >}}
 NAME               COMPLETIONS   DURATION   AGE
 eks-iam-test-ec2   0/1           39s        39s
@@ -147,17 +148,13 @@ eks-iam-test-ec2   0/1           39s        39s
 It is normal that the job didn't complete succesfuly.
 {{% /notice %}}
 
-
 Finally we will review the logs
 
 ```bash
 kubectl logs -l app=eks-iam-test-ec2
 ```
 
-Output
+Output:
 {{< output >}}
-
 An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation.
 {{< /output >}}
-
-

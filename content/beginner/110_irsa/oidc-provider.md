@@ -21,7 +21,7 @@ eksctl version
 If your eksctl version is lower than 0.57.0, use [Installing or Upgrading eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl) in the user guide
 {{% /notice %}}
 
-##### Create your OIDC identity provider for your cluster
+##### Create your IAM OIDC Identity Provider for your cluster
 
 ```bash
 eksctl utils associate-iam-oidc-provider --cluster eksworkshop-eksctl --approve

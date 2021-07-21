@@ -31,11 +31,12 @@ If your aws cli version is lower than 1.20.3, use [Installing the AWS CLI](https
 aws --version
 ```
 
+Output:
 {{< output >}}
 aws-cli/1.20.3 Python/3.7.10 Linux/4.14.225-168.357.amzn2.x86_64 botocore/1.21.3
 {{< /output >}}
 
-
+### Retrieve OpenID Connect issuer URL
 
 ##### Retrieve OpenID Connect issuer URL:
 
@@ -43,7 +44,7 @@ aws-cli/1.20.3 Python/3.7.10 Linux/4.14.225-168.357.amzn2.x86_64 botocore/1.21.3
 aws eks describe-cluster --name eksworkshop-eksctl --query cluster.identity.oidc.issuer --output text
 ```
 
-<div data-proofer-ignore>
+Output:
 {{< output >}}
 https://oidc.eks.us-east-1.amazonaws.com/id/09D1E682ADD23F8431B986E4B2E35BCB
 {{< /output >}}
