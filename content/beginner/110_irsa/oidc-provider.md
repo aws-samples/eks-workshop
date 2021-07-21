@@ -7,18 +7,18 @@ draft: false
 
 To use IAM roles for service accounts in your cluster, you must create an OIDC identity provider in the IAM console
 
-##### Check your eksctl version that your eksctl version is at least 0.5.1
+##### Check your eksctl version that your eksctl version is at least 0.57.0
 
 ```bash
 eksctl version
 ```
 
 {{< output >}}
-[ℹ]  version.Info{BuiltAt:"", GitCommit:"", GitTag:"0.5.3"}
+0.57.0
 {{< /output >}}
 
 {{% notice info %}}
-If your eksctl version is lower than 0.5.1, use [Installing or Upgrading eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl) in the user guide
+If your eksctl version is lower than 0.57.0, use [Installing or Upgrading eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl) in the user guide
 {{% /notice %}}
 
 ##### Create your OIDC identity provider for your cluster
@@ -28,9 +28,10 @@ eksctl utils associate-iam-oidc-provider --cluster eksworkshop-eksctl --approve
 ```
 
 {{< output >}}
-[ℹ]  using region {AWS_REGION}
-[ℹ]  will create IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "{AWS_REGION}"
-[✔]  created IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "{AWS_REGION}"
+2021-07-20 17:51:36 [ℹ]  eksctl version 0.57.0
+2021-07-20 17:51:36 [ℹ]  using region us-east-1
+2021-07-20 17:51:38 [ℹ]  will create IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "us-east-1"
+2021-07-20 17:51:39 [✔]  created IAM Open ID Connect provider for cluster "eksworkshop-eksctl" in "us-east-1"
 {{< /output >}}
 
 If you go to the [Identity Providers in IAM Console](https://console.aws.amazon.com/iam/home#/providers), you will see OIDC provider has created for your cluster

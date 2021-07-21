@@ -58,8 +58,8 @@ kubectl logs -l app=eks-iam-test-s3
 
 Output example
 {{< output >}}
-2020-04-17 12:30:41 eksworkshop-eksctl-helm-charts
-2020-02-12 01:48:05 eksworkshop-logs
+2021-07-17 20:09:41 eksworkshop-eksctl-helm-charts
+2021-07-18 19:22:37 eksworkshop-logs
 {{< /output >}}
 
 {{% notice info %}}
@@ -77,7 +77,7 @@ aws s3 mb s3://eksworkshop-$ACCOUNT_ID-$AWS_REGION --region $AWS_REGION
 
 Output example
 {{< output >}}
-make_bucket: eksworkshop-886836808448-us-east-1
+make_bucket: eksworkshop-40XXXXXXXX75-us-east-1
 {{< /output >}}
 
 Now, let's try that job again.
@@ -85,7 +85,6 @@ Now, let's try that job again.
 1st, we delete the old job.
 ```bash
 kubectl delete job -l app=eks-iam-test-s3
-
 ```
 
 We can re-create the job.
@@ -100,7 +99,7 @@ kubectl logs -l app=eks-iam-test-s3
 
 Output example
 {{< output >}}
-2021-05-17 15:44:41 eksworkshop-886836808448-us-east-1
+2021-07-21 14:06:24 eksworkshop-40XXXXXXXX75-us-east-1
 {{< /output >}}
 
 

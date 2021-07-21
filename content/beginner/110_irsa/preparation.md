@@ -17,8 +17,14 @@ If your EKS cluster version is lower or does not match with above, please read t
 kubectl version --short
 ```
 
+Output:
+{{< output >}}
+Client Version: v1.21.3
+Server Version: v1.20.4-eks-6b7464
+{{< /output >}}
+
 {{% notice info %}}
-If your aws cli version is lower than 1.18.15, use [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the User Guide
+If your aws cli version is lower than 1.20.3, use [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the User Guide
 {{% /notice %}}
 
 ```bash
@@ -26,7 +32,7 @@ aws --version
 ```
 
 {{< output >}}
-aws-cli/1.18.15 Python/2.7.16 Linux/4.14.133-88.112.amzn1.x86_64 botocore/1.12.228
+aws-cli/1.20.3 Python/3.7.10 Linux/4.14.225-168.357.amzn2.x86_64 botocore/1.21.3
 {{< /output >}}
 
 
@@ -39,6 +45,5 @@ aws eks describe-cluster --name eksworkshop-eksctl --query cluster.identity.oidc
 
 <div data-proofer-ignore>
 {{< output >}}
-https://oidc.eks.{AWS_REGION}.amazonaws.com/id/D48675832CA65BD10A532F59741CF90B
+https://oidc.eks.us-east-1.amazonaws.com/id/09D1E682ADD23F8431B986E4B2E35BCB
 {{< /output >}}
-</div>

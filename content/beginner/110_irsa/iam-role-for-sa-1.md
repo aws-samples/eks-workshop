@@ -32,13 +32,15 @@ eksctl create iamserviceaccount \
 ```
 
 {{< output >}}
-[ℹ]  using region {AWS_REGION}
-[ℹ]  1 iamserviceaccount (default/iam-test) was included (based on the include/exclude rules)
-[!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
-[ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "default/iam-test", create serviceaccount "default/iam-test" } }
-[ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
-[ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
-[ℹ]  created serviceaccount "default/iam-test"
+2021-07-21 10:31:14 [ℹ]  eksctl version 0.57.0
+2021-07-21 10:31:14 [ℹ]  using region us-east-1
+2021-07-21 10:31:17 [ℹ]  1 iamserviceaccount (default/iam-test) was included (based on the include/exclude rules)
+2021-07-21 10:31:17 [!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+2021-07-21 10:31:17 [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "default/iam-test", create serviceaccount "default/iam-test" } }
+2021-07-21 10:31:17 [ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
+2021-07-21 10:31:17 [ℹ]  deploying stack "eksctl-sandbox-addon-iamserviceaccount-default-iam-test"
+2021-07-21 10:31:17 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
+2021-07-21 10:31:53 [ℹ]  created serviceaccount "default/iam-test"
 {{< /output >}}
 
 {{% notice info %}}
