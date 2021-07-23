@@ -10,7 +10,7 @@ draft: false
 * The IAM roles for service accounts feature is available on new Amazon EKS Kubernetes version 1.16 or higher, and clusters that were updated to versions 1.14 or 1.13 on or after September 3rd, 2019.
 
 {{% notice info %}}
-If your EKS cluster version is older than 1.16, please read the [updating an Amazon EKS Cluster](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) section in the User Guide.
+If your EKS cluster version is older than 1.16 your outputs may very. Please consider reading the [updating an Amazon EKS Cluster](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) section in the User Guide.
 {{% /notice %}}
 
 ```bash
