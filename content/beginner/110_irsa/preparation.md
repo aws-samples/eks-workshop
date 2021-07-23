@@ -19,7 +19,7 @@ kubectl version --short
 
 Output:
 {{< output >}}
-Client Version: v1.21.3
+Client Version: v1.20.4-eks-6b7464
 Server Version: v1.20.4-eks-6b7464
 {{< /output >}}
 
