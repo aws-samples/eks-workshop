@@ -24,7 +24,7 @@ Server Version: v1.20.4-eks-6b7464
 {{< /output >}}
 
 {{% notice info %}}
-If your aws cli version is lower than 1.20.3, use [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the User Guide
+If your aws cli version is lower than 1.19.122, use [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the User Guide
 {{% /notice %}}
 
 ```bash
@@ -33,7 +33,7 @@ aws --version
 
 Output:
 {{< output >}}
-aws-cli/1.20.3 Python/3.7.10 Linux/4.14.225-168.357.amzn2.x86_64 botocore/1.21.3
+aws-cli/1.19.112 Python/2.7.18 Linux/4.14.232-177.418.amzn2.x86_64 botocore/1.20.112
 {{< /output >}}
 
 ### Retrieve OpenID Connect issuer URL
