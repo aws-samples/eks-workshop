@@ -28,7 +28,7 @@ EoF
 eksctl create nodegroup -f ${HOME}/environment/sg-per-pod/nodegroup-sec-group.yaml
 
  kubectl get nodes \
-  --selector beta.kubernetes.io/instance-type=m5.large
+  --selector node.kubernetes.io/instance-type=m5.large
 ```
 
 {{< output >}}
