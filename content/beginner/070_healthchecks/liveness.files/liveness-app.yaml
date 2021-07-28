@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: liveness
-    image: brentley/ecsdemo-nodejs
+    image: aws-containers/ecsdemo-nodejs
     livenessProbe:
       httpGet:
         path: /health

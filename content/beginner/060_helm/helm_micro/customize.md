@@ -95,10 +95,10 @@ version: 'latest'
 
 # Service Specific Values
 nodejs:
-  image: brentley/ecsdemo-nodejs
+  image: aws-containers/ecsdemo-nodejs
 crystal:
-  image: brentley/ecsdemo-crystal
+  image: aws-containers/ecsdemo-crystal
 frontend:
-  image: brentley/ecsdemo-frontend
+  image: aws-containers/ecsdemo-frontend
 EoF
 ```

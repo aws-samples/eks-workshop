@@ -36,7 +36,7 @@ spec:
         value: "true"
         effect: "PreferNoSchedule"
       containers:
-      - image: brentley/ecsdemo-frontend:latest
+      - image: aws-containers/ecsdemo-frontend:latest
         imagePullPolicy: Always
         name: ecsdemo-frontend
         ports:

@@ -30,7 +30,7 @@ spec:
                 values:
                 - ON_DEMAND
       containers:
-      - image: brentley/ecsdemo-crystal:latest
+      - image: aws-containers/ecsdemo-crystal:latest
         imagePullPolicy: Always
         name: ecsdemo-crystal
         ports:

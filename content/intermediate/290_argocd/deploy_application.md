@@ -9,7 +9,7 @@ We now have an ArgoCD fully deployed, we will now deploy an application (ecsdemo
 ### Fork application repository
 First step is to create a fork for the Github application we will deploy.
 
-Login to github, go to: https://github.com/brentley/ecsdemo-nodejs.git and Fork the repo
+Login to github, go to: https://github.com/aws-containers/ecsdemo-nodejs.git and Fork the repo
 ![Fork Img](/images/argocd/fork_app_repo.jpg)
 
 Then into your select the https URL by clicking into button `Clone or download`:

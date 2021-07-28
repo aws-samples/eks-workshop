@@ -8,7 +8,7 @@ Mistakes will happen during deployment, and when they do, Helm makes it easy to 
 
 #### Update the demo application chart with a breaking change
 
-Open **values.yaml** and modify the image name under `nodejs.image` to **brentley/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment.
+Open **values.yaml** and modify the image name under `nodejs.image` to **aws-containers/ecsdemo-nodejs-non-existing**. This image does not exist, so this will break our deployment.
 
 Deploy the updated demo application chart:
 ```sh
