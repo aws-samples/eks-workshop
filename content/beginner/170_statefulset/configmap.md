@@ -6,7 +6,7 @@ weight: 10
 
 ## Introduction
 
-[ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) allow you to decouple configuration artifacts and secrets from image content to keep containerized applications portable. Using ConfigMap, you can independently control MySQL configuration.
+[ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) allow you to decouple configuration artifacts and secrets from image content to keep containerized applications portable. Using ConfigMap, you can independently control the MySQL configuration.
 
 ## Create the mysql Namespace
 
@@ -18,7 +18,7 @@ kubectl create namespace mysql
 
 ## Create ConfigMap
 
-Run the following commands to download the `ConfigMap`.
+Run the following commands to create the `ConfigMap`.
 
 ```sh
 cd ${HOME}/environment/ebs_statefulset
