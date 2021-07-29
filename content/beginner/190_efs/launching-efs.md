@@ -48,7 +48,7 @@ done
 
 {{% notice info %}}
 When eksctl provisions your VPC and EKS cluster, it assigns the following tags to all public subnets in the cluster VPC. The above command leverages these tags to identify the public subnets.  
-*kubernetes.io/cluster/eksworkshop-eksctl = shared*  
+*alpha.eksctl.io/cluster-name = eksworkshop-eksctl*  
 *kubernetes.io/role/elb = 1*
 {{% /notice %}}
 
