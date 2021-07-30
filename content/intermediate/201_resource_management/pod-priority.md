@@ -132,8 +132,9 @@ kubectl apply -f ~/environment/resource-management/high-priority-deployment.yml
 
 What changes did you see?
 {{% expand "Expand for output" %}}
-{{< output >}}
+```
 kubectl get deployment  --watch
+
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   21/50   50           21          2m15s
 
@@ -156,7 +157,7 @@ high-nginx-deployment   2/5     5            2           8s
 high-nginx-deployment   3/5     5            3           22s
 high-nginx-deployment   4/5     5            4           23s
 high-nginx-deployment   5/5     5            5           23s
-{{< /output >}}
+```
 
 When the higher-priority deployment is created, it started to remove lower-priority pods on the nodes.  
 

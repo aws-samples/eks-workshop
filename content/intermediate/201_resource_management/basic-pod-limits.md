@@ -1,6 +1,6 @@
 ---
 title: "Basic Pod CPU and Memory Management"
-date: 2021-07-20T00:00:00-03:00
+date: 2021-07-30T00:00:00-03:00
 weight: 10
 draft: false
 ---
@@ -136,8 +136,8 @@ spec:
 ### Cleanup
 Clean up the pods before moving on to free up resources:
 ```
-kubectl delete pod request-pod
-kubectl delete pod limit-memory-pod
-kubectl delete pod limit-cpu-pod
-kubectl delete pod restricted-pod
+kubectl delete pod basic-request-pod
+kubectl delete pod basic-limit-memory-pod
+kubectl delete pod basic-limit-cpu-pod
+kubectl delete pod basic-restricted-pod
 ```
