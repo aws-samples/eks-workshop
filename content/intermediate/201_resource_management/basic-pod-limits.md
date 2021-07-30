@@ -82,9 +82,9 @@ kubectl top pod
 Output:
 {{< output >}}
 NAME                   CPU(cores)   MEMORY(bytes)   
-limit-cpu-pod    501m         516Mi           
-request-pod      1000m        2055Mi          
-restricted-pod   1795m        1029Mi 
+basic-limit-cpu-pod    501m         516Mi           
+basic-request-pod      1000m        2055Mi          
+basic-restricted-pod   1795m        1029Mi 
 {{< / output >}}
 
 {{% notice info%}}
