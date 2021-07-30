@@ -16,7 +16,7 @@ This can be accomplished a few different ways:
 
 * You can enable the AWS App Mesh Sidecar Injector in the meshed namespace, which watches for new pods to be created and automatically adds the sidecar container and required configuration to the pods as they are deployed.
 
-In this tutorial, we will use the third option and enable automatic sidecar injection for our meshed pods. We have enabled automatic sidecar injection by adding label `Labels: appmesh.k8s.aws/sidecarInjectorWebhook=enabled` on the `prodcatalog-ns` namespace when we created the mess resources in [previous chapter](/advanced/330_servicemesh_using_appmesh/port_to_app_mesh/create_meshed_app/), but this was done after initial pod creation. Currently, oour pods each have one container running.
+In this tutorial, we will use the third option and enable automatic sidecar injection for our meshed pods. We have enabled automatic sidecar injection by adding label `Labels: appmesh.k8s.aws/sidecarInjectorWebhook=enabled` on the `prodcatalog-ns` namespace when we created the mesh resources in [previous chapter](/advanced/330_servicemesh_using_appmesh/port_to_app_mesh/create_meshed_app/), but this was done after initial pod creation. Currently, our pods each have one container running.
 
 ```bash
 kubectl get pods -n prodcatalog-ns -o wide
