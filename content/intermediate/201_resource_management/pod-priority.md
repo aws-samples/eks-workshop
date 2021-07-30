@@ -1,16 +1,16 @@
 ---
 title: "Pod Priority and Preemption"
-date: 2020-06-22T00:00:00-03:00
+date: 2021-07-30T00:00:00-03:00
 weight: 13
 draft: false
 ---
 
-Pod Priority is used to apply importance of a pod relative to other pods. In this section we will create two `PriorityClasses` and watch the interaction of pods. 
+Pod Priority is used to apply importance of a pod relative to other pods. In this section we will create two `PriorityClass` objects and watch the interaction of pods. 
 
 
 ### Create PriorityClass
 
-We will create two `PriorityClass`, **low-priority** and **high-priority**.
+We will create two `PriorityClass` objects, **low-priority** and **high-priority**.
 
 ```
 cat <<EoF > ~/environment/resource-management/high-priority-class.yml
@@ -158,6 +158,6 @@ high-nginx-deployment   4/5     5            4           23s
 high-nginx-deployment   5/5     5            5           23s
 {{< /output >}}
 
-When the higher-priority deployment is created it started to remove lower-priority pods on the nodes.  
+When the higher-priority deployment is created, it started to remove lower-priority pods on the nodes.  
 
 {{% /expand %}}
