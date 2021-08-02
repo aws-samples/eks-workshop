@@ -91,7 +91,7 @@ spec:
 Note that it uses a `podSelector` to identify which `Pods` are members of this VirtualNode, as well as a pointer to the frontend-node `Service`.
 
 ##### VirtualService and VirtualRouter
-There are also VirtualService and VirtualRouter specifications for each of the product catalog detail versions, establishing traffic routing to their respective endpoints. This is accomplished by adding `Route`s which point to the `proddetail-v1` virtual nodes.
+There are also VirtualService and VirtualRouter specifications for each of the product catalog detail versions, establishing traffic routing to their respective endpoints. This is accomplished by adding `Routes` which point to the `proddetail-v1` virtual nodes.
 App Mesh also provides the VirtualService construct which allows you to specify a logical service path for application traffic. In this example, they send traffic to VirtualRouters, which then route traffic to the VirtualNodes.
 Looking at the [meshed_app.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/meshed_app.yaml), below is the `proddetail` VirtualService and VirtualRouter which will route the traffic to version 1 of backend service `proddetail-v1`. 
 

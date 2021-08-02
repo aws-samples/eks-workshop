@@ -24,8 +24,8 @@ for app in catalog_detail; do
   cd apps/$app
   docker build -t $TARGET -f version2/Dockerfile .
   docker push $TARGET
+  cd ../../.
 done
-cd ../../.
 ```
 
 #### Deploy Catalog Detail Version 2 service resources
