@@ -36,19 +36,61 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics
 helm repo update
 ```
+#### Create a file called amp_ingest_override_values.yaml with the following content in it.
 
+```
+serviceAccounts:
+  ## Disable alert manager roles
+  ##
+  server:
+        name: "iamproxy-service-account"
+  alertmanager:
+    create: false
+
+  ## Disable pushgateway
+  ##
+  pushgateway:
+    create: false
+
+server:
+  remoteWrite:
+    -
+      queue_config:
+        max_samples_per_send: 1000
+        max_shards: 200
+        capacity: 2500
+
+  ## Use a statefulset instead of a deployment for resiliency
+  ##
+  statefulSet:
+    enabled: true
+
+  ## Store blocks locally for short time period only
+  ##
+  retention: 1h
+  
+## Disable alert manager
+##
+alertmanager:
+  enabled: false
+
+## Disable pushgateway
+##
+pushgateway:
+  enabled: false
+```
 
 
 #### Set up the new server and start ingesting metrics 
 
-6. Execute the following commands in the terminal:
+5. Execute the following commands in the terminal:
 
 >This script configures and installs Prometheus server on the cluster.
 
 ```
 IAM_PROXY_PROMETHEUS_ROLE_ARN=$(aws iam get-role --role-name amp-iamproxy-ingest-role | jq .Role.Arn -r)
 WORKSPACE_ID=$(aws amp list-workspaces --alias observability-workshop | jq .workspaces[0].workspaceId -r)
-helm install amp-prometheus-chart prometheus-community/prometheus -n prometheus -f ./resources/amp_ingest_override_values.yaml \
+helm install amp-prometheus-chart prometheus-community/prometheus -n prometheus -f ./amp_ingest_override_values.yaml \
 --set serviceAccounts.server.annotations."eks\.amazonaws\.com/role-arn"="${IAM_PROXY_PROMETHEUS_ROLE_ARN}" \
 --set server.remoteWrite[0].url="https://aps-workspaces.${AWS_REGION}.amazonaws.com/workspaces/${WORKSPACE_ID}/api/v1/remote_write" \
 --set server.remoteWrite[0].sigv4.region=${AWS_REGION}
@@ -60,29 +102,9 @@ helm install amp-prometheus-chart prometheus-community/prometheus -n prometheus 
 
 ![AMP setup](/images/amp/amp5.png)
 
-### Setup ADOT Collector
-
-The [AWS Distro for the OpenTelemetry Collector](https://aws-otel.github.io/docs/getting-started/prometheus-remote-write-exporter) is another option for you to use to ingest metrics into AMP. The ADOT-AMP pipeline enables us to use the ADOT Collector to scrape a Prometheus-instrumented application, and send the scraped metrics to Amazon Managed Service for Prometheus (AMP).
-
-![ADOT-AMP pipeline](/images/amp/amp8.png)
-
-7. Execute the following commands in the terminal:
-
-> This script deploys the ADOT collector.
-
-```
-AMP_ENDPOINT_URL=$(aws amp describe-workspace --workspace-id $WORKSPACE_ID | jq .workspace.prometheusEndpoint -r)
-AMP_REMOTE_WRITE=${AMP_ENDPOINT_URL}api/v1/remote_write
-cp -f resources/amp-eks-adot-prometheus-daemonset.yaml daemonset.yaml
-sed -i -e "s/<AWS_ACCOUNT_ID>/$ACCOUNT_ID/g" daemonset.yaml
-sed -i -e "s/<AWS_REGION>/$AWS_REGION/g" daemonset.yaml
-sed -i -e "s|<AMP_REMOTE_WRITE_URL>|$AMP_REMOTE_WRITE|g" daemonset.yaml
-
-kubectl apply -f ./daemonset.yaml
-```
 #### Validate the setup
 
-8. Execute the following commands in the terminal:
+6. Execute the following commands in the terminal:
 >This script returns a list of Pods in the cluster
 
 ```
@@ -103,7 +125,7 @@ amp-prometheus-chart-server-0                            2/2     Running   0    
 
 The ADOT collector and the Prometheus server sign the requests when ingesting into the AMP workspace. 
 
-9. Execute the following commands in the terminal:
+7. Execute the following commands in the terminal:
 
 > This command will allow you to connect to the Prometheus server container from localhost.
 
@@ -111,13 +133,13 @@ The ADOT collector and the Prometheus server sign the requests when ingesting in
 kubectl port-forward -n prometheus pods/amp-prometheus-chart-server-0 8080:9090
 ```
 
-10. Navigate to [http://127.0.0.1:8080](http://127.0.0.1:8080) to see the Prometheus interface. 
+8. Navigate to [http://127.0.0.1:8080](http://127.0.0.1:8080) to see the Prometheus interface. 
 
 > If you are on Cloud9, you can open the preview browser by clicking on `Preview Running Application` as shown below.
 
 ![Prom dashboard](/images/amp/amp9.png)
 
-11. Paste the following PromQL in the query text box, click `Execute` and switch to the `Graph` tab to see the results as shown below.
+9. Paste the following PromQL in the query text box, click `Execute` and switch to the `Graph` tab to see the results as shown below.
 
 ```
 rate(node_network_receive_bytes_total[5m])
@@ -125,7 +147,7 @@ rate(node_network_receive_bytes_total[5m])
 
 ![Prom dashboard](/images/amp/amp6.png)
 
-12. Go to the `Configuration` page as shown below and search for the keyword `remote`.  
+10. Go to the `Configuration` page as shown below and search for the keyword `remote`.  
 
 > You will find that the `remote_write` destination has been set to the AMP workspace as shown below. 
 
