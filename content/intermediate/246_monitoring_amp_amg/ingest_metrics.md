@@ -1,5 +1,5 @@
 ---
-title: "Ingest Metrics into EKS"
+title: "Ingest Metrics into AMP"
 date: 2021-01-21T22:27:17-05:00
 draft: false
 weight: 30
