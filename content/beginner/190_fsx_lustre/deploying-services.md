@@ -113,7 +113,7 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
 1. If you only want to import data and read it without any modification and creation, then you don't need a value for s3ExportPath in your storageclass.yaml file. Verify that data was written to the Amazon FSx for Lustre file system by the sample app.
 
     ```
-    kubectl exec -it fsx-app ls /data
+    kubectl exec fsx-app -- ls /data
     ```
 
     **Output:**
@@ -121,7 +121,8 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
     The sample app wrote the out.txt file to the file system.
 
     ```
-    export  out.txt
+    export  
+    out.txt
     ```
 
 2. Archive files to the s3ExportPath. For new files and modified files, you can use the Lustre user space tool to archive the data back to Amazon S3 using the value that you specified for s3ExportPath.
