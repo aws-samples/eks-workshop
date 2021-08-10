@@ -1,6 +1,6 @@
 ---
 title: "Deploying the Stateful Services"
-date: 2019-04-09T00:00:00-03:00
+date: 2021-08-10T00:00:00-03:00
 weight: 14
 draft: false
 ---
@@ -144,6 +144,6 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
     **Output:**
 
     ```
-    2019-12-23 12:11:35       4553 out.txt
-    2019-12-23 11:41:21         10 testfile
+    2021-08-10 12:11:35       4553 out.txt
+    2021-08-10 11:41:21         10 testfile
     ```
