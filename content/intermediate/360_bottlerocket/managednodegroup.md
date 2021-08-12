@@ -14,7 +14,7 @@ In this section, we will use [launch templates](https://docs.aws.amazon.com/auto
 Let us select the AMI to use from [AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/index.html) and save some information about the EKS cluster that is already running.
 
 ```bash
-~/environment
+cd ~/environment
 BOTTLEROCKET_AMI=$(aws ssm get-parameter --region $AWS_REGION --name "/aws/service/bottlerocket/aws-k8s-1.19/x86_64/latest/image_id" --query Parameter.Value --output text)
 CLUSTER_VPC=$(aws eks describe-cluster --name eksworkshop-eksctl | jq -r '.cluster.resourcesVpcConfig.vpcId')
 CLUSTER_ENDPOINT=$(aws eks describe-cluster --name eksworkshop-eksctl | jq -r '.cluster.endpoint')
@@ -50,7 +50,7 @@ chmod 400 eks-br.pem
 We will now start building the EC2 launch template that can be used to create a node group in any EKS cluster in your account. We have to ensure that the [Bottlerocket variant](https://github.com/bottlerocket-os/bottlerocket/tree/develop/variants) picked for the nodes is compatible with the Kubernetes version of your cluster.
 
 ```bash
-cat <<EoF > user-data.json
+cat <<EoF > user-data.txt
 [settings.kubernetes]
 cluster-name = "eksworkshop-eksctl"
 api-server = "CLUSTER_ENDPOINT"
@@ -59,7 +59,7 @@ cluster-certificate = "CLUSTER_CA"
 enabled = true
 EoF
 
-base64 user-data.txt > user-data-base64.txt
+base64 -w 0 user-data.txt > user-data-base64.txt
 USERDATA=$(cat user-data-base64.txt)
 ```
 
@@ -79,7 +79,7 @@ cat <<EoF > launch-template.json
 }
 EoF
 
-LAUNCH_TEMPLATE_ID=$(aws ec2 create-launch-template --launch-template-name eks-br-template2 --launch-template-data file://launch-template.json | jq -r ".LaunchTemplate.LaunchTemplateId")
+LAUNCH_TEMPLATE_ID=$(aws ec2 create-launch-template --launch-template-name eks-br-template --launch-template-data file://launch-template.json | jq -r ".LaunchTemplate.LaunchTemplateId")
 ```
 
 Using the launch template ID and cluster information, we can now prepare a yaml file that can be used to create a new node group in your EKS cluster.
