@@ -43,7 +43,7 @@ BR_NODE_SG=$(aws ec2 create-security-group --group-name eks-br-node-ssh --descri
 MYIP=$(curl https://ipinfo.io/ip)/32
 aws ec2 authorize-security-group-ingress --group-id $BR_NODE_SG --protocol tcp --port 22 --cidr $MYIP
 
-aws ec2 create-key-pair --key-name eks-br --query "keyMaterial" --output text > eks-br.pem
+aws ec2 create-key-pair --key-name eks-br --query "KeyMaterial" --output text > eks-br.pem
 chmod 400 eks-br.pem
 ```
 
@@ -53,8 +53,8 @@ We will now start building the EC2 launch template that can be used to create a 
 cat <<EoF > user-data.txt
 [settings.kubernetes]
 cluster-name = "eksworkshop-eksctl"
-api-server = "CLUSTER_ENDPOINT"
-cluster-certificate = "CLUSTER_CA"
+api-server = "$CLUSTER_ENDPOINT"
+cluster-certificate = "$CLUSTER_CA"
 [settings.host-containers.admin]
 enabled = true
 EoF
