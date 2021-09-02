@@ -8,7 +8,7 @@ Congratulations on completing the Continuous Deployment with ArgoCD module.
 
 This module is not used in subsequent steps, so you can remove the resources now, or at the end of the workshop:
 ```
-argocd app delete ecsdemo-nodejs
+argocd app delete ecsdemo-nodejs -y
 watch argocd app get ecsdemo-nodejs
 ```
 
