@@ -169,3 +169,26 @@ kubectl -n kube-system logs -f deployment/cluster-autoscaler
 **We are now ready to scale our cluster**
 
 {{%attachments title="Related files" pattern=".yaml"/%}}
+
+
+### Additional changes for cluster Autoscaler with autodiscovery
+
+If using cluster autoscaler with autodisovery method (`--node-group-auto-discovery`) add the below policy to the Nodegroup IAM role. 
+
+```
+     {
+        Effect : "Allow",
+        Principal : {
+          Federated : format("arn:aws:iam::${local.aws_account_id}:%s", replace(module.eks.cluster_oidc_issuer_url, "https://", "oidc-provider/"))
+        },
+        Action : "sts:AssumeRoleWithWebIdentity",
+        Condition : {
+          StringEquals : {
+            format(
+              "%s:sub",
+              trimprefix(module.eks.cluster_oidc_issuer_url, "https://")
+            ) : "system:serviceaccount:kube-system:cluster-autoscaler"
+          }
+        }
+      }
+```
