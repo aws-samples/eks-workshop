@@ -22,6 +22,11 @@ Open a New Terminal Tab  and enter
 aws eks get-token --cluster-name eksworkshop-eksctl | jq -r '.status.token'
 ```
 
+Or following comand
+```bash
+kubectl -n kube-system describe $(kubectl -n kube-system get secret -n kube-system -o name | grep namespace) | grep token
+```
+
 Copy the output of this command and then click the radio button next to
 *Token* then in the text field below paste the output from the last command.
 
