@@ -7,7 +7,7 @@ draft: false
 
 Running applications on the serverless compute engine AWS Fargate, makes it easy for you to focus on deliverying business values, as it removes the need to provision, configure autoscaling, and manage the server.
 
-Before we schedule a serverless EMR job on Amazon EKS, a Fargate profile is needed, that specifies which of your Spark pods should use Fargate when they are launched. For more information, see [AWS Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) and our previous lab [Creating a Fargate Profile](beginner/180_fargate/creating-profile/).
+Before we schedule a serverless EMR job on Amazon EKS, a Fargate profile is needed, that specifies which of your Spark pods should use Fargate when they are launched. For more information, see [AWS Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) and our previous lab [Creating a Fargate Profile](/beginner/180_fargate/creating-profile/).
 
 #### Create Fargate Profile
 
