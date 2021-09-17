@@ -61,12 +61,11 @@ kubectl describe pod liveness-app
 Events:
   Type    Reason                 Age   From                                    Message
   ----    ------                 ----  ----                                    -------
-  Normal  Scheduled              38s   default-scheduler                       Successfully assigned liveness-app to ip-192-168-18-63.ec2.internal
-  Normal  SuccessfulMountVolume  38s   kubelet, ip-192-168-18-63.ec2.internal  MountVolume.SetUp succeeded for volume "default-token-8bmt2"
-  Normal  Pulling                37s   kubelet, ip-192-168-18-63.ec2.internal  pulling image "brentley/ecsdemo-nodejs"
-  Normal  Pulled                 37s   kubelet, ip-192-168-18-63.ec2.internal  Successfully pulled image "brentley/ecsdemo-nodejs"
-  Normal  Created                37s   kubelet, ip-192-168-18-63.ec2.internal  Created container
-  Normal  Started                37s   kubelet, ip-192-168-18-63.ec2.internal  Started container
+  Normal  Scheduled              38s   default-scheduler                       Successfully assigned default/liveness-app to ip-192-168-18-63.ec2.internal
+  Normal  Pulling                37s   kubelet                                 Pulling image "brentley/ecsdemo-nodejs"
+  Normal  Pulled                 37s   kubelet                                 Successfully pulled image "brentley/ecsdemo-nodejs" in 108.556215ms
+  Normal  Created                37s   kubelet                                 Created container liveness
+  Normal  Started                37s   kubelet                                 Started container liveness
 {{< /output >}}
 
 #### Introduce a Failure
@@ -79,16 +78,16 @@ kubectl exec -it liveness-app -- /bin/kill -s SIGUSR1 1
 Describe the pod after waiting for 15-20 seconds and you will notice the kubelet actions of killing the container and restarting it. 
 {{< output >}}
 Events:
-  Type     Reason                 Age                From                                    Message
-  ----     ------                 ----               ----                                    -------
-  Normal   Scheduled              1m                 default-scheduler                       Successfully assigned liveness-app to ip-192-168-18-63.ec2.internal
-  Normal   SuccessfulMountVolume  1m                 kubelet, ip-192-168-18-63.ec2.internal  MountVolume.SetUp succeeded for volume "default-token-8bmt2"
-  Warning  Unhealthy              30s (x3 over 40s)  kubelet, ip-192-168-18-63.ec2.internal  Liveness probe failed: Get http://192.168.13.176:3000/health: net/http: request canceled (Client.Timeout exceeded while awaiting headers)
-  Normal   Pulling                0s (x2 over 1m)    kubelet, ip-192-168-18-63.ec2.internal  pulling image "brentley/ecsdemo-nodejs"
-  Normal   Pulled                 0s (x2 over 1m)    kubelet, ip-192-168-18-63.ec2.internal  Successfully pulled image "brentley/ecsdemo-nodejs"
-  Normal   Created                0s (x2 over 1m)    kubelet, ip-192-168-18-63.ec2.internal  Created container
-  Normal   Started                0s (x2 over 1m)    kubelet, ip-192-168-18-63.ec2.internal  Started container
-  Normal   Killing                0s                 kubelet, ip-192-168-18-63.ec2.internal  Killing container with id docker://liveness:Container failed liveness probe.. Container will be killed and recreated.
+  Type     Reason         Age                From                  Message
+  ----     ------         ----               ----                  -------
+  Normal   Scheduled      72s                default-scheduler     Successfully assigned default/liveness-app to ip-192-168-18-63.ec2.internal
+  Normal   Pulled         71s                kubelet               Successfully pulled image "brentley/ecsdemo-nodejs" in 100.615806ms
+  Warning  Unhealthy      37s (x3 over 47s)  kubelet               Liveness probe failed: Get http://192.168.13.176:3000/health: context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+  Normal   Killing        37s                kubelet               Container liveness failed liveness probe, will be restarted
+  Normal   Pulling        6s (x2 over 71s)   kubelet               Pulling image "brentley/ecsdemo-nodejs"
+  Normal   Created        6s (x2 over 71s)   kubelet               Created container liveness
+  Normal   Started        6s (x2 over 71s)   kubelet               Started container liveness
+  Normal   Pulled         6s                 kubelet               Successfully pulled image "brentley/ecsdemo-nodejs" in 118.19123ms
 {{< /output >}}
 
 When the nodejs application entered a debug mode with SIGUSR1 signal, it did not respond to the health check pings and kubelet killed the container. The container was subject to the default restart policy.
