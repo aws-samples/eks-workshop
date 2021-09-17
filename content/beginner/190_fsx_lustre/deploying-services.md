@@ -61,7 +61,7 @@ This procedure uses the Dynamic volume provisioning for Amazon S3 from the Amazo
     ```
     curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/claim.yaml
     ```
-    **(Optional)** Edit the claim.yaml file. Change the following <value> to one of the increment values listed below, based on your storage requirements and the deploymentType that you selected in a previous step storageclass.yaml definition.
+    **(Optional)** Edit the claim.yaml file. Change the following <value> to one of the increment values listed below, based on your storage requirements and the deploymentType that you selected in a previous step.
 
     ```
     storage: <1200Gi>
