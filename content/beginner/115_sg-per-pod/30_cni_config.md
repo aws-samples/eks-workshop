@@ -37,7 +37,7 @@ Once this setting is set to true, for each node in the cluster the plugin adds a
 
 ```bash
  kubectl get nodes \
-  --selector alpha.eksctl.io/nodegroup-name=nodegroup-sec-group \
+  --selector  eks.amazonaws.com/nodegroup=nodegroup-sec-group \
   --show-labels
 ```
 
