@@ -31,7 +31,7 @@ example](/beginner/060_helm/helm_nginx/index.html), an output of the command wil
 
 {{< output >}}
 NAME: workshop
-LAST DEPLOYED: Tue Feb 18 22:11:37 2020
+LAST DEPLOYED: Sat Jul 17 08:47:32 2021
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
