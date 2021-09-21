@@ -7,7 +7,7 @@ draft: false
 
 Running applications on the serverless compute engine AWS Fargate, makes it easy for you to focus on deliverying business values, as it removes the need to provision, configure autoscaling, and manage the server.
 
-Before we schedule a serverless EMR job on Amazon EKS, a Fargate profile is needed, that specifies which of your Spark pods should use Fargate when they are launched. For more information, see [AWS Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) and our previous lab [Creating a Fargate Profile](beginner/180_fargate/creating-profile/).
+Before we schedule a serverless EMR job on Amazon EKS, a Fargate profile is needed, that specifies which of your Spark pods should use Fargate when they are launched. For more information, see [AWS Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) and our previous lab [Creating a Fargate Profile](/beginner/180_fargate/creating-profile/).
 
 #### Create Fargate Profile
 
@@ -100,11 +100,11 @@ aws emr-containers start-job-run \
       "entryPointArguments":["'$s3DemoBucket'/output/"], 
       "sparkSubmitParameters": "--conf spark.kubernetes.driver.label.type=etl --conf spark.kubernetes.executor.label.type=etl --conf spark.executor.instances=8 --conf spark.executor.memory=2G --conf spark.driver.cores=1 --conf spark.executor.cores=3"}}' \
   --configuration-overrides '{
-  	"applicationConfiguration": [{
+    "applicationConfiguration": [{
         "classification": "spark-defaults", 
         "properties": {"spark.kubernetes.allocation.batch.size": "8"}
     }],
-  	"monitoringConfiguration": {
+    "monitoringConfiguration": {
       "s3MonitoringConfiguration": {
          "logUri": "'${s3DemoBucket}'/fargate-logs/"}}
   }'

@@ -15,7 +15,7 @@ Containerized applications frequently require access to other services running w
 
 On AWS, controlling network level access between services is often accomplished via [security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html).
 
-Before the release of this new functionality, you could only assign security groups at the node level. And because all nodes inside a Node group share the security group, by allowing the Node group security group to access the RDS instance, all the pods running on theses nodes would have access the database even if only the green pod should have access.
+Before the release of this new functionality, you could only assign security groups at the node level. And because all nodes inside a Node group share the security group, by attaching the security group to access the RDS instance to the Node group, all the pods running on theses nodes would have access the database even if only the green pod should have access.
 
 ![sg-per-pod_1](/images/sg-per-pod/sg-per-pod_1.png)
 

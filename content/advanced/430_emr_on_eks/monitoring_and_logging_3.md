@@ -7,14 +7,11 @@ draft: false
 
 You will need to have prometheus and grafana installed before you can proceed with this section.
 
-You can follow the [Prometheus](beginner/080_scaling/deploy_ca/) and [Grafana](beginner/080_scaling/deploy_ca/) sections to get the steps to install both of these. 
+You can follow the [Prometheus and Grafana](/intermediate/240_monitoring/) sections to get the steps to install both of these. 
 
 You can also use [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/) and [Amazon Managed Service for Grafana](https://aws.amazon.com/grafana/). In order to get started with these, follow the official docs for [AMP](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-getting-started.html) and [AMG](https://docs.aws.amazon.com/grafana/latest/userguide/getting-started-with-AMG.html).
 
-Once you have Prometheus and Grafana isntalled, head over to grafana.
-
-Import the dashboard 11674.
-
+Once you have Prometheus and Grafana installed, head over to Grafana, and import the dashboard **11674**.
 
 Now run the below job:
 

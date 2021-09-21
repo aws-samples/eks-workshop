@@ -49,7 +49,7 @@ spec:
       serviceAccountName: xray-daemon
       containers:
       - name: xray-daemon
-        image: trevorrobertsjr/eks-workshop-x-ray-daemon:02d13ce10add55081c68b6b76a19b7dfeea00dad
+        image: amazon/aws-xray-daemon
         imagePullPolicy: Always
         command: [ "/usr/bin/xray", "-c", "/aws/xray/config.yaml" ]
         resources:

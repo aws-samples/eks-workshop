@@ -154,7 +154,7 @@ spec:
     spec:
       containers:
       - name: counter
-        image: public.ecr.aws/jg/counter:latest
+        image: public.ecr.aws/aws-containers/stateful-counter:latest
         ports:
         - containerPort: 8000
         resources:

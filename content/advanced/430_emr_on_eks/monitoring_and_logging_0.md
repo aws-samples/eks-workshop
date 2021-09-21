@@ -16,6 +16,15 @@ aws logs create-log-group --log-group-name=/emr-on-eks/eksworkshop-eksctl
 
 ```
 
+Let's make sure that we have the variables set for the S3 bucket, virtual EMR clusters id, and the ARN of the role that EMR uses for job execution.
+
+```bash
+export s3DemoBucket=s3://emr-eks-demo-${ACCOUNT_ID}-${AWS_REGION}
+export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
+export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
+
+```
+
 Now let's run the job again with logging enabled.
 
 ```
@@ -65,14 +74,13 @@ aws emr-containers start-job-run --cli-input-json file://request.json
 
 Output:
 
-```
-{
+{{< output >}}
     "id": "00000002u5ipstrq84e",
-    "name": "pi-3",
+    "name": "pi-4",
     "arn": "arn:aws:emr-containers:us-west-2:xxxxxxxxxxx:/virtualclusters/jokbdf64kj891f7iaaot3qo9q/jobruns/00000002u5ipstrq84e",
     "virtualClusterId": "jokbdf64kj891f7iaaot3qo9q"
-}
-```
+{{< /output >}}
+
 
 
 

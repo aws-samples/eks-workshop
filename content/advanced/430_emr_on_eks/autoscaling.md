@@ -83,7 +83,7 @@ Let's run the same inbuilt example scripts that calculates the value of pi, but 
 
 ```sh
 #Get required virtual cluster-id and role arn
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[].id" --output text)
+export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
 
 export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
 
@@ -148,13 +148,15 @@ ip-192-168-79-114.us-east-2.compute.internal   Ready    <none>   15h     v1.18.9
 
 You can also change CPU and memory of your Spark executors by modifying `spark.executor.cores` and `spark.executor.memory`. Learn more about it [here](https://spark.apache.org/docs/latest/running-on-kubernetes.html). 
 
+Let the job run to completion before moving ahead to next section of Dynamic Resource Allocation. 
+
 ## Dynamic Resource Allocation
 
 You can also optimize your jobs by using Dynamic Resource Allocation (DRA) provided by Spark. Its a mechanism to dynamically adjust the resources your application occupies based on the workload. With DRA, the spark driver spawns the initial number of executors and then scales up the number until the specified maximum number of executors is met to process the pending tasks. Idle executors are terminated when there are no pending tasks. 
 
 It is particularly useful if you are not familiar of your workload or want to use the flexibility of kubernetes to request resources as necesaary.
 
-Dynamic resource allocation (DRA) is available in Spark 3 (EMR 6.x) without the need for an external shuffle service. Spark on Kubernetes doesn't support external shuffle service as of spark 3.1, but DRA can be achieved by enabling shuffle tracking.
+Dynamic resource allocation (DRA) is available in Spark 3 (EMR 6.x) without the need for an external shuffle service. Spark on Kubernetes doesn't support external shuffle service as of Spark 3.1, but DRA can be achieved by enabling shuffle tracking.
 
 To add DRA, we will enable it and define executor behavior in `--configuration-overrides` section. 
 
@@ -197,7 +199,7 @@ You can open up couple of terminals and use watch command to see how DRA scales 
 watch kubectl get pods -n spark
 ```
 
-As executor instances are scaled up by DRA, kubernetes cluster autoscaler adds nodes to shchedule those nodes. 
+As executor instances are scaled up by DRA, kubernetes cluster autoscaler adds nodes to schedule those nodes. 
 
 ```sh
 watch kubectl get nodes

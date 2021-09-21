@@ -14,9 +14,10 @@ aws s3 rb $s3DemoBucket --force
 
 ```
 
-#### Delete IAM Role and policy
+#### Delete IAM Role and policiess
 
 ```sh
+aws iam delete-role-policy --role-name EMRContainers-JobExecutionRole --policy-name review-data-access
 aws iam delete-role-policy --role-name EMRContainers-JobExecutionRole --policy-name EMR-Containers-Job-Execution
 aws iam delete-role --role-name EMRContainers-JobExecutionRole
 
@@ -24,10 +25,15 @@ aws iam delete-role --role-name EMRContainers-JobExecutionRole
 
 
 #### Delete Virtual Cluster
+Cluster cannot be deleted unless the pods in pending state are cleaned up. Lets find out running jobs and cancel them. 
 
 ```sh
-aws emr-containers delete-virtual-cluster --id ${VIRTUAL_CLUSTER_ID}
+for Job_id in $(aws emr-containers list-job-runs --states RUNNING --virtual-cluster-id ${VIRTUAL_CLUSTER_ID} --query "jobRuns[?state=='RUNNING'].id" --output text ); do aws emr-containers cancel-job-run --id ${Job_id} --virtual-cluster-id ${VIRTUAL_CLUSTER_ID}; done
+```
 
+We can now delete the cluster
+```sh
+aws emr-containers delete-virtual-cluster --id ${VIRTUAL_CLUSTER_ID}
 ```
 
 To delete the namespace, the node group and the Fargate profile created by this module, run the following commands
@@ -36,7 +42,9 @@ To delete the namespace, the node group and the Fargate profile created by this 
 kubectl delete namespace spark
 
 eksctl delete fargateprofile --cluster=eksworkshop-eksctl --name emr --wait
+
 eksctl delete nodegroup --config-file=addnodegroup.yaml --approve
 eksctl delete nodegroup --config-file=addnodegroup-spot.yaml --approve
+eksctl delete nodegroup --config-file=addnodegroup-nytaxi.yaml --approve
 
 ```
