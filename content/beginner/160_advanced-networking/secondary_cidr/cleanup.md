@@ -1,6 +1,6 @@
 ---
 title: "Cleanup"
-date: 2021-06-13T18:41:54+0000
+date: 2021-09-21T18:41:54+0000
 weight: 60
 ---
 Let's cleanup this tutorial
@@ -28,6 +28,7 @@ kubectl edit daemonset -n kube-system aws-node
 ```
 Delete custom resource objects from ENIConfig CRD. Replace yaml filenames based on your region and AZs.
 ```
+cd $HOME/environment
 kubectl delete -f eniconfig
 
 rm -rf pod-netconfig.template eniconfig
