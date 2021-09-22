@@ -55,9 +55,9 @@ kubectl get nodes  # Make sure new nodes are listed with 'Ready' status
 ```
 {{ output }}
 NAME                                           STATUS   ROLES    AGE   VERSION
-ip-192-168-9-228.us-east-2.compute.internal     Ready    <none>   90m   v1.17.12-eks-7684af
-ip-192-168-71-211.us-east-2.compute.internal    Ready    <none>   92m   v1.17.12-eks-7684af
-ip-192-168-33-135.us-east-2.compute.internal    Ready    <none>   88m   v1.17.12-eks-7684af
+ip-192-168-9-228.us-east-2.compute.internal     Ready    <none>   90m    v1.20.7-eks-135321
+ip-192-168-71-211.us-east-2.compute.internal    Ready    <none>   92m    v1.20.7-eks-135321
+ip-192-168-33-135.us-east-2.compute.internal    Ready    <none>   88m    v1.20.7-eks-135321
 {{ /output }}
  
 {{% notice warning %}}
@@ -74,8 +74,8 @@ echo $NETCONFIG_SECURITY_GROUPS
 ```
 {{< output >}}
 sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
 {{< /output >}}
+ 
 Note: We are using same SecurityGroup for pods as your Worker Nodes but you can change these and use custom SecurityGroups for your Pod Networking
  
 Check the `yq` command runs successfully. Refer to `yq` setup in [Install Kubernetes Tools](https://www.eksworkshop.com/020_prerequisites/k8stools/)
@@ -88,6 +88,7 @@ yq help >/dev/null  && echo "yq command working" || "yq command not working"
  
 Create ENIConfig custom resources. One file per AZ. 
 ```
+cd $HOME/environment
 mkdir -p eniconfig
 while IFS= read -r line
 do
@@ -118,11 +119,12 @@ spec:
   subnet: subnet-07dab05836e4abe91
   securityGroups:
     - sg-070d03008bda531ad
-    - sg-06e5cab8e5d6f16ef
 {{ /output }}
+
 
 Apply the CRDs for each AZ.
 ```
+cd $HOME/environment
 kubectl apply -f eniconfig
 ```
 
