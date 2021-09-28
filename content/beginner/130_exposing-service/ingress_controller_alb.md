@@ -83,9 +83,11 @@ Learn more about [IAM Roles for Service Accounts](https://docs.aws.amazon.com/ek
 Create a policy called **AWSLoadBalancerControllerIAMPolicy**
 
 ```bash
+wget https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
-    --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+    --policy-document file://iam_policy.json
 ```
 
 #### Create a IAM role and ServiceAccount
