@@ -134,7 +134,7 @@ Verify the secret mounted as separate files for each extracted value and Environ
 kubectl exec -it $(kubectl get pods | awk '/nginx-deployment-k8s-secrets/{print $1}' | head -1) -- /bin/sh
 ```
 
-Wait for the shell prompt. Run following commands in the shell. 
+Wait for the shell prompt. Run the following set of commands and watch the output in the shell.  
 
 {{<output>}}
 # cd /mnt/secrets
