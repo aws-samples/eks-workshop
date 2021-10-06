@@ -59,8 +59,12 @@ If you intend to run all the sections in this workshop, it will be useful to hav
 
 ### Increase the disk size on the Cloud9 instance
 
+{{% notice note %}}
+The following command adds more disk space to the root volume of the EC2 instance that Cloud9 runs on. Once the command completes, we reboot the instance and it could take a minute or two for the IDE to come back online.
+{{% /notice %}}
+
 ```bash
-pip install --user --upgrade boto3
+pip3 install --user --upgrade boto3
 export instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 python -c "import boto3
 import os
@@ -91,6 +95,3 @@ if [ $? -eq 0 ]; then
 fi
 
 ```
-
-- *Note*: The above command is adding more disk space to the root volume of the EC2 instance that Cloud9 runs on. Once the command completes, we reboot the instance which could take a minute or two for the IDE to come back online.
-

@@ -27,8 +27,6 @@ aws rds create-db-subnet-group \
 We can now create our database.
 
 ```bash
-mkdir sg-per-pod
-
 # get RDS SG ID
 export RDS_SG=$(aws ec2 describe-security-groups \
     --filters Name=group-name,Values=RDS_SG Name=vpc-id,Values=${VPC_ID} \
@@ -88,7 +86,7 @@ echo "RDS endpoint: ${RDS_ENDPOINT}"
 Our last step is to create some content in the database.
 
 ```bash
-sudo yum install -y postgresql
+sudo amazon-linux-extras install -y postgresql12
 
 cd sg-per-pod
 

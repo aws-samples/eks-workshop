@@ -20,4 +20,4 @@ echo "export ROLE_NAME=${ROLE_NAME}" | tee -a ~/.bash_profile
 
 #### Congratulations!
 
-You now have a fully working Amazon EKS Cluster that is ready to use!
+You now have a fully working Amazon EKS Cluster that is ready to use! Before you move on to any other labs, make sure to complete the steps on the next page to update the EKS Console Credentials.

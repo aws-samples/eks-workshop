@@ -37,7 +37,7 @@ cd ~/environment
 
 rm -rf ~/environment/cluster-autoscaler
 
-helm -n metrics uninstall metrics-server
+kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.1/components.yaml
 
 kubectl delete ns metrics
 

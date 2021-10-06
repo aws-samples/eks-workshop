@@ -33,10 +33,12 @@ kubectl -n kube-system set env daemonset aws-node ENABLE_POD_ENI=true
 kubectl -n kube-system rollout status ds aws-node
 ```
 
-Once this setting is set to true, for each node in the cluster the plugin adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`. The VPC resource controller creates and attaches one special network interface called a trunk network interface with the description aws-k8s-trunk-eni.
+Once this setting is set to true, for each node in the cluster the plugin adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true` to the compatible instances. The VPC resource controller creates and attaches one special network interface called a trunk network interface with the description aws-k8s-trunk-eni.
 
 ```bash
-kubectl get nodes --show-labels
+ kubectl get nodes \
+  --selector  eks.amazonaws.com/nodegroup=nodegroup-sec-group \
+  --show-labels
 ```
 
 ![sg-per-pod_4](/images/sg-per-pod/sg-per-pod_4.png)

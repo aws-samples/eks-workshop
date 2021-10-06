@@ -1,6 +1,6 @@
 ---
 title: "Cleanup"
-date: 2019-03-20T13:59:44+01:00
+date: 2021-07-20T00:00:00-03:00
 weight: 60
 draft: false
 ---
@@ -18,4 +18,6 @@ eksctl delete iamserviceaccount \
     --wait
 
 rm -rf ~/environment/irsa/
+
+aws s3 rb s3://eksworkshop-$ACCOUNT_ID-$AWS_REGION --region $AWS_REGION --force
 ```
