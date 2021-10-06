@@ -31,7 +31,7 @@ Node affinity is specified as field nodeAffinity of field affinity in the PodSpe
 
 Let's see an example of a pod that uses node affinity:
 
-We are going to create another label on the same node as in the last example
+We are going to create another label on the same node as in the last example.
 
 ```bash
 # export the first node name as a variable
@@ -75,25 +75,25 @@ EoF
 
 This node affinity rule says the pod can only be placed on a node with a label whose key is `azname` and whose value is either `az1` or `az2`. In addition, among nodes that meet that criteria, nodes with a label whose key is `another-node-label-key` and whose value is `another-node-label-value` should be preferred.
 
-Let's apply this
+Let's apply this:
 
 ```bash
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
 
-And check if it worked with
+And check if it worked with:
 
 ```bash
 kubectl get pods -o wide
 ```
 
 {{< output >}}
-NAME                 READY   STATUS    RESTARTS   AGE     IP               NODE                                          NOMINATED NODE   READINESS GATES
-nginx                1/1     Running   0          3m41s   192.168.6.179    ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
-with-node-affinity   1/1     Running   0          6s      192.168.23.118   ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
+NAME                 READY   STATUS    RESTARTS   AGE   IP                NODE                                           NOMINATED NODE   READINESS GATES
+nginx                1/1     Running   0          93s   192.168.155.38    ip-192-168-155-36.us-east-2.compute.internal   <none>           <none>
+with-node-affinity   1/1     Running   0          6s    192.168.156.139   ip-192-168-155-36.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
 
-We are going to put the label to a different node so first, let's clean the label and delete the Pod.
+We are going to apply the label to a different node. So first, let's clean the label and delete the Pod.
 
 ```bash
 kubectl delete -f ~/environment/pod-with-node-affinity.yaml
@@ -101,7 +101,7 @@ kubectl delete -f ~/environment/pod-with-node-affinity.yaml
 kubectl label nodes ${FIRST_NODE_NAME} azname-
 ```
 
-We are putting the label to second node now
+We are applying the label to second node now:
 
 ```bash
 export SECOND_NODE_NAME=$(kubectl get nodes -o json | jq -r '.items[1].metadata.name')
@@ -110,16 +110,16 @@ kubectl label nodes ${SECOND_NODE_NAME} azname=az1
 kubectl apply -f ~/environment/pod-with-node-affinity.yaml
 ```
 
-And check if it works with
+And check if it works with:
 
 ```bash
 kubectl get pods -o wide
 ```
 
 {{< output >}}
-NAME                 READY   STATUS    RESTARTS   AGE     IP               NODE                                          NOMINATED NODE   READINESS GATES
-nginx                1/1     Running   0          7m30s   192.168.6.179    ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
-with-node-affinity   1/1     Running   0          28s     192.168.34.123   ip-192-168-58-41.us-east-2.compute.internal   <none>           <none>
+NAME                 READY   STATUS    RESTARTS   AGE     IP                NODE                                            NOMINATED NODE   READINESS GATES
+nginx                1/1     Running   0          2m14s   192.168.155.38    ip-192-168-155-36.us-east-2.compute.internal    <none>           <none>
+with-node-affinity   1/1     Running   0          11s     192.168.166.141   ip-192-168-168-110.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
 
 
@@ -135,7 +135,7 @@ If you specify multiple `matchExpressions` associated with `nodeSelectorTerms`, 
 
 If you remove or change the label of the node where the pod is scheduled, the pod won’t be removed. In other words, the affinity selection works only at the time of scheduling the pod.
 
-The weight field in `preferredDuringSchedulingIgnoredDuringExecution` is in the range 1-100. For each node that meets all of the scheduling requirements (resource request, RequiredDuringScheduling affinity expressions, etc.), the scheduler will compute a sum by iterating through the elements of this field and adding “weight” to the sum if the node matches the corresponding MatchExpressions. This score is then combined with the scores of other priority functions for the node. The node(s) with the highest total score are the most preferred.
+The weight field in `preferredDuringSchedulingIgnoredDuringExecution` is in the range 1-100. For each node that meets all of the scheduling requirements (resource requests, RequiredDuringScheduling affinity expressions, etc.), the scheduler will compute a sum by iterating through the elements of this field and adding “weight” to the sum if the node matches the corresponding MatchExpressions. This score is then combined with the scores of other priority functions for the node. The node(s) with the highest total score are the most preferred.
 
 We are now ready to delete both pods
 

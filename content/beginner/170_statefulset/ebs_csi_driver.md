@@ -8,7 +8,7 @@ weight: 4
 
 [The Container Storage Interface](https://github.com/container-storage-interface/spec/blob/master/spec.md) (CSI) is a standard for exposing arbitrary block and file storage systems to containerized workloads on Container Orchestration Systems (COs) like Kubernetes.
 
-Using CSI third-party storage providers can write and deploy plugins exposing new storage systems in Kubernetes without ever having to touch the core Kubernetes code.
+By using CSI, third-party storage providers can write and deploy plugins exposing new storage systems in Kubernetes without ever having to touch the core Kubernetes code.
 
 ## About the Amazon EBS CSI Driver
 
@@ -18,7 +18,7 @@ This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS 
 
 ## Configure IAM Policy
 
-The CSI driver is deployed as set of Kubernetes Pods. These Pods must have permission to perform EBS API operations, such as creating and deleting volumes, and attaching volumes to the EC2 worker nodes that comprise the cluster.
+The CSI driver is deployed as a set of Kubernetes Pods. These Pods must have permission to perform EBS API operations, such as creating and deleting volumes, and attaching volumes to the EC2 worker nodes that comprise the cluster.
 
 First, let's download the policy JSON document, and create an IAM Policy from it:
 
@@ -83,12 +83,12 @@ helm search  repo aws-ebs-csi-driver
 output
 {{< output >}}
 NAME                                    CHART VERSION   APP VERSION     DESCRIPTION
-aws-ebs-csi-driver/aws-ebs-csi-driver   0.9.8           0.9.0           A Helm chart for AWS EBS CSI Driver
+aws-ebs-csi-driver/aws-ebs-csi-driver   2.0.2           1.1.3           A Helm chart for AWS EBS CSI Driver
 {{< /output >}}
 
 ```sh
 helm upgrade --install aws-ebs-csi-driver \
-  --version=0.9.8 \
+  --version=1.2.4 \
   --namespace kube-system \
   --set serviceAccount.controller.create=false \
   --set serviceAccount.snapshot.create=false \

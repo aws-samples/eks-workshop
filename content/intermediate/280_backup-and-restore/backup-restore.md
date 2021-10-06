@@ -1,7 +1,7 @@
 ---
 title: "Backup and Restore"
 weight: 40
-draft: false
+draft: true
 ---
 
 #### Backup staging namespace using Velero

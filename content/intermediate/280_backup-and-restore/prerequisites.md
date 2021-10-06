@@ -1,7 +1,7 @@
 ---
 title: "Create S3 Bucket and IAM Role for Velero"
 weight: 10
-draft: false
+draft: true
 ---
 
 #### Create an S3 bucket to backup cluster

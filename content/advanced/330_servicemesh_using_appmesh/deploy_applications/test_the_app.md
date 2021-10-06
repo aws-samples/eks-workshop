@@ -23,7 +23,7 @@ root@frontend-node-9d46cb55-XXX:/usr/src/app#
 curl to Fargate `prodcatalog` backend endpoint and you should see the below response
 
 ```bash
-curl  http://prodcatalog.prodcatalog-ns.svc.cluster.local:5000/products/ 
+curl http://prodcatalog.prodcatalog-ns.svc.cluster.local:5000/products/ 
 ```
 {{< output >}}
 {

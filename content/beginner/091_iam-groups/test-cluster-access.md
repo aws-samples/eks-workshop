@@ -13,9 +13,7 @@ As an example, we will define three profiles.
 #### Add in `~/.aws/config`:
 
 ```bash
-if [ ! -d ~/.aws ]; then
-  mkdir ~/.aws
-fi
+mkdir -p ~/.aws
 
 cat << EoF >> ~/.aws/config
 [profile admin]
@@ -103,6 +101,8 @@ export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworksh
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "dev"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | sponge $KUBECONFIG
 ```
 
+> Note: this assume you uses yq >= version 4. you can reference to [this page](https://mikefarah.gitbook.io/yq/upgrading-from-v3) to adapt this command for another version.
+
 We added the `--profile dev` parameter to our kubectl config file, so that this will ask kubectl to use our IAM role associated to our dev profile, and we rename the context using suffix **-dev**.
 
 With this configuration we should be able to interact with the **development** namespace, because it has our RBAC role defined.
@@ -141,6 +141,8 @@ export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig ekswork
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "integ"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | sponge $KUBECONFIG
 ```
 
+> Note: this assume you uses yq >= version 4. you can reference to [this page](https://mikefarah.gitbook.io/yq/upgrading-from-v3) to adapt this command for another version.
+
 Let's create a pod:
 
 ```bash
@@ -174,6 +176,8 @@ Error from server (Forbidden): pods is forbidden: User "integ-user" cannot list 
 export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "admin"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | sponge $KUBECONFIG
 ```
+
+> Note: this assume you uses yq >= version 4. you can reference to [this page](https://mikefarah.gitbook.io/yq/upgrading-from-v3) to adapt this command for another version.
 
 Let's create a pod in the default namespace:
 

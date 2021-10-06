@@ -1,7 +1,7 @@
 ---
 title: "Cleanup"
 weight: 50
-draft: false
+draft: true
 ---
 
 Cleanup staging namepspace

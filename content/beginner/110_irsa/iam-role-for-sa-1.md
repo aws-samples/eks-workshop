@@ -1,6 +1,6 @@
 ---
 title: "Creating an IAM Role for Service Account"
-date: 2018-11-13T16:36:24+09:00
+date: 2021-07-20T00:00:00-03:00
 weight: 30
 draft: false
 ---
@@ -32,15 +32,17 @@ eksctl create iamserviceaccount \
 ```
 
 {{< output >}}
-[ℹ]  using region {AWS_REGION}
-[ℹ]  1 iamserviceaccount (default/iam-test) was included (based on the include/exclude rules)
-[!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
-[ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "default/iam-test", create serviceaccount "default/iam-test" } }
-[ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
-[ℹ]  deploying stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
-[ℹ]  created serviceaccount "default/iam-test"
+2021-07-21 10:31:14 [ℹ]  eksctl version 0.57.0
+2021-07-21 10:31:14 [ℹ]  using region us-east-1
+2021-07-21 10:31:17 [ℹ]  1 iamserviceaccount (default/iam-test) was included (based on the include/exclude rules)
+2021-07-21 10:31:17 [!]  metadata of serviceaccounts that exist in Kubernetes will be updated, as --override-existing-serviceaccounts was set
+2021-07-21 10:31:17 [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "default/iam-test", create serviceaccount "default/iam-test" } }
+2021-07-21 10:31:17 [ℹ]  building iamserviceaccount stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
+2021-07-21 10:31:17 [ℹ]  deploying stack "eksctl-sandbox-addon-iamserviceaccount-default-iam-test"
+2021-07-21 10:31:17 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test"
+2021-07-21 10:31:53 [ℹ]  created serviceaccount "default/iam-test"
 {{< /output >}}
 
 {{% notice info %}}
-If you go to the [CloudFormation in IAM Console](https://console.aws.amazon.com/cloudformation/), you will thats find the stack "**eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test**" has created a role for your service account.
+If you go to the [CloudFormation in IAM Console](https://console.aws.amazon.com/cloudformation/), you will find that the stack "**eksctl-eksworkshop-eksctl-addon-iamserviceaccount-default-iam-test**" has created a role for your service account.
 {{% /notice %}}

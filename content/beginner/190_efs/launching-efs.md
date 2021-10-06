@@ -36,9 +36,9 @@ The EKS cluster that you created comprises worker nodes that are resident in the
 
 The following set of commands identifies the public subnets in your cluster VPC and creates a mount target in each one of them as well as associate that mount target with the security group you created above.
 ```
-TAG1=tag:kubernetes.io/cluster/$CLUSTER_NAME
+TAG1=tag:alpha.eksctl.io/cluster-name
 TAG2=tag:kubernetes.io/role/elb
-subnets=($(aws ec2 describe-subnets --filters "Name=$TAG1,Values=shared" "Name=$TAG2,Values=1" | jq --raw-output '.Subnets[].SubnetId'))
+subnets=($(aws ec2 describe-subnets --filters "Name=$TAG1,Values=$CLUSTER_NAME" "Name=$TAG2,Values=1" | jq --raw-output '.Subnets[].SubnetId'))
 for subnet in ${subnets[@]}
 do
     echo "creating mount target in " $subnet

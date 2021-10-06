@@ -3,7 +3,7 @@ title: "Test Scaling"
 date: 2018-08-07T08:30:11-07:00
 weight: 35
 ---
-More followers can be added to the MySQL Cluster to increase read capacity. This can be done by following command.
+More followers can be added to the MySQL Cluster to increase read capacity. This can be done by running the following command.
 
 ```sh
 kubectl -n mysql scale statefulset mysql --replicas=3
@@ -36,7 +36,7 @@ kubectl -n mysql run mysql-client-loop --image=mysql:5.7 -i -t --rm --restart=Ne
    bash -ic "while sleep 1; do mysql -h mysql-read -e 'SELECT @@server_id,NOW()'; done"
 ```
 
-You will see 5 servers are running.
+You will see 3 servers are running.
 {{< output >}}
 +-------------+---------------------+
 | @@server_id | NOW()               |
@@ -62,7 +62,7 @@ kubectl -n mysql run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never -
  mysql -h mysql-2.mysql -e "SELECT * FROM test.messages"
 ```
 
-It will show the same data that leader has.
+It will show the same data that the leader has.
 {{< output >}}
 +--------------------------+
 | message                  |
@@ -71,7 +71,7 @@ It will show the same data that leader has.
 +--------------------------+
 {{< /output >}}
 
-Scale down replicas to 2 by following command.
+Scale down replicas to 2 by running the following command.
 
 ```sh
 kubectl -n mysql  scale statefulset mysql --replicas=2
@@ -163,5 +163,5 @@ kubectl -n mysql delete pvc data-mysql-2
 ```
 
 {{< output >}}
-persistentvolumeclaim "data-mysql-3" deleted
+persistentvolumeclaim "data-mysql-2" deleted
 {{< /output >}}

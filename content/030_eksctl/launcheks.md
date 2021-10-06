@@ -32,7 +32,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 ### Create an EKS cluster
 
 {{% notice warning %}}
-`eksctl` version must be 0.24.0 or above to deploy EKS 1.17, [click here](/030_eksctl/prerequisites) to get the latest version.
+`eksctl` version must be 0.38.0 or above to deploy EKS 1.19, [click here](/030_eksctl/prerequisites) to get the latest version.
 {{% /notice %}}
 
 Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
@@ -46,7 +46,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: "1.17"
+  version: "1.19"
 
 availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
 
@@ -70,7 +70,7 @@ EOF
 Next, use the file you created as the input for the eksctl cluster creation.
 
 {{% notice info %}}
-We are deliberatly launching one version behind the latest (1.17 vs. 1.18) to allow you to perform a cluster upgrade in one of the Chapters.
+We are deliberatly launching at least one Kubernetes version behind the latest available on [Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html). This allows you to perform the [cluster upgrade](https://www.eksworkshop.com/intermediate/320_eks_upgrades/) lab.
 {{% /notice %}}
 
 ```bash
