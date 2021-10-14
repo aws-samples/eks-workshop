@@ -24,7 +24,7 @@ We create a kubernetes `role` and `rolebinding` in the development namespace giv
 ```bash
 cat << EOF | kubectl apply -f - -n development
 kind: Role
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: dev-role
 rules:
@@ -57,7 +57,7 @@ rules:
       - "update"
 ---
 kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: dev-role-binding
 subjects:
@@ -81,7 +81,7 @@ We create a kubernetes `role` and `rolebinding` in the integration namespace for
 ```bash
 cat << EOF | kubectl apply -f - -n integration
 kind: Role
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: integ-role
 rules:
@@ -114,7 +114,7 @@ rules:
       - "update"
 ---
 kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: integ-role-binding
 subjects:
