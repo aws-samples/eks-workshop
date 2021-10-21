@@ -40,7 +40,7 @@ kubectl get hpa
 **Open a new terminal** in the Cloud9 Environment and run the following command to drop into a shell on a new container
 
 ```bash
-kubectl --generator=run-pod/v1 run -i --tty load-generator --image=busybox /bin/sh
+kubectl run -i --tty load-generator --image=busybox /bin/sh
 ```
 
 Execute a while loop to continue getting http:///php-apache
