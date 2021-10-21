@@ -16,7 +16,7 @@ The command above will:
 
 * Create the `Namespace` amazon-cloudwatch.
 * Create all the necessary security objects for both DaemonSet:
-  * `SecurityAccount`.
+  * `ServiceAccount`.
   * `ClusterRole`.
   * `ClusterRoleBinding`.
 * Deploy Cloudwatch-Agent (responsible for sending the **metrics** to CloudWatch) as a `DaemonSet`.
