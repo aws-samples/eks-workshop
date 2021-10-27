@@ -66,6 +66,6 @@ kubectl completion bash >>  ~/.bash_completion
 #### set the AWS Load Balancer Controller version
 
 ```bash
-echo 'export LBC_VERSION="v2.2.0"' >>  ~/.bash_profile
+echo 'export LBC_VERSION="v2.3.0"' >>  ~/.bash_profile
 .  ~/.bash_profile
 ```
