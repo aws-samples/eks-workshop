@@ -7,7 +7,7 @@ An app that's not exposed isn't very useful.
 We'll manually create a load balancer to expose the app.
 
 The first thing you need to do is get your **local computer's public ip address**.
-Open a new browser tab and to [icanhasip.com](http://icanhazip.com/) and copy the IP address.
+Open a new browser tab and to [https://icanhazip.com/](https://icanhazip.com/) and copy the IP address.
 
 Go back to the Cloud9 shell and save that IP address as an environment variable
 
