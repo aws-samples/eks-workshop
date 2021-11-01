@@ -29,6 +29,8 @@ mkdir ~/environment/logging/
 
 export ES_DOMAIN_NAME="eksworkshop-logging"
 
+export IP_ADDRESS_OF_MY_LOCAL_MACHINE=`curl -s https://checkip.amazonaws.com`
+
 cat <<EoF > ~/environment/logging/fluent-bit-policy.json
 {
     "Version": "2012-10-17",
@@ -38,11 +40,17 @@ cat <<EoF > ~/environment/logging/fluent-bit-policy.json
                 "es:ESHttp*"
             ],
             "Resource": "arn:aws:es:${AWS_REGION}:${ACCOUNT_ID}:domain/${ES_DOMAIN_NAME}",
+            "Condition": {
+              "IpAddress": {
+                "aws:SourceIp": "${IP_ADDRESS_OF_MY_LOCAL_MACHINE}/32"
+          },
             "Effect": "Allow"
         }
     ]
 }
+}
 EoF
+
 
 aws iam create-policy   \
   --policy-name fluent-bit-policy \
