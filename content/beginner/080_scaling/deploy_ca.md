@@ -105,6 +105,7 @@ Finally, create an IAM role for the cluster-autoscaler Service Account in the ku
 
 ```bash
 eksctl create iamserviceaccount \
+    --region us-east-2 \
     --name cluster-autoscaler \
     --namespace kube-system \
     --cluster eksworkshop-eksctl \
