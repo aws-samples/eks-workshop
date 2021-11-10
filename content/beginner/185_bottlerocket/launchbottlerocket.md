@@ -6,6 +6,12 @@ weight: 20
 
 ### Add Bottlerocket nodes to an EKS cluster
 
+Create an environment variable for the kubernetes version. We will use this in the next step.
+```bash
+K8S_VERSION=`kubectl version | grep Server | grep -Eo '."v.{0,4}' | sed -n 's/.*:"v//p'`
+echo K8S_VERSION: ${K8S_VERSION}
+```
+
 Create an eksctl deployment file (eksworkshop_bottlerocket.yaml) use in creating your cluster using the following syntax:
 
 ```bash
@@ -17,7 +23,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: "1.17"
+  version: "${K8S_VERSION}"
 
 availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
 
@@ -84,7 +90,11 @@ ip-192-168-87-9.us-east-2.compute.internal     Ready    <none>   71s   v1.17.17
 
 Your cluster now has 6 worker nodes, 3 of them are using Bottlerocket in an unmanaged nodegroup.
 
-Unmanaged nodegroups do not show up in the AWS EKS console but eksctl get nodegroup will list both types of nodegroups.
+Unmanaged nodegroups do not show up in the AWS EKS console(Configutaion/Compute tab), however the nodes show up in the AWS EKS console(Overview tab). You can also use the "eksctl get nodegroup" command to list both types of nodegroups.
+  
+```bash
+eksctl get nodegroup --cluster=eksworkshop-eksctl
+```  
 
 #### Congratulations!
 

@@ -12,8 +12,8 @@ Amazon EC2 Spot Instances let you take advantage of unused EC2 capacity in the A
 
 ### EKS Managed Node Groups with Spot Instances
 
-Previously in [Run sample workload](/sample_workload.md) chapter you created managed node group named **emrnodegroup** with On-Demand Instances. Now you will be creating another managed node group with Spot Instances.  
-Managed node groups automatically create a label - eks.amazonaws.com/capacityType - to identify which nodes are Spot Instances and which are On-Demand Instances. We will use this label to schedule the appropriate workloads to run on Spot Instances.
+Previously on [EMR on EKS Prerequisites](/advanced/430_emr_on_eks/prereqs/#create-eks-managed-node-group), you created managed node group named **emrnodegroup** with On-Demand Instances. Now you will be creating another managed node group with Spot Instances.  
+Managed node groups automatically create a label - `eks.amazonaws.com/capacityType` - to identify which nodes are Spot Instances and which are On-Demand Instances. We will use this label to schedule the appropriate workloads to run on Spot Instances.
 
 {{% notice info %}}
 Refer this [deep dive blog](https://aws.amazon.com/blogs/containers/amazon-eks-now-supports-provisioning-and-managing-ec2-spot-instances-in-managed-node-groups/) to learn the best practices you need to follow to provision, manage and maintain EKS managed node groups with Spot Instances.

@@ -14,10 +14,10 @@ aws s3 rb $s3DemoBucket --force
 
 ```
 
-#### Delete IAM Role and policy
+#### Delete IAM Role and policiess
 
 ```sh
-aws iam delete-role-policy --role-name EMRContainers-JobExecutionRole —policy-name review-data-access
+aws iam delete-role-policy --role-name EMRContainers-JobExecutionRole --policy-name review-data-access
 aws iam delete-role-policy --role-name EMRContainers-JobExecutionRole --policy-name EMR-Containers-Job-Execution
 aws iam delete-role --role-name EMRContainers-JobExecutionRole
 

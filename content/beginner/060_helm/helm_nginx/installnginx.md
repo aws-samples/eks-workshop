@@ -33,19 +33,28 @@ Once you run this command, the output will contain the information about the dep
 
 {{< output >}}
 NAME: mywebserver
-LAST DEPLOYED: Tue Feb 18 22:02:13 2020
+LAST DEPLOYED: Thu Jul 15 13:52:34 2021
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-Get the NGINX URL:
+** Please be patient while the chart is being deployed **
+
+NGINX can be accessed through the following DNS name from within your cluster:
+
+    mywebserver-nginx.default.svc.cluster.local (port 80)
+
+To access NGINX from outside the cluster, follow the steps below:
+
+1. Get the NGINX URL by running these commands:
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
         Watch the status with: 'kubectl get svc --namespace default -w mywebserver-nginx'
 
-  export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
-  echo "NGINX URL: http://$SERVICE_IP/"
+    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services mywebserver-nginx)
+    export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
 {{< /output >}}
 
 In order to review the underlying Kubernetes services, pods and deployments, run:

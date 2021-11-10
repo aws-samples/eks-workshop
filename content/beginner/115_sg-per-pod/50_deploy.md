@@ -84,10 +84,10 @@ kubectl -n sg-per-pod  logs -f ${GREEN_POD_NAME}
 
 Output
 
-{{% output %}}
+{{< output >}}
 [('--------------------------',), ('Welcome to the eksworkshop',), ('--------------------------',)]
 [('--------------------------',), ('Welcome to the eksworkshop',), ('--------------------------',)]
-{{% /output %}}
+{{< /output >}}
 
 {{% notice note %}}
 use _CTRL+C_ to exit the log
@@ -155,7 +155,7 @@ Output
 Database connection failed due to timeout expired
 {{< /output >}}
 
-Finally let's verify that the pod doesn't have an _enitId_ `annotation`.
+Finally let's verify that the pod doesn't have an _eniId_ `annotation`.
 
 ```bash
 kubectl -n sg-per-pod  describe pod ${RED_POD_NAME} | head -11

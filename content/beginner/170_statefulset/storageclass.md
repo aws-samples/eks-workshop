@@ -58,11 +58,11 @@ AllowVolumeExpansion:  <unset>
 MountOptions:
   debug
 ReclaimPolicy:      Delete
-VolumeBindingMode:  Immediate
+VolumeBindingMode:  WaitForFirstConsumer
 Events:             <none>
 {{< /output >}}
 
-We will specify `mysql-gp2` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
+Below is a preview of how the storageClassName will be used in defining the StatefulSet. We will specify `mysql-gp2` as the storageClassName in volumeClaimTemplates at “Create StatefulSet” section later.
 
 {{< output >}}
 volumeClaimTemplates:

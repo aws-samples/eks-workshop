@@ -13,7 +13,7 @@ These metrics will drive the scaling behavior of the [deployments](https://kuber
 We will deploy the metrics server using [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server).
 
 ```sh
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.1/components.yaml
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.5.0/components.yaml
 ```
 
 Lets' verify the status of the metrics-server `APIService` (it could take a few minutes).
