@@ -25,7 +25,7 @@ export NODE_GROUP_SG=$(aws ec2 describe-security-groups \
     --output text)
 
 # uninstall the RPM package
-sudo yum erase -y postgresql
+sudo yum remove -y $(sudo yum list installed | grep amzn2extra-postgresql12 | awk '{ print $1}')
 
 # delete database
 aws rds delete-db-instance \

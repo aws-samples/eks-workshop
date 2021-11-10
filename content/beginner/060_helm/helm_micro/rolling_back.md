@@ -21,17 +21,11 @@ The rolling upgrade will begin by creating a new nodejs pod with the new image. 
 kubectl get pods
 ```
 {{< output >}}
-NAME                               READY   STATUS             RESTARTS   AGE
-ecsdemo-crystal-844d84cb86-56gpz   1/1     Running            0          23m
-ecsdemo-crystal-844d84cb86-5vvcg   1/1     Running            0          23m
-ecsdemo-crystal-844d84cb86-d2plf   1/1     Running            0          23m
-ecsdemo-frontend-6df6d9bb9-dpcsl   1/1     Running            0          23m
-ecsdemo-frontend-6df6d9bb9-lzlwh   1/1     Running            0          23m
-ecsdemo-frontend-6df6d9bb9-psg69   1/1     Running            0          23m
-ecsdemo-nodejs-6fdf964f5f-6cnzl    1/1     Running            0          23m
-ecsdemo-nodejs-6fdf964f5f-fbcjv    1/1     Running            0          23m
-ecsdemo-nodejs-6fdf964f5f-v88jn    1/1     Running            0          23m
-ecsdemo-nodejs-7c6575b56c-hrrsp    0/1     ImagePullBackOff   0          15m
+NAME                                READY   STATUS             RESTARTS   AGE
+ecsdemo-crystal-56976b4dfd-9f2rf    1/1     Running            0          2m10s
+ecsdemo-frontend-7f5ddc5485-8vqck   1/1     Running            0          2m10s
+ecsdemo-nodejs-56487f6c95-mv5xv     0/1     ImagePullBackOff   0          6s
+ecsdemo-nodejs-58977c4597-r6hvj     1/1     Running            0          2m10s
 {{< /output >}}
 
 Run `helm status workshop` to verify the `LAST DEPLOYED` timestamp. 
@@ -41,9 +35,12 @@ helm status workshop
 ```
 
 {{< output >}}
-LAST DEPLOYED: Tue Feb 18 22:14:00 2020
+NAME: workshop
+LAST DEPLOYED: Fri Jul 16 13:53:22 2021
 NAMESPACE: default
 STATUS: deployed
+REVISION: 2
+TEST SUITE: None
 ...
 {{< /output >}}
 
@@ -70,11 +67,21 @@ Then, rollback to the previous application revision (can rollback to any revisio
 helm rollback workshop 1
 ```
 
-Validate `workshop` release status with:
+Validate `workshop` release status  and you will see a new revision that is based on the rollback.
 
 ```sh
 helm status workshop
 ```
+
+{{< output >}}
+NAME: workshop
+LAST DEPLOYED: Fri Jul 16 13:55:27 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 3
+TEST SUITE: None
+
+{{< /output >}}
 
 Verify that the error is gone
 
@@ -83,14 +90,8 @@ kubectl get pods
 ```
 
 {{< output >}}
-NAME                               READY   STATUS             RESTARTS   AGE
-ecsdemo-crystal-844d84cb86-56gpz   1/1     Running            0          23m
-ecsdemo-crystal-844d84cb86-5vvcg   1/1     Running            0          23m
-ecsdemo-crystal-844d84cb86-d2plf   1/1     Running            0          23m
-ecsdemo-frontend-6df6d9bb9-dpcsl   1/1     Running            0          23m
-ecsdemo-frontend-6df6d9bb9-lzlwh   1/1     Running            0          23m
-ecsdemo-frontend-6df6d9bb9-psg69   1/1     Running            0          23m
-ecsdemo-nodejs-6fdf964f5f-6cnzl    1/1     Running            0          23m
-ecsdemo-nodejs-6fdf964f5f-fbcjv    1/1     Running            0          23m
-ecsdemo-nodejs-6fdf964f5f-v88jn    1/1     Running            0          23m
+NAME                                READY   STATUS    RESTARTS   AGE
+ecsdemo-crystal-56976b4dfd-9f2rf    1/1     Running   0          6m
+ecsdemo-frontend-7f5ddc5485-8vqck   1/1     Running   0          6m
+ecsdemo-nodejs-58977c4597-r6hvj     1/1     Running   0          6m
 {{< /output >}}

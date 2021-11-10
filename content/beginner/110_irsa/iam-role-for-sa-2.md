@@ -1,6 +1,6 @@
 ---
 title: "Specifying an IAM Role for Service Account"
-date: 2018-11-13T16:36:24+09:00
+date: 2021-07-20T00:00:00-03:00
 weight: 40
 draft: false
 ---
@@ -27,10 +27,10 @@ kubectl describe sa iam-test
 {{< output >}}
 Name:                iam-test
 Namespace:           default
-Labels:              <none>
-Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::14xxxxxxxx84:role/eksctl-eksworkshop-eksctl-addon-iamserviceac-Role1-1PJ5Q3H39Z5M9
+Labels:              app.kubernetes.io/managed-by=eksctl
+Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::40XXXXXXXX75:role/eksctl-sandbox-addon-iamserviceaccount-defau-Role1-1B37L4A1UEXYS
 Image pull secrets:  <none>
-Mountable secrets:   iam-test-token-5n9cb
-Tokens:              iam-test-token-5n9cb
+Mountable secrets:   iam-test-token-zbk55
+Tokens:              iam-test-token-zbk55
 Events:              <none>
 {{< /output >}}

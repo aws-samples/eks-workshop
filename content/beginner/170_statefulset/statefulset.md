@@ -25,7 +25,7 @@ cd ${HOME}/environment/ebs_statefulset
 wget https://eksworkshop.com/beginner/170_statefulset/statefulset.files/mysql-statefulset.yaml
 ```
 
-Create the `StatefulSet` "mysql" by following command.
+Create the `StatefulSet` "mysql" by running the following command.
 
 ```sh
 kubectl apply -f ${HOME}/environment/ebs_statefulset/mysql-statefulset.yaml

@@ -108,6 +108,11 @@ url = "https://awsworkshop.io"
 weight = 10
 
 [[menu.shortcuts]]
+name = "<i class='fas fa-chalkboard'></i> EKS Anywhere"
+url = "https://anywhere.eks.amazonaws.com/docs/getting-started/"
+weight = 11
+
+[[menu.shortcuts]]
 name = "<i class='fas fa-bookmark'></i> More Resources"
 url = "/more_resources"
 weight = 15

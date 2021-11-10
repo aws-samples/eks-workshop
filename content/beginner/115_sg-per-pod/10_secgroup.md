@@ -75,7 +75,7 @@ aws ec2 authorize-security-group-ingress \
 Finally, we will add two inbound traffic (ingress) [rules](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules) to the RDS_SG security group:
 
 * One for Cloud9 (to populate the database).
-* And a second one to allow POD_SG security group to connect to the database.
+* One to allow POD_SG security group to connect to the database.
 
 ```bash
 # Cloud9 IP
