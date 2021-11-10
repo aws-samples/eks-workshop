@@ -1,6 +1,6 @@
 ---
 title: "Basic Pod CPU and Memory Management"
-date: 2021-07-30T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 10
 draft: false
 ---

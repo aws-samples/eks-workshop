@@ -1,6 +1,6 @@
 ---
 title: "Create a Secret"
-date: 2021-07-18T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 10
 draft: false
 ---

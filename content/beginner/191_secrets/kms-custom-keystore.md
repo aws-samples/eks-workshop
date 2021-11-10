@@ -1,6 +1,6 @@
 ---
 title: "AWS KMS and Custom Key Store"
-date: 2021-07-18T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 5
 pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
@@ -44,7 +44,7 @@ Keep in mind that the KMS Custom Key Store functionality makes use of a minimum 
 
 #### Cost
 
-Aside from compliance and security requirements, your may want to consider the cost of using custom key stores. Below you can find a cost comparison between default AWS KMS key store and AWS KMS custom key store.
+Aside from compliance and security requirements, you may want to consider the cost of using custom key stores. Below you can find a cost comparison between default AWS KMS key store and AWS KMS custom key store for the N. Virginia AWS region (us-east-1). You can find the latest KMS pricing information [here](https://aws.amazon.com/kms/pricing/).
 
 ##### KMS Default (Monthly Cost)
 
