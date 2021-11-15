@@ -8,7 +8,7 @@ draft: false
 ### Argo Dashboard
 
 {{% notice info %}}
-Since V2.5, Argo UI has been replace by Argo Server. The new UI is not read-only — it also comes with the ability to create and update data directly in your browser. [Click here for more information](https://blog.argoproj.io/argo-workflows-v2-5-released-ce7553bfd84c)
+Since V2.5, Argo UI has been replaced by Argo Server. The new UI is not read-only — it also comes with the ability to create and update data directly in your browser. [Click here for more information](https://blog.argoproj.io/argo-workflows-v2-5-released-ce7553bfd84c)
 {{% /notice %}}
 
 ![Argo Dashboard](/images/argo-workflow/argo-dashboard.png)
