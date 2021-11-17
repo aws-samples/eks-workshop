@@ -17,7 +17,7 @@ helm list
 You should see output similar to below, which show that mywebserver is installed:
 {{< output >}}
 NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-mywebserver     default         1               2020-02-18 22:02:13.844416354 +0100 CET deployed        nginx-5.1.6     1.16.1
+mywebserver     default         1               2021-07-15 13:52:34.563653342 +0000 UTC deployed        nginx-9.3.7     1.21.1   
 {{< /output >}}
 
 It was a lot of fun; we had some great times sending HTTP back and forth, but now its time to uninstall this deployment.  To uninstall:

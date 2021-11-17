@@ -15,30 +15,30 @@ Run kubectl get nodes to get the names of your cluster’s nodes.
 kubectl get nodes
 ```
 
-Output will be like
+Output will look like:
 
 {{< output >}}
-NAME                                          STATUS   ROLES    AGE    VERSION
-ip-192-168-15-67.us-east-2.compute.internal   Ready    <none>   3d5h   v1.17.12-eks-7684af
-ip-192-168-58-41.us-east-2.compute.internal   Ready    <none>   3d5h   v1.17.12-eks-7684af
-ip-192-168-95-39.us-east-2.compute.internal   Ready    <none>   3d5h   v1.17.12-eks-7684af
+NAME                                            STATUS   ROLES    AGE     VERSION
+ip-192-168-155-36.us-east-2.compute.internal    Ready    <none>   2d23h   v1.20.4-eks-6b7464
+ip-192-168-168-110.us-east-2.compute.internal   Ready    <none>   2d23h   v1.20.4-eks-6b7464
+ip-192-168-97-12.us-east-2.compute.internal     Ready    <none>   2d23h   v1.20.4-eks-6b7464
 {{< /output >}}
 
 We will add a new label `disktype=ssd` to the first node on this list.
 
-but first, let's confirm the label hasn't be assign to any nodes by filtering the previous using the selector option.
+But first, let's confirm the label hasn't been assigned to any nodes by filtering the previous using the selector option.
 
 ```bash
 kubectl get nodes --selector disktype=ssd
 ```
 
-Output
+Output:
 
 {{< output >}}
-No resources found in default namespace.
+No resources found
 {{< /output >}}
 
-To add a label to the fist node, we can run these command
+To add a label to the first node, we can run these commands:
 
 ```bash
 # export the first node name as a variable
@@ -48,28 +48,28 @@ export FIRST_NODE_NAME=$(kubectl get nodes -o json | jq -r '.items[0].metadata.n
 kubectl label nodes ${FIRST_NODE_NAME} disktype=ssd
 ```
 
-Output example
+Output will look like:
 
 {{< output >}}
-node/ip-192-168-15-67.us-east-2.compute.internal labeled
+node/ip-192-168-155-36.us-east-2.compute.internal labeled
 {{< /output >}}
 
-We can verify that it worked by re-running the `kubectl get nodes --selector` command
+We can verify that it worked by re-running the `kubectl get nodes --selector` command.
 
 ```bash
 kubectl get nodes --selector disktype=ssd
 ```
 
-Output example
+Output will look like:
 
 {{< output >}}
-NAME                                          STATUS   ROLES    AGE    VERSION
-ip-192-168-15-67.us-east-2.compute.internal   Ready    <none>   3d6h   v1.17.12-eks-7684af
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-155-36.us-east-2.compute.internal   Ready    <none>   2d23h   v1.20.4-eks-6b7464
 {{< /output >}}
 
 ### Deploy a nginx pod only to the node with the new label
 
-We will now create a simple pod creating file with the `nodeSelector` in the pod spec
+We will now create a simple pod creating a file with the `nodeSelector` in the pod spec.
 
 ```bash
 cat <<EoF > ~/environment/pod-nginx.yaml
@@ -89,26 +89,26 @@ spec:
 EoF
 ```
 
-Then you run
+Then you run:
 
 ```bash
 kubectl apply -f ~/environment/pod-nginx.yaml
 ```
 
-And the Pod will get scheduled on the node that you attached the label to. You can verify that it worked by running
+The Pod will get scheduled on the node that you attached the label to. You can verify that it worked by running:
 
 ```bash
 kubectl get pods -o wide
 ```
 
-Sample Output
+Output will look like:
 
 {{< output >}}
 NAME    READY   STATUS              RESTARTS   AGE   IP       NODE                                          NOMINATED NODE   READINESS GATES
-nginx   0/1     ContainerCreating   0          4s    <none>   ip-192-168-15-67.us-east-2.compute.internal   <none>           <none>
+nginx   0/1     ContainerCreating   0          4s    <none>   ip-192-168-155-36.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
 
-The `NODE` name should match the output of the command below
+The `NODE` name should match the output of the command below:
 
 ```bash
 kubectl get nodes --selector disktype=ssd
@@ -117,6 +117,6 @@ kubectl get nodes --selector disktype=ssd
 Sample Output
 
 {{< output >}}
-NAME                                          STATUS   ROLES    AGE    VERSION
-ip-192-168-15-67.us-east-2.compute.internal   Ready    <none>   3d6h   v1.17.12-eks-7684af
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-155-36.us-east-2.compute.internal   Ready    <none>   2d23h   v1.20.4-eks-6b7464
 {{< /output >}}

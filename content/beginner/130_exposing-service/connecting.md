@@ -145,7 +145,7 @@ Creating a new deployment called _load-generator_ (with the _MyClusterIP_ variab
 
 ```bash
 # Create a new deployment and allocate a TTY for the container in the pod
-kubectl -n my-nginx run --generator=run-pod/v1 -i --tty load-generator --env="MyClusterIP=${MyClusterIP}" --image=busybox /bin/sh
+kubectl -n my-nginx run -i --tty load-generator --env="MyClusterIP=${MyClusterIP}" --image=busybox /bin/sh
 ```
 
 {{% notice tip %}}

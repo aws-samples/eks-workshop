@@ -4,15 +4,24 @@ date: 2018-08-07T08:30:11-07:00
 weight: 20
 ---
 
-If you look in the newly created **eksdemo** directory, you'll see several files and directories. Specifically, inside the /templates directory, you'll see:
+If you look in the newly created **eksdemo** directory, you'll see several files and directories.
 
-* `deployment.yaml`: A basic manifest for creating a Kubernetes deployment
-* `_helpers.tpl`: A place to put template helpers that you can re-use throughout the chart
-* `ingress.yaml`: A basic manifest for creating a Kubernetes ingress object for your service
-* `NOTES.txt`: The "help text" for your chart. This will be displayed to your users when they run helm install.
-* `serviceaccount.yaml`: A basic manifest for creating service account.
-* `service.yaml`: A basic manifest for creating a service endpoint for your deployment
-* `tests/`: A folder which contains tests for chart
+The table below outlines the purpose of each component in the Helm chart structure.
+| File or Directory | Description |
+| ------ | ----------- |
+| charts/   | Sub-charts that the chart depends on |
+| Chart.yaml | Information about your chart |
+| values.yaml | The default values for your templates |
+| template/    | The template files |
+| template/deployment.yaml | Basic manifest for creating [Kubernetes Deployment objects](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) |
+| template/_helpers.tpl | Used to define Go template helpers |
+| template/hpa.yaml | Basic manifest for creating [Kubernetes Horizontal Pod Autoscaler objects](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| template/ingress.yaml | Basic manifest for creating [Kubernetes Ingress objects](https://kubernetes.io/docs/concepts/services-networking/ingress/) |
+| template/NOTES.txt | A plain text file to give users detailed information about how to use the newly installed chart |
+| template/serviceaccount.yaml | Basic manifest for creating [Kubernetes ServiceAccount objects](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) |
+| template/service.yaml | Basic manifest for creating [Kubernetes Service objects](https://kubernetes.io/docs/concepts/services-networking/service/) |
+| tests/ | Directory of Test files |
+| tests/test-connections.yaml | Tests that validate that your chart works as expected when it is installed |
 
 We're actually going to create our own files, so we'll delete these boilerplate files
 

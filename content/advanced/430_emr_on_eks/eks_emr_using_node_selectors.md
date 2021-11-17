@@ -154,14 +154,14 @@ Let's create a json input file for emr-container cli.
 cat > request-nytaxi.json <<EOF 
 {
     "name": "nytaxi",
-    "virtualClusterId": "{virtualClusterId}",
-    "executionRoleArn": "{executionRoleArn}",
+    "virtualClusterId": "${VIRTUAL_CLUSTER_ID}",
+    "executionRoleArn": "${EMR_ROLE_ARN}",
     "releaseLabel": "emr-5.33.0-latest",
     "jobDriver": {
         "sparkSubmitJobDriver": {
-            "entryPoint": "{s3DemoBucket}/nytaxi.py",
-            "sparkSubmitParameters": "--conf spark.kubernetes.driver.podTemplateFile={s3DemoBucket}/pod_templates/spark_driver_nyc_taxi_template.yml \
-            --conf spark.kubernetes.executor.podTemplateFile={s3DemoBucket}/pod_templates/spark_executor_nyc_taxi_template.yml \
+            "entryPoint": "${s3DemoBucket}/nytaxi.py",
+            "sparkSubmitParameters": "--conf spark.kubernetes.driver.podTemplateFile=${s3DemoBucket}/pod_templates/spark_driver_nyc_taxi_template.yml \
+            --conf spark.kubernetes.executor.podTemplateFile=${s3DemoBucket}/pod_templates/spark_executor_nyc_taxi_template.yml \
             --conf spark.executor.instances=3 \
             --conf spark.executor.memory=2G \
             --conf spark.executor.cores=2 \
@@ -184,24 +184,12 @@ cat > request-nytaxi.json <<EOF
                 "logStreamNamePrefix": "nytaxi"
             },
             "s3MonitoringConfiguration": {
-                "logUri": "{s3DemoBucket}/"
+                "logUri": "${s3DemoBucket}/"
             }
         }
     }
 }
 EOF
-```
-
-Next we will replace placeholder variables in the the request-nytaxi.json file
-
-
-```sh
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
-export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole --query Role.Arn --output text)
-
-sed -i "s|{virtualClusterId}|${VIRTUAL_CLUSTER_ID}|g" request-nytaxi.json
-sed -i "s|{executionRoleArn}|${EMR_ROLE_ARN}|g" request-nytaxi.json
-sed -i "s|{s3DemoBucket}|${s3DemoBucket}|g" request-nytaxi.json
 ```
 
 Finally, let's trigger the Spark job

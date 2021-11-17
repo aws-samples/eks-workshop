@@ -9,7 +9,7 @@ cd  ~/environment/
 
 kubectl delete -f ~/environment/logging/fluentbit.yaml
 
-aws es delete-elasticsearch-domain \
+aws opensearch delete-domain \
     --domain-name ${ES_DOMAIN_NAME}
 
 eksctl delete iamserviceaccount \

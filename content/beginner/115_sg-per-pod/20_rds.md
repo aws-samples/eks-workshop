@@ -86,7 +86,7 @@ echo "RDS endpoint: ${RDS_ENDPOINT}"
 Our last step is to create some content in the database.
 
 ```bash
-sudo yum install -y postgresql
+sudo amazon-linux-extras install -y postgresql12
 
 cd sg-per-pod
 
