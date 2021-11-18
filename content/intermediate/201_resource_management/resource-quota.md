@@ -1,6 +1,6 @@
 ---
 title: "Resource Quotas"
-date: 2020-06-22T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 12
 draft: false
 ---
@@ -14,7 +14,7 @@ kubectl create namespace blue
 kubectl create namespace red
 ```
 ### Create Resource Quota
-In this example environment we have two teams are sharing the same resources. The Red team is limited on number of Load Balancers provisioned and Blue team is restricted on memory/cpu usage. 
+In this example environment we have two teams sharing the same resources. The Red team can provision only one Load Balancer and the Blue team has restrictions on memory and CPU usage. 
 
 ```
 kubectl create quota blue-team --hard=limits.cpu=1,limits.memory=1G --namespace blue
@@ -59,6 +59,24 @@ kubectl describe quota blue-team --namespace blue
 kubectl describe quota red-team --namespace red
 ```
 
+Output:
+
+```
+Name:          blue-team
+Namespace:     blue
+Resource       Used  Hard
+--------       ----  ----
+limits.cpu     750m  1
+limits.memory  750M  1G
+
+
+
+Name:                   red-team
+Namespace:              red
+Resource                Used  Hard
+--------                ----  ----
+services.loadbalancers  1     1
+```
 
 ### Clean Up 
 Clean up the pods before moving on to free up resources

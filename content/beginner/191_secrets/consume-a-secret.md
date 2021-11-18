@@ -1,6 +1,6 @@
 ---
 title: "Access the Secret from a Pod"
-date: 2019-04-09T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 11
 draft: false
 ---

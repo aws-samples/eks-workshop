@@ -1,6 +1,6 @@
 ---
 title: "AWS KMS and Custom Key Store"
-date: 2019-04-09T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 5
 pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
@@ -24,7 +24,6 @@ For most users, the default AWS KMS key store, which is protected by FIPS 140-2 
 However, you might consider creating a custom key store if your organization has any of the following requirements:
 
 * The key material cannot be stored in a shared environment.
-* The key material must be backed up in multiple AWS Regions.
 * The key material must be subject to a secondary, independent audit path.
 * The hardware security module (HSM) that generates and stores key material must be certified at [FIPS 140-2 Level 3](https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html).
 
@@ -35,9 +34,8 @@ If any of these requirements apply to you, consider using AWS CloudHSM with AWS 
 **What level of FIPS 140-2 cryptographic validation does the AWS KMS HSM hold?**
 
 {{%expand "Expand here to see the solution" %}}
-The AWS KMS HSMs are validated at Level 2 overall. You can read more about that [here].(https://aws.amazon.com/blogs/security/aws-key-management-service-now-offers-fips-140-2-validated-cryptographic-modules-enabling-easier-adoption-of-the-service-for-regulated-workloads/)
+The AWS KMS HSMs are validated at Level 2 overall. You can read more about the topic [in this blog post](https://aws.amazon.com/blogs/security/aws-key-management-service-now-offers-fips-140-2-validated-cryptographic-modules-enabling-easier-adoption-of-the-service-for-regulated-workloads/).
 
-FIPS 140-2 Level 2 validation is sufficient for many use cases, but check with your security and compliance teams to verify.
 {{% /expand %}}
 
 {{% notice info %}}
@@ -46,18 +44,18 @@ Keep in mind that the KMS Custom Key Store functionality makes use of a minimum 
 
 #### Cost
 
-Aside from compliance considerations, your team will want to consider the cost of using this feature. For comparison, I will list the cost of using a CMK created with the default KMS functionality. Then, I will list of the cost of using a CMK created with the custom key store functionality.
+Aside from compliance and security requirements, you may want to consider the cost of using custom key stores. Below you can find a cost comparison between default AWS KMS key store and AWS KMS custom key store for the N. Virginia AWS region (us-east-1). You can find the latest KMS pricing information [here](https://aws.amazon.com/kms/pricing/).
 
-##### KMS Standard (Monthly Cost)
+##### KMS Default (Monthly Cost)
 
 - 1 CMK = $1.00
-- 90 requests = $0.00 (due to the free tier of 20,000 requests)
+- 100 requests = $0.00 (free tier of 20,000 requests/month)
 - **Total Cost = $1.00**
 
 ##### KMS Custom Key Store (Monthly Cost)
 
 - 1 CMK = $1.00
-- 90 requests = $0.00 (due to the free tier of 20,000 requests)
+- 100 requests = $0.00 (free tier of 20,000 requests/month)
 - 2 CloudHSM Instances = $2,380.80
 - **Total Cost = $2,381.80**
 

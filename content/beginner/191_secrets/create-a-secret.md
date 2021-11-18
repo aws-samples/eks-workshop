@@ -1,6 +1,6 @@
 ---
 title: "Create a Secret"
-date: 2019-04-09T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 10
 draft: false
 ---
@@ -26,7 +26,7 @@ Create a text file containing your secret:
 echo -n "am i safe?" > ./test-creds
 ```
 
-Create your secret
+Create your secret:
 
 ```bash
 kubectl create secret \

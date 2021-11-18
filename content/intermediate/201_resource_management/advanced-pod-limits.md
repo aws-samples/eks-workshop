@@ -1,6 +1,6 @@
 ---
 title: "Advanced Pod CPU and Memory Management"
-date: 2020-06-22T00:00:00-03:00
+date: 2021-11-10T00:00:00-03:00
 weight: 11
 draft: false
 ---
@@ -64,9 +64,9 @@ kubectl apply -f ~/environment/resource-management/high-usage-limit-range.yml --
 Next we will deploy the pods to the nodes .
 
 ##### Failed Attempts
- Creating a pod with values outside what is defined in the `LimitRange` in the namespace will cause an errors
+ Creating a pod with values out of the range defined in the `LimitRange` for the namespace will cause an error.
 ```sh
-# Error due to higher memory request than defined in low-usage namespace: wanted 1g memory above max of 300m
+# Error due to higher memory request than defined in low-usage namespace: Invalid value: "1G": must be less than or equal to memory limit
 kubectl run --namespace low-usage --requests=memory=1G,cpu=0.5 --image  hande007/stress-ng basic-request-pod --restart=Never --  --vm-keep   --vm-bytes 2g --timeout 600s --vm 1 --oomable --verbose 
 
 # Error due to lower cpu request than defined in high-usage namespace: wanted 0.5 below min of 1
@@ -74,7 +74,7 @@ kubectl run --namespace high-usage --requests=memory=1G,cpu=0.5 --image  hande00
 ```
 
 ##### Successful Attempts
-Create pods without specifying `Requests` or `Limits` will inherit `LimitRange` values.
+Creating pods without specifying `Requests` or `Limits` will inherit `LimitRange` values.
 ```
 kubectl run --namespace low-usage --image  hande007/stress-ng low-usage-pod --restart=Never --  --vm-keep   --vm-bytes 200m --timeout 600s --vm 2 --oomable --verbose 
 kubectl run --namespace high-usage  --image  hande007/stress-ng high-usage-pod --restart=Never --  --vm-keep   --vm-bytes 200m --timeout 600s --vm 2 --oomable --verbose 
