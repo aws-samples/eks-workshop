@@ -2,7 +2,6 @@
 title: "Cleanup the Lab"
 date: 2021-09-31T00:00:00-04:00
 weight: 50
-pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
 ---
 
