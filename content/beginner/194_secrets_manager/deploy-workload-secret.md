@@ -1,8 +1,7 @@
 ---
 title: "Deploy pods with mounted secrets"
-date: 2021-10-01T00:00:00-04:00
+date: 2021-10-21T00:00:00-04:00
 weight: 30
-pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
 ---
 
@@ -100,8 +99,8 @@ nginx-deployment-75bfbbcf99-ws4ts   1/1     Running   0          10s
 Finally, verify the secret mounted as a file by executing the command within the pod.
 
 ```bash
-kubectl exec -it $(kubectl get pods | awk '/nginx-deployment/{print $1}' | head -1) \
-  -- cat /mnt/secrets/DBSecret_eksworkshop; echo
+export POD_NAME=$(kubectl get pods -l app=nginx -o jsonpath='{.items[].metadata.name}')
+kubectl exec -it ${POD_NAME} -- cat /mnt/secrets/DBSecret_eksworkshop; echo
 ```
 
 {{<output>}}
