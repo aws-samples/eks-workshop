@@ -2,7 +2,6 @@
 title: "Prepare secret and IAM access controls"
 date: 2021-10-01T00:00:00-04:00
 weight: 20
-pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
 ---
 
@@ -23,7 +22,6 @@ export EKS_CLUSTERNAME="eksworkshop-eksctl"
 aws --region "$AWS_REGION" secretsmanager \
   create-secret --name DBSecret_eksworkshop \
   --secret-string '{"username":"foo", "password":"super-sekret"}'
-
 ```
 
 Get secret's ARN.
