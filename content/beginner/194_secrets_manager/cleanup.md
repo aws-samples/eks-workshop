@@ -9,10 +9,7 @@ Make sure variables are set up correctly.
 ```bash
 test -n "$EKS_CLUSTERNAME" && echo EKS_CLUSTERNAME is "$EKS_CLUSTERNAME" \
  || echo EKS_CLUSTERNAME is not set
-
 test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || echo AWS_REGION is not set
-
-
 ```
 
 The output must show both variables set. Your AWS region may be different.
@@ -29,7 +26,7 @@ ls -p
 
 ```
 
-The output should show the directory listing with the following files.
+The output should show the directory listing with the following files. You may have more than these files displayed here.
 {{<output>}}
 00_iam_policy_arn_dbsecret		nginx-deployment-spc-k8s-secrets.yaml	nginx-deployment.yaml
 nginx-deployment-k8s-secrets.yaml	nginx-deployment-spc.yaml
