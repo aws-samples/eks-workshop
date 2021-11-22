@@ -2,7 +2,6 @@
 title: "Sync with native Kuberbetes secrets"
 date: 2021-10-01T00:00:00-04:00
 weight: 40
-pre: '<i class="fa fa-film" aria-hidden="true"></i>'
 draft: false
 ---
 
@@ -53,14 +52,13 @@ Create custom resource.
 ```bash
 kubectl apply -f nginx-deployment-spc-k8s-secrets.yaml
 
-kubectl get SecretProviderClass
+kubectl get SecretProviderClass nginx-deployment-spc-k8s-secrets
 ```
 
 The output indicates the resource ```nginx-deployment-spc-k8s-secrets``` created successfully.
 {{<output>}}
 NAME                               AGE
-nginx-deployment-spc               22m
-nginx-deployment-spc-k8s-secrets   1s
+nginx-deployment-spc-k8s-secrets   10s
 {{</output>}}
 
 
@@ -128,37 +126,53 @@ kubectl get pods -l "app=nginx-k8s-secrets"
 
 #### Verify the result
 
-Verify the secret mounted as separate files for each extracted value and Environment variables. 
+Get a shell prompt within the pod by running the following commands. Verify the secret mounted as separate files for each extracted key-value pair and corresponding environment variables set as well.
 
 ```bash
-kubectl exec -it $(kubectl get pods | awk '/nginx-deployment-k8s-secrets/{print $1}' | head -1) -- /bin/sh
+export POD_NAME=$(kubectl get pods -l app=nginx-k8s-secrets -o jsonpath='{.items[].metadata.name}')
+kubectl exec -it ${POD_NAME} -- /bin/bash
 ```
 
-Wait for the shell prompt. Run the following set of commands and watch the output in the shell.  
+Wait for the ```root``` shell prompt within the pod. Run the following set of commands and watch the output in the pod's shell. 
+
+```bash
+export PS1='# '
+cd /mnt/secrets
+ls -l   #--- List mounted secrets
+
+cat dbusername; echo  
+cat dbpassword; echo
+cat DBSecret_eksworkshop; echo
+
+env | grep DB    #-- Display two ENV variables set from the secret values
+sleep 2
+exit
+
+```
+The output shows the information as displayed here. The last ```exit``` command in the shell window exits from the pod's shell.
 
 {{<output>}}
 # cd /mnt/secrets
-#
-# ls -l
+# ls -l   #--- List mounted secrets
 total 12
--rw-r--r-- 1 root root 45 Oct  1 19:40 DBSecret_eksworkshop
--rw-r--r-- 1 root root 12 Oct  1 19:40 dbpassword
--rw-r--r-- 1 root root  3 Oct  1 19:40 dbusername
+-rw-r--r-- 1 root root 45 Nov 22 01:56 DBSecret_eksworkshop
+-rw-r--r-- 1 root root 12 Nov 22 01:56 dbpassword
+-rw-r--r-- 1 root root  3 Nov 22 01:56 dbusername
 # 
-# cat dbusername
-foo#
-#
-# cat dbpassword
-super-sekret#
-#
-# cat DBSecret_eksworkshop
-{"username":"foo", "password":"super-sekret"}#
-#
-# env | grep DB
+# cat dbusername; echo  
+foo
+# cat dbpassword; echo
+super-sekret
+# cat DBSecret_eksworkshop; echo
+{"username":"foo", "password":"super-sekret"}
+# 
+# env | grep DB    #-- Display two ENV variables set from the secret values
 DB_USERNAME_01=foo
 DB_PASSWORD_01=super-sekret
-#
+# sleep 2
+
 # exit
+exit
 {{</output>}}
 
 Notice under the path ```/mnt/secrets``` key-values pairs extracted in separate files based on *jmesPath* specification. Files ```dbusername``` and ```dbpassword``` contains extracted values from the JSON formatted secret ```DBSecret_eksworkshop```
