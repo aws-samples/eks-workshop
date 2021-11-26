@@ -10,7 +10,7 @@ Now that the user, Role, and RoleBinding are defined, lets switch back to rbac-u
 To switch back to rbac-user, issue the following command that sources the rbac-user env vars, and verifies they've taken:
 
 ```
-. rbacuser_creds.sh; aws sts get-caller-identity
+. /tmp/rbacuser_creds.sh; aws sts get-caller-identity
 ```
 
 You should see output reflecting that you are logged in as rbac-user.

@@ -33,7 +33,7 @@ By running the previous step, you should get a response similar to:
 To make it easy to switch back and forth between the admin user you created the cluster with, and this new rbac-user, run the following command to create a script that when sourced, sets the active user to be rbac-user:
 
 ```
-cat << EoF > rbacuser_creds.sh
+cat << EoF > /tmp/rbacuser_creds.sh
 export AWS_SECRET_ACCESS_KEY=$(jq -r .AccessKey.SecretAccessKey /tmp/create_output.json)
 export AWS_ACCESS_KEY_ID=$(jq -r .AccessKey.AccessKeyId /tmp/create_output.json)
 EoF

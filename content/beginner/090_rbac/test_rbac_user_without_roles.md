@@ -10,7 +10,7 @@ Up until now, as the cluster operator, you've been accessing the cluster as the 
 Issue the following command to source the rbac-user's AWS IAM user environmental variables:
 
 ```
-. rbacuser_creds.sh
+. /tmp/rbacuser_creds.sh
 ```
 By running the above command, you've now set AWS environmental variables which should override the default admin user or role.  To verify we've overrode the default user settings, run the following command:
 
