@@ -36,6 +36,7 @@ spec:
         app: jazz
         version: v2
     spec:
+      serviceAccountName: prod-proxies
       containers:
         - name: jazz
           image: "672518094988.dkr.ecr.us-west-2.amazonaws.com/hello-world:v1.0"
