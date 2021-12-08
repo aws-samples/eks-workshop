@@ -26,7 +26,7 @@ In order to generate cpu and memory load, we will use [stress-ng](http://manpage
 
 ```sh
 # Deploy request pod with soft limit on memory 
-kubectl run --requests=memory=1G,cpu=0.5 --image  hande007/stress-ng basic-request-pod --restart=Never --  --vm-keep  --vm-bytes 2g --timeout 600s --vm 1 --oomable --verbose 
+kubectl run --requests=memory=1G,cpu=0.5 --image  hande007/stress-ng basic-request-pod --restart=Never --  --vm-keep  --vm-bytes 1.5g --timeout 600s --vm 1 --oomable --verbose 
 
 # Deploy limit-cpu pod with hard limit on cpu at 500m but wants 1000m
 kubectl run --limits=memory=1G,cpu=0.5 --image  hande007/stress-ng basic-limit-cpu-pod --restart=Never --  --vm-keep --vm-bytes 512m --timeout 600s --vm 1 --oomable --verbose 
