@@ -1,10 +1,9 @@
 ---
 title: "Cleanup Karpenter"
-date: 2021-12-09T08:30:11-07:00
 weight: 65
 ---
 
-Cleanup
+## Cleanup
 To avoid additional charges, remove the demo infrastructure from your AWS account.
 
 ```bash

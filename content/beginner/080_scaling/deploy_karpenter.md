@@ -1,10 +1,9 @@
 ---
 title: "Configure Karpenter"
-date: 2021-12-09T08:30:11-07:00
 weight: 60
 ---
 
-Karpenter is an open-source node provisioning project built for Kubernetes. Its goal is to improve the efficiency and cost of running workloads on Kubernetes clusters. Karpenter works by:
+[Karpenter](https://github.com/aws/karpenter) is an open-source node provisioning project built for Kubernetes. Its goal is to improve the efficiency and cost of running workloads on Kubernetes clusters. Karpenter works by:
 
 Watching for pods that the Kubernetes scheduler has marked as unschedulable
 Evaluating scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods
