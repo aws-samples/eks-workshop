@@ -1,0 +1,18 @@
+---
+title: "Cleanup Karpenter"
+date: 2021-12-09T08:30:11-07:00
+weight: 65
+---
+
+Cleanup
+To avoid additional charges, remove the demo infrastructure from your AWS account.
+
+```bash
+helm uninstall karpenter --namespace karpenter
+eksctl delete iamserviceaccount --cluster ${CLUSTER_NAME} --name karpenter --namespace karpenter
+aws cloudformation delete-stack --stack-name Karpenter-${CLUSTER_NAME}
+aws ec2 describe-launch-templates \
+    | jq -r ".LaunchTemplates[].LaunchTemplateName" \
+    | grep -i Karpenter-${CLUSTER_NAME} \
+    | xargs -I{} aws ec2 delete-launch-template --launch-template-name {}
+```
