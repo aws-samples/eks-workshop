@@ -4,7 +4,6 @@ weight: 65
 ---
 
 ## Cleanup
-To avoid additional charges, remove the demo infrastructure from your AWS account.
 
 ```bash
 helm uninstall karpenter --namespace karpenter
