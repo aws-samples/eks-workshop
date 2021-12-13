@@ -53,12 +53,12 @@ Ensure new nodes are up and listed with 'Ready' status.
 ```
 kubectl get nodes  # Make sure new nodes are listed with 'Ready' status
 ```
-{{ output }}
+{{< output >}}
 NAME                                           STATUS   ROLES    AGE   VERSION
 ip-192-168-9-228.us-east-2.compute.internal     Ready    <none>   90m    v1.20.7-eks-135321
 ip-192-168-71-211.us-east-2.compute.internal    Ready    <none>   92m    v1.20.7-eks-135321
 ip-192-168-33-135.us-east-2.compute.internal    Ready    <none>   88m    v1.20.7-eks-135321
-{{ /output }}
+{{< /output >}}
  
 {{% notice warning %}}
  Wait till all three nodes show `Ready` status before moving to the next step.
@@ -82,9 +82,9 @@ Check the `yq` command runs successfully. Refer to `yq` setup in [Install Kubern
 ```
 yq help >/dev/null  && echo "yq command working" || "yq command not working"
 ```
-{{ output }}
+{{< output >}}
  yq command working
-{{ /output }}
+{{< /output >}}
  
 Create ENIConfig custom resources. One file per AZ. 
 ```
@@ -103,14 +103,14 @@ done< <(aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --
 ```
 
 Your output may look different, based on your AWS region and subnets.
-{{ output }}
+{{< output >}}
 Creating ENIConfig file:  eniconfig/us-east-2a.yaml
 Creating ENIConfig file:  eniconfig/us-east-2b.yaml
 Creating ENIConfig file:  eniconfig/us-east-2c.yaml
-{{ /output }}
+{{< /output >}}
  
 Examine the content of these files, it should look similar to below. For example `eniconfig/us-east-2a.yaml`
-{{ output }}
+{{< output >}}
 apiVersion: crd.k8s.amazonaws.com/v1alpha1
 kind: ENIConfig
 metadata:
@@ -119,7 +119,7 @@ spec:
   subnet: subnet-07dab05836e4abe91
   securityGroups:
     - sg-070d03008bda531ad
-{{ /output }}
+{{< /output >}}
 
 
 Apply the CRDs for each AZ.
@@ -132,12 +132,12 @@ Verify, ENIConfig custom resource for each subnet. It is highly recommended usin
 ```
 kubectl get eniconfig
 ```
-{{ output }}
+{{< output >}}
 NAME         AGE
 us-east-2a   85m
 us-east-2b   85m
 us-east-2c   85m
-{{ /output }}
+{{< /output >}}
  
 Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
 ```
@@ -172,12 +172,12 @@ You should now see secondary IP address from extended CIDR assigned to annotated
 
 We intentially used `ENIConfig` name with its matching AZ name for a subnet (`us-east-2a`, `us-east-2b`, `us-east-2c`). Kubernetes also applies labels to nodes such as `failure-domain.beta.kubernetes.io/zone` with matching AZ name as well. 
 
-{{ output }}
+{{< output >}}
  kubectl describe nodes | grep 'failure-domain.beta.kubernetes.io/zone'
                     failure-domain.beta.kubernetes.io/zone=us-east-2a
                     failure-domain.beta.kubernetes.io/zone=us-east-2b
                     failure-domain.beta.kubernetes.io/zone=us-east-2c
-{{ /output }}
+{{< /output >}}
  
 You can then enable Kubernetes to automatically apply the corresponding ENIConfig for the node's Availability Zone with the following command. 
 ```
