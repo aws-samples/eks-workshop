@@ -1,6 +1,6 @@
 ---
 title: "Create CRDs"
-date: 2019-03-02T12:47:43-05:00
+date: 2021-06-13T16:34:28+0000
 weight: 40
 ---
 
@@ -14,26 +14,27 @@ kubectl get crd
 You should see a response similar to this
 {{< output >}}
 NAME                               CREATED AT
-eniconfigs.crd.k8s.amazonaws.com   2019-03-07T20:06:48Z
+eniconfigs.crd.k8s.amazonaws.com   2021-06-13T14:02:40Z
 {{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
 kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
 ```
-Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need create three custom resources.
+Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need to create three custom resources.
 
-Here is the template for custom resource. Notice the values for Subnet ID and SecurityGroup ID needs to be replaced with appropriate values
+Generate a template file `pod-netconfig.template` for ENIConfig 
 ```
+cat <<EOF >pod-netconfig.template
 apiVersion: crd.k8s.amazonaws.com/v1alpha1
 kind: ENIConfig
 metadata:
- name: group1-pod-netconfig
+ name: \${AZ}
 spec:
- subnet: $SUBNETID1
- securityGroups:
- - $SECURITYGROUPID1
- - $SECURITYGROUPID2
+ subnet: \${SUBNET_ID}
+ securityGroups: [ \${NETCONFIG_SECURITY_GROUPS} ]
+EOF
 ```
+
 Check the AZs and Subnet IDs for these subnets. Make note of AZ info as you will need this when you apply annotation to Worker nodes using custom network config
 ```
 aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'Subnets[*].[CidrBlock,SubnetId,AvailabilityZone]' --output table
@@ -47,45 +48,97 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 |  100.64.0.0/19  |  subnet-04f960ffc8be6865c  |  us-east-2b |
 +-----------------+----------------------------+-------------+
 {{< /output >}}
+
+Ensure new nodes are up and listed with 'Ready' status. 
+```
+kubectl get nodes  # Make sure new nodes are listed with 'Ready' status
+```
+{{ output }}
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-9-228.us-east-2.compute.internal     Ready    <none>   90m    v1.20.7-eks-135321
+ip-192-168-71-211.us-east-2.compute.internal    Ready    <none>   92m    v1.20.7-eks-135321
+ip-192-168-33-135.us-east-2.compute.internal    Ready    <none>   88m    v1.20.7-eks-135321
+{{ /output }}
+ 
+{{% notice warning %}}
+ Wait till all three nodes show `Ready` status before moving to the next step.
+{{% /notice %}}
+ 
 Check your Worker Node SecurityGroup
 ```
 INSTANCE_IDS=(`aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --output text`)
-for i in "${INSTANCE_IDS[@]}"
-do
-  echo "SecurityGroup for EC2 instance $i ..."
-  aws ec2 describe-instances --instance-ids $i | jq -r '.Reservations[].Instances[].SecurityGroups[].GroupId'
-done  
+
+export NETCONFIG_SECURITY_GROUPS=$(for i in "${INSTANCE_IDS[@]}"; do  aws ec2 describe-instances --instance-ids $i | jq -r '.Reservations[].Instances[].SecurityGroups[].GroupId'; done  | sort | uniq | awk -vORS=, '{print $1 }' | sed 's/,$//')
+
+echo $NETCONFIG_SECURITY_GROUPS
 ```
 {{< output >}}
-SecurityGroup for EC2 instance i-03ea1a083c924cd78 ...
 sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
-SecurityGroup for EC2 instance i-0a635aed890c7cc3e ...
-sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
-SecurityGroup for EC2 instance i-048e5ec8815e5ea8a ...
-sg-070d03008bda531ad
-sg-06e5cab8e5d6f16ef
 {{< /output >}}
-Create custom resource **group1-pod-netconfig.yaml** for first subnet (100.64.0.0/19). Replace the SubnetId and SecuritGroupIds with the values from above. Here is how it looks with the configuration values for my environment
-
+ 
 Note: We are using same SecurityGroup for pods as your Worker Nodes but you can change these and use custom SecurityGroups for your Pod Networking
-
+ 
+Check the `yq` command runs successfully. Refer to `yq` setup in [Install Kubernetes Tools](https://www.eksworkshop.com/020_prerequisites/k8stools/)
 ```
+yq help >/dev/null  && echo "yq command working" || "yq command not working"
+```
+{{ output }}
+ yq command working
+{{ /output }}
+ 
+Create ENIConfig custom resources. One file per AZ. 
+```
+cd $HOME/environment
+mkdir -p eniconfig
+while IFS= read -r line
+do
+ arr=($line)
+ OUTPUT=`AZ=${arr[0]} SUBNET_ID=${arr[1]} envsubst < pod-netconfig.template | yq eval -P`
+ FILENAME=${arr[0]}.yaml
+ echo "Creating ENIConfig file:  eniconfig/$FILENAME"
+ cat <<EOF >eniconfig/$FILENAME
+$OUTPUT
+EOF
+done< <(aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'Subnets[*].[AvailabilityZone,SubnetId]' --output text)
+```
+
+Your output may look different, based on your AWS region and subnets.
+{{ output }}
+Creating ENIConfig file:  eniconfig/us-east-2a.yaml
+Creating ENIConfig file:  eniconfig/us-east-2b.yaml
+Creating ENIConfig file:  eniconfig/us-east-2c.yaml
+{{ /output }}
+ 
+Examine the content of these files, it should look similar to below. For example `eniconfig/us-east-2a.yaml`
+{{ output }}
 apiVersion: crd.k8s.amazonaws.com/v1alpha1
 kind: ENIConfig
 metadata:
- name: group1-pod-netconfig
+  name: us-east-2a
 spec:
- subnet: subnet-04f960ffc8be6865c
- securityGroups:
- - sg-070d03008bda531ad
- - sg-06e5cab8e5d6f16ef
+  subnet: subnet-07dab05836e4abe91
+  securityGroups:
+    - sg-070d03008bda531ad
+{{ /output }}
+
+
+Apply the CRDs for each AZ.
 ```
-Create custom resource **group2-pod-netconfig.yaml** for second subnet (100.64.32.0/19). Replace the SubnetId and SecuritGroupIds as above.
+cd $HOME/environment
+kubectl apply -f eniconfig
+```
 
-Similarly, create custom resource **group3-pod-netconfig.yaml** for third subnet (100.64.64.0/19). Replace the SubnetId and SecuritGroupIds as above.
-
+Verify, ENIConfig custom resource for each subnet. It is highly recommended using a value of `name` that matches with the AZ of the subnet, because this makes the deployment simpler later.
+```
+kubectl get eniconfig
+```
+{{ output }}
+NAME         AGE
+us-east-2a   85m
+us-east-2b   85m
+us-east-2c   85m
+{{ /output }}
+ 
 Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
 ```
 aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Name=tag-value,Values=eksworkshop*" --query 'Reservations[*].Instances[*].[PrivateDnsName,Tags[?Key==`eks:nodegroup-name`].Value|[0],Placement.AvailabilityZone,PrivateIpAddress,PublicIpAddress]' --output table  
@@ -100,43 +153,34 @@ aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Nam
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
 {{< /output >}}
 
-Apply the CRDs
-```
-kubectl apply -f group1-pod-netconfig.yaml
-kubectl apply -f group2-pod-netconfig.yaml
-kubectl apply -f group3-pod-netconfig.yaml
-```
 As last step, we will annotate nodes with custom network configs.
 
 {{% notice warning %}}
-Be sure to annotate the instance with config that matches correct AZ. For ex, in my environment instance ip-192-168-33-135.us-east-2.compute.internal is in us-east-2b. So, I will apply **group1-pod-netconfig.yaml** to this instance. Similarly, I will apply **group2-pod-netconfig.yaml** to ip-192-168-71-211.us-east-2.compute.internal and **group3-pod-netconfig.yaml** to ip-192-168-9-228.us-east-2.compute.internal
+Be sure to annotate the instance with config that matches correct AZ. For example, in my environment instance ip-192-168-33-135.us-east-2.compute.internal is in us-east-2b. So, I will apply ENIConfig **us-east-2b** to this instance. Similarly, I will apply **us-east-2a** to ip-192-168-71-211.us-east-2.compute.internal and **us-east-2c** to ip-192-168-9-228.us-east-2.compute.internal
 {{% /notice %}}
 
 ```
-kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
+kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eniConfig=<ENIConfig-name-for-az>
 ```
 As an example, here is what I would run in my environment
 {{< output >}}
-kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
+kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=us-east-2b
 {{< /output >}}
 You should now see secondary IP address from extended CIDR assigned to annotated nodes.
 
 #### Additional notes on ENIConfig naming and automatic matching
 
-Optionally, you specify which node label will be used to match the `ENIConfig` name. Consider the
-following example: you have one `ENIConfig` per availability zone, named after the AZ
-(`us-east-2a`, `us-east-2b`, `us-east-2c`). You can then use a label already applied to your nodes,
-such as `topology.kubernetes.io/zone` where the value of the label matches the `ENIConfig` name.
+We intentially used `ENIConfig` name with its matching AZ name for a subnet (`us-east-2a`, `us-east-2b`, `us-east-2c`). Kubernetes also applies labels to nodes such as `failure-domain.beta.kubernetes.io/zone` with matching AZ name as well. 
 
-{{< output >}}
-$ kubectl describe nodes | grep 'topology.kubernetes.io/zone'
-                    topology.kubernetes.io/zone=us-east-2a
-                    topology.kubernetes.io/zone=us-east-2c
-                    topology.kubernetes.io/zone=us-east-2b
-{{</ output >}}
-
-{{< output >}}
-kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
-{{</ output >}}
-
-Kubernetes will now apply the corresponding `ENIConfig` matching the nodes AZ.
+{{ output }}
+ kubectl describe nodes | grep 'failure-domain.beta.kubernetes.io/zone'
+                    failure-domain.beta.kubernetes.io/zone=us-east-2a
+                    failure-domain.beta.kubernetes.io/zone=us-east-2b
+                    failure-domain.beta.kubernetes.io/zone=us-east-2c
+{{ /output }}
+ 
+You can then enable Kubernetes to automatically apply the corresponding ENIConfig for the node's Availability Zone with the following command. 
+```
+ kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=failure-domain.beta.kubernetes.io/zone
+```
+Kubernetes will now automatically apply the corresponding `ENIConfig` matching the nodes AZ, and no need to manually annotate the new EC2 instance with ENIConfig.
