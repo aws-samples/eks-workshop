@@ -10,7 +10,7 @@ weight: 60
 
 ### [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
 
-* Implements a single instance of a pod on a worker node
+* Implements a single instance of a pod on all (or filtered subset of) worker node(s)
 
 ### [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 * Details how to roll out (or roll back) across versions of your application
