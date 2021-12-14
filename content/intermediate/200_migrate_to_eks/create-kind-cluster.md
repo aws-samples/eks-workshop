@@ -8,7 +8,7 @@ Before we create one lets make sure our network rules are set up
 
 {{% notice note %}}
 This is going to manually create some iptables rules to route traffic to your Cloud9 instance.
-If you reboot the VM you will have to run these commands again as they persistent.
+If you reboot the VM you will have to run these commands again as they are not persistent.
 {{% /notice %}}
 
 ```bash
