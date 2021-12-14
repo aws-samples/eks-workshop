@@ -1,7 +1,7 @@
 ---
-title: "Autoscaling our Clusters using Karpenter"
+title: "High-Performance Autoscaling with Karpenter"
 chapter: true
-weight: 80
+weight: 85
 tags:
   - beginner
   - CON205

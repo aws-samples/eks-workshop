@@ -50,7 +50,7 @@ kubectl apply -f inflate.yaml
 ## Challenge
 
 {{% notice tip %}}
-You can use **Kube-ops-view** or just plain **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the resposnes. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`
+You can install [kube-ops-view](https://www.eksworkshop.com/beginner/080_scaling/install_kube_ops_view/) or just use the **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the resposnes. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`
 {{% /notice %}}
 
 Answer the following questions. You can expand each question to get a detailed answer and validate your understanding.
@@ -116,13 +116,13 @@ Instances types might be different depending on the region selected.
 {{% /notice %}}
 
 
-All this instances are the suitable instances that reduce the waste of resources (memory and CPU) for the pod submitted. If you are interested in Algorithms, internally Karpenter is using a [First Fit Decreasing (FFD)](https://en.wikipedia.org/wiki/ Bin_packing_problem#First_Fit_Decreasing_(FFD)) approach. Note however this can change in the future.
+All this instances are the suitable instances that reduce the waste of resources (memory and CPU) for the pod submitted. If you are interested in Algorithms, internally Karpenter is using a [First Fit Decreasing (FFD)](https://en.wikipedia.org/wiki/Bin_packing_problem#First_Fit_Decreasing_(FFD)) approach. Note however this can change in the future.
 
 We did not set Karpenter Provisioner to use specific `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/docs/provisioner-crd/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances.Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
 
 * EC2 Fleet instant mode provides a synchronous call to procure instances this simplifies and avoid error when provisioning instances. For those of you familiar with [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/c4b56ea56136681e8a8ff654dfcd813c0d459442/cluster-autoscaler/cloudprovider/aws/auto_scaling_groups.go#L33-L36), you may know about how it uses `i-placeholder` to coordinate instances that have been created in asynchronous ways.
 
-* The call to EC2 Fleet in instant mode is done using `capacity-optimized-prioritized` selecting the instances that reduce the likelihood of provisioning an extremely large instance. `Capacity-optimized` allocation strategies select instances from the Spot capacity pools with optimal capacity for the number of instances launched thus reducing the frequency of Spot terminations for the instances selected. You can read more about [Allocation Strategies here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) 
+* The call to EC2 Fleet in instant mode is done using `capacity-optimized-prioritized` selecting the instances that reduce the likelihood of provisioning an extremely large instance. `Capacity-optimized` allocation strategies select instances from the Spot capacity pools with optimal capacity for the number of instances launched thus reducing the frequency of Spot terminations for the instances selected. You can read more about Allocation Strategies [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html).
 
 * Calls to EC2 Fleet in instant mode are not considered as Spot fleets. They do not count towards the Spot Fleet limits. The implication is that Karpenter can make calls to this API as many times over time as needed.
 
@@ -173,7 +173,7 @@ System Info:
 
 * The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/v0.4.3-docs/provisioner-crd/) has not been provided.
 
-* The Container Runtime used for Karpenter nodes is containerd. You can read more about containerd [**here**](https://containerd.io/)  
+* The Container Runtime used for Karpenter nodes is [containerd](https://containerd.io/).
 
 
 {{% notice info%}}
@@ -263,7 +263,7 @@ To scale the number of replicas to 0, run the following command:
 kubectl scale deployment inflate --replicas 0
 ```
 
-In the previous section, we configured the default Provisioner with `ttlSecondsAfterEmpty` set to 30 seconds. Once the nodes don't have any pods scheduled on them, Karpenter will terminate the empty nodes using cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/)
+In the previous section, we configured the default Provisioner with `ttlSecondsAfterEmpty` set to 30 seconds. Once the nodes don't have any pods scheduled on them, Karpenter will terminate the empty nodes using cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/).
 
 
 Let's cover the second reason why we started with 0 replicas and why we also end with 0 replicas! Karpenter does support scale to and from Zero. Karpenter only launches or terminates nodes as necessary based on aggregate pod resource requests. Karpenter will only retain nodes in your cluster as long as there are pods using them. 
@@ -276,7 +276,7 @@ In this section we have learned:
 
 * Karpenter scales up nodes in a group-less approach. Karpenter select which nodes to scale , based on the number of pending pods and the *Provisioner* configuration. It selects how the best instances for the workload should look like, and then provisions those instances. This is unlike what Cluster Autoscaler does. In the case of Cluster Autoscaler, first all existing node group are evaluated and to find which one is the best placed to scale, given the Pod constraints.
 
-* Karpenter uses cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) to terminate nodes. The configuration of when a node is terminated can be controlled with `ttlSecondsAfterEmpty`
+* Karpenter uses cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) to terminate nodes. The configuration of when a node is terminated can be controlled with `ttlSecondsAfterEmpty`.
 
 * Karpenter can scale up from zero and scale in to zero.
 
