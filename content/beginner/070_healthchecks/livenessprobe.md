@@ -13,7 +13,7 @@ Use the command below to create a directory
 mkdir -p ~/environment/healthchecks
 ```
 
-Run the following code block to populate the manifest file **~/environment/healthchecks/liveness-app.yaml**. In the configuration file, the *livenessProbe* field determines how kubelet should check the container in order to consider whether it is healthy or not. kubelet uses the periodSeconds field to do frequent check on the Container. In this case, kubelet checks the liveness probe every 5 seconds. The initialDelaySeconds field is used to tell kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this pod and if the handler for the servers /health returns a success code, then the container is considered healthy. If the handler returns a failure code, the kubelet kills the container and restarts it.
+Run the following code block to populate the manifest file **~/environment/healthchecks/liveness-app.yaml**. In the configuration file, the *livenessProbe* field determines how kubelet should check the container in order to consider whether it is healthy or not. kubelet uses the periodSeconds field to do frequent check on the Container. In this case, kubelet checks the liveness probe every 5 seconds. The initialDelaySeconds field is used to tell kubelet that it should wait for 5 seconds before doing the first probe. To perform a probe, kubelet sends a HTTP GET request to the server hosting this pod and if the handler for the servers /healthz returns a success code, then the container is considered healthy. If the handler returns a failure code, the kubelet kills the container and restarts it.
 
 ```
 cat <<EoF > ~/environment/healthchecks/liveness-app.yaml
@@ -27,7 +27,7 @@ spec:
     image: brentley/ecsdemo-nodejs
     livenessProbe:
       httpGet:
-        path: /health
+        path: /healthz
         port: 3000
       initialDelaySeconds: 5
       periodSeconds: 5
@@ -82,7 +82,7 @@ Events:
   ----     ------         ----               ----                  -------
   Normal   Scheduled      72s                default-scheduler     Successfully assigned default/liveness-app to ip-192-168-18-63.ec2.internal
   Normal   Pulled         71s                kubelet               Successfully pulled image "brentley/ecsdemo-nodejs" in 100.615806ms
-  Warning  Unhealthy      37s (x3 over 47s)  kubelet               Liveness probe failed: Get http://192.168.13.176:3000/health: context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+  Warning  Unhealthy      37s (x3 over 47s)  kubelet               Liveness probe failed: Get http://192.168.13.176:3000/healthz: context deadline exceeded (Client.Timeout exceeded while awaiting headers)
   Normal   Killing        37s                kubelet               Container liveness failed liveness probe, will be restarted
   Normal   Pulling        6s (x2 over 71s)   kubelet               Pulling image "brentley/ecsdemo-nodejs"
   Normal   Created        6s (x2 over 71s)   kubelet               Created container liveness
@@ -117,9 +117,9 @@ kubectl logs liveness-app --previous
 {{< output >}}
 <Output omitted>
 Example app listening on port 3000!
-::ffff:192.168.43.7 - - [20/Nov/2018:22:53:01 +0000] "GET /health HTTP/1.1" 200 16 "-" "kube-probe/1.10"
-::ffff:192.168.43.7 - - [20/Nov/2018:22:53:06 +0000] "GET /health HTTP/1.1" 200 17 "-" "kube-probe/1.10"
-::ffff:192.168.43.7 - - [20/Nov/2018:22:53:11 +0000] "GET /health HTTP/1.1" 200 17 "-" "kube-probe/1.10"
+::ffff:192.168.43.7 - - [20/Nov/2018:22:53:01 +0000] "GET /healthz HTTP/1.1" 200 16 "-" "kube-probe/1.10"
+::ffff:192.168.43.7 - - [20/Nov/2018:22:53:06 +0000] "GET /healthz HTTP/1.1" 200 17 "-" "kube-probe/1.10"
+::ffff:192.168.43.7 - - [20/Nov/2018:22:53:11 +0000] "GET /healthz HTTP/1.1" 200 17 "-" "kube-probe/1.10"
 Starting debugger agent.
 Debugger listening on [::]:5858
 {{< /output >}}
