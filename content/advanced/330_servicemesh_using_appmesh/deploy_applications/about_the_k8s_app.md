@@ -39,7 +39,7 @@ This application is composed of three microservices:
     }
 }
 {{< /output >}}
-    * Developed in Python Fask Restplus with Swagger UI for Rest API
+    * Developed in Python Flask Restplus with Swagger UI for Rest API
     * Deployed to `EKS Fargate`
 * Catalog Detail Backend
     * Backend service `proddetail` is a Rest API Service that performs following operation:
