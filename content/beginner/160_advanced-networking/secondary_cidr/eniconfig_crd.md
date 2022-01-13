@@ -18,7 +18,7 @@ eniconfigs.crd.k8s.amazonaws.com   2021-06-13T14:02:40Z
 {{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
+kubectl apply -f https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni.yaml
 ```
 Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need to create three custom resources.
 
