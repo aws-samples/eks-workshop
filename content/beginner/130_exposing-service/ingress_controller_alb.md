@@ -143,7 +143,7 @@ if [ "`echo "${EKS_CLUSTER_VERSION} < 1.19" | bc`" -eq 1 ]; then
 fi
 
 if [ "`echo "${EKS_CLUSTER_VERSION} >= 1.19" | bc`" -eq 1 ]; then     
-    curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full_latest.yaml \
+    curl -s https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/8c7ce02646a851b55656c7daaa2f053203c87738/docs/examples/2048/2048_full.yaml \
     | sed 's=alb.ingress.kubernetes.io/target-type: ip=alb.ingress.kubernetes.io/target-type: instance=g' \
     | kubectl apply -f -
 fi
