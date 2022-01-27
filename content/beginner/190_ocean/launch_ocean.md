@@ -49,7 +49,7 @@ In order to fully migrate any existing workloads to Ocean, the original EKS Auto
 
 In the interest of stability, the Workload Migration process is very gradual, and therefore takes a while (up to half an hour), even for small workloads. So for the purposes of this workshop we will assume that our workloads can tolerate a more aggesive rescheduling. Therefore, proceed with the following steps:
 
-1. If you have installed "Cluster Autoscaler" or set up any scaling poilicies for the orginal ASG managed by your EKS cluster, go ahead and disable them. Ocean'e Autoscaler will take their place.
+1. If you have installed "Cluster Autoscaler" or set up any scaling poilicies for the orginal ASG managed by your EKS cluster, go ahead and disable them. Ocean's autoscaler will take their place.
 2. Find the ASG associated with your EKS cluster in the EC2 console, right click it and select "edit". Set the Desired Capacity, Min and Max values to 0. If you have any pods running, Ocean's autoscaler will pick them up and scale up appropriately.
 
 <img src="/images/ocean/scale_down_asg.png" alt="ASG Edit Screen" width="700"/>
