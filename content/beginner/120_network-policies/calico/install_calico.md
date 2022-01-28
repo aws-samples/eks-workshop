@@ -8,7 +8,8 @@ Apply the Calico manifest from the [aws/amazon-vpc-cni-k8s GitHub project](https
 
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/calico.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
 ```
 Let's go over few key features of the Calico manifest:
 
