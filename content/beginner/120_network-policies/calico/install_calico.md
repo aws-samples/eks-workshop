@@ -64,7 +64,7 @@ Here in the Calico manifest, we see tolerations has just one attribute: **Operat
 Watch the kube-system daemon sets and wait for the calico-node daemon set to have the DESIRED number of pods in the READY state.
 
 ```
-kubectl get daemonset calico-node --namespace=kube-system
+kubectl get daemonset calico-node --namespace=calico-system
 ```
 Expected Output:
 
