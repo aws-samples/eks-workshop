@@ -7,11 +7,13 @@ draft: false
 In this section, we will setup `OPA Gatekeeper` within the cluster.
 
 #### 1. Deploy OPA Gatekeeper using Prebuilt docker images
+
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.1/deploy/gatekeeper.yaml
+kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
 ```
 
 #### 2. Check the pods in gatekeeper-system namespace
+
 ```bash
 kubectl get pods -n gatekeeper-system
 ```
@@ -29,6 +31,7 @@ gatekeeper-controller-manager-744cdc8556-wwrb6   1/1     Running   0          25
 #### 3. Observe OPA Gatekeeper Component logs once operational
 
 You can follow the OPA logs to see the webhook requests being issued by the Kubernetes API server:
+
 ```bash
 kubectl logs -l control-plane=audit-controller -n gatekeeper-system
 kubectl logs -l control-plane=controller-manager -n gatekeeper-system
