@@ -10,7 +10,8 @@ frontend:
         - export IMAGE_TAG=$(git rev-parse --short HEAD)
         - echo '<p class=build-number>'${IMAGE_TAG}'</p>' >> layouts/partials/menu-footer.html
         - hugo -v
-        - npm run deploytemplates
+        # Commenting out pushing cfn templates to public s3, reach out to jcowan@amazon.com or keladam@amazon.com for further assistance
+        #- npm run deploytemplates
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: public
