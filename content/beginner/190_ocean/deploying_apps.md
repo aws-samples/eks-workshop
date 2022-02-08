@@ -5,39 +5,41 @@ weight: 13
 draft: false
 ---
 
-In this section we will launch a test deployment and see how Ocean handles different node configurations via the "Launch Specifications" feature.
+In this section we will launch a test deployment and see how Ocean handles different node configurations via the "Virtual Node Groups" feature.
 
 
 ### Easily Run Multiple Workload Types In One Cluster
 The challenge of running multiple workload types (separate applications, dev/test environmets, node groups requiring a GPU AMI, etc...) on the same Kubernetes cluster is applying a unique configuration to each one of the workloads in a heterogeneous environment. When your worker nodes are managed in a standard EKS cluster, usually every workload type is managed separately in a different Auto-scaling group.
 
-With Ocean, you can define custom "launch specifications" which allow you to configure multiple workload types on the same Ocean Cluster. As part of those launch specs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group, Root Volume size and tags which will be used for the nodes that serve your matching pods. This feature ensures the ability to run any type of workload on the same Ocean Cluster.
+With Ocean, you can define custom "[Virtual Node Groups](https://docs.spot.io/ocean/tutorials/manage-virtual-node-groups)" which allow you to configure multiple workload types on the same Ocean Cluster. As part of those VNGs, you can configure different sets of labels and taints to go along with a custom AMI, User Data script, Instance Profile, Security Group, Root Volume size and tags which will be used for the nodes that serve your matching pods. This feature ensures the ability to run any type of workload on the same Ocean Cluster.
 
 Let's see how this works:
 
-1. Navigate to your Ocean Cluster within the Spot.io Console, then click on the Actions menu on the top right and select "Launch Specifications".
-<img src="/images/ocean/actions_launch_specs.png" alt="Actions - Launch Specs" />
+1. Navigate to your Ocean Cluster within the Spot.io Console, then click on the "Virtual Node Groups" tab on the menu bar below your cluster's name: "Overview | Cost Analysis ... | Virtual Node Groups ..."
+<img src="/images/ocean/virtual-node-group-tab.png" alt="Virtual Node Group Tab" />
 
-2. Here you can see the "Default Launch Specification" which represents the initial configuration that the Ocean cluster was created with. To add a new configuration, click the "Add Launch Specification" button on the top right.
-<img src="/images/ocean/launch_specs.png" alt="Launch Specifications" width="700"/>
+2. Here you can see the "Default Virtual Node Group" which represents the initial configuration that the Ocean cluster was created with. To add a new configuration, click the "Create VNG" button directly above the Virtual Node Group table.
+<img src="/images/ocean/create-virtual-node-group.png" alt="Create Virtual Node Group" />
 
-3. Configure the new Launch Specification as follows:
+3.  Select "Configure Manually"
+
+4. Configure the new Virtual Node Groups as follows:
    - Set Name to `Dev Environment`.
    - Under Node Labels, set Key to `env`, Value to `dev` and click "Add".
-<img src="/images/ocean/launch_spec_1.png" alt="Launch Specification 1" width="700"/>
+<img src="/images/ocean/new-virtual-node-group-form.png.png" alt="New Virtual Node Group Form"/>
 
-4. Add another Launch Specification by clicking the "Add Launch Specification" button again, and configure it as follows:
+5. Add another Virtual Node Group by clicking the "Create Virtual Node Group" button again, and configure it as follows:
    - Set Name to `Test Environment`.
-   - Under Node Labels, set Key to `env`, Value to `test` and click "Add".
-<img src="/images/ocean/launch_spec_2.png" alt="Launch Specification 2" width="700"/>
+- Under Node Labels, set Key to `env`, Value to `test` and click "Add".
+  <img src="/images/ocean/new-virtual-node-group-form.png.png" alt="New Virtual Node Group Form"/>
 
-5. Once you're finished (make sure you have 3 Launch Specifications), click "Update" at the bottom right of the page.
+6. Once you're finished (make sure you have 3 Virtual Node Groups), click "Update" at the bottom right of the page.
 
 ### Running a test deployment
 
-Now we will run a deployment that will show us how Ocean scales up and automatically launches nodes from the right Launch Specification.
+Now we will run a deployment that will show us how Ocean scales up and automatically launches nodes from the right Virtual Node Group.
 
-Below is an example yaml with 3 test desployments. 
+Below is an example yaml with 3 test deployments. 
 
 The first test deployment, named `od` uses a selector for the `env: dev` label, and will require On-Demand instances via the `spotinst.io/node-lifecycle: od` label. You can read more about using built in labels [here](https://api.spotinst.com/ocean/concepts/ocean-cloud/spotinst-labels-taints/). The second deployment, named `dev` will also require the `env: dev` label, while the third one, named `test` should run on instances labeled `env: test`. 
 
@@ -131,8 +133,8 @@ kubectl apply -f test_deployments.yaml
 
 At this point Ocean will scale up to meet the demands of the deployments. You will notice that autoscaling happens fast, and instance sizes will be optimized for efficient bin packing of resources. We expect to see at least 3 instances:
 
- - Two instances from the `Dev Environment` launch specification, On-Demand and Spot.
- - One Spot instance from the `Test Environment` launch specification.
+ - Two instances from the `Dev Environment` VNG, On-Demand and Spot.
+ - One Spot instance from the `Test Environment` VNG.
 
 You can display your nodes with:
 ```
