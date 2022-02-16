@@ -266,7 +266,7 @@ kubectl scale deployment inflate --replicas 0
 In the previous section, we configured the default Provisioner with `ttlSecondsAfterEmpty` set to 30 seconds. Once the nodes don't have any pods scheduled on them, Karpenter will terminate the empty nodes using cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/).
 
 
-Let's cover the second reason why we started with 0 replicas and why we also end with 0 replicas! Karpenter does support scale to and from Zero. Karpenter only launches or terminates nodes as necessary based on aggregate pod resource requests. Karpenter will only retain nodes in your cluster as long as there are pods using them. 
+Let's cover the second reason why we started with 0 replicas and why we also end with 0 replicas! Karpenter supports scaling to and from Zero. Karpenter only launches or terminates nodes as necessary based on aggregate pod resource requests. Karpenter will only retain nodes in your cluster as long as there are pods using them. 
 {{% /expand %}}
 
 
