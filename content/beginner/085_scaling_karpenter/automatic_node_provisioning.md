@@ -156,7 +156,7 @@ Labels:             ...
 ```
 
 * Note the node was created with the `intent=apps` as we did state in the Provisioner configuration
-* Same applies to the Spot configuration. Note how the `karpenter.sh/capacity-type` label has been set to `spot`
+* Same applies to the Spot configuration. Note how the `karpenter.sh/capacity-type` label has been set to `on-demand`
 * Karpenter AWS implementation will also add the Labels `topology.kubernetes.io` for `region` and `zone`.
 * Karpenter does support multiple Provisioners. Note how the `karpenter.sh/provisioner-name` uses the `default` as the Provisioner in charge of managing the instance lifecycle.
 
@@ -182,11 +182,11 @@ At this time, Karpenter only supports Linux OS nodes.
 
 {{% /expand %}}
 
-#### 5) Why did the newly created `inflate` pod was not scheduled into the managed node group ?
+#### 5) Why was the newly created `inflate` pod not scheduled into the managed node group ?
 
 {{%expand "Click here to show the answer" %}}
 
-The On-Demand Managed Node group was provisioned with the label `intent` set to `control-apps`. In our case the deployment defined the followin section, where the `intent` is set to `apps`.
+The On-Demand Managed Node group was provisioned with the label `intent` set to `control-apps`. In our case the deployment defined the following section, where the `intent` is set to `apps`.
 
 ```yaml
 spec:
@@ -226,7 +226,7 @@ This will set a few pods pending. Karpenter will get the pending pod signal and 
 ```bash
 2021-11-15T12:33:14.976Z        INFO    controller.allocation.provisioner/default       Found 5 provisionable pods      {"commit": "6468992"}
 2021-11-15T12:33:16.324Z        INFO    controller.allocation.provisioner/default       Computed packing for 5 pod(s) with instance type option(s) [c3.2xlarge c4.2xlarge c5ad.2xlarge c6i.2xlarge c5a.2xlarge c5d.2xlarge c5.2xlarge c5n.2xlarge m3.2xlarge t3a.2xlarge m5ad.2xlarge m4.2xlarge t3.2xlarge m5n.2xlarge m5d.2xlarge m6i.2xlarge m5a.2xlarge m5zn.2xlarge m5.2xlarge m5dn.2xlarge]   {"commit": "6468992"}
-2021-11-15T12:33:18.774Z        INFO    controller.allocation.provisioner/default       Launched instance: i-0c1fc34e7527358f0, hostname: xxxxxxxxxxxxx.compute.internal, type: t3.2xlarge, zone: eu-west-1a, capacityType: spot        {"commit": "6468992"}
+2021-11-15T12:33:18.774Z        INFO    controller.allocation.provisioner/default       Launched instance: i-0c1fc34e7527358f0, hostname: xxxxxxxxxxxxx.compute.internal, type: t3.2xlarge, zone: eu-west-1a, capacityType: on-demand        {"commit": "6468992"}
 2021-11-15T12:33:18.802Z        INFO    controller.allocation.provisioner/default       Bound 5 pod(s) to node xxxxxxxxxxxxx.compute.internal  {"commit": "6468992"}
 2021-11-15T12:33:18.802Z        INFO    controller.allocation.provisioner/default       Starting provisioning loop      {"commit": "6468992"}
 ```
