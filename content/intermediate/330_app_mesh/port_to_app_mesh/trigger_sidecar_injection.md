@@ -21,7 +21,7 @@ aws iam create-policy \
 eksctl create iamserviceaccount \
   --cluster eksworkshop-eksctl \
   --namespace prod \
-  --name prod-proxies \
+  --name default \
   --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSAppMeshEnvoySidecarIAMPolicy  \
   --override-existing-serviceaccounts \
   --approve
