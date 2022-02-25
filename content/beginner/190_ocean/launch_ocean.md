@@ -19,6 +19,9 @@ In this section we will create a new Ocean cluster, associated with your existin
  {{% /notice %}}
  - Select an **EKS Auto Scaling Group** (or alternatively, an **Instance** which should be an existing worker node) to import the cluster configuration from.
  - Click on **Next**. Ocean will now import the configuration of your EKS cluster.
+ {{% notice info %}}
+   If this is a new cluster, and the managed auto scaling group is not showing up in the spot console go ahead and use one of the running instance ids from your node group (due to api limits aws account information is cached)
+ {{% /notice %}}
  <img src="/images/ocean/general_settings.png" alt="General Settings" width="700"/>
  {{% notice note %}}
  When importing a cluster, Ocean will clone your cluster and node pools configuration. New instances will then be launched and registered directly to your cluster, and will not be visible via your node pools. Your existing instances and applications will remain unchanged.
@@ -28,13 +31,13 @@ In this section we will create a new Ocean cluster, associated with your existin
 ### Step 3: Compute Settings
  - Confirm or change the settings imported by the Ocean Creation Wizard.
  {{% notice tip %}}
- By default, Ocean will use as wide a selection of instance types as possible, in order to ensure optimal pricing and availabilty for your worker nodes by tapping into many EC2 Spot capacity pools. If you wish, you can exclude certain types from the pool of instances used by the cluster, by clicking on "Customize" under "Machine Types".
+ By default, Ocean will use as wide a selection of instance types as possible, in order to ensure optimal pricing and availability for your worker nodes by tapping into many EC2 Spot capacity pools. If you wish, you can exclude certain types from the pool of instances used by the cluster, by clicking on "Customize" under "Machine Types".
  {{% /notice %}}
  <img src="/images/ocean/compute_settings.png" alt="Compute Settings" width="700"/>
 
 ### Step 4: Connectivity Configuration
  - Create a **token** with the "Generate Token" link, or use an existing one.
- - Install the **Controller pod**. Learn more about the Controller Pod and Ocean’s anatomy [here](https://api.spotinst.com/ocean/concepts/ocean-cloud/introduction/#ocean-anatomy).
+ - Install the **Controller pod**. Learn more about the Controller Pod and Ocean [here](https://docs.spot.io/ocean/tutorials/spot-kubernetes-controller/).
  - Click **Test Connectivity** to ensure the controller's functionality.
  - Once the connectivity test is successful, click **Next** to proceed to the Review screen.
  <img src="/images/ocean/connectivity.png" alt="Connectivity" width="700"/>
@@ -49,7 +52,7 @@ In order to fully migrate any existing workloads to Ocean, the original EKS Auto
 
 In the interest of stability, the Workload Migration process is very gradual, and therefore takes a while (up to half an hour), even for small workloads. So for the purposes of this workshop we will assume that our workloads can tolerate a more aggesive rescheduling. Therefore, proceed with the following steps:
 
-1. If you have installed "Cluster Autoscaler" or set up any scaling poilicies for the orginal ASG managed by your EKS cluster, go ahead and disable them. Ocean'e Autoscaler will take their place.
+1. If you have installed "Cluster Autoscaler" or set up any scaling poilicies for the orginal ASG managed by your EKS cluster, go ahead and disable them. Ocean's autoscaler will take their place.
 2. Find the ASG associated with your EKS cluster in the EC2 console, right click it and select "edit". Set the Desired Capacity, Min and Max values to 0. If you have any pods running, Ocean's autoscaler will pick them up and scale up appropriately.
 
 <img src="/images/ocean/scale_down_asg.png" alt="ASG Edit Screen" width="700"/>
