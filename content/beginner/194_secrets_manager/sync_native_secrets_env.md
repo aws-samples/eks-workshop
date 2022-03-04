@@ -1,5 +1,5 @@
 ---
-title: "Sync with native Kuberbetes secrets"
+title: "Sync with native Kubernetes secrets"
 date: 2021-10-01T00:00:00-04:00
 weight: 40
 draft: false
