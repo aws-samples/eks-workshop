@@ -10,7 +10,7 @@ draft: false
 To delete the resources used in this chapter:
 
 ```bash
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/8c7ce02646a851b55656c7daaa2f053203c87738/docs/examples/2048/2048_full.yaml
 
 helm uninstall aws-load-balancer-controller \
     -n kube-system
