@@ -6,9 +6,14 @@ weight: 1
 
 Apply the Calico manifest from the [aws/amazon-vpc-cni-k8s GitHub project](https://github.com/aws/amazon-vpc-cni-k8s). This creates the daemon sets in the kube-system namespace.
 
+{{% notice note %}}
+Important
+These manifests won't be maintained in the future. We recommend that you install using Helm instead, because the Helm charts are maintained by Tigera. Refer [Installing Calico using Helm](https://docs.aws.amazon.com/eks/latest/userguide/calico.html).
+{{% /notice %}}
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/calico.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
 ```
 Let's go over few key features of the Calico manifest:
 
