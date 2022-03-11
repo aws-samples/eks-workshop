@@ -43,7 +43,7 @@ Instances launched by Karpenter must run with an InstanceProfile that grants per
 
 ```bash
 TEMPOUT=$(mktemp)
-curl -fsSL https://karpenter.sh/docs/getting-started/cloudformation.yaml > $TEMPOUT \
+curl -fsSL https://karpenter.sh/docs/getting-started/getting-started-with-eksctl/cloudformation.yaml > $TEMPOUT \
 && aws cloudformation deploy \
   --stack-name Karpenter-${CLUSTER_NAME} \
   --template-file ${TEMPOUT} \
