@@ -42,8 +42,9 @@ echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
 Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`.
 
 ```bash
+export KARPENTER_VERSION=v0.6.4
 TEMPOUT=$(mktemp)
-curl -fsSL https://karpenter.sh/docs/getting-started/cloudformation.yaml > $TEMPOUT \
+curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/cloudformation.yaml > $TEMPOUT \
 && aws cloudformation deploy \
   --stack-name Karpenter-${CLUSTER_NAME} \
   --template-file ${TEMPOUT} \
