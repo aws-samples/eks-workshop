@@ -9,8 +9,7 @@ Before we install Karpenter, there are a few things that we will need to prepare
 ## Pre-requisites
 
 ```bash
-export CLUSTER_NAME=eksworkshop-eksctl
-echo ${CLUSTER_NAME}
+export CLUSTER_NAME=$(eksctl get clusters -o json | jq -r '.[0].Name')
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
 ```
