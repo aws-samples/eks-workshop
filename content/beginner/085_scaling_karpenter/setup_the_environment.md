@@ -39,11 +39,14 @@ echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
 
 ## Create the IAM Role and Instance profile for Karpenter Nodes 
 
-Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`.
+Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`. 
 
 ```bash
 TEMPOUT=$(mktemp)
-curl -fsSL https://karpenter.sh/docs/getting-started/cloudformation.yaml > $TEMPOUT \
+
+export KARPENTER_VERSION=v0.7.3
+
+curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml  > $TEMPOUT \
 && aws cloudformation deploy \
   --stack-name Karpenter-${CLUSTER_NAME} \
   --template-file ${TEMPOUT} \
