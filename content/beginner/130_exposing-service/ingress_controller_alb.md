@@ -122,7 +122,8 @@ helm upgrade -i aws-load-balancer-controller \
     --set clusterName=eksworkshop-eksctl \
     --set serviceAccount.create=false \
     --set serviceAccount.name=aws-load-balancer-controller \
-    --set image.tag="${LBC_VERSION}"
+    --set image.tag="${LBC_VERSION}" \
+    --version="${LBC_CHART_VERSION}"
 
 kubectl -n kube-system rollout status deployment aws-load-balancer-controller
 ```
