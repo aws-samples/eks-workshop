@@ -52,7 +52,7 @@ The next step is to create the IAM policy that will be used by the AWS Load Bala
 This policy will be later associated to the Kubernetes Service Account and will allow the controller pods to create and manage the ELB’s resources in your AWS account for you.
 
 ```bash
-curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/install/iam_policy.json
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/${LBC_VERSION}/docs/install/iam_policy.json
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam_policy.json
@@ -142,7 +142,8 @@ helm upgrade -i aws-load-balancer-controller \
     --set serviceAccount.name=aws-load-balancer-controller \
     --set image.tag="${LBC_VERSION}" \
     --set region=${AWS_REGION} \
-    --set vpcId=${VPC_ID}
+    --set vpcId=${VPC_ID} \
+    --version="${LBC_CHART_VERSION}"
 ```
 
 You can check if the `deployment` has completed
