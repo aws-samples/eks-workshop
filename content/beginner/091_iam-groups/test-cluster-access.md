@@ -97,7 +97,7 @@ It is also possible to specify the AWS_PROFILE to use with the aws-iam-authentic
 Create a new KUBECONFIG file to test this:
 
 ```bash
-export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworkshop-eksctl
+export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig --cluster eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "dev"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | sponge $KUBECONFIG
 ```
 
