@@ -119,15 +119,6 @@ Exit the Windows pod by typing "exit" and pressing enter.
 
 Now that we have established basic connectivity accross pods, let's enforce a network policy to restrict ping connectivity.
 
-We could use Kubectl to apply the the network policies but Calico has a CLI that offers policy validation and will protect the cluster from malformed policies. 
-
-Install the Calicoctl pod and create an alias to access this functionality
-
-```
-kubectl apply -f https://docs.projectcalico.org/archive/v3.15/manifests/calicoctl.yaml 
-alias calicoctl="kubectl exec -i -n kube-system calicoctl -- /calicoctl"
-```
-
 Create and apply the network policy specification to deny ping traffic to all pods.
 
 ```
@@ -155,7 +146,7 @@ spec:
     protocol: ICMPv6
 EOF
 
-calicoctl apply -f - < ~/environment/windows/deny_icmp.yaml
+kubectl apply -f - < ~/environment/windows/deny_icmp.yaml
 ```
 Now we will test ping connectivity between pods just like we did above.
 
