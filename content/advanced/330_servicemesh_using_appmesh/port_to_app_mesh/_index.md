@@ -11,7 +11,7 @@ Today, Product Catalog frontend `frontend-node` is hardwired to make requests to
 
 Each time there is a new version of `proddetail` release, we also need to release a new version of `prodcatalog` to support both the new and the old version to point to its version-specific endpoints. It works, but it's not an optimal configuration to maintain for the long term.  
 
-`prodcatalog` backend service is deployed to Faragate, and rest of the services `frontend-node` and `proddetail` are deployed to Managed Nodegroup, we need to add all these services into the App Mesh and ensure these microservices can communicate with each other.
+`prodcatalog` backend service is deployed to Fargate, and rest of the services `frontend-node` and `proddetail` are deployed to Managed Nodegroup, we need to add all these services into the App Mesh and ensure these microservices can communicate with each other.
 
 #### Solution
 
