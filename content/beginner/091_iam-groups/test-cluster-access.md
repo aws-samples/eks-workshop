@@ -137,7 +137,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-user" cannot list re
 #### Test with integ profile
 
 ```bash
-export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig eksworkshop-eksctl
+export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig --cluster=eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "integ"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | sponge $KUBECONFIG
 ```
 
@@ -173,7 +173,7 @@ Error from server (Forbidden): pods is forbidden: User "integ-user" cannot list 
 #### Test with admin profile
 
 ```bash
-export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig eksworkshop-eksctl
+export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig --cluster=eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "admin"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | sponge $KUBECONFIG
 ```
 
