@@ -16,6 +16,8 @@ with desired IOPS and increase the default storage size in the manifests to get 
 ```bash
 kubectl create namespace prometheus
 
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
 helm install prometheus prometheus-community/prometheus \
     --namespace prometheus \
     --set alertmanager.persistentVolume.storageClass="gp2" \
