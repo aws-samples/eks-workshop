@@ -21,13 +21,13 @@ You will see a prompt from within the `frontend-node` container.
 root@frontend-node-9d46cb55-XXX:/usr/src/app#
 {{< /output >}}
 
-Test the confiuration by issuing a curl request to the virtual service `prodcatalog` on port 5000, simulating what would happen if code running in the same pod made a request to the `prodcatalog` backend:
+Test the configuration by issuing a curl request to the virtual service `prodcatalog` on port 5000, simulating what would happen if code running in the same pod made a request to the `prodcatalog` backend:
 
 ```bash
 curl -v http://prodcatalog.prodcatalog-ns.svc.cluster.local:5000/products/    
 ```
 
-Output should be similar to below. You can see that the request to backend service `prodcatalog` is going via envoy proxy.
+Output should be similar to below. You can see that the request to the backend service `prodcatalog` is going via envoy proxy.
 
 {{< output >}}
 *   Trying 10.100.163.192... 
@@ -61,7 +61,7 @@ Output should be similar to below. You can see that the request to backend servi
 {{< /output >}}
 
 Exit from the `frontend-node` exec bash.
-Now, To test the connectivity from Fargate service `prodcatalog` to Nodegroup service `proddetail`, we'll first exec into the `prodcatalog` container.
+Now, To test the connectivity from the Fargate service `prodcatalog` to Nodegroup service `proddetail`, we'll first exec into the `prodcatalog` container.
 
 ```bash
 export BE_POD_NAME=$(kubectl get pods -n prodcatalog-ns -l app=prodcatalog -o jsonpath='{.items[].metadata.name}') 
@@ -74,13 +74,13 @@ You will see a prompt from within the `prodcatalog` container.
 root@prodcatalog-98f7c5f87-xxxxx:/usr/src/app#
 {{< /output >}}
 
-Test the confiuration by issuing a curl request to the virtual service proddetail on port 3000, simulating what would happen if code running in the same pod made a request to the proddetail backend:
+Test the configuration by issuing a curl request to the virtual service `proddetail` on port 3000, simulating what would happen if code running in the same pod made a request to the `proddetail` backend:
 
 ```bash
 curl -v http://proddetail.prodcatalog-ns.svc.cluster.local:3000/catalogDetail 
 ```
 
-You should see the below response. You can see that the request to backend service `proddetail-v1` is going via envoy proxy. You can exit now from the `prodcatalog` exec bash.
+You should see the below response. You can see that the request to the backend service `proddetail-v1` is going via envoy proxy. You can now exit from the `prodcatalog` exec bash.
 
 {{< output >}}
 .....
@@ -98,4 +98,4 @@ You should see the below response. You can see that the request to backend servi
 {"version":"1","vendors":["ABC.com"]}
 {{< /output >}}
 
-Congrats! You've migrated the initial architecture to provide the same functionality. Now lets expose the frontend-node to external users to access the UI using App Mesh Virtual Gateway.
+Congrats! You've migrated the initial architecture to provide the same functionality. Now lets expose the `frontend-node` to external users to access the UI using App Mesh Virtual Gateway.
