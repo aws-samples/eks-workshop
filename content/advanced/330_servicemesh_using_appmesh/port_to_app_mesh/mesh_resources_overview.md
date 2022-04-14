@@ -26,7 +26,7 @@ This drives traffic to their respective VirtualNodes and ultimately to the servi
 ##### Mesh
 To port the Product Catalog Apps to App Mesh, first you will need to create a mesh. 
 You'll also apply labels to the `prodcatalog-ns` namespace to affiliate your new mesh with it, and to enable automatic sidecar injection for pods within it. 
-Also add the the gateway label which we will use in the next chapter for setting up VirtualGateway.
+Also add the gateway label which we will use in the next chapter for setting up VirtualGateway.
 Looking at the section of [mesh.yaml](https://github.com/aws-containers/eks-app-mesh-polyglot-demo/blob/master/deployment/mesh.yaml) shown below, you can see we've added the required labels to the `prodcatalog-ns` namespace and specified our mesh named `prodcatalog-mesh`.
 
 {{< output >}}
