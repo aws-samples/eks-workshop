@@ -71,7 +71,7 @@ Let's replace some of the values with `template directives` to enable more custo
 Open ~/environment/eksdemo/templates/deployment/frontend.yaml in your Cloud9 editor.
 
 {{% notice info %}}
-The following steps should be completed seperately for **frontend.yaml**, **crystal.yaml**, and **nodejs.yaml**.
+The following steps should be completed separately for **frontend.yaml**, **crystal.yaml**, and **nodejs.yaml**.
 {{% /notice %}}
 
 Under `spec`, find **replicas: 1**  and replace with the following:
