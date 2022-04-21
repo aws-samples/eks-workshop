@@ -13,7 +13,7 @@ On Amazon EKS, the open-source [EFS Container Storage Interface (CSI)](https://g
 We are going to deploy the driver using the stable release:
 
 ```
-kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.0"
+kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.3"
 ```
 
 Verify pods have been deployed:
