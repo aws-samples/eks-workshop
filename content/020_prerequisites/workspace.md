@@ -11,7 +11,7 @@ account user.
 {{% /notice %}}
 
 {{% notice warning %}}
-If you are at an AWS Hosted Event Cloud 9 Environment is already built for you. Just open the existing IDE in the Cloud9 console.
+If you are at an AWS Hosted Event the Cloud 9 Environment is already built for you. Just open the existing IDE in the Cloud9 console.
 {{% /notice %}}
 
 {{% notice info %}}
