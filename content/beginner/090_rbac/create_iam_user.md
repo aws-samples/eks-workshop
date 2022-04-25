@@ -13,7 +13,6 @@ From within the Cloud9 terminal, create a new user called rbac-user, and generat
 
 ```
 aws iam create-user --user-name rbac-user
-mkdir tmp
 aws iam create-access-key --user-name rbac-user | tee /tmp/create_output.json
 ```
 
