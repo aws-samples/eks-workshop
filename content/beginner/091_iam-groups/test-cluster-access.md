@@ -112,6 +112,7 @@ Let's create a pod:
 ```bash
 kubectl run --generator=run-pod/v1 nginx-dev --image=nginx -n development
 ```
+> Note: If you are getting an error "The connection to the server localhost:8080 was refused - did you specify the right host or port?", its possible that you have not cleaned up the environment from a previous lab. Please follow the steps required to clean up and then retry. 
 
 We can list the pods:
 
