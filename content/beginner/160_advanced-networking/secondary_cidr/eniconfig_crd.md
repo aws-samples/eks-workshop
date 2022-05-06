@@ -80,7 +80,7 @@ Note: We are using same SecurityGroup for pods as your Worker Nodes but you can 
  
 Check the `yq` command runs successfully. Refer to `yq` setup in [Install Kubernetes Tools](https://www.eksworkshop.com/020_prerequisites/k8stools/)
 ```
-yq help >/dev/null  && echo "yq command working" || "yq command not working"
+yq --help >/dev/null  && echo "yq command working" || "yq command not working"
 ```
 {{< output >}}
  yq command working
