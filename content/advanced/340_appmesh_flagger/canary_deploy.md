@@ -1,6 +1,6 @@
 ---
-title: "Deploy Canary Set Up"
-date: 2021-03-18T00:00:00-05:00
+title: 'Deploy Canary Set Up'
+date: 2021-07-18T00:00:00-05:00
 weight: 30
 draft: false
 ---
@@ -14,6 +14,7 @@ cd eks-microservice-demo
 ```
 
 #### Create a namespace and a mesh
+
 ```bash
 kubectl apply -f flagger/mesh.yaml
 ```
@@ -29,28 +30,31 @@ mesh.appmesh.k8s.aws/flagger created
 export APP_VERSION=1.0
 envsubst < ./flagger/flagger-app.yaml | kubectl apply -f -
 ```
+
 {{< output >}}  
 horizontalpodautoscaler.autoscaling/detail created
-deployment.apps/detail created                                                                                                             
+deployment.apps/detail created  
 {{< /output >}}
 
 #### Create IAM policy and Role for flagger-loadtester
+
 ```bash
 # Create an IAM policy called AWSAppMeshK8sControllerIAMPolicy
 aws iam create-policy \
     --policy-name FlaggerEnvoyNamespaceIAMPolicy \
     --policy-document file://envoy-iam-policy.json
 
-# Create an IAM service account for flagger namespace 
+# Create an IAM service account for flagger namespace
  eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
   --namespace flagger \
   --name flagger-envoy-proxies \
   --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/FlaggerEnvoyNamespaceIAMPolicy \
   --override-existing-serviceaccounts \
-  --approve 
+  --approve
 ```
 
 #### Deploy the load testing service to generate traffic during the canary analysis
+
 ```bash
 helm upgrade -i flagger-loadtester flagger/loadtester \
   --namespace=flagger \
@@ -61,19 +65,20 @@ helm upgrade -i flagger-loadtester flagger/loadtester \
 ```
 
 {{< output >}}
-Release "flagger-loadtester" does not exist. Installing it now.                                                                                   
-NAME: flagger-loadtester                                                                                                                          
-LAST DEPLOYED: Mon Mar 15 19:31:10 2021                                                                                                           
-NAMESPACE: flagger                                                                                                                         STATUS: deployed                                                                                                                                  
-REVISION: 1                                                                                                                                       TEST SUITE: None                                                                                                                                  
-NOTES:                                                                                                                                            
+Release "flagger-loadtester" does not exist. Installing it now.  
+NAME: flagger-loadtester  
+LAST DEPLOYED: Mon Mar 15 19:31:10 2021  
+NAMESPACE: flagger
+STATUS: deployed  
+REVISION: 1
+TEST SUITE: None  
+NOTES:  
 Flagger's load testing service is available at http://flagger-loadtester.flagger/  
 {{< /output >}}
 
-
 #### Create a canary definition
 
-Now lets deploy the Flagger canary definition file for `detail` service
+Now let's deploy the Flagger canary definition file for `detail` service
 
 ```bash
 kubectl apply -f flagger/flagger-canary.yaml
@@ -84,11 +89,12 @@ canary.flagger.app/detail created
 {{< /output >}}
 
 You can see the below objects being created by flagger
+
 ```bash
-kubectl -n appmesh-system logs deploy/flagger --tail 15  -f | jq .msg 
+kubectl -n appmesh-system logs deploy/flagger --tail 15  -f | jq .msg
 ```
 
-{{< output >}} 
+{{< output >}}
 "Service detail-primary.flagger created"
 "all the metrics providers are available!"
 "VirtualNode detail-primary.flagger created"
@@ -112,21 +118,23 @@ You should see the below event from canary
 kubectl -n flagger describe canary/detail
 ```
 
-{{< output >}}  
-Events:                                                                                                                                             Type     Reason  Age                  From     Message                                                                                            ----     ------  ----                 ----     -------                                                                                          
-  Warning  Synced  2m24s                flagger  detail-primary.flagger not ready: waiting for rollout to finish: observed deployment generation less then desired generation                                                                                                         
-  Normal   Synced  85s (x2 over 2m24s)  flagger  all the metrics providers are available!                                                           Normal   Synced  84s                  flagger  Initialization done! detail.flagger 
-{{< /output >}}
+```
+Events:                                                                                                                                             Type     Reason  Age                  From     Message                                                                                            ----     ------  ----                 ----     -------
+Warning  Synced  2m24s                flagger  detail-primary.flagger not ready: waiting for rollout to finish: observed deployment generation less then desired generation
+Normal   Synced  85s (x2 over 2m24s)  flagger  all the metrics providers are available!                                                           Normal   Synced  84s                  flagger  Initialization done! detail.flagger
+```
 
-After the bootstrap is completed, 
-* `detail` deployment is scaled to zero. 
-* Traffic to `detail.flagger` will be routed to the primary pods.
-* AppMesh resources like virtualnode, virtualservice, virtualrouter has been created for the `detail` service
+After the bootstrap is completed,
+
+- `detail` deployment is scaled to zero.
+- Traffic to `detail.flagger` will be routed to the primary pods.
+- AppMesh resources like virtualnode, virtualservice, virtualrouter has been created for the `detail` service
+
 ```bash
 kubectl get pod,deployment,svc,virtualnode,virtualservice,virtualrouter -n flagger
 ```
 
-{{< output >}}
+```
 NAME                                      READY   STATUS    RESTARTS   AGE
 pod/detail-primary-5f4cb44b79-xxxx      3/3     Running   0          3m58s
 pod/detail-primary-5f4cb44b79-xxxx       3/3     Running   0          3m58s
@@ -155,28 +163,30 @@ virtualservice.appmesh.k8s.aws/detail-canary   arn:aws:appmesh:us-east-2:$ACCOUN
 NAME                                          ARN                                                                                       AGE
 virtualrouter.appmesh.k8s.aws/detail          arn:aws:appmesh:us-east-2:$ACCOUNT_ID:mesh/flagger/virtualRouter/detail_flagger          3m58s
 virtualrouter.appmesh.k8s.aws/detail-canary   arn:aws:appmesh:us-east-2:$ACCOUNT_ID:mesh/flagger/virtualRouter/detail-canary_flagger   3m58s
-{{< /output >}}
+```
 
 #### Testing the setup
 
 Exec into flagger-loadtester pod
 
 ```bash
-kubectl exec deploy/flagger-loadtester -n flagger -it bash
+kubectl exec deploy/flagger-loadtester -n flagger -it -- bash
 ```
+
 {{< output >}}  
 Defaulting container name to loadtester.
 Use 'kubectl describe pod/flagger-loadtester-5bdf76cfb7-wl59d -n flagger' to see all of the containers in this pod.
-bash-5.0$ 
+bash-5.0$
 {{< /output >}}
 
-Curl to `detail` service to confirm if you get response from the deployed service
+Curl to `detail` service to confirm if you get a response from the deployed service
+
 ```
 curl http://detail.flagger:3000/catalogDetail
 ```
-{{< output >}}  
-{"version":"1","vendors":["ABC.com"]}
-{{< /output >}}
 
+```json
+{ "version": "1", "vendors": ["ABC.com"] }
+```
 
-Congratulations! You have set up the canary analysis for backend service `detail` succcessfuly.
+Congratulations! You have set up the canary analysis for backend service `detail` successfully.
