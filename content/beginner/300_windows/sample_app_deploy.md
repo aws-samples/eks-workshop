@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: windows-server-iis
-        image: mcr.microsoft.com/windows/servercore:2004
+        image: mcr.microsoft.com/windows/servercore:ltsc2019-amd64
         ports:
         - name: http
           containerPort: 80
@@ -65,7 +65,7 @@ spec:
         command:
         - powershell.exe
         - -command
-        - "Add-WindowsFeature Web-Server; Invoke-WebRequest -UseBasicParsing -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\\ServiceMonitor.exe'; echo '<html><body><br/><br/><marquee><H1>Hello EKS!!!<H1><marquee></body><html>' > C:\\inetpub\\wwwroot\\default.html; C:\\ServiceMonitor.exe 'w3svc'; "
+        - "Add-WindowsFeature Web-Server; Invoke-WebRequest -UseBasicParsing -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\\\ServiceMonitor.exe'; echo '<html><body><br/><br/><marquee><H1>Hello EKS!!!<H1><marquee></body><html>' > C:\\\inetpub\\\wwwroot\\\default.html; C:\\\ServiceMonitor.exe 'w3svc'; "
       nodeSelector:
         kubernetes.io/os: windows
 ---
