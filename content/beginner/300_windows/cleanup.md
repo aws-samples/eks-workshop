@@ -11,7 +11,7 @@ unalias calicoctl
 kubectl delete -f https://docs.projectcalico.org/archive/v3.15/manifests/calicoctl.yaml
 kubectl delete -f ~/environment/windows/sample-deployments.yaml
 kubectl delete -f ~/environment/windows/user-rolebinding.yaml
-kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/calico.yaml
+kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/calico.yaml
 kubectl delete -f ~/environment/windows/windows_server_iis.yaml
 
 kubectl delete namespace windows
