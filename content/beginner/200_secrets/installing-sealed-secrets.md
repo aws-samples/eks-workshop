@@ -38,21 +38,20 @@ kubectl logs sealed-secrets-controller-84fcdcd5fd-9qb5j -n kube-system
 ```
 Output:
 {{< output >}}
-controller version: v0.16.0
-2021/07/14 21:26:59 Starting sealed-secrets controller version: v0.16.0
-2021/07/14 21:26:59 Searching for existing private keys
-2021/07/14 21:27:01 New key written to kube-system/sealed-secrets-keydw62x
-2021/07/14 21:27:01 Certificate is
+controller version: 0.17.5
+2022/05/22 08:59:30 Starting sealed-secrets controller version: 0.17.5
+2022/05/22 08:59:30 Searching for existing private keys
+2022/05/22 08:59:35 New key written to kube-system/sealed-secrets-key862hv
+2022/05/22 08:59:35 Certificate is 
 -----BEGIN CERTIFICATE-----
-MIIErTCCApWgAwIBAgIQR5dpRFfh++CnGZuOc5bfGjANBgkqhkiG9w0BAQsFADAA
-MB4XDTIxMDcxNDIxMjcwMVoXDTMxMDcxMjIxMjcwMVowADCCAiIwDQYJKoZIhvcN
-(...)
-vqXZrlmfM7ScQRMSnD5QiqaT3I2F2vpZgTyCvto8rcG62lmUAhKqPXqopBRJx+Of
-K4MhPVDg6t0YdZFYH6+oKW7OGLR2rp4KBoIYfO/KPZMCYVayNiGPQT6kAr2C/pFu
-Lg==
+MIIEzTCCArWgAwIBAgIRANwD+TO7y4nPvBTS80l5ToIwDQYJKoZIhvcNAQELBQAw
+ADAeFw0yMjA1MjIwODU5MzVaFw0zMjA1MTkwODU5MzVaMAAwggIiMA0GCSqGSIb3
+(…)
+GC4KFr8SHcF6u2UyYwhNEXyAVhE9vt6E6Pc6EH5K/aKrmW5tfy12M9gFKFKUsMZk
+Z5XdfsBEweI4/PlBNnQWjmlLENy9h6PEtN1Xh+msjQyB
 -----END CERTIFICATE-----
 
-2021/07/14 21:27:01 HTTP server serving on :8080
+2022/05/22 08:59:35 HTTP server serving on :8080
 {{< /output >}}
 
 As seen from the logs of the controller, it searches for a Secret with the label *sealedsecrets.bitnami.com/sealed-secrets-key* in its namespace. If it does not find one, it creates a new one in its namespace and prints the public key portion of the key pair to its output logs. View the contents of the Secret which contais the public/private key pair in YAML format as follows:
@@ -62,24 +61,48 @@ kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-ke
 Output:
 {{< output >}}
 apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    tls.crt: LS0tLS1CRUdJTiBDRVJUSU(...)S0tLQo=
+    tls.key: LS0tLS1CRUdJTiBSU0EgUF(...)S0tLS0K
+  kind: Secret
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"tls.crt":"LS0tLS1CRUdJTiBDRVJUSU(...)S0tLS0K"},"kind":"Secret","metadata":{"annotations":{},"creationTimestamp":"2022-05-22T08:59:35Z","generateName":"sealed-secrets-key","labels":{"sealedsecrets.bitnami.com/sealed-secrets-key":"active"},"managedFields":[{"apiVersion":"v1","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:tls.crt":{},"f:tls.key":{}},"f:metadata":{"f:generateName":{},"f:labels":{".":{},"f:sealedsecrets.bitnami.com/sealed-secrets-key":{}}},"f:type":{}},"manager":"Go-http-client","operation":"Update","time":"2022-05-22T08:59:35Z"}],"name":"sealed-secrets-key862hv","namespace":"kube-system","resourceVersion":"1540151","selfLink":"/api/v1/namespaces/kube-system/secrets/sealed-secrets-key862hv","uid":"83d0d7a1-f051-4640-8573-d095300034a4"},"type":"kubernetes.io/tls"}
+    creationTimestamp: "2022-05-22T09:11:56Z"
+    generateName: sealed-secrets-key
+    labels:
+      sealedsecrets.bitnami.com/sealed-secrets-key: active
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:data:
+          .: {}
+          f:tls.crt: {}
+          f:tls.key: {}
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:sealedsecrets.bitnami.com/sealed-secrets-key: {}
+        f:type: {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: "2022-05-22T09:11:56Z"
+    name: sealed-secrets-key862hv
+    namespace: kube-system
+    resourceVersion: "1542721"
+    selfLink: /api/v1/namespaces/kube-system/secrets/sealed-secrets-key862hv
+    uid: 607eb61e-fa44-4230-8532-0a65c3348167
+  type: kubernetes.io/tls
 kind: List
 metadata:
   resourceVersion: ""
   selfLink: ""
-items:
-- apiVersion: v1
-  kind: Secret
-  type: kubernetes.io/tls
-  metadata:
-    creationTimestamp: "2021-07-14T21:27:01Z"
-    generateName: sealed-secrets-key
-    labels:
-      sealedsecrets.bitnami.com/sealed-secrets-key: active
-    name: sealed-secrets-keydw62x
-    namespace: kube-system
-    resourceVersion: "1968"
-    uid: 65cb8421-3b2b-4e64-9499-1e61536bdbc4
-  data:
-    tls.crt: LS0tLS1CRUdJTiBDRVJUSU(...)S0tCg==
-    tls.key: LS0tLS1CRUdJTiBSU0EgUF(...)S0tLS0K
 {{< /output >}}
