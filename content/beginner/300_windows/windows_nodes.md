@@ -43,7 +43,7 @@ metadata:
 
 nodeGroups:
   - name: windows-ng
-    amiFamily: WindowsServer2004CoreContainer
+    amiFamily: WindowsServer2019CoreContainer
     desiredCapacity: 1
     instanceType: t2.large
     ssh:
