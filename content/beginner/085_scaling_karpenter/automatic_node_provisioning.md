@@ -50,7 +50,7 @@ kubectl apply -f inflate.yaml
 ## Challenge
 
 {{% notice tip %}}
-You can install [kube-ops-view](https://www.eksworkshop.com/beginner/080_scaling/install_kube_ops_view/) or just use the **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the resposnes. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`
+You can install [kube-ops-view](https://www.eksworkshop.com/beginner/080_scaling/install_kube_ops_view/) or just use the **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the responses. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`
 {{% /notice %}}
 
 Answer the following questions. You can expand each question to get a detailed answer and validate your understanding.
@@ -118,7 +118,7 @@ Instances types might be different depending on the region selected.
 
 All this instances are the suitable instances that reduce the waste of resources (memory and CPU) for the pod submitted. If you are interested in Algorithms, internally Karpenter is using a [First Fit Decreasing (FFD)](https://en.wikipedia.org/wiki/Bin_packing_problem#First_Fit_Decreasing_(FFD)) approach. Note however this can change in the future.
 
-We did not set Karpenter Provisioner to use specific `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/docs/provisioner-crd/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances.Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
+We did not set Karpenter Provisioner to use specific `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/docs/provisioner-crd/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances. Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
 
 * EC2 Fleet instant mode provides a synchronous call to procure instances this simplifies and avoid error when provisioning instances. For those of you familiar with [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/c4b56ea56136681e8a8ff654dfcd813c0d459442/cluster-autoscaler/cloudprovider/aws/auto_scaling_groups.go#L33-L36), you may know about how it uses `i-placeholder` to coordinate instances that have been created in asynchronous ways.
 
@@ -156,7 +156,7 @@ Labels:             ...
 ```
 
 * Note the node was created with the `intent=apps` as we did state in the Provisioner configuration
-* Same applies to the Spot configuration. Note how the `karpenter.sh/capacity-type` label has been set to `spot`
+* Same applies to the On-demand configuration. Note how the `karpenter.sh/capacity-type` label has been set to `on-demand`
 * Karpenter AWS implementation will also add the Labels `topology.kubernetes.io` for `region` and `zone`.
 * Karpenter does support multiple Provisioners. Note how the `karpenter.sh/provisioner-name` uses the `default` as the Provisioner in charge of managing the instance lifecycle.
 
@@ -171,7 +171,7 @@ System Info:
   ...
 ```
 
-* The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/v0.4.3-docs/provisioner-crd/) has not been provided.
+* The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/v0.4.3/provisioner-crd/) has not been provided.
 
 * The Container Runtime used for Karpenter nodes is [containerd](https://containerd.io/).
 
@@ -186,7 +186,7 @@ At this time, Karpenter only supports Linux OS nodes.
 
 {{%expand "Click here to show the answer" %}}
 
-The On-Demand Managed Node group was provisioned with the label `intent` set to `control-apps`. In our case the deployment defined the followin section, where the `intent` is set to `apps`.
+The On-Demand Managed Node group was provisioned without the label `intent` set to `apps`. In our case the deployment defined the following section, where the `intent` is set to `apps`.
 
 ```yaml
 spec:
@@ -266,7 +266,7 @@ kubectl scale deployment inflate --replicas 0
 In the previous section, we configured the default Provisioner with `ttlSecondsAfterEmpty` set to 30 seconds. Once the nodes don't have any pods scheduled on them, Karpenter will terminate the empty nodes using cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/).
 
 
-Let's cover the second reason why we started with 0 replicas and why we also end with 0 replicas! Karpenter does support scale to and from Zero. Karpenter only launches or terminates nodes as necessary based on aggregate pod resource requests. Karpenter will only retain nodes in your cluster as long as there are pods using them. 
+Let's cover the second reason why we started with 0 replicas and why we also end with 0 replicas! Karpenter does support scale to and from zero. Karpenter only launches or terminates nodes as necessary based on aggregate pod resource requests. Karpenter will only retain nodes in your cluster as long as there are pods using them. 
 {{% /expand %}}
 
 
