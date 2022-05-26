@@ -11,7 +11,7 @@ Before we install Karpenter, there are a few things that we will need to prepare
 ```bash
 export CLUSTER_NAME=$(eksctl get clusters -o json | jq -r '.[0].Name')
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+export AWS_REGION=$(aws configure get region)
 ```
 
 
@@ -25,6 +25,7 @@ SUBNET_IDS=$(aws cloudformation describe-stacks \
     --stack-name eksctl-${CLUSTER_NAME}-cluster \
     --query 'Stacks[].Outputs[?OutputKey==`SubnetsPrivate`].OutputValue' \
     --output text)
+    
 aws ec2 create-tags \
     --resources $(echo $SUBNET_IDS | tr ',' '\n') \
     --tags Key="kubernetes.io/cluster/${CLUSTER_NAME}",Value=
@@ -34,6 +35,7 @@ You can verify the right tags have been set by running the following command. Th
 
 ```
 VALIDATION_SUBNETS_IDS=$(aws ec2 describe-subnets --filters Name=tag:"kubernetes.io/cluster/${CLUSTER_NAME}",Values= --query "Subnets[].SubnetId" --output text | sed 's/\t/,/')
+
 echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
 ```
 
@@ -63,7 +65,7 @@ Second, grant access to instances using the profile to connect to the cluster. T
 ```bash
 eksctl create iamidentitymapping \
   --username system:node:{{EC2PrivateDNSName}} \
-  --cluster  ${CLUSTER_NAME} \
+  --cluster ${CLUSTER_NAME} \
   --arn arn:aws:iam::${ACCOUNT_ID}:role/KarpenterNodeRole-${CLUSTER_NAME} \
   --group system:bootstrappers \
   --group system:nodes
