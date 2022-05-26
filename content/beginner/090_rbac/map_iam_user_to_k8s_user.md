@@ -12,6 +12,8 @@ kubectl get configmap -n kube-system aws-auth -o yaml | grep -v "creationTimesta
 Next append the rbac-user mapping to the existing configMap
 
 ```
+export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+
 cat << EoF >> aws-auth.yaml
 data:
   mapUsers: |
