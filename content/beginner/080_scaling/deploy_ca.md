@@ -104,6 +104,8 @@ aws iam create-policy   \
 Finally, create an IAM role for the cluster-autoscaler Service Account in the kube-system namespace.
 
 ```bash
+export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+
 eksctl create iamserviceaccount \
     --name cluster-autoscaler \
     --namespace kube-system \
