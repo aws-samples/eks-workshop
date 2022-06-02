@@ -58,4 +58,4 @@ Running  kubelet         kubelet service
 Running  kube-proxy      kube-proxy service
 {{< /output >}}
 
-Now we have Calcio fully installed. Close the EC2 Connect window and return to Cloud9.
+Now we have Calico fully installed. Close the EC2 Connect window and return to Cloud9.
