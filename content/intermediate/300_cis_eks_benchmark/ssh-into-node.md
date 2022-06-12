@@ -38,12 +38,12 @@ KUBEBENCH_URL=$(curl -s https://api.github.com/repos/aquasecurity/kube-bench/rel
 sudo yum install -y $KUBEBENCH_URL
 ```
 
-#### Run assessment against `eks-1.0`
+#### Run assessment against `eks-1.0.1`
 
-Run the assessment against `eks-1.0` controls based on CIS Amazon EKS Benchmark node assessments.
+Run the assessment against `eks-1.0.1` controls based on CIS Amazon EKS Benchmark node assessments.
 
 ```
-kube-bench --benchmark eks-1.0
+kube-bench --benchmark eks-1.0.1
 ```
 
 ##### Output
