@@ -19,7 +19,7 @@ brew install kubeseal
 #### Installing the Custom Controller and CRD for SealedSecret
 Install the SealedSecret CRD, controller and RBAC artifacts on your EKS cluster as follows:
 ```
-wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.0/controller.yaml
 kubectl apply -f controller.yaml
 ```
 
