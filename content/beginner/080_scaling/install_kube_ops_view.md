@@ -11,21 +11,28 @@ Kube-ops-view provides a common operational picture for a Kubernetes cluster tha
 We will deploy kube-ops-view using `Helm` configured in a previous [module](/beginner/060_helm/helm_intro/install/index.html)
 {{% /notice %}}
 
-The following line updates the stable helm repository and then installs kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
+First we will add helm repository that contains the chart kube-ops-view and update the repository
 
 ```
-helm install kube-ops-view \
-stable/kube-ops-view \
---set service.type=LoadBalancer \
---set rbac.create=True
+helm repo add k8s-at-home https://k8s-at-home.com/charts/
+helm repo update
 ```
 
-The execution above installs kube-ops-view  exposing it through a Service using the LoadBalancer type.
-A successful execution of the command will display the set of resources created and will prompt some advice asking you to use `kubectl proxy` and a local URL for the service. Given we are using the type LoadBalancer for our service, we can disregard this; Instead we will point our browser to the external load balancer.
 
-{{% notice warning %}}
-Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view using a Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`. Kube-ops-view does also [support Oauth 2](https://github.com/hjacobs/kube-ops-view#configuration) 
-{{% /notice %}}
+The following line installs kube-ops-view.
+
+```
+helm install kube-ops-view k8s-at-home/kube-ops-view
+```
+
+The execution above installs kube-ops-view. 
+A successful execution of the command will display the set of resources created and will prompt some advice asking you to use `kubectl proxy` and a local URL for the service. 
+
+Use the following command from the above prompt to set the POD_NAME variable
+
+```
+export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=kube-ops-view,app.kubernetes.io/instance=kube-ops-view" -o jsonpath="{.items[0].metadata.name}")
+```
 
 To check the chart was installed successfully:
 
@@ -36,20 +43,25 @@ helm list
 should display : 
 ```
 NAME            REVISION        UPDATED                         STATUS          CHART                   APP VERSION     NAMESPACE
-kube-ops-view   1               Sun Sep 22 11:47:31 2019        DEPLOYED        kube-ops-view-1.1.0     0.11            default  
+kube-ops-view   1               Sun Sep 22 11:47:31 2019        DEPLOYED        kube-ops-view-1.1.4     20.4.0            default  
 ```
 
-With this we can explore kube-ops-view output by checking the details about the newly service created. 
+Next, run the kubectl port-forward to access the deployment in your local machine
 
 ```
-kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
+kubectl port-forward $POD_NAME 8080:8080 > /dev/null &
 ```
 
-This will display a line similar to `Kube-ops-view URL = http://<URL_PREFIX_ELB>.amazonaws.com`
+With this we can explore kube-ops-view output by accessing the following url. 
+
+```
+http://localhost:8080/#
+```
+
 Opening the URL in your browser will provide the current state of our cluster.
 
 {{% notice note %}}
-You may need to refresh the page and clean your browser cache. The creation and setup of the LoadBalancer may take a few minutes; usually in two minutes you should see kub-ops-view. 
+You may need to refresh the page and clean your browser cache. 
 {{% /notice %}}
 
 ![kube-ops-view](/images/kube_ops_view/kube-ops-view.png)
