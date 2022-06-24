@@ -39,6 +39,8 @@ helm install grafana grafana/grafana \
     --set adminPassword='EKS!sAWSome' \
     --values ${HOME}/environment/grafana/grafana.yaml \
     --set service.type=LoadBalancer
+    --set rbac.pspEnabled=false \
+    --set rbac.pspUseAppArmor=false
 ```
 
 Run the following command to check if Grafana is deployed properly:
