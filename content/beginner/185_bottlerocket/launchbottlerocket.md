@@ -30,7 +30,7 @@ availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
 nodeGroups:
   - name: ng-bottlerocket
     labels: { role: bottlerocket }
-    instanceType: t2.small
+    instanceType: t3.small
     desiredCapacity: 3
     amiFamily: Bottlerocket
     iam:
