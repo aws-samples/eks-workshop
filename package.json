@@ -28,7 +28,7 @@
     "hugo-bin": "^0.68.0",
     "hugo-lunr": "0.0.4",
     "ini": ">=1.3.6",
-    "mermaid": "^8.4.2"
+    "mermaid": "^9.1.3"
   },
   "devDependencies": {
     "normalize-url": ">=4.5.1",
