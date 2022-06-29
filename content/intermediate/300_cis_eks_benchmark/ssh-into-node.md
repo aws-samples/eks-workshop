@@ -16,9 +16,9 @@ kubectl get nodes -o wide
 ##### Output
 ```
 NAME                                           STATUS   ROLES    AGE   VERSION                INTERNAL-IP      EXTERNAL-IP      OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-ip-192-168-17-56.us-west-2.compute.internal    Ready    <none>   24h   1.22.9-eks-904af05   192.168.17.56    34.220.140.125   Amazon Linux 2   4.14.181-142.260.amzn2.x86_64   docker://20.10.13
-ip-192-168-45-110.us-west-2.compute.internal   Ready    <none>   24h   1.22.9-eks-904af05   192.168.45.110   34.220.227.8     Amazon Linux 2   4.14.181-142.260.amzn2.x86_64   docker://20.10.13
-ip-192-168-84-9.us-west-2.compute.internal     Ready    <none>   24h   1.22.9-eks-904af05   192.168.84.9     34.210.27.208    Amazon Linux 2   4.14.181-142.260.amzn2.x86_64   docker://20.10.13
+ip-192-168-17-56.us-west-2.compute.internal    Ready    <none>   24h   1.22.6-eks-904af05   192.168.17.56    34.220.140.125   Amazon Linux 2   4.14.181-142.260.amzn2.x86_64   docker://20.10.13
+ip-192-168-45-110.us-west-2.compute.internal   Ready    <none>   24h   1.22.6-eks-904af05   192.168.45.110   34.220.227.8     Amazon Linux 2   4.14.181-142.260.amzn2.x86_64   docker://20.10.13
+ip-192-168-84-9.us-west-2.compute.internal     Ready    <none>   24h   1.22.6-eks-904af05   192.168.84.9     34.210.27.208    Amazon Linux 2   4.14.181-142.260.amzn2.x86_64   docker://20.10.13
 ```
 
 #### SSH into nodes
