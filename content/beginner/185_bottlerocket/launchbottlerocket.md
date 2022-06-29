@@ -31,7 +31,7 @@ nodeGroups:
   - name: ng-bottlerocket
     labels: { role: bottlerocket }
     instanceType: t3.small
-    desiredCapacity: 3
+    desiredCapacity: 1
     amiFamily: Bottlerocket
     iam:
        attachPolicyARNs:
