@@ -31,7 +31,7 @@ kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
 
 We can then trigger the MNG upgrade process by running the following eksctl command:
 ```bash
-eksctl upgrade nodegroup --name=nodegroup --cluster=eksworkshop-eksctl --kubernetes-version=1.21
+eksctl upgrade nodegroup --name=nodegroup --cluster=eksworkshop-eksctl --kubernetes-version=1.22
 ```
 
 In another Terminal tab you can follow the progress with:
