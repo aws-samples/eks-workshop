@@ -6,13 +6,13 @@ draft: false
 
 #### CIS Kubernetes Benchmark
 
-The latest version of CIS Kubernetes Benchmark [v1.5.1](https://www.cisecurity.org/benchmark/kubernetes/) provides guidance on security configurations for Kubernetes versions v1.15 and onwards. The CIS Kubernetes Benchmark is scoped for implementations managing both the control plane, which includes etcd, API server, controller and scheduler, and the data plane, which is made up of one or more nodes or EC2 instances.
+The latest version of CIS Kubernetes Benchmark [v1.6.1](https://www.cisecurity.org/benchmark/kubernetes/) provides guidance on security configurations for Kubernetes versions v1.20 and onwards. The CIS Kubernetes Benchmark is scoped for implementations managing both the control plane, which includes etcd, API server, controller and scheduler, and the data plane, which is made up of one or more nodes or EC2 instances.
 
 #### CIS EKS Kubernetes Benchmark
 
 Since Amazon EKS provides a managed control plane, not all of the recommendations from the CIS Kubernetes Benchmark are applicable as customers are not responsible for configuring or managing the control plane. 
 
-CIS Amazon EKS Benchmark [v1.0.1](https://www.cisecurity.org/cis-benchmarks/) provides guidance for node security configurations for Kubernetes and aligns with CIS Kubernetes Benchmark v1.5.1.
+CIS Amazon EKS Benchmark [v1.0.1](https://www.cisecurity.org/cis-benchmarks/) provides guidance for node security configurations for Kubernetes and aligns with CIS Kubernetes Benchmark v1.6.1.
 
 {{% notice info %}}
 Note: The CIS committee agreed to remove controls for the appropriate control plane recommendations from the managed Kubernetes benchmarks. The CIS Amazon EKS Benchmark consists of four sections on control plane logging configuration, worker nodes, policies and managed services. 
