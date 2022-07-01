@@ -17,7 +17,7 @@ Open the script editor using `ctrl+e` (Windows, Linux) or `cmd+e` (Mac). Or by c
 
 ![script_editor](/images/pixie/script_editor.png)
 
-Delete line 29 and replace it with the following.
+Delete line 29  ```df.node = df.ctx['node']``` and replace it with the following.
 
 ```bash
     # Access the service name.
