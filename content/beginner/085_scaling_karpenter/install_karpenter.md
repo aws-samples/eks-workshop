@@ -11,14 +11,14 @@ In this section we will install Karpenter and learn how to configure a default [
 We will use helm to deploy Karpenter to the cluster. 
 
 {{% notice info %}}
-We will install Karpenter v0.4.3 which is compatible with Kubernetes 1.19 used in this workshop. Karpenter v0.5.x only supports Kubernetes 1.2x and therefore you would need to upgrade your cluster to Kubernetes 1.2x.
+We will install Karpenter v0.5.1 which is compatible with Kubernetes 1.21 used in this workshop.
 {{% /notice %}}
 
 ```bash
 helm repo add karpenter https://charts.karpenter.sh
 helm repo update
 helm upgrade --install karpenter karpenter/karpenter --namespace karpenter \
-  --create-namespace --set serviceAccount.create=false --version 0.4.3 \
+  --create-namespace --set serviceAccount.create=false --version 0.5.1 \
   --set controller.clusterName=${CLUSTER_NAME} \
   --set controller.clusterEndpoint=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output json) \
   --set defaultProvisioner.create=false \
