@@ -10,7 +10,7 @@ instructions in [the official documentation](https://kubernetes.io/docs/tasks/ac
 We can deploy the dashboard with the following command:
 
 ```bash
-export DASHBOARD_VERSION="v2.0.0"
+export DASHBOARD_VERSION="v2.2.0"
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/aio/deploy/recommended.yaml
 ```
