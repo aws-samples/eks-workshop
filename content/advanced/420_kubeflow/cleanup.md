@@ -1,13 +1,13 @@
 ---
 title: "Cleanup"
-date: 2019-10-25T15:43:24-04:00
+date: 2022-07-16T15:43:24-04:00
 weight: 90
 draft: false
 ---
 
 ### Uninstall Kubeflow
 
-Delete IAM users, S3 bucket and Kubernetes secret
+First, delete IAM users, S3 bucket and Kubernetes secret
 ```
 # delete s3user
 aws iam detach-user-policy --user-name s3user --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
@@ -23,12 +23,34 @@ aws s3 rb s3://$S3_BUCKET --force --region $AWS_REGION
 kubectl delete secret/aws-secret
 kubectl delete secret/aws-secret -n kubeflow
 ```
-Run these commands to uninstall Kubeflow from your EKS cluster
+
+Next, delete all existing Kubeflow profiles. 
+
+```bash
+kubectl get profile
+kubectl delete profile --all
 ```
-cd ${KF_DIR}
-kfctl delete -V -f ${CONFIG_FILE}
+
+You can delete a Kubeflow deployment by running the `kubectl delete` command on the manifest according to the deployment option you chose. For example, to delete a vanilla installation, run the following command:
+
+```bash
+kustomize build deployments/vanilla/ | kubectl delete -f -
 ```
-Scale the cluster back to previous size
+
+This command assumes that you have the repository in the same state as when you installed Kubeflow.
+
+Cleanup steps for specific deployment options can be found in their respective [installation guides](https://awslabs.github.io/kubeflow-manifests/release-v1.5.1-aws-b1.0.0/docs/deployment/). 
+
+> Note: This will not delete your Amazon EKS cluster.
+
+#### (Optional) Delete Amazon EKS cluster
+
+If you created a dedicated Amazon EKS cluster for Kubeflow using `eksctl`, you can delete it with the following command:
+
+```bash
+eksctl delete cluster --region $CLUSTER_REGION --name $CLUSTER_NAME
 ```
-eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 3
-```
+
+> Note: It is possible that parts of the CloudFormation deletion will fail depending upon modifications made post-creation. In that case, manually delete the eks-xxx role in IAM, then the ALB, the EKS target groups, and the subnets of that particular cluster. Then, retry the command to delete the nodegroups and the cluster.
+
+For more detailed information on deletion options, see [Deleting an Amazon EKS cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html). 
