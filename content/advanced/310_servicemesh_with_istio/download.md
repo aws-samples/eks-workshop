@@ -8,11 +8,11 @@ draft: false
 Before we can get started configuring Istio we’ll need to first install the command line tools that you will interact with. To do this run the following.
 
 {{% notice info %}}
-We will use istio version `1.10.0`
+We will use istio version `1.14.1`
 {{% /notice %}}
 
 ```bash
-echo 'export ISTIO_VERSION="1.10.0"' >> ${HOME}/.bash_profile
+echo 'export ISTIO_VERSION="1.14.1"' >> ${HOME}/.bash_profile
 source ${HOME}/.bash_profile
 ```
 
