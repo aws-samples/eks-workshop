@@ -44,5 +44,5 @@ kind create cluster --config kind.yaml
 Set the default context to the EKS cluster.
 
 ```bash
-kubectl config use-context "${INSTANCE_ID}@${CLUSTER}.${AWS_REGION}.eksctl.io"
+kubectl config use-context "arn:aws:eks:${AWS_REGION}:${ACCOUNT_ID}:cluster/${CLUSTER}"
 ```
