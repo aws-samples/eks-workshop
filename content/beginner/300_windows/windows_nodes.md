@@ -8,7 +8,7 @@ weight: 320
 ### Enable Windows support
 
 {{% notice warning %}}
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is 0.24.0 or later.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is 0.58.0 or later.
 {{% /notice %}}
 
 You can check your version with the following command
@@ -43,7 +43,7 @@ metadata:
 
 nodeGroups:
   - name: windows-ng
-    amiFamily: WindowsServer2004CoreContainer
+    amiFamily: WindowsServer2019CoreContainer
     desiredCapacity: 1
     instanceType: t2.large
     ssh:
@@ -63,7 +63,7 @@ Notice the Operating system in the OS column
 
 {{< output >}}
 NAME                                           STATUS   ROLES    AGE     VERSION              OS
-ip-192-168-95-199.us-east-2.compute.internal   Ready    <none>   6h33m   v1.17.6-eks-4e7f64   windows
+ip-192-168-95-199.us-east-2.compute.internal   Ready    <none>   6h33m   v1.21.5-eks-bc4871b   windows
 {{< /output >}}
 
 Or by using the [AWS EC2 console](https://console.aws.amazon.com/ec2/v2/home?Instances#Instances:)
