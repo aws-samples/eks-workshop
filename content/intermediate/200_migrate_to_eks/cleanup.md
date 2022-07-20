@@ -28,9 +28,3 @@ Delete VPC peering
 aws ec2 delete-vpc-peering-connection \
     --vpc-peering-connection-id $PEERING_ID
 ```
-
-Delete EKS cluster
-
-```bash
-eksctl delete cluster --name $CLUSTER
-```
