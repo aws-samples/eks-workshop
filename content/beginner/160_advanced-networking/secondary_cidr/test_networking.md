@@ -15,9 +15,9 @@ kubectl get pods -o wide
 ```
 {{< output >}}
 NAME                     READY     STATUS    RESTARTS   AGE       IP              NODE                                           NOMINATED NODE
-nginx-64f497f8fd-k962k   1/1       Running   0          40m       100.64.6.147    ip-192-168-52-113.us-east-2.compute.internal   <none>
-nginx-64f497f8fd-lkslh   1/1       Running   0          40m       100.64.53.10    ip-192-168-74-125.us-east-2.compute.internal   <none>
-nginx-64f497f8fd-sgz6f   1/1       Running   0          40m       100.64.80.186   ip-192-168-26-65.us-east-2.compute.internal    <none>
+nginx-64f497f8fd-k962k   1/1       Running   0          40m       100.64.6.147    ip-192-168-52-113.us-west-2.compute.internal   <none>
+nginx-64f497f8fd-lkslh   1/1       Running   0          40m       100.64.53.10    ip-192-168-74-125.us-west-2.compute.internal   <none>
+nginx-64f497f8fd-sgz6f   1/1       Running   0          40m       100.64.80.186   ip-192-168-26-65.us-west-2.compute.internal    <none>
 {{< /output >}}
 You can use busybox pod and ping pods within same host or across hosts using IP address
 
