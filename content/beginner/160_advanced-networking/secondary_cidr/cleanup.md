@@ -20,7 +20,7 @@ kubectl edit daemonset -n kube-system aws-node
       containers:
       - env:
         #- name: AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG
-        #  value: "true"
+        #  value: "false"
         - name: AWS_VPC_K8S_CNI_LOGLEVEL
           value: DEBUG
         - name: MY_NODE_NAME
