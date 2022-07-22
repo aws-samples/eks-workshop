@@ -24,7 +24,7 @@ cd ~/environment/ecsdemo-nodejs
 kubectl delete -f kubernetes/service.yaml
 kubectl delete -f kubernetes/deployment.yaml
 
-export DASHBOARD_VERSION="v2.0.0"
+export DASHBOARD_VERSION="v2.6.0"
 
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/${DASHBOARD_VERSION}/src/deploy/recommended/kubernetes-dashboard.yaml
 ```
