@@ -53,7 +53,7 @@ To access NGINX from outside the cluster, follow the steps below:
         Watch the status with: 'kubectl get svc --namespace default -w mywebserver-nginx'
 
     export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services mywebserver-nginx)
-    export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    export SERVICE_IP=$(kubectl get svc --namespace default mywebserver-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
     echo "http://${SERVICE_IP}:${SERVICE_PORT}"
 {{< /output >}}
 
