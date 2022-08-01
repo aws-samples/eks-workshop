@@ -47,7 +47,7 @@ aws opensearch create-domain \
 It takes a little while for the cluster to be in an active state. The AWS Console should show the following status when the cluster is ready.
 {{% /notice %}}
 
-![Elasticsearch Dashboard](/images/logging/logging_es_dashboard.png)
+![OpenSearch Dashboard](/images/logging/logging_os_dashboard.png)
 
 You could also check this via AWS CLI
 

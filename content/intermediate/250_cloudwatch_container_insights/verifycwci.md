@@ -10,7 +10,7 @@ To verify that data is being collected in CloudWatch, launch the CloudWatch Cont
 echo "
 Use the URL below to access Cloudwatch Container Insights in $AWS_REGION:
 
-https://console.aws.amazon.com/cloudwatch/home?region=${AWS_REGION}#cw:dashboard=Container;context=~(clusters~'eksworkshop-eksctl~dimensions~(~)~performanceType~'Service)"
+https://console.aws.amazon.com/cloudwatch/home?region=${AWS_REGION}#container-insights:performance/EKS:Service?~(query~(controls~(CW*3a*3aEKS.cluster~(~'eksworkshop-eksctl)))~context~())"
 ```
 
 ![Insights](/images/ekscwci/insights.png)

@@ -49,13 +49,13 @@ spec:
   chart:
     repository: https://charts.bitnami.com/bitnami/
     name: nginx
-    version: 5.0.0
+    version: 11.1.5
   values:
     usePassword: true
     image:
-      registry: docker.io
+      registry: public.ecr.aws
       repository: bitnami/nginx
-      tag: 1.16.0-debian-9-r46
+      tag: 1.21.6
     service:
       type: LoadBalancer
       port: 80
@@ -64,20 +64,6 @@ spec:
       externalTrafficPolicy: Cluster
     ingress:
       enabled: false
-    livenessProbe:
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 30
-      timeoutSeconds: 5
-      failureThreshold: 6
-    readinessProbe:
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 5
-      timeoutSeconds: 3
-      periodSeconds: 5
     metrics:
       enabled: false
 EOF
@@ -115,6 +101,12 @@ If this doesn't deploy, check to ensure helm was initialized.  Also, look at the
 ```
 kubectl get pods -n flux
 kubectl logs flux-helm-operator-df5746688-84kw8 -n flux
+```
+
+Verify the Nginx service as follows.
+
+```
+kubectl get service -n nginx 
 ```
 
 You've now seen how Weave Flux can enable a GitOps approach to deployment. 

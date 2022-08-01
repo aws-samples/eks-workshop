@@ -6,7 +6,7 @@ draft: false
 ---
 
 {{% notice info %}}
-This chapter has been updated to Istio 1.10.x
+This chapter has been updated to Istio 1.14.x
 [Click here](https://istio.io/latest/news/releases/1.10.x/) to know more about this new release.
 {{% /notice %}}
 

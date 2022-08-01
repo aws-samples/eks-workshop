@@ -12,12 +12,12 @@ First we'll run this command
 eksctl upgrade cluster --name=eksworkshop-eksctl
 ```
 
-You'll see in the output that it found our cluster, worked out that it is 1.20 and the next version is 1.21 (you can only go to the next version with EKS) and that everything is ready for us to proceed with an upgrade.
+You'll see in the output that it found our cluster, worked out that it is 1.21 and the next version is 1.22 (you can only go to the next version with EKS) and that everything is ready for us to proceed with an upgrade.
 ```
 $ eksctl upgrade cluster --name=eksworkshop-eksctl
 [ℹ]  eksctl version 0.66.0
 [ℹ]  using region us-west-2
-[ℹ]  (plan) would upgrade cluster "eksworkshop-eksctl" control plane from current version "1.20" to "1.21"
+[ℹ]  (plan) would upgrade cluster "eksworkshop-eksctl" control plane from current version "1.21" to "1.22"
 [ℹ]  re-building cluster stack "eksctl-eksworkshop-eksctl-cluster"
 [✔]  all resources in cluster stack "eksctl-eksworkshop-eksctl-cluster" are up-to-date
 [ℹ]  checking security group configuration for all nodegroups
