@@ -9,8 +9,8 @@ If the Postgres pod moves availability zones data will still be available.
 If you'd like to do it manually you can follow the [EFS workshop here](https://www.eksworkshop.com/beginner/190_efs/).
 
 
-To let traffic cross between EKS and Cloud9 we need to create a VPC peer between our Cloud9 instance and our EKS cluster as shown.
-![counter app recording](/images/migrate_to_eks/configure-eks-cluster-vpc-peering.png)
+To let traffic cross between EKS and Cloud9 we need to create a VPC peering between our Cloud9 instance and our EKS cluster as shown.
+![configure eks cluster vpc-peering](/images/migrate_to_eks/configure-eks-cluster-vpc-peering.png)
 
 
 ```bash
