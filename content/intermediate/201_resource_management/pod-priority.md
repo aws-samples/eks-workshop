@@ -71,7 +71,7 @@ spec:
          name: nginx-deployment
          resources:
            limits:
-              memory: 1G  
+              memory: 128Mi  
 EoF
 kubectl apply -f ~/environment/resource-management/low-priority-deployment.yml
 ```
@@ -87,8 +87,8 @@ NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   5/50    50           5           5s
 nginx-deployment   6/50    50           6           6s
 ...
-nginx-deployment   21/50   50           21          20s
-nginx-deployment   21/50   50           21          6m
+nginx-deployment   24/50   50           24          20s
+nginx-deployment   24/50   50           24          6m
 {{< /output >}}
 
 ### Deploy High Priority Pod
@@ -125,7 +125,7 @@ spec:
          name: high-nginx-deployment
          resources:
            limits:
-              memory: 1G
+              memory: 128Mi
 EoF
 kubectl apply -f ~/environment/resource-management/high-priority-deployment.yml
 ```
@@ -135,28 +135,24 @@ What changes did you see?
 ```
 kubectl get deployment  --watch
 
-NAME               READY   UP-TO-DATE   AVAILABLE   AGE
-nginx-deployment   21/50   50           21          2m15s
-
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment        24/50   50           24          21s
 high-nginx-deployment   0/5     0            0           0s
 high-nginx-deployment   0/5     0            0           0s
 high-nginx-deployment   0/5     0            0           0s
+nginx-deployment        23/50   49           23          52s
+nginx-deployment        23/50   50           23          52s
 high-nginx-deployment   0/5     5            0           0s
-nginx-deployment        20/50   49           20          4m9s
-nginx-deployment        20/50   50           20          4m9s
-nginx-deployment        19/50   49           19          4m9s
-nginx-deployment        19/50   50           19          4m9s
-nginx-deployment        18/50   49           18          4m9s
-nginx-deployment        18/50   50           18          4m9s
-nginx-deployment        17/50   49           17          4m9s
-nginx-deployment        17/50   50           17          4m9s
-nginx-deployment        16/50   49           16          4m9s
-nginx-deployment        16/50   50           16          4m9s
-high-nginx-deployment   1/5     5            1           8s
-high-nginx-deployment   2/5     5            2           8s
-high-nginx-deployment   3/5     5            3           22s
-high-nginx-deployment   4/5     5            4           23s
-high-nginx-deployment   5/5     5            5           23s
+nginx-deployment        22/50   49           22          52s
+nginx-deployment        21/50   49           21          52s
+nginx-deployment        20/50   49           20          52s
+nginx-deployment        19/50   49           19          52s
+nginx-deployment        19/50   50           19          52s
+high-nginx-deployment   1/5     5            1           32s
+high-nginx-deployment   2/5     5            2           32s
+high-nginx-deployment   3/5     5            3           33s
+high-nginx-deployment   4/5     5            4           34s
+high-nginx-deployment   5/5     5            5           35s
 ```
 
 When the higher-priority deployment is created, it started to remove lower-priority pods on the nodes.  

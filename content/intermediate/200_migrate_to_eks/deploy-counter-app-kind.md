@@ -8,6 +8,9 @@ Once the kind cluster is ready we can check it with
 ```bash
 kubectl --context kind-kind get nodes
 ```
+Let us deploy the counter app in the kind cluster as shown here.
+
+![counter app recording](/images/migrate_to_eks/counter-application-from-kind-cluster.png)
 
 Deploy our postgres database to the cluster.
 First create a ConfigMap to initialize an empty database and then create a PersistentVolume on hostPath to store the data.

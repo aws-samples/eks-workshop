@@ -30,8 +30,8 @@ availabilityZones: ["${AZS[0]}", "${AZS[1]}", "${AZS[2]}"]
 nodeGroups:
   - name: ng-bottlerocket
     labels: { role: bottlerocket }
-    instanceType: t2.small
-    desiredCapacity: 3
+    instanceType: t3.small
+    desiredCapacity: 1
     amiFamily: Bottlerocket
     iam:
        attachPolicyARNs:
@@ -67,11 +67,9 @@ Launching Bottlerocket nodes will take approximately 10 minutes
 Output: 
 {{< output >}}
 2021-05-26 16:23:34 [ℹ]  node "ip-192-168-36-124.us-east-2.compute.internal" is ready
-2021-05-26 16:23:34 [ℹ]  node "ip-192-168-4-14.us-east-2.compute.internal" is ready
-2021-05-26 16:23:34 [ℹ]  node "ip-192-168-87-9.us-east-2.compute.internal" is ready
 {{< /output >}}
 
-Next, run the following command to list all the nodes in the EKS cluster and you should see output as follows:
+Next, run the following command to list all the nodes in the EKS cluster and you should see 4 nodes as follows:
 
 ```bash
 kubectl get nodes
@@ -83,12 +81,10 @@ NAME                                           STATUS   ROLES    AGE   VERSION
 ip-192-168-21-9.us-east-2.compute.internal     Ready    <none>   8h   v1.17.12-eks-7684af
 ip-192-168-36-124.us-east-2.compute.internal   Ready    <none>   72s   v1.17.17
 ip-192-168-4-14.us-east-2.compute.internal     Ready    <none>   71s   v1.17.17
-ip-192-168-42-0.us-east-2.compute.internal     Ready    <none>   8h   v1.17.12-eks-7684af
-ip-192-168-71-214.us-east-2.compute.internal   Ready    <none>   8h   v1.17.12-eks-7684af
 ip-192-168-87-9.us-east-2.compute.internal     Ready    <none>   71s   v1.17.17
 {{< /output >}}
 
-Your cluster now has 6 worker nodes, 3 of them are using Bottlerocket in an unmanaged nodegroup.
+Your cluster now has 4 worker nodes, 1 of them is using Bottlerocket in an unmanaged nodegroup.
 
 Unmanaged nodegroups do not show up in the AWS EKS console(Configutaion/Compute tab), however the nodes show up in the AWS EKS console(Overview tab). You can also use the "eksctl get nodegroup" command to list both types of nodegroups.
   
