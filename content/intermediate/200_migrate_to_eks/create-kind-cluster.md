@@ -3,7 +3,10 @@ title: "Create kind cluster"
 weight: 10
 ---
 
-While our EKS cluster is being created we can create a kind cluster locally.
+While our EKS cluster is being created we can create a kind cluster locally on the cloud9 instance.
+
+![kind cluster](/images/migrate_to_eks/create-kind-cluster.png)
+
 Before we create one lets make sure our network rules are set up
 
 {{% notice note %}}
