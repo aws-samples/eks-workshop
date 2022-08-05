@@ -59,7 +59,7 @@ To access NGINX from outside the cluster, follow the steps below:
 
 In order to review the underlying Kubernetes services, pods and deployments, run:
 ```sh
-kubectl get svc,po,deploy
+kubectl get deploy,po,svc
 ```
 
 {{% notice info %}}
