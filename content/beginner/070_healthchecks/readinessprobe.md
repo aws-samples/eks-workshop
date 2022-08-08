@@ -79,6 +79,20 @@ Pick one of the pods from above 3 and issue a command as below to delete the **/
 kubectl exec -it <YOUR-READINESS-POD-NAME> -- rm /tmp/healthy
 ```
 
+Issue command(s) as below to delete the **/tmp/healthy** file from the oldest POD which makes the readiness probe fail.
+
+```
+OLDESTPOD=$(kubectl get pods -l app=readiness-deployment --sort-by=.metadata.creationTimestamp -o jsonpath="{.items[0].metadata.name}")
+kubectl exec -it $OLDESTPOD -- rm /tmp/healthy
+```
+
+Alternatively, you can issue command(s) as below to delete the **/tmp/healthy** file from the most recent POD which makes the readiness probe fail.
+
+```
+NEWESTPOD=$(kubectl get pods -l app=readiness-deployment --sort-by=.metadata.creationTimestamp -o jsonpath="{.items[-1:].metadata.name}")
+kubectl exec -it $NEWESTPOD -- rm /tmp/healthy
+```
+
 **readiness-deployment-7869b5d679-922mx** was picked in our example cluster. The **/tmp/healthy** file was deleted. This file must be present for the readiness check to pass. Below is the status after issuing the command.
 
 ```
@@ -116,6 +130,19 @@ Run the below command with the name of the pod to recreate the **/tmp/healthy** 
 ```
 kubectl exec -it <YOUR-READINESS-POD-NAME> -- touch /tmp/healthy
 ```
+
+Run the below command to recreate the **/tmp/healthy** file from the oldest POD. Once the pod passes the probe, it gets marked as ready and will begin to receive traffic again.
+
+```
+kubectl exec -it $OLDESTPOD -- touch /tmp/healthy
+```
+
+Alternatively, you can run the below command to recreate the **/tmp/healthy** file from the most recent POD.Once the pod passes the probe, it gets marked as ready and will begin to receive traffic again.
+
+```
+kubectl exec -it $NEWESTPOD -- touch /tmp/healthy
+```
+
 ```
 kubectl get pods -l app=readiness-deployment
 ```
