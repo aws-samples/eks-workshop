@@ -65,29 +65,6 @@ cp ~/environment/ecsdemo-nodejs/kubernetes/service.yaml ~/environment/eksdemo/te
 
 All files in the templates directory are sent through the template engine. These are currently plain YAML files that would be sent to Kubernetes as-is.
 
-## Replace hard-coded values with template directives
-Let's replace some of the values with `template directives` to enable more customization by removing hard-coded values.
-
-Open ~/environment/eksdemo/templates/deployment/frontend.yaml in your Cloud9 editor.
-
-{{% notice info %}}
-The following steps should be completed separately for **frontend.yaml**, **crystal.yaml**, and **nodejs.yaml**.
-{{% /notice %}}
-
-Under `spec`, find **replicas: 1**  and replace with the following:
-
-```yaml
-replicas: {{ .Values.replicas }}
-```
-
-Under `spec.template.spec.containers.image`, replace the image with the correct template value from the table below:
-
-|Filename | Value |
-|---|---|
-|frontend.yaml|- image: {{ .Values.frontend.image }}:{{ .Values.version }}|
-|crystal.yaml|- image: {{ .Values.crystal.image }}:{{ .Values.version }}|
-|nodejs.yaml|- image: {{ .Values.nodejs.image }}:{{ .Values.version }}|
-
 #### Create a values.yaml file with our template defaults
 
 Run the following code block to populate our `template directives` with default values.
