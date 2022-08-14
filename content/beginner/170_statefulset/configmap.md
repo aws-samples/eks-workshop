@@ -45,7 +45,7 @@ EoF
 
 The `ConfigMap` stores `master.cnf`, `slave.cnf` and passes them when initializing leader and follower pods defined in StatefulSet:
 
-* **master.cnf** is for the MySQL leader pod which has binary log option (log-bin) to provides a record of the data changes to be sent to follower servers.
+* **master.cnf** is for the MySQL leader pod which has binary log option (log-bin) to provide a record of the data changes to be sent to follower servers.
 * **slave.cnf** is for follower pods which have super-read-only option.
 
 Create "mysql-config" `ConfigMap`.
