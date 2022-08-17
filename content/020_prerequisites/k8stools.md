@@ -27,6 +27,8 @@ sudo chmod +x /usr/local/bin/kubectl
 Upgrade AWS CLI according to guidance in [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html).
 
 ```bash
+sudo rm -f /usr/bin/aws
+
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
