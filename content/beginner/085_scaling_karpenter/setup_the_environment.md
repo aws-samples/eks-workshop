@@ -28,7 +28,7 @@ Instances launched by Karpenter must run with an InstanceProfile that grants per
 First, create the IAM resources using AWS CloudFormation.
 
 ```bash
-TEMPOUT=$(mktemp)
+TEMPOUT="$(mktemp)"
 
 curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml  > $TEMPOUT \
 && aws cloudformation deploy \
