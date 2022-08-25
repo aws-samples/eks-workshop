@@ -33,7 +33,7 @@ aws autoscaling \
 +-------------------------------------------+----+----+-----+
 {{< /output >}}
 
-Now, increase the maximum capacity to 4 instances
+Now, increase the minimum capacity to 3 instances
 
 ```bash
 # we need the ASG name
