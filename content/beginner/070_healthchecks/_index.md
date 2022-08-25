@@ -20,4 +20,6 @@ In this section, we will understand how [liveness and readiness probes](https://
 
 **Readiness probes** are used in Kubernetes to know when a pod is ready to serve traffic. Only when the readiness probe passes will a pod receive traffic from the service; if a readiness probe fails traffic will not be sent to the pod.
 
+**Startup probes** are used to know when a container application has started. If such a probe is configured, it disables liveness and readiness checks until it succeeds, making sure those probes don't interfere with the application startup. This can be used to adopt liveness checks on slow starting containers, avoiding them getting killed by the kubelet before they are up and running.
+
 We will review some examples in this module to understand different options for configuring liveness and readiness probes.
