@@ -78,7 +78,7 @@ You can create a new terminal window within Cloud9 and leave the command below r
 To read Karpenter logs from the console you can run the following command.
 
 ```bash
-kubectl logs -f deployment/karpenter-controller -n karpenter
+kubectl logs -f deployment/karpenter -n karpenter controller
 ```
 
 {{% notice info %}}
