@@ -29,7 +29,7 @@ helm upgrade --install --namespace karpenter --create-namespace \
 ```
 
 The command above:
-* uses the both the **CLUSTER_NAME** so that Karpenter controller can contact the Cluster API Server.
+* uses the **CLUSTER_NAME** so that Karpenter controller can contact the Cluster API Server.
 
 * Karpenter configuration is provided through a Custom Resource Definition. We will be learning about providers in the next section, the `--wait` notifies the webhook controller to wait until the Provisioner CRD has been deployed.
 
