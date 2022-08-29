@@ -39,7 +39,7 @@ curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-s
 ```
 
 {{% notice tip %}}
-This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.15.0/getting-started/getting-started-with-eksctl/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
+This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.16.0/getting-started/getting-started-with-eksctl/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
 {{% /notice %}}
 
 Second, grant access to instances using the profile to connect to the cluster. This command adds the Karpenter node role to your aws-auth configmap, allowing nodes with this role to connect to the cluster.
