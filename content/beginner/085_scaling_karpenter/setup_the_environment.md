@@ -10,7 +10,7 @@ Before we install Karpenter, there are a few things that we will need to prepare
 
 Set the following environment variable to the Karpenter version you would like to install.
 ```bash
-export KARPENTER_VERSION=v0.15.0
+export KARPENTER_VERSION=v0.16.0
 ```
 
 Also set the following environment variables to store commonly used values.
