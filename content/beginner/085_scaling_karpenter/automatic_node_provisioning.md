@@ -58,7 +58,7 @@ Answer the following questions. You can expand each question to get a detailed a
 {{%expand "Click here to show the answer" %}} 
 The deployment was created with `replicas: 0`. We've done this for two reasons. In this section we will mention the first reason: We did set the replicas to 0, just for your convenience, so you can check out Karpenter logs once that you increase the number of replicas in the deployment. 
 
-In the answer to question number 8, we will explain the second reason we are starting from zero.
+In the answer to question number 7, we will explain the second reason we are starting from zero.
 {{% /expand %}}
 
 #### 2) How would you scale the deployment to 1 replicas?
