@@ -34,16 +34,25 @@ The command above:
 * Karpenter configuration is provided through a Custom Resource Definition. We will be learning about providers in the next section, the `--wait` notifies the webhook controller to wait until the Provisioner CRD has been deployed.
 
 To check Karpenter is running you can check the Pods, Deployment and Service are Running.
+```bash
+kubectl get all -n karpenter
+```
 
-To check running pods run the command below. There should be at least two pods `karpenter-controller` and `karpenter-webhook`
+To check the deployment. There should be one deployment `karpenter`
+```bash
+kubectl get deployment -n karpenter
+```
+
+To check running pods run the command below. There should be at least two pods, each having two containers `controller` and `webhook`
 ```bash
 kubectl get pods --namespace karpenter
 ```
 
-To check the deployment. Like with the pods, there should be two deployments  `karpenter-controller` and `karpenter-webhook`
+To check containers `controller` and `webhook`, describe pod using following command
 ```bash
-kubectl get deployment -n karpenter
+kubectl get pod -n karpenter --no-headers | awk '{print $1}' | head -n 1 | xargs kubectl describe pod -n karpenter
 ```
+
 
 {{% notice note %}}
 You can increase the number of Karpenter replicas in the deployment for resilience. Karpenter will elect a leader controller that is in charge of running operations.
