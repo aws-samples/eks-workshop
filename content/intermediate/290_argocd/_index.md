@@ -19,6 +19,6 @@ The core component of Argo CD is the Application Controller, which continuously 
 
 **Operation** : Argo CD UI visualizes the entire application resource hierarchy, not just top-level resources defined in the Git repo. For example, developers can see ReplicaSets and Pods produced by the Deployment defined in Git. From the UI, you can quickly see Pod logs and the corresponding Kubernetes events. This turns Argo CD into very powerful multi-cluster dashboard.
 
-![Argo Logo](/static/images/argo-workflow/argo-logo.png)
+![Argo Logo](/images/argo-workflow/argo-logo.png)
 
 
