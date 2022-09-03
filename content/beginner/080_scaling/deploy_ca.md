@@ -21,7 +21,7 @@ You configure the size of your Auto Scaling group by setting the minimum, maximu
 ```bash
 aws autoscaling \
     describe-auto-scaling-groups \
-    --query "AutoScalingGroups[? Tags[? (Key=='eks:cluster-name') && Value=='eksworkshop-eksctl']].[AutoScalingGroupName, MinSize, MaxSize,DesiredCapacity]" \
+    --query "AutoScalingGroups[? Tags[? (Key=='eksctl.cluster.k8s.io/v1alpha1/cluster-name') && Value=='eksworkshop-eksctl']].[AutoScalingGroupName, MinSize, MaxSize,DesiredCapacity]" \
     --output table
 ```
 
