@@ -40,6 +40,6 @@ aws ec2 delete-security-group --group-id $MOUNT_TARGET_GROUP_ID
 ```
 Delete the EFS CSI Driver
 ```
-kubectl delete -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable"
+kubectl delete -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable?ref=release-1.3"
 ```
 
