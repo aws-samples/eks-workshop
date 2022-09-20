@@ -14,7 +14,7 @@ To enable this new functionality, Amazon EKS clusters have two new components ru
 
 To facilitate this feature, each worker node will be associated with a single trunk network interface, and multiple branch network interfaces. The trunk interface acts as a standard network interface attached to the instance. The VPC resource controller then associates branch interfaces to the trunk interface. This increases the number of network interfaces that can be attached per instance. Since security groups are specified with network interfaces, we are now able to schedule pods requiring specific security groups onto these additional network interfaces allocated to worker nodes.
 
-First we need to attach a new IAM policy the Node group role to allow the EC2 instances to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances.
+First we need to attach a new IAM policy the cluster role to allow the resource controller running in Kubernetes control plane to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances.
 
 The following command adds the policy `AmazonEKSVPCResourceController` to a cluster role.
 
