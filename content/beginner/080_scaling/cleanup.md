@@ -33,6 +33,8 @@ kubectl delete deployment php-apache
 
 kubectl delete pod load-generator
 
+kubectl delete deployment load-generator
+
 cd ~/environment
 
 rm -rf ~/environment/cluster-autoscaler
