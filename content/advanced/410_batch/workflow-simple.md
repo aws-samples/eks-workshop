@@ -29,7 +29,7 @@ EoF
 Now deploy the workflow using the argo CLI.
 
 {{% notice note %}}
-You can also run workflow specs directly using kubectl but the argo CLI provides syntax checking, nicer output, and requires less typing. For the equivalent `kubectl` commands, see [Argo CLI](https://argoproj.github.io/docs/argo/examples/readme.html#argo-cli).
+You can also run workflow specs directly using kubectl but the argo CLI provides syntax checking, nicer output, and requires less typing. For the equivalent `kubectl` commands, see [Argo CLI](https://argoproj.github.io/argo-workflows/walk-through/argo-cli/#argo-cli).
 {{% /notice %}}
 
 ```bash

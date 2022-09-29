@@ -1,6 +1,6 @@
 ---
 title: "Kubeflow Dashboard"
-date: 2019-08-22T00:00:00-08:00
+date: 2022-07-16T00:00:00-08:00
 weight: 20
 draft: false
 ---
@@ -18,12 +18,10 @@ Leave the current terminal running because if you kill the process, you will loo
 
 ![dashboard](/images/kubeflow/dashboard-welcome.png)
 
-Click on **Start Setup**
+In the login screen, use the default email (`user@example.com`) and password (`12341234`)
 
-Specify the namespace as **eksworkshop**
+![dashboard](/images/kubeflow/dashboard-login.png)
 
-![dashboard](/images/kubeflow/dashboard-create-namespace.png)
-
-Click on **Finish** to view the dashboard
+After logging in, you will be redirected to the Kubeflow dashboard screen:
 
 ![dashboard](/images/kubeflow/dashboard-first-look.png)

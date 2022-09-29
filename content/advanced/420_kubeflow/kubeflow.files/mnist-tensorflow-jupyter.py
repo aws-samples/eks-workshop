@@ -45,7 +45,7 @@ def train(train_images, train_labels, epochs, model_summary_path):
   ])
   model.summary()
 
-  model.compile(optimizer=tf.train.AdamOptimizer(),
+  model.compile(optimizer=tf.optimizers.Adam(),
                 loss='sparse_categorical_crossentropy',
                 metrics=['accuracy']
                 )

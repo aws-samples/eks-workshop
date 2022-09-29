@@ -34,12 +34,12 @@ kubectl get nodes --sort-by=.metadata.creationTimestamp
 
 {{< output >}}
 NAME                                           STATUS   ROLES    AGE     VERSION
-ip-192-168-4-73.us-west-2.compute.internal     Ready    <none>   6m24s   v1.17.12-eks-7684af
-ip-192-168-47-147.us-west-2.compute.internal   Ready    <none>   6m21s   v1.17.12-eks-7684af
-ip-192-168-87-132.us-west-2.compute.internal   Ready    <none>   6m19s   v1.17.12-eks-7684af
-ip-192-168-53-105.us-west-2.compute.internal   Ready    <none>   117s    v1.17.12-eks-7684af
-ip-192-168-88-75.us-west-2.compute.internal    Ready    <none>   108s    v1.17.12-eks-7684af
-ip-192-168-26-175.us-west-2.compute.internal   Ready    <none>   103s    v1.17.12-eks-7684af
+ip-192-168-89-204.us-west-2.compute.internal   Ready    <none>   3h55m   v1.21.12-eks-5308cf7
+ip-192-168-61-130.us-west-2.compute.internal   Ready    <none>   3h55m   v1.21.12-eks-5308cf7
+ip-192-168-23-16.us-west-2.compute.internal    Ready    <none>   3h55m   v1.21.12-eks-5308cf7
+ip-192-168-77-36.us-west-2.compute.internal    Ready    <none>   117s    v1.21.12-eks-5308cf7
+ip-192-168-19-12.us-west-2.compute.internal    Ready    <none>   107s    v1.21.12-eks-5308cf7
+ip-192-168-55-118.us-west-2.compute.internal   Ready    <none>   106s    v1.21.12-eks-5308cf7
 {{< /output >}}
 
 ### Deploy the demo microservices app

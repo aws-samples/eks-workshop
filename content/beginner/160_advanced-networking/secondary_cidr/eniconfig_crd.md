@@ -18,7 +18,7 @@ eniconfigs.crd.k8s.amazonaws.com   2021-06-13T14:02:40Z
 {{< /output >}}
 If you don't have ENIConfig installed, you can install it by using this command
 ```
-kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.11/config/master/aws-k8s-cni.yaml
 ```
 Create custom resources for each subnet by replacing **Subnet** and **SecurityGroup IDs**. Since we created three secondary subnets, we need to create three custom resources.
 
@@ -43,9 +43,9 @@ aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --query 'S
 --------------------------------------------------------------
 |                       DescribeSubnets                      |
 +-----------------+----------------------------+-------------+
-|  100.64.32.0/19 |  subnet-07dab05836e4abe91  |  us-east-2a |
-|  100.64.64.0/19 |  subnet-0692cd08cc4df9b6a  |  us-east-2c |
-|  100.64.0.0/19  |  subnet-04f960ffc8be6865c  |  us-east-2b |
+|  100.64.64.0/19 |  subnet-07dab05836e4abe91  |  us-west-2a |
+|  100.64.0.0/19  |  subnet-0692cd08cc4df9b6a  |  us-west-2c |
+|  100.64.32.0/19 |  subnet-04f960ffc8be6865c  |  us-west-2b |
 +-----------------+----------------------------+-------------+
 {{< /output >}}
 
@@ -55,9 +55,9 @@ kubectl get nodes  # Make sure new nodes are listed with 'Ready' status
 ```
 {{< output >}}
 NAME                                           STATUS   ROLES    AGE   VERSION
-ip-192-168-9-228.us-east-2.compute.internal     Ready    <none>   90m    v1.20.7-eks-135321
-ip-192-168-71-211.us-east-2.compute.internal    Ready    <none>   92m    v1.20.7-eks-135321
-ip-192-168-33-135.us-east-2.compute.internal    Ready    <none>   88m    v1.20.7-eks-135321
+ip-192-168-33-232.us-west-2.compute.internal   Ready    <none>   26m   v1.21.12-eks-5308cf7
+ip-192-168-87-115.us-west-2.compute.internal   Ready    <none>   23m   v1.21.12-eks-5308cf7
+ip-192-168-9-141.us-west-2.compute.internal    Ready    <none>   27m   v1.21.12-eks-5308cf7
 {{< /output >}}
  
 {{% notice warning %}}
@@ -80,7 +80,7 @@ Note: We are using same SecurityGroup for pods as your Worker Nodes but you can 
  
 Check the `yq` command runs successfully. Refer to `yq` setup in [Install Kubernetes Tools](https://www.eksworkshop.com/020_prerequisites/k8stools/)
 ```
-yq help >/dev/null  && echo "yq command working" || "yq command not working"
+yq --help >/dev/null  && echo "yq command working" || "yq command not working"
 ```
 {{< output >}}
  yq command working
@@ -104,9 +104,9 @@ done< <(aws ec2 describe-subnets  --filters "Name=cidr-block,Values=100.64.*" --
 
 Your output may look different, based on your AWS region and subnets.
 {{< output >}}
-Creating ENIConfig file:  eniconfig/us-east-2a.yaml
-Creating ENIConfig file:  eniconfig/us-east-2b.yaml
-Creating ENIConfig file:  eniconfig/us-east-2c.yaml
+Creating ENIConfig file:  eniconfig/us-west-2c.yaml
+Creating ENIConfig file:  eniconfig/us-west-2a.yaml
+Creating ENIConfig file:  eniconfig/us-west-2b.yaml
 {{< /output >}}
  
 Examine the content of these files, it should look similar to below. For example `eniconfig/us-east-2a.yaml`
@@ -114,11 +114,11 @@ Examine the content of these files, it should look similar to below. For example
 apiVersion: crd.k8s.amazonaws.com/v1alpha1
 kind: ENIConfig
 metadata:
-  name: us-east-2a
+  name: us-west-2c
 spec:
-  subnet: subnet-07dab05836e4abe91
+  subnet: subnet-0516a2f4e239f8d88
   securityGroups:
-    - sg-070d03008bda531ad
+    - sg-0354b6919e1f2b0a5
 {{< /output >}}
 
 
@@ -134,9 +134,9 @@ kubectl get eniconfig
 ```
 {{< output >}}
 NAME         AGE
-us-east-2a   85m
-us-east-2b   85m
-us-east-2c   85m
+us-west-2a   85m
+us-west-2b   85m
+us-west-2c   85m
 {{< /output >}}
  
 Check the instance details using this command as you will need AZ info when you apply annotation to Worker nodes using custom network config
@@ -147,16 +147,16 @@ aws ec2 describe-instances --filters "Name=tag-key,Values=eks:cluster-name" "Nam
 ------------------------------------------------------------------------------------------------------------------------------------------
 |                                                            DescribeInstances                                                           |
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
-|  ip-192-168-9-228.us-east-2.compute.internal  |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2c |  192.168.9.228  |  18.191.57.131 |
-|  ip-192-168-71-211.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2a |  192.168.71.211 |  18.221.77.249 |
-|  ip-192-168-33-135.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-east-2b |  192.168.33.135 |  13.59.167.90  |
+|  ip-192-168-9-228.us-east-2.compute.internal  |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-west-2c |  192.168.9.228  |  18.191.57.131 |
+|  ip-192-168-71-211.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-west-2a |  192.168.71.211 |  18.221.77.249 |
+|  ip-192-168-33-135.us-east-2.compute.internal |  eksworkshop-eksctl-ng-475d4bc8-Node  |  us-west-2b |  192.168.33.135 |  13.59.167.90  |
 +-----------------------------------------------+---------------------------------------+-------------+-----------------+----------------+
 {{< /output >}}
 
 As last step, we will annotate nodes with custom network configs.
 
 {{% notice warning %}}
-Be sure to annotate the instance with config that matches correct AZ. For example, in my environment instance ip-192-168-33-135.us-east-2.compute.internal is in us-east-2b. So, I will apply ENIConfig **us-east-2b** to this instance. Similarly, I will apply **us-east-2a** to ip-192-168-71-211.us-east-2.compute.internal and **us-east-2c** to ip-192-168-9-228.us-east-2.compute.internal
+Be sure to annotate the instance with config that matches correct AZ. For example, in my environment instance ip-192-168-33-135.us-west-2.compute.internal is in us-west-2b. So, I will apply ENIConfig **us-west-2b** to this instance. Similarly, I will apply **us-west-2a** to ip-192-168-71-211.us-west-2.compute.internal and **us-west-2c** to ip-192-168-9-228.us-west-2.compute.internal
 {{% /notice %}}
 
 ```
@@ -164,19 +164,19 @@ kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eni
 ```
 As an example, here is what I would run in my environment
 {{< output >}}
-kubectl annotate node ip-192-168-33-135.us-east-2.compute.internal k8s.amazonaws.com/eniConfig=us-east-2b
+kubectl annotate node ip-192-168-33-135.us-west-2.compute.internal k8s.amazonaws.com/eniConfig=us-west-2b
 {{< /output >}}
 You should now see secondary IP address from extended CIDR assigned to annotated nodes.
 
 #### Additional notes on ENIConfig naming and automatic matching
 
-We intentially used `ENIConfig` name with its matching AZ name for a subnet (`us-east-2a`, `us-east-2b`, `us-east-2c`). Kubernetes also applies labels to nodes such as `failure-domain.beta.kubernetes.io/zone` with matching AZ name as well. 
+We intentially used `ENIConfig` name with its matching AZ name for a subnet (`us-west-2a`, `us-west-2b`, `us-west-2c`). Kubernetes also applies labels to nodes such as `failure-domain.beta.kubernetes.io/zone` with matching AZ name as well. 
 
 {{< output >}}
  kubectl describe nodes | grep 'failure-domain.beta.kubernetes.io/zone'
-                    failure-domain.beta.kubernetes.io/zone=us-east-2a
-                    failure-domain.beta.kubernetes.io/zone=us-east-2b
-                    failure-domain.beta.kubernetes.io/zone=us-east-2c
+                    failure-domain.beta.kubernetes.io/zone=us-west-2a
+                    failure-domain.beta.kubernetes.io/zone=us-west-2b
+                    failure-domain.beta.kubernetes.io/zone=us-west-2c
 {{< /output >}}
  
 You can then enable Kubernetes to automatically apply the corresponding ENIConfig for the node's Availability Zone with the following command. 

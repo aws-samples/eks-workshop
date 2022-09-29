@@ -72,6 +72,9 @@ kubectl run --namespace low-usage --requests=memory=1G,cpu=0.5 --image  hande007
 # Error due to lower cpu request than defined in high-usage namespace: wanted 0.5 below min of 1
 kubectl run --namespace high-usage --requests=memory=1G,cpu=0.5 --image  hande007/stress-ng basic-request-pod --restart=Never --  --vm-keep   --vm-bytes 2g --timeout 600s --vm 1 --oomable --verbose 
 ```
+{{% notice info%}} Flag --requests has been deprecated, has no effect and will be removed in the future.
+Flag --limits has been deprecated, has no effect and will be removed in the future.
+You can ignore this warning as these flags will be deprecated in future release{{% / notice %}}
 
 ##### Successful Attempts
 Creating pods without specifying `Requests` or `Limits` will inherit `LimitRange` values.
