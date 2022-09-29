@@ -52,6 +52,11 @@ kubectl run --namespace blue --limits=cpu=0.25,memory=250M --image nginx blue-ng
 kubectl run --namespace blue --limits=cpu=0.25,memory=250M --image nginx blue-nginx-pod-2 --restart=Never --restart=Never
 kubectl run --namespace blue --limits=cpu=0.25,memory=250M --image nginx blue-nginx-pod-3 --restart=Never --restart=Never
 ```
+
+{{% notice info%}} Flag --requests has been deprecated, has no effect and will be removed in the future.
+Flag --limits has been deprecated, has no effect and will be removed in the future.
+You can ignore this warning as these flags will be deprecated in future release{{% / notice %}}
+
 ### Verify Current Resource Quota Usage
 We can query `ResourceQuota` to see current utilization. 
 ```

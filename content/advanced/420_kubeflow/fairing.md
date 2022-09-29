@@ -1,6 +1,6 @@
 ---
 title: "Fairing"
-date: 2019-11-13T21:55:32-05:00
+date: 2022-07-16T00:00:00-08:00
 weight: 60
 pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
@@ -36,6 +36,8 @@ Create new Python 3 Notebook if one doesn't exist. Run the command below to clon
 ```
 Click Run. This will clone the repo into your notebook server
 
+![dashboard](/images/kubeflow/fairing-git-clone.png)
+
 Close the notebook tab, go back to the notebook server, select the notebook that we just used and click **Shutdown**.
 
 ![dashboard](/images/kubeflow/fairing-shutdown-notebook.png)
@@ -54,6 +56,7 @@ Review the content and click first cell and click **Run**. This will let you ins
 
 Wait till it finishes, go to next cell and click **Run**. Here is expected result
 ![dashboard](/images/kubeflow/fairing-install-from-github.png)
+![dashboard](/images/kubeflow/fairing-validate-installed-packages.png)
 
 Now that we have fairing installed, we will train a model authored in Python. The model will create a linear regression model that allows us to learn a function or relationship from a given set of continuous data. For example, we are given some data points of x and corresponding y and we need to learn the relationship between them that is called a hypothesis.
 
@@ -66,8 +69,12 @@ Now, lets use fairing and push the image into ECR which can be used for remote t
 
 Before you run authenticate with ECR, change the region if needed. Run this cell and login so that you can perform ECR operations
 
+![dashboard](/images/kubeflow/fairing-ecr-login.png)
+
 Run the next cell and create an ECR repository (fairing-job) in the same region. You should see similar output
+
 ![dashboard](/images/kubeflow/fairing-create-ecr-repo.png)
+
 
 Let's run next cell. Fairing pushes the image to ECR and then deploys the model remotely
 

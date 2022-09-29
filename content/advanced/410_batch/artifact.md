@@ -88,7 +88,7 @@ If `ROLE_NAME` is not set, please review: [/030_eksctl/test/](/030_eksctl/test/)
 ROLE_NAME is eksctl-eksworkshop-eksctl-nodegro-NodeInstanceRole-RPDET0Z4IJIF
 {{< /output >}}
 
-Create and policy and attach to the worker node role.
+Create a policy and attach to the worker node role.
 
 ```bash
 cat <<EoF > ~/environment/batch_policy/k8s-s3-policy.json

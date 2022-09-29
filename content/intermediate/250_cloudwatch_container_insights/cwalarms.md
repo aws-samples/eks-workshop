@@ -46,7 +46,7 @@ On the Configure Action screen:
 
 ![Config Actions](/images/ekscwci/configactions.png)
 
-Once those items are set, you can click Next at the bottom of the screen.
+Once those items are set, click the Create topic and you can click Next at the bottom of the screen.
 
 On the next screen we’ll add a unique name for our alert, and press Next.
 

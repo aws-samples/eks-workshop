@@ -23,11 +23,21 @@ aws s3 rb s3://$S3_BUCKET --force --region $AWS_REGION
 kubectl delete secret/aws-secret
 kubectl delete secret/aws-secret -n kubeflow
 ```
-Run these commands to uninstall Kubeflow from your EKS cluster
+Next, delete all existing Kubeflow profiles. 
+
+```bash
+kubectl get profile
+kubectl delete profile --all
 ```
-cd ${KF_DIR}
-kfctl delete -V -f ${CONFIG_FILE}
+
+You can delete a Kubeflow deployment by running the `kubectl delete` command on the manifest according to the deployment option you chose. For example, to delete a vanilla installation, run the following command:
+
+```bash
+kustomize build deployments/vanilla/ | kubectl delete -f -
 ```
+
+This command assumes that you have the repository in the same state as when you installed Kubeflow.
+
 Scale the cluster back to previous size
 ```
 eksctl scale nodegroup --cluster eksworkshop-eksctl --name $NODEGROUP_NAME --nodes 3
