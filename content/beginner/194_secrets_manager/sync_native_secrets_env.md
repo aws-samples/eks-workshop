@@ -20,7 +20,7 @@ Let's create a SecretProviderClass custom resource and use ```jmesPath``` field 
 
 ```bash
 cat << EOF > nginx-deployment-spc-k8s-secrets.yaml
-apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
 metadata:
   name: nginx-deployment-spc-k8s-secrets

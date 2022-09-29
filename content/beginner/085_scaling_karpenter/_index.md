@@ -1,5 +1,5 @@
 ---
-title: "High-Performance Autoscaling with Karpenter"
+title: "Autoscaling with Karpenter"
 chapter: true
 weight: 85
 pre: '<i class="fa fa-film" aria-hidden="true"></i> '
@@ -8,11 +8,11 @@ tags:
   - CON205
 ---
 
-# Implement AutoScaling with Karpenter
+# Implement Autoscaling with Karpenter
 
 {{< youtube _FXRIKWJWUk >}}
 
-In this section we will setup [Karpenter](https://github.com/aws/karpenter). Karpenter is an open-source autoscaling project built for Kubernetes. Karpenter is designed to provide the right compute resources to match your application’s needs in seconds, instead of minutes by observing the aggregate resource requests of unschedulable pods and makes decisions to launch and terminate nodes to minimize scheduling latencies.
+In this section you will setup [Karpenter](https://github.com/aws/karpenter). Karpenter automatically launches just the right compute resources to handle your cluster's applications. It is designed to let you take full advantage of the cloud with fast and simple compute provisioning for Kubernetes clusters. 
 
 
 ![EKS](/images/karpenter_banner.png)
@@ -23,7 +23,4 @@ Karpenter's goal is to improve the efficiency and cost of running workloads on K
 * Watching for pods that the Kubernetes scheduler has marked as unschedulable
 * Evaluating scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods
 * Provisioning nodes that meet the requirements of the pods
-* Scheduling the pods to run on the new nodes
 * Removing the nodes when the nodes are no longer needed
-
-

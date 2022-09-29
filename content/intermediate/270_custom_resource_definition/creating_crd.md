@@ -11,7 +11,7 @@ For example, if you save the following CustomResourceDefinition to resourcedefin
 
 ```
 cat <<EoF > ~/environment/resourcedefinition.yaml
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   # name must match the spec fields below, and be in the form: <plural>.<group>
@@ -26,6 +26,19 @@ spec:
       served: true
       # One and only one version must be marked as the storage version.
       storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                cronSpec:
+                  type: string
+                image:
+                  type: string
+                replicas:
+                  type: integer
   # either Namespaced or Cluster
   scope: Namespaced
   names:
@@ -57,7 +70,7 @@ kubectl get crd crontabs.stable.example.com
 The result will be something like this:
 ```
 NAME                          CREATED AT
-crontabs.stable.example.com   2019-05-09T16:50:55Z
+crontabs.stable.example.com   2022-07-15T12:09:41Z
 ```
 
 Now, let's see the Custom Resource in detail:
@@ -70,24 +83,28 @@ The output:
 Name:         crontabs.stable.example.com
 Namespace:    
 Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"apiextensions.k8s.io/v1beta1","kind":"CustomResourceDefinition","metadata":{"annotations":{},"name":"crontabs.stable.example.com","names...
-API Version:  apiextensions.k8s.io/v1beta1
+Annotations:  <none>
+API Version:  apiextensions.k8s.io/v1
 Kind:         CustomResourceDefinition
 Metadata:
-  Creation Timestamp:  2019-05-09T16:50:55Z
+  Creation Timestamp:  2022-07-15T12:09:41Z
   Generation:          1
-  Resource Version:    3193124
-  Self Link:           /apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions/crontabs.stable.example.com
-  UID:                 9cad2caf-727a-11e9-9fb0-0e8a8b871ace
+  Managed Fields:
+    API Version:  apiextensions.k8s.io/v1
+    Fields Type:  FieldsV1
+    Manager:      kube-apiserver
+    Operation:    Update
+    Time:         2022-07-15T12:09:41Z
+    API Version:  apiextensions.k8s.io/v1
+    Manager:         kubectl-client-side-apply
+    Operation:       Update
+    Time:            2022-07-15T12:09:41Z
+  Resource Version:  821325
+  UID:               c2184050-1a8d-4945-9bd2-722d14d9d0fa
 Spec:
-  Additional Printer Columns:
-    JSON Path:    .metadata.creationTimestamp
-    Description:  CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-Populated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
-    Name:  Age
-    Type:  date
-  Group:   stable.example.com
+  Conversion:
+    Strategy:  None
+  Group:       stable.example.com
   Names:
     Kind:       CronTab
     List Kind:  CronTabList
@@ -96,11 +113,23 @@ Populated by the system. Read-only. Null for lists. More info: https://git.k8s.i
       ct
     Singular:  crontab
   Scope:       Namespaced
-  Version:     v1
   Versions:
-    Name:     v1
-    Served:   true
-    Storage:  true
+    Name:  v1
+    Schema:
+      openAPIV3Schema:
+        Properties:
+          Spec:
+            Properties:
+              Cron Spec:
+                Type:  string
+              Image:
+                Type:  string
+              Replicas:
+                Type:  integer
+            Type:      object
+        Type:          object
+    Served:            true
+    Storage:           true
 Status:
   Accepted Names:
     Kind:       CronTab
@@ -110,12 +139,12 @@ Status:
       ct
     Singular:  crontab
   Conditions:
-    Last Transition Time:  2019-05-09T16:50:55Z
+    Last Transition Time:  2022-07-15T12:09:41Z
     Message:               no conflicts found
     Reason:                NoConflicts
     Status:                True
     Type:                  NamesAccepted
-    Last Transition Time:  <nil>
+    Last Transition Time:  2022-07-15T12:09:41Z
     Message:               the initial names have been accepted
     Reason:                InitialNamesAccepted
     Status:                True
@@ -138,24 +167,45 @@ curl -i 127.0.0.1:8080/apis/apiextensions.k8s.io/v1beta1/customresourcedefinitio
 The response being something like this:
 ```
 HTTP/1.1 200 OK
-Audit-Id: ec046098-8373-4c74-8ce7-a6a43951df6e
-Content-Length: 2582
+Audit-Id: 20146bde-910d-4c82-ab01-609225e4d262
+Cache-Control: no-cache, private
+Content-Length: 3650
 Content-Type: application/json
-Date: Thu, 09 May 2019 18:07:05 GMT
+Date: Fri, 15 Jul 2022 12:47:07 GMT
+Warning: 299 - "apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition"
+X-Kubernetes-Pf-Flowschema-Uid: 16b0834b-6ac6-4b7e-8b43-505208a6efc8
+X-Kubernetes-Pf-Prioritylevel-Uid: f3c0805c-6d2b-493b-a958-724b2adeb80b
 
 {
   "kind": "CustomResourceDefinition",
   "apiVersion": "apiextensions.k8s.io/v1beta1",
   "metadata": {
     "name": "crontabs.stable.example.com",
-    "selfLink": "/apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions/crontabs.stable.example.com",
-    "uid": "24babfb5-7285-11e9-a54d-0615623ca50e",
-    "resourceVersion": "3271016",
+    "uid": "c2184050-1a8d-4945-9bd2-722d14d9d0fa",
+    "resourceVersion": "821325",
     "generation": 1,
-    "creationTimestamp": "2019-05-09T18:06:18Z",
+    "creationTimestamp": "2022-07-15T12:09:41Z",
     "annotations": {
-      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apiextensions.k8s.io/v1beta1\",\"kind\":\"CustomResourceDefinition\",\"metadata\":{\"annotations\":{},\"name\":\"crontabs.stable.example.com\",\"namespace\":\"\"},\"spec\":{\"group\":\"stable.example.com\",\"names\":{\"kind\":\"CronTab\",\"plural\":\"crontabs\",\"shortNames\":[\"ct\"],\"singular\":\"crontab\"},\"scope\":\"Namespaced\",\"versions\":[{\"name\":\"v1\",\"served\":true,\"storage\":true}]}}\n"
-    }
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apiextensions.k8s.io/v1\",\"kind\":\"CustomResourceDefinition\",\"metadata\":{\"annotations\":{},\"name\":\"crontabs.stable.example.com\"},\"spec\":{\"group\":\"stable.example.com\",\"names\":{\"kind\":\"CronTab\",\"plural\":\"crontabs\",\"shortNames\":[\"ct\"],\"singular\":\"crontab\"},\"scope\":\"Namespaced\",\"versions\":[{\"name\":\"v1\",\"schema\":{\"openAPIV3Schema\":{\"properties\":{\"spec\":{\"properties\":{\"cronSpec\":{\"type\":\"string\"},\"image\":{\"type\":\"string\"},\"replicas\":{\"type\":\"integer\"}},\"type\":\"object\"}},\"type\":\"object\"}},\"served\":true,\"storage\":true}]}}\n"
+    },
+    "managedFields": [
+      {
+        "manager": "kube-apiserver",
+        "operation": "Update",
+        "apiVersion": "apiextensions.k8s.io/v1",
+        "time": "2022-07-15T12:09:41Z",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {"f:status":{"f:acceptedNames":{"f:kind":{},"f:listKind":{},"f:plural":{},"f:shortNames":{},"f:singular":{}},"f:conditions":{"k:{\"type\":\"Established\"}":{".":{},"f:lastTransitionTime":{},"f:message":{},"f:reason":{},"f:status":{},"f:type":{}},"k:{\"type\":\"NamesAccepted\"}":{".":{},"f:lastTransitionTime":{},"f:message":{},"f:reason":{},"f:status":{},"f:type":{}}}}}
+      },
+      {
+        "manager": "kubectl-client-side-apply",
+        "operation": "Update",
+        "apiVersion": "apiextensions.k8s.io/v1",
+        "time": "2022-07-15T12:09:41Z",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}},"f:spec":{"f:conversion":{".":{},"f:strategy":{}},"f:group":{},"f:names":{"f:kind":{},"f:listKind":{},"f:plural":{},"f:shortNames":{},"f:singular":{}},"f:scope":{},"f:versions":{}}}
+      }
+    ]
   },
   "spec": {
     "group": "stable.example.com",
@@ -170,6 +220,27 @@ Date: Thu, 09 May 2019 18:07:05 GMT
       "listKind": "CronTabList"
     },
     "scope": "Namespaced",
+    "validation": {
+      "openAPIV3Schema": {
+        "type": "object",
+        "properties": {
+          "spec": {
+  "type": "object",
+  "properties": {
+    "cronSpec": {
+  "type": "string"
+},
+    "image": {
+  "type": "string"
+},
+    "replicas": {
+  "type": "integer"
+}
+  }
+}
+        }
+      }
+    },
     "versions": [
       {
         "name": "v1",
@@ -177,28 +248,24 @@ Date: Thu, 09 May 2019 18:07:05 GMT
         "storage": true
       }
     ],
-    "additionalPrinterColumns": [
-      {
-        "name": "Age",
-        "type": "date",
-        "description": "CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.\n\nPopulated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
-        "JSONPath": ".metadata.creationTimestamp"
-      }
-    ]
+    "conversion": {
+      "strategy": "None"
+    },
+    "preserveUnknownFields": false
   },
   "status": {
     "conditions": [
       {
         "type": "NamesAccepted",
         "status": "True",
-        "lastTransitionTime": "2019-05-09T18:06:18Z",
+        "lastTransitionTime": "2022-07-15T12:09:41Z",
         "reason": "NoConflicts",
         "message": "no conflicts found"
       },
       {
         "type": "Established",
         "status": "True",
-        "lastTransitionTime": null,
+        "lastTransitionTime": "2022-07-15T12:09:41Z",
         "reason": "InitialNamesAccepted",
         "message": "the initial names have been accepted"
       }

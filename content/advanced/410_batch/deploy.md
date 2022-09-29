@@ -7,7 +7,7 @@ draft: false
 
 ### Deploy Argo Controller
 
-Argo run in its own namespace and deploys as a CustomResourceDefinition.
+Argo runs in its own namespace and deploys as a CustomResourceDefinition (CRD).
 
 Deploy the Controller and UI.
 

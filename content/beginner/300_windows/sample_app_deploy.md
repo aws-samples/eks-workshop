@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: windows-server-iis
-        image: mcr.microsoft.com/windows/servercore:2004
+        image: mcr.microsoft.com/windows/servercore:ltsc2019-amd64
         ports:
         - name: http
           containerPort: 80

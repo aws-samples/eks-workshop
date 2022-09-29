@@ -38,7 +38,7 @@ Deploy the application:
 kubectl create -f ~/environment/bottlerocket-nginx.yaml
 ```
 
-Next, run the following command to confirm the new application is running on a bottlerocket node:
+Next, run the following command to confirm the new application is running on the bottlerocket node:
 
 ```bash
 kubectl describe pod/nginx -n bottlerocket-nginx
