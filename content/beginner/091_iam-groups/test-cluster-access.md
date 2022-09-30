@@ -110,7 +110,7 @@ With this configuration we should be able to interact with the **development** n
 Let's create a pod:
 
 ```bash
-kubectl run --generator=run-pod/v1 nginx-dev --image=nginx -n development
+kubectl run nginx-dev --image=nginx -n development
 ```
 > Note: If you are getting an error "The connection to the server localhost:8080 was refused - did you specify the right host or port?", its possible that you have not cleaned up the environment from a previous lab. Please follow the steps required to clean up and then retry. 
 
@@ -147,7 +147,7 @@ cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "integ"]' - --
 Let's create a pod:
 
 ```bash
-kubectl run --generator=run-pod/v1 nginx-integ --image=nginx -n integration
+kubectl run nginx-integ --image=nginx -n integration
 ```
 
 We can list the pods:
@@ -183,7 +183,7 @@ cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "admin"]' - --
 Let's create a pod in the default namespace:
 
 ```bash
-kubectl run --generator=run-pod/v1 nginx-admin --image=nginx
+kubectl run nginx-admin --image=nginx
 ```
 
 We can list the pods:

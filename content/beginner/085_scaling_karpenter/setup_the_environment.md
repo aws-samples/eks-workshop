@@ -6,7 +6,14 @@ draft: false
 
 Before we install Karpenter, there are a few things that we will need to prepare in our environment for it to work as expected.
 
-## Pre-requisites
+## Environment Variables
+
+Set the following environment variable to the Karpenter version you would like to install.
+```bash
+export KARPENTER_VERSION=v0.16.0
+```
+
+Also set the following environment variables to store commonly used values.
 
 ```bash
 export CLUSTER_NAME=$(eksctl get clusters -o json | jq -r '.[0].Name')
@@ -14,48 +21,25 @@ export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
 ```
 
-
-## Tagging Subnets
-
-
-Karpenter discovers subnets tagged `kubernetes.io/cluster/$CLUSTER_NAME`. We need to add this tag to the subnets associated to your cluster. The following command retreives the subnet IDs from cloudformation and tags them with the appropriate cluster name.
-
-```
-SUBNET_IDS=$(aws cloudformation describe-stacks \
-    --stack-name eksctl-${CLUSTER_NAME}-cluster \
-    --query 'Stacks[].Outputs[?OutputKey==`SubnetsPrivate`].OutputValue' \
-    --output text)
-aws ec2 create-tags \
-    --resources $(echo $SUBNET_IDS | tr ',' '\n') \
-    --tags Key="kubernetes.io/cluster/${CLUSTER_NAME}",Value=
-```
-
-You can verify the right tags have been set by running the following command. This commands checks which subnets have the `kubernetes.io/cluster/${CLUSTER_NAME}` and compares them to the cluster subnets. Note the elements in the equation can be out of order.
-
-```
-VALIDATION_SUBNETS_IDS=$(aws ec2 describe-subnets --filters Name=tag:"kubernetes.io/cluster/${CLUSTER_NAME}",Values= --query "Subnets[].SubnetId" --output text | sed 's/\t/,/')
-echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
-```
-
-## Create the IAM Role and Instance profile for Karpenter Nodes 
+## Create the KarpenterNode IAM Role
 
 Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`. 
+
+First, create the IAM resources using AWS CloudFormation.
 
 ```bash
 TEMPOUT=$(mktemp)
 
-export KARPENTER_VERSION=v0.7.3
-
 curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml  > $TEMPOUT \
 && aws cloudformation deploy \
-  --stack-name Karpenter-${CLUSTER_NAME} \
-  --template-file ${TEMPOUT} \
+  --stack-name "Karpenter-${CLUSTER_NAME}" \
+  --template-file "${TEMPOUT}" \
   --capabilities CAPABILITY_NAMED_IAM \
-  --parameter-overrides ClusterName=${CLUSTER_NAME}
+  --parameter-overrides "ClusterName=${CLUSTER_NAME}"
 ```
 
 {{% notice tip %}}
-This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/docs/getting-started/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
+This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.16.0/getting-started/getting-started-with-eksctl/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
 {{% /notice %}}
 
 Second, grant access to instances using the profile to connect to the cluster. This command adds the Karpenter node role to your aws-auth configmap, allowing nodes with this role to connect to the cluster.
@@ -64,7 +48,7 @@ Second, grant access to instances using the profile to connect to the cluster. T
 eksctl create iamidentitymapping \
   --username system:node:{{EC2PrivateDNSName}} \
   --cluster  ${CLUSTER_NAME} \
-  --arn arn:aws:iam::${ACCOUNT_ID}:role/KarpenterNodeRole-${CLUSTER_NAME} \
+  --arn "arn:aws:iam::${ACCOUNT_ID}:role/KarpenterNodeRole-${CLUSTER_NAME}" \
   --group system:bootstrappers \
   --group system:nodes
 ```
@@ -87,18 +71,27 @@ Karpenter requires permissions like launching instances. This will create an AWS
 
 ```bash
 eksctl create iamserviceaccount \
-  --cluster $CLUSTER_NAME --name karpenter --namespace karpenter \
-  --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/KarpenterControllerPolicy-$CLUSTER_NAME \
+  --cluster "${CLUSTER_NAME}" --name karpenter --namespace karpenter \
+  --role-name "${CLUSTER_NAME}-karpenter" \
+  --attach-policy-arn "arn:aws:iam::${ACCOUNT_ID}:policy/KarpenterControllerPolicy-${CLUSTER_NAME}" \
+  --role-only \
   --approve
+
+export KARPENTER_IAM_ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${CLUSTER_NAME}-karpenter"
 ```
 
 {{% notice note %}}
-This step may take up to 2 minutes. eksctl will create and deploy a CloudFormation stack that defines the role and create the kubernetes resources that define the Karpenter `serviceaccount` and the `karpenter` namespace that we willuse during the workshop. You can also check in the **CloudFormation** console, the resources this stack creates.
+This step may take up to 2 minutes. eksctl will create and deploy a CloudFormation stack that defines the role and create the kubernetes resources that define the Karpenter `serviceaccount` and the `karpenter` namespace that we will use during the workshop. You can also check in the **CloudFormation** console, the resources this stack creates.
 {{% /notice %}}
 
+## Create the EC2 Spot Linked Role
 
-You can confirm the service account has been created by running:
+Finally, we will create the spot [EC2 Spot Linked role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#service-linked-roles-spot-instance-requests).
 
-```bash
-kubectl get serviceaccounts --namespace karpenter
+{{% notice note %}}
+This step is only necessary if this is the first time you’re using EC2 Spot in this account. If the role has already been successfully created, you will see: *An error occurred (InvalidInput) when calling the CreateServiceLinkedRole operation: Service role name AWSServiceRoleForEC2Spot has been taken in this account, please try a different suffix.* . Just ignore the error and proceed with the rest of the workshop.
+{{% /notice %}}
+
+```
+aws iam create-service-linked-role --aws-service-name spot.amazonaws.com
 ```

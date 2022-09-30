@@ -23,7 +23,7 @@ spec:
         - |
           set -ex
           # Generate mysql server-id from pod ordinal index.
-          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          [[ `uname -n` =~ -([0-9]+)$ ]] || exit 1
           ordinal=${BASH_REMATCH[1]}
           echo [mysqld] > /mnt/conf.d/server-id.cnf
           # Add an offset to avoid reserved server-id=0 value.
@@ -49,7 +49,7 @@ spec:
           # Skip the clone if data already exists.
           [[ -d /var/lib/mysql/mysql ]] && exit 0
           # Skip the clone on leader (ordinal index 0).
-          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          [[ `uname -n` =~ -([0-9]+)$ ]] || exit 1
           ordinal=${BASH_REMATCH[1]}
           [[ $ordinal -eq 0 ]] && exit 0
           # Clone data from previous peer.

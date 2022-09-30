@@ -9,7 +9,9 @@ If the Postgres pod moves availability zones data will still be available.
 If you'd like to do it manually you can follow the [EFS workshop here](https://www.eksworkshop.com/beginner/190_efs/).
 
 
-To let traffic cross between EKS and Cloud9 we need to create a VPC peer between our Cloud9 instance and our EKS cluster.
+To let traffic cross between EKS and Cloud9 we need to create a VPC peering between our Cloud9 instance and our EKS cluster as shown.
+![configure eks cluster vpc-peering](/images/migrate_to_eks/configure-eks-cluster-vpc-peering.png)
+
 
 ```bash
 export EKS_VPC=$(aws eks describe-cluster \
@@ -29,36 +31,6 @@ aws ec2 modify-vpc-peering-connection-options \
     --vpc-peering-connection-id $PEERING_ID \
     --requester-peering-connection-options '{"AllowDnsResolutionFromRemoteVpc":true}' \
     --accepter-peering-connection-options '{"AllowDnsResolutionFromRemoteVpc":true}'
-```
-
-Allow traffic from the EKS from the EKS VPC and Security group to our Cloud9 instance
-
-```bash
-export EKS_SECURITY_GROUP=$(aws cloudformation list-exports \
-    --query "Exports[*]|[?Name=='eksctl-$CLUSTER-cluster::SharedNodeSecurityGroup'].Value" \
-    --output text)
-
-export EKS_CIDR_RANGES=$(aws ec2 describe-subnets \
-    --filter "Name=vpc-id,Values=$EKS_VPC" \
-    --query 'Subnets[*].CidrBlock' \
-    --output text)
-
-for CIDR in $(echo $EKS_CIDR_RANGES); do
-    aws ec2 authorize-security-group-ingress \
-        --group-id $SECURITY_GROUP \
-        --ip-permissions IpProtocol=tcp,FromPort=1024,ToPort=65535,IpRanges="[{CidrIp=$CIDR}]"
-done
-
-export CIDR_RANGES=$(aws ec2 describe-subnets \
-    --filter "Name=vpc-id,Values=$VPC" \
-    --query 'Subnets[*].CidrBlock' \
-    --output text)
-
-for CIDR in $(echo $CIDR_RANGES); do
-    aws ec2 authorize-security-group-ingress \
-        --group-id $EKS_SECURITY_GROUP \
-        --ip-permissions IpProtocol=tcp,FromPort=1024,ToPort=65535,IpRanges="[{CidrIp=$CIDR}]"
-done
 ```
 
 Finally create routes in both VPCs to route traffic

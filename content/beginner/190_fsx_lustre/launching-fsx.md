@@ -84,7 +84,8 @@ SECURITY_GROUP_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "clust
                     "s3:ListBucket",
                     "fsx:CreateFileSystem",
                     "fsx:DeleteFileSystem",
-                    "fsx:DescribeFileSystems"
+                    "fsx:DescribeFileSystems",
+                    "fsx:TagResource"
                 ],
                 "Resource":[
                     "*"

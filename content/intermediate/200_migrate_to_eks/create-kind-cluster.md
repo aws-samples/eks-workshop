@@ -3,7 +3,10 @@ title: "Create kind cluster"
 weight: 10
 ---
 
-While our EKS cluster is being created we can create a kind cluster locally.
+While our EKS cluster is being created we can create a kind cluster locally on the cloud9 instance.
+
+![kind cluster](/images/migrate_to_eks/create-kind-cluster.png)
+
 Before we create one lets make sure our network rules are set up
 
 {{% notice note %}}
@@ -44,5 +47,5 @@ kind create cluster --config kind.yaml
 Set the default context to the EKS cluster.
 
 ```bash
-kubectl config use-context "${INSTANCE_ID}@${CLUSTER}.${AWS_REGION}.eksctl.io"
+kubectl config use-context "arn:aws:eks:${AWS_REGION}:${ACCOUNT_ID}:cluster/${CLUSTER}"
 ```
