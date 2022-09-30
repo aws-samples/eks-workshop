@@ -8,7 +8,7 @@ In this section, we will setup `OPA Gatekeeper` within the cluster.
 
 #### 1. Deploy OPA Gatekeeper using Prebuilt docker images
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.1/deploy/gatekeeper.yaml
+kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.8/deploy/gatekeeper.yaml
 ```
 
 #### 2. Check the pods in gatekeeper-system namespace

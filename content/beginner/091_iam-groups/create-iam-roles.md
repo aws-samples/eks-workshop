@@ -14,7 +14,8 @@ We are going to create 3 roles:
 Create the roles:
 
 ```bash
-POLICY=$(echo -n '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"arn:aws:iam::'; echo -n "$ACCOUNT_ID"; echo -n ':root"},"Action":"sts:AssumeRole","Condition":{}}]}')
+export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+export POLICY=$(echo -n '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"arn:aws:iam::'; echo -n "$ACCOUNT_ID"; echo -n ':root"},"Action":"sts:AssumeRole","Condition":{}}]}')
 
 echo ACCOUNT_ID=$ACCOUNT_ID
 echo POLICY=$POLICY

@@ -29,7 +29,7 @@ Next, we will enable the CNI plugin to manage network interfaces for pods by set
 ```bash
 kubectl -n kube-system set env daemonset aws-node ENABLE_POD_ENI=true
 
-# let's way for the rolling update of the daemonset
+# let's wait for the rolling update of the daemonset
 kubectl -n kube-system rollout status ds aws-node
 ```
 

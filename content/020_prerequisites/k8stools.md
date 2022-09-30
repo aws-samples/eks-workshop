@@ -17,7 +17,7 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 
 ```bash
 sudo curl --silent --location -o /usr/local/bin/kubectl \
-   https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+   https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.5/2022-01-21/bin/linux/amd64/kubectl
 
 sudo chmod +x /usr/local/bin/kubectl
 ```
@@ -66,6 +66,7 @@ kubectl completion bash >>  ~/.bash_completion
 #### set the AWS Load Balancer Controller version
 
 ```bash
-echo 'export LBC_VERSION="v2.3.0"' >>  ~/.bash_profile
+echo 'export LBC_VERSION="v2.4.1"' >>  ~/.bash_profile
+echo 'export LBC_CHART_VERSION="1.4.1"' >>  ~/.bash_profile
 .  ~/.bash_profile
 ```

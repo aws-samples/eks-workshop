@@ -12,14 +12,14 @@ The table below outlines the purpose of each component in the Helm chart structu
 | charts/   | Sub-charts that the chart depends on |
 | Chart.yaml | Information about your chart |
 | values.yaml | The default values for your templates |
-| template/    | The template files |
-| template/deployment.yaml | Basic manifest for creating [Kubernetes Deployment objects](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) |
-| template/_helpers.tpl | Used to define Go template helpers |
-| template/hpa.yaml | Basic manifest for creating [Kubernetes Horizontal Pod Autoscaler objects](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| template/ingress.yaml | Basic manifest for creating [Kubernetes Ingress objects](https://kubernetes.io/docs/concepts/services-networking/ingress/) |
-| template/NOTES.txt | A plain text file to give users detailed information about how to use the newly installed chart |
-| template/serviceaccount.yaml | Basic manifest for creating [Kubernetes ServiceAccount objects](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) |
-| template/service.yaml | Basic manifest for creating [Kubernetes Service objects](https://kubernetes.io/docs/concepts/services-networking/service/) |
+| templates/    | The template files |
+| templates/deployment.yaml | Basic manifest for creating [Kubernetes Deployment objects](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) |
+| templates/_helpers.tpl | Used to define Go template helpers |
+| templates/hpa.yaml | Basic manifest for creating [Kubernetes Horizontal Pod Autoscaler objects](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| templates/ingress.yaml | Basic manifest for creating [Kubernetes Ingress objects](https://kubernetes.io/docs/concepts/services-networking/ingress/) |
+| templates/NOTES.txt | A plain text file to give users detailed information about how to use the newly installed chart |
+| templates/serviceaccount.yaml | Basic manifest for creating [Kubernetes ServiceAccount objects](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) |
+| templates/service.yaml | Basic manifest for creating [Kubernetes Service objects](https://kubernetes.io/docs/concepts/services-networking/service/) |
 | tests/ | Directory of Test files |
 | tests/test-connections.yaml | Tests that validate that your chart works as expected when it is installed |
 
@@ -71,7 +71,7 @@ Let's replace some of the values with `template directives` to enable more custo
 Open ~/environment/eksdemo/templates/deployment/frontend.yaml in your Cloud9 editor.
 
 {{% notice info %}}
-The following steps should be completed seperately for **frontend.yaml**, **crystal.yaml**, and **nodejs.yaml**.
+The following steps should be completed separately for **frontend.yaml**, **crystal.yaml**, and **nodejs.yaml**.
 {{% /notice %}}
 
 Under `spec`, find **replicas: 1**  and replace with the following:

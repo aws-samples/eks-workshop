@@ -10,6 +10,12 @@ Confirm your nodes:
 kubectl get nodes # if we see our 3 nodes, we know we have authenticated correctly
 ```
 
+#### Update the kubeconfig file to interact with you cluster:
+```bash
+aws eks update-kubeconfig --name eksworkshop-eksctl --region ${AWS_REGION}
+```
+
+
 #### Export the Worker Role Name for use throughout the workshop:
 
 ```bash

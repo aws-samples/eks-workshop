@@ -60,6 +60,17 @@ eksctl create iamserviceaccount --cluster eksworkshop-eksctl \
     --approve
 ```
 
+Update the Helm Repo
+```bash
+helm repo update
+```
+{{< output >}}
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "eks" chart repository
+...Successfully got an update from the "stable" chart repository
+Update Complete. ⎈Happy Helming!⎈
+{{< /output >}}
+
 Install App Mesh Controller into the appmesh-system namespace
 
 ```bash

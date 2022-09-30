@@ -6,9 +6,11 @@ weight: 50
 Now it's time to migrate our app to EKS.
 We're going to do this in two stages.
 
-First we'll move the frontend component but have it talk to the database in our old cluster.
-Then we'll set up the database in EKS, migrate the data, and configure the frontend to use it instead.
+Stage 1: First we'll move the frontend component but have it talk to the database in our old cluster.
+![front-end moved to eks](/images/migrate_to_eks/front-end-moved-to-eks.png)
 
+Stage 2: Then we'll set up the database in EKS, migrate the data, and configure the frontend to use it instead.
+![database moved to eks](/images/migrate_to_eks/database-moved-to-eks.png) 
 The counter app deployment and service is the same as it was in kind except we added two environment varibles for the `DB_HOST` and `DB_PORT` and the service type is LoadBalancer instead of NodePort.
 
 ```bash

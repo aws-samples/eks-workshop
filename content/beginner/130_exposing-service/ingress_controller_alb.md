@@ -83,7 +83,7 @@ Learn more about [IAM Roles for Service Accounts](https://docs.aws.amazon.com/ek
 Create a policy called **AWSLoadBalancerControllerIAMPolicy**
 
 ```bash
-curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.0/docs/install/iam_policy.json
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/${LBC_VERSION}/docs/install/iam_policy.json
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam_policy.json
@@ -104,7 +104,7 @@ eksctl create iamserviceaccount \
 #### Install the TargetGroupBinding CRDs
 
 ```bash
-kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
 
 kubectl get crd
 ```
@@ -122,7 +122,8 @@ helm upgrade -i aws-load-balancer-controller \
     --set clusterName=eksworkshop-eksctl \
     --set serviceAccount.create=false \
     --set serviceAccount.name=aws-load-balancer-controller \
-    --set image.tag="${LBC_VERSION}"
+    --set image.tag="${LBC_VERSION}" \
+    --version="${LBC_CHART_VERSION}"
 
 kubectl -n kube-system rollout status deployment aws-load-balancer-controller
 ```

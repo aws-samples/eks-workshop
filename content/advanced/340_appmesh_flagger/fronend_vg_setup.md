@@ -7,7 +7,7 @@ draft: false
 
 #### Deploy the Frontend Service
 
-Since we want to visualize the automated canary deployment, we need an UI for which, we will use `frontend` service. This `frontend` service will call the backend service `detail` to get the vendor information. In order to expose the `frontend` service outside the mesh we will use AWS AppMesh VirtualGateway affiliated with Network Load Balancer. Lets deploy the `frontend` service.
+We will want to visualize the automated canary deployment, so we will use the `frontend` service as a UI. This `frontend` service will call the backend service `detail` to get the vendor information. In order to expose the `frontend` service outside the mesh, we will use AWS AppMesh VirtualGateway affiliated with Network Load Balancer. Lets deploy the `frontend` service.
 
 ```bash
 export APP_VERSION=1.0

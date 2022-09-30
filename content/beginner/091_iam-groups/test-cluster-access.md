@@ -97,7 +97,7 @@ It is also possible to specify the AWS_PROFILE to use with the aws-iam-authentic
 Create a new KUBECONFIG file to test this:
 
 ```bash
-export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig eksworkshop-eksctl
+export KUBECONFIG=/tmp/kubeconfig-dev && eksctl utils write-kubeconfig --cluster eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "dev"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-dev./g' | sponge $KUBECONFIG
 ```
 
@@ -110,8 +110,9 @@ With this configuration we should be able to interact with the **development** n
 Let's create a pod:
 
 ```bash
-kubectl run --generator=run-pod/v1 nginx-dev --image=nginx -n development
+kubectl run nginx-dev --image=nginx -n development
 ```
+> Note: If you are getting an error "The connection to the server localhost:8080 was refused - did you specify the right host or port?", its possible that you have not cleaned up the environment from a previous lab. Please follow the steps required to clean up and then retry. 
 
 We can list the pods:
 
@@ -137,7 +138,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-user" cannot list re
 #### Test with integ profile
 
 ```bash
-export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig eksworkshop-eksctl
+export KUBECONFIG=/tmp/kubeconfig-integ && eksctl utils write-kubeconfig --cluster=eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "integ"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-integ./g' | sponge $KUBECONFIG
 ```
 
@@ -146,7 +147,7 @@ cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "integ"]' - --
 Let's create a pod:
 
 ```bash
-kubectl run --generator=run-pod/v1 nginx-integ --image=nginx -n integration
+kubectl run nginx-integ --image=nginx -n integration
 ```
 
 We can list the pods:
@@ -173,7 +174,7 @@ Error from server (Forbidden): pods is forbidden: User "integ-user" cannot list 
 #### Test with admin profile
 
 ```bash
-export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig eksworkshop-eksctl
+export KUBECONFIG=/tmp/kubeconfig-admin && eksctl utils write-kubeconfig --cluster=eksworkshop-eksctl
 cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "admin"]' - -- | sed 's/eksworkshop-eksctl./eksworkshop-eksctl-admin./g' | sponge $KUBECONFIG
 ```
 
@@ -182,7 +183,7 @@ cat $KUBECONFIG | yq e '.users.[].user.exec.args += ["--profile", "admin"]' - --
 Let's create a pod in the default namespace:
 
 ```bash
-kubectl run --generator=run-pod/v1 nginx-admin --image=nginx
+kubectl run nginx-admin --image=nginx
 ```
 
 We can list the pods:

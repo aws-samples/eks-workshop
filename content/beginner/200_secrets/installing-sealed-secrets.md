@@ -8,7 +8,8 @@ draft: false
 #### Installing the kubeseal Client
 For Linux x86_64 systems, the client-tool may be installed into /usr/local/bin with the following command:
 ```
-wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64 -O kubeseal
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.0/kubeseal-0.18.0-linux-amd64.tar.gz
+tar xfz kubeseal-0.18.0-linux-amd64.tar.gz
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 ```
 For MacOS systems, the client-tool is installed as follows:
@@ -19,7 +20,7 @@ brew install kubeseal
 #### Installing the Custom Controller and CRD for SealedSecret
 Install the SealedSecret CRD, controller and RBAC artifacts on your EKS cluster as follows:
 ```
-wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.0/controller.yaml
 kubectl apply -f controller.yaml
 ```
 

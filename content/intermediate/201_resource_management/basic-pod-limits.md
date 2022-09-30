@@ -39,6 +39,10 @@ kubectl run --requests=memory=1G,cpu=1 --limits=memory=2G,cpu=1.8 --image  hande
 
 ```
 
+{{% notice info%}} Flag --requests has been deprecated, has no effect and will be removed in the future.  
+Flag --limits has been deprecated, has no effect and will be removed in the future.  
+You can ignore this warning as these flags will be deprecated in future release{{% / notice %}}
+
 ### Verify Current Resource Usage
 
 Check that pods are running properly. It is expected that **basic-limit-memory-pod** will not run due to it asking for 2G of memory when it is assigned a `Limit` of 1G:

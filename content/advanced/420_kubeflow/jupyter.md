@@ -1,6 +1,6 @@
 ---
 title: "Jupyter Notebook"
-date: 2019-08-26T00:00:00-08:00
+date: 2022-07-16T00:00:00-08:00
 weight: 30
 pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
@@ -16,16 +16,11 @@ In Kubeflow dashboard, click on **Create a new Notebook server**:
 
 ![dashboard](/images/kubeflow/dashboard-new-notebook-server.png)
 
-Select the namespace created in previous step:
-
-![dashboard](/images/kubeflow/jupyter-select-namespace.png)
-
-This pre-populates the namespace field on the dashboard. Specify a name **myjupyter** for the notebook:
+Specify a name **myjupyter** for the notebook:
 
 ![dashboard](/images/kubeflow/jupyter-enter-notebook-server-name.png)
 
-In the Image section, select the latest **tensorflow-1.x** image whose name ends
-in **cpu** (not gpu) from the dropbown box:
+In the Image section, select jupyterlab and from the dropdown select  **tensorflow-2.x** image whose name ends in **cpu** (not gpu) from the dropbown box:
 
 ![dashboard](/images/kubeflow/jupyter-select-image.png)
 
@@ -43,7 +38,7 @@ This connects to the notebook and opens the notebook interface in a new browser 
 
 ![dashboard](/images/kubeflow/jupyter-new-notebook.png)
 
-CLick on **New**, select **Python3**
+Click on **New**, select **Python3**
 
 ![dashboard](/images/kubeflow/jupyter-new-python3-notebook.png)
 

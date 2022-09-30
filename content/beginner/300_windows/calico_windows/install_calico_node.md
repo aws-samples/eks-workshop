@@ -30,7 +30,7 @@ This will open a new browser tab with a powershell prompt on the Node. Now we wi
 
 ```
 mkdir c:\k
-Invoke-WebRequest https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/windows/amd64/kubectl.exe -OutFile c:\k\kubectl.exe
+Invoke-WebRequest https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe -OutFile c:\k\kubectl.exe
 $ENV:PATH += ";C:\k"
 ```
 
@@ -58,4 +58,4 @@ Running  kubelet         kubelet service
 Running  kube-proxy      kube-proxy service
 {{< /output >}}
 
-Now we have Calcio fully installed. Close the EC2 Connect window and return to Cloud9.
+Now we have Calico fully installed. Close the EC2 Connect window and return to Cloud9.

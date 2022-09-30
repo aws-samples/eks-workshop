@@ -17,7 +17,7 @@ the IAM Group and we just configure the ConfigMap to allow the IAM Role associat
 
 The **aws-auth** ConfigMap from the kube-system namespace must be edited in order to allow or delete arn Groups.
 
-This file makes the mapping between IAM role and k8S RBAC rights. We can edit it manually:
+This file makes the mapping between IAM role and k8S RBAC rights.
 
 We can edit it using [eksctl](https://github.com/weaveworks/eksctl) :
 
@@ -86,7 +86,7 @@ arn:aws:iam::xxxxxxxxxx:role/k8sInteg           integ-user
 
 Here we have created:
 
-- a RBAC role for K8sAdmin, that we map to admin user and give access to **system:masters** kubernetes Groups (so that it has Full Admin rights)
+- a RBAC role for k8sAdmin, that we map to admin user and give access to **system:masters** Kubernetes group (so that it has Full Admin rights)
 - a RBAC role for k8sDev that we map on dev-user in development namespace
 - a RBAC role for k8sInteg that we map on integ-user in integration namespace
 

@@ -12,7 +12,7 @@ Prepare your cluster by installing Secrets Store CSI Secret driver and AWS Secre
 
 ```bash
 helm repo add secrets-store-csi-driver \
-  https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/master/charts
+  https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
 
 helm install -n kube-system csi-secrets-store \
   --set syncSecret.enabled=true \

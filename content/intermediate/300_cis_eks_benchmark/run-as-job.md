@@ -22,7 +22,7 @@ spec:
       containers:
         - name: kube-bench
           image: aquasec/kube-bench:latest
-          command: ["kube-bench", "--benchmark", "eks-1.0"]
+          command: ["kube-bench", "--benchmark", "eks-1.0.1"]
           volumeMounts:
             - name: var-lib-kubelet
               mountPath: /var/lib/kubelet

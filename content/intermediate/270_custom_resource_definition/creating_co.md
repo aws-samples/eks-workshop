@@ -55,13 +55,12 @@ items:
 - apiVersion: stable.example.com/v1
   kind: CronTab
   metadata:
-    creationTimestamp: 2017-05-31T12:56:35Z
+    creationTimestamp: "2022-07-15T12:15:25Z"
     generation: 1
     name: my-new-cron-object
     namespace: default
-    resourceVersion: "285"
-    selfLink: /apis/stable.example.com/v1/namespaces/default/crontabs/my-new-cron-object
-    uid: 9423255b-4600-11e7-af6a-28d2447dc82b
+    resourceVersion: "822447"
+    uid: d6698dd8-69f4-4ffa-9e83-0549f7162cdd
   spec:
     cronSpec: '* * * * */5'
     image: my-awesome-cron-image
@@ -79,15 +78,29 @@ The output being something like this:
 Name:         my-new-cron-object
 Namespace:    default
 Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"stable.example.com/v1","kind":"CronTab","metadata":{"annotations":{},"name":"my-new-cron-object","namespace":"default"},"spec":{"cronSpe...
+Annotations:  <none>
 API Version:  stable.example.com/v1
 Kind:         CronTab
 Metadata:
-  Creation Timestamp:  2019-05-09T18:10:35Z
+  Creation Timestamp:  2022-07-15T12:15:25Z
   Generation:          1
-  Resource Version:    3274450
-  Self Link:           /apis/stable.example.com/v1/namespaces/default/crontabs/my-new-cron-object
-  UID:                 bdc71d84-7285-11e9-a54d-0615623ca50e
+  Managed Fields:
+    API Version:  stable.example.com/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:cronSpec:
+        f:image:
+    Manager:         kubectl-client-side-apply
+    Operation:       Update
+    Time:            2022-07-15T12:15:25Z
+  Resource Version:  822447
+  UID:               d6698dd8-69f4-4ffa-9e83-0549f7162cdd
 Spec:
   Cron Spec:  * * * * */5
   Image:      my-awesome-cron-image
@@ -106,10 +119,13 @@ curl -i 127.0.0.1:8080/apis/stable.example.com/v1/namespaces/default/crontabs/my
 With the output:
 ```
 HTTP/1.1 200 OK
-Audit-Id: 04c5ce6e-5a45-4064-8139-6c2b848bc467
-Content-Length: 707
+Audit-Id: 1d451453-0edf-49ea-95d3-612d64070a53
+Cache-Control: no-cache, private
+Content-Length: 943
 Content-Type: application/json
-Date: Thu, 09 May 2019 18:18:21 GMT
+Date: Fri, 15 Jul 2022 12:52:47 GMT
+X-Kubernetes-Pf-Flowschema-Uid: 16b0834b-6ac6-4b7e-8b43-505208a6efc8
+X-Kubernetes-Pf-Prioritylevel-Uid: f3c0805c-6d2b-493b-a958-724b2adeb80b
 
-{"apiVersion":"stable.example.com/v1","kind":"CronTab","metadata":{"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"stable.example.com/v1\",\"kind\":\"CronTab\",\"metadata\":{\"annotations\":{},\"name\":\"my-new-cron-object\",\"namespace\":\"default\"},\"spec\":{\"cronSpec\":\"* * * * */5\",\"image\":\"my-awesome-cron-image\"}}\n"},"creationTimestamp":"2019-05-09T18:10:35Z","generation":1,"name":"my-new-cron-object","namespace":"default","resourceVersion":"3274450","selfLink":"/apis/stable.example.com/v1/namespaces/default/crontabs/my-new-cron-object","uid":"bdc71d84-7285-11e9-a54d-0615623ca50e"},"spec":{"cronSpec":"* * * * */5","image":"my-awesome-cron-image"}}
+{"apiVersion":"stable.example.com/v1","kind":"CronTab","metadata":{"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"stable.example.com/v1\",\"kind\":\"CronTab\",\"metadata\":{\"annotations\":{},\"name\":\"my-new-cron-object\",\"namespace\":\"default\"},\"spec\":{\"cronSpec\":\"* * * * */5\",\"image\":\"my-awesome-cron-image\"}}\n"},"creationTimestamp":"2022-07-15T12:15:25Z","generation":1,"managedFields":[{"apiVersion":"stable.example.com/v1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}},"f:spec":{".":{},"f:cronSpec":{},"f:image":{}}},"manager":"kubectl-client-side-apply","operation":"Update","time":"2022-07-15T12:15:25Z"}],"name":"my-new-cron-object","namespace":"default","resourceVersion":"822447","uid":"d6698dd8-69f4-4ffa-9e83-0549f7162cdd"},"spec":{"cronSpec":"* * * * */5","image":"my-awesome-cron-image"}}
 ```

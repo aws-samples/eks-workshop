@@ -10,6 +10,10 @@ not the root account user. Please ensure you are logged in as an IAM user, not t
 account user.
 {{% /notice %}}
 
+{{% notice warning %}}
+If you are at an AWS Hosted Event the Cloud 9 Environment is already built for you. Just open the existing IDE in the Cloud9 console.
+{{% /notice %}}
+
 {{% notice info %}}
 A list of supported browsers for AWS Cloud9 is found [here]( https://docs.aws.amazon.com/cloud9/latest/user-guide/browsers.html).
 {{% /notice %}}
