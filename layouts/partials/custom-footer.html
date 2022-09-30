@@ -1,19 +1,23 @@
 <script>
-    if('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register('/sw.js', { scope: '/' })
-            .then(function(registration) {
-                console.log('Service Worker Registered');
-            });
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/" })
+      .then(function (registration) {
+        console.log("Service Worker Registered");
+      });
 
-        navigator.serviceWorker
-            .ready
-            .then(function(registration) {
-                console.log('Service Worker Ready');
-            });
-    }
+    navigator.serviceWorker.ready.then(function (registration) {
+      console.log("Service Worker Ready");
+    });
+  }
 </script>
 
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2fa79da3827f4019b94a058861300bc1"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics -->
+<script
+  defer
+  src="https://static.cloudflareinsights.com/beacon.min.js"
+  data-cf-beacon='{"token": "58222c1aab9c49f3bece9d48cbf75b67"}'
+></script>
+<!-- End Cloudflare Web Analytics -->
 
 {{ template "_internal/google_analytics.html" . }}
