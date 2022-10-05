@@ -13,8 +13,8 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ```
 Here is a sample response
 {{< output >}}
-amazon-k8s-cni-init:v1.7.5-eksbuild.1
-amazon-k8s-cni:v1.7.5-eksbuild.1
+amazon-k8s-cni-init:v1.10.1-eksbuild.1
+amazon-k8s-cni:v1.10.1-eksbuild.1
 {{< /output >}}
 
 ### Configure Custom networking
@@ -30,10 +30,17 @@ kubectl describe daemonset aws-node -n kube-system | grep -A5 Environment
 ```
 {{< output >}}
     Environment:
-      AWS_VPC_K8S_CNI_LOGLEVEL:  	  DEBUG
-      AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG: true
-      MY_NODE_NAME:               	  (v1:spec.nodeName)
-...
+      DISABLE_TCP_EARLY_DEMUX:  false
+      ENABLE_IPv6:              false
+    Mounts:
+      /host/opt/cni/bin from cni-bin-dir (rw)
+  Containers:
+  Environment:
+      ADDITIONAL_ENI_TAGS:                    {}
+      AWS_VPC_CNI_NODE_PORT_SUPPORT:          true
+      AWS_VPC_ENI_MTU:                        9001
+      AWS_VPC_K8S_CNI_CONFIGURE_RPFILTER:     false
+      AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG:     true
 {{< /output >}}
 
 Terminate worker nodes so that Autoscaling launches newer nodes that come bootstrapped with custom network config
