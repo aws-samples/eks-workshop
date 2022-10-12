@@ -6,7 +6,7 @@ weight: 25
 
 Before we bring up the frontend service, let's take a look at the service types
 we are using:
-This is `kubernetes/service.yaml` for our frontend service:
+This is `~/environment/ecsdemo-frontend/kubernetes/service.yaml` for our frontend service:
 {{< output >}}
 apiVersion: v1
 kind: Service
@@ -25,7 +25,7 @@ spec:
 Notice `type: LoadBalancer`: This will configure an ELB to handle incoming traffic
 to this service.
 
-Compare this to `kubernetes/service.yaml` for one of our backend services:
+Compare this to `~/environment/ecsdemo-nodejs/kubernetes/service.yaml` for one of our backend services:
 {{< output >}}
 apiVersion: v1
 kind: Service
