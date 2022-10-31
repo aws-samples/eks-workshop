@@ -14,6 +14,8 @@ We will deploy kube-ops-view using `Helm` configured in a previous [module](/beg
 The following line updates the stable helm repository and then installs kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
 ```
+helm repo add stable https://charts.helm.sh/stable
+
 helm install kube-ops-view \
 stable/kube-ops-view \
 --set service.type=LoadBalancer \
