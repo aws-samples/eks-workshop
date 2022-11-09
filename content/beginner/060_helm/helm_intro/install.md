@@ -22,7 +22,7 @@ Let's configure our first Chart repository. Chart repositories are similar to
 APT or yum repositories that you might be familiar with on Linux, or Taps for
 Homebrew on macOS.
 
-Download the `stable` repository so we have something to start with:
+Add the `stable` repository so we have something to start with:
 
 ```sh
 helm repo add stable https://charts.helm.sh/stable
