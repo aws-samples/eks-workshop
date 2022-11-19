@@ -120,3 +120,16 @@ kubectl exec -it <YOUR-READINESS-POD-NAME> -- touch /tmp/healthy
 kubectl get pods -l app=readiness-deployment
 ```
 {{% /expand %}}
+
+**How would you restore the pod to Ready status (alternate-method)?**
+{{%expand "Expand here to see the solution" %}}
+Run the below command with the name of the pod to recreate the **pod** (be deleting it). Once the pod passes the probe, it gets marked as ready and will begin to receive traffic again.
+
+```
+kubectl delete pod <YOUR-READINESS-POD-NAME>
+```
+
+```
+kubectl get pods -l app=readiness-deployment -w
+```
+{{% /expand %}}
