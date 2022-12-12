@@ -26,8 +26,6 @@ AWS and Tetrate have brought ability to deploy Istio to EKS cluster with minimal
 - After waiting for 90 seconds and UI refresh you can see that the add-on is deployed successfully
 ![Alt text](/images/tetrate-istio-distro/Addon_UI_7.png "Active stage")
 
-Also [video](./assets/videos/4_TID_EKS_addon_UI.mp4) demonstrating the AWS Web console experience is available.
-
 ### Installing TID addon via the command line
 
 - Check that add-on is available (the AWS Marketplace subscription is required before for TID addon to be deployed in AWS account)
