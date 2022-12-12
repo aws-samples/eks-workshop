@@ -7,47 +7,39 @@ draft: false
 
 To cleanup, follow the below steps.
 
-Terminate any `kubectl port-forward` or `watch` processes
+To remove `helloworld` **Blue (v2)** and **Green (v1)** applications - all is needed to remove the corresponding namespaces:
 
 ```bash
-killall kubectl
-killall watch
-```
-
-When you’re finished experimenting with the `Bookinfo` sample, uninstall and clean it up using the following instructions
-
-```bash
-export ISTIO_RELEASE=$(echo $ISTIO_VERSION |cut -d. -f1,2)
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/jaeger.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/kiali.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/prometheus.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-${ISTIO_RELEASE}/samples/addons/grafana.yaml
-
-export NAMESPACE="bookinfo"
-
-${HOME}/environment/istio-${ISTIO_VERSION}/samples/bookinfo/platform/kube/cleanup.sh
-
-
-istioctl manifest generate --set profile=demo | kubectl delete -f -
-
-kubectl delete ns bookinfo
-kubectl delete ns istio-system
+kubectl delete namespace green
+kubectl delete namespace blue
 ```
 
 {{% notice info %}}
 You can ignore the errors for non-existent resources because they may have been deleted hierarchically.
 {{% /notice %}}
 
-Finally, we can delete the istio folder and clean up the `~/.bash_profile`.
+To remove EKS TID add-on issue `aws cli` command per below:
 
 ```bash
-cd ~/environment
-rm -rf istio-${ISTIO_VERSION}
-
-sed -i '/ISTIO_VERSION/d' ${HOME}/.bash_profile
-unset ISTIO_VERSION
+aws eks delete-addon --addon-name tetrate-io_istio-distro --cluster-name <CLUSTER_NAME>
 ```
+
+The output will look like below. Addon will be removed in a matter of 1-2 minutes
+{{< output >}}
+$ aws eks delete-addon --addon-name tetrate-io_istio-distro --cluster-name live-0-workshop --region us-west-2
+{
+    "addon": {
+        "addonName": "tetrate-io_istio-distro",
+        "clusterName": "live-0-workshop",
+        "status": "DELETING",
+        "addonVersion": "v1.15.3-eksbuild.0",
+        "health": {
+            "issues": []
+        },
+        "addonArn": "arn:aws:eks:us-west-2:1XXXXXXXXXX1:addon/live-0-workshop/tetrate-io_istio-distro/14c276eb-c851-e308-9c0e-4e71d8c303ad",
+        "createdAt": "2022-12-07T19:27:18.465000+01:00",
+        "modifiedAt": "2022-12-12T15:48:54.496000+01:00",
+        "tags": {}
+    }
+}
+{{</ output >}}
