@@ -7,7 +7,7 @@ draft: false
 
 By now the foundational Istio components are deployed in your AWS EKS Cluster.
 
-To server the external request an Istion Ingress Gateway is required.The gateway will allow traffic reach out to the applications running inside of the EKS Cluster.
+To server the external request an Istio Ingress Gateway is required. The gateway will allow traffic reach out to the applications running inside of the EKS Cluster.
 
 ![Alt text](/images/tetrate-istio-distro/Ingress.png "Ingress GW deployment")
 
