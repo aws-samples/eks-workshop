@@ -24,3 +24,4 @@ Karpenter's goal is to improve the efficiency and cost of running workloads on K
 * Evaluating scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods
 * Provisioning nodes that meet the requirements of the pods
 * Removing the nodes when the nodes are no longer needed
+* With the right infrastructure, karpenter managed the node termination handling

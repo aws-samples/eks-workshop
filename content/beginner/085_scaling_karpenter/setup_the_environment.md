@@ -10,15 +10,8 @@ Before we install Karpenter, there are a few things that we will need to prepare
 
 Set the following environment variable to the Karpenter version you would like to install.
 ```bash
-export KARPENTER_VERSION=v0.16.0
-```
-
-Also set the following environment variables to store commonly used values.
-
-```bash
-export CLUSTER_NAME=$(eksctl get clusters -o json | jq -r '.[0].Name')
-export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
-export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+export KARPENTER_VERSION=v0.20.0
+export CLUSTER_NAME=eksworkshop-eksctl
 ```
 
 ## Create the KarpenterNode IAM Role
