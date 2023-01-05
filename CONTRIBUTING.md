@@ -1,5 +1,8 @@
 # Contributing Guidelines
 
+> **Warning**
+> This repository is in maintenance mode and currently only accepting bug-fixes. PRs for new content should be adapted for the new EKS Workshop, which will be published early 2023.
+
 Thank you for your interest in contributing to our project. Whether it's a bug report, new feature, correction, or additional 
 documentation, we greatly value feedback and contributions from our community.
 
