@@ -8,24 +8,20 @@ In this section we will install Karpenter and learn how to configure a default [
 
 ## Install Karpenter Helm Chart
 
-Before the chart can be installed the repo needs to be added to Helm, run the following commands to add the repo.
-```bash
-helm repo add karpenter https://charts.karpenter.sh/
-helm repo update
-```
-
 Install the chart passing in the cluster details and the Karpenter role ARN.
 
 ```bash
+export CLUSTER_ENDPOINT="$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output text)"
 helm upgrade --install --namespace karpenter --create-namespace \
-  karpenter karpenter/karpenter \
+  karpenter oci://public.ecr.aws/karpenter/karpenter \
   --version ${KARPENTER_VERSION} \
   --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=${KARPENTER_IAM_ROLE_ARN} \
-  --set clusterName=${CLUSTER_NAME} \
-  --set clusterEndpoint=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output json) \
+  --set settings.aws.clusterName=${CLUSTER_NAME} \
+  --set settings.aws.clusterEndpoint=${CLUSTER_ENDPOINT} \
   --set defaultProvisioner.create=false \
-  --set aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
-  --wait # for the defaulting webhook to install before creating a Provisioner
+  --set settings.aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
+  --set settings.aws.interruptionQueueName=${CLUSTER_NAME} \
+  --wait
 ```
 
 The command above:
@@ -43,16 +39,10 @@ To check the deployment. There should be one deployment `karpenter`
 kubectl get deployment -n karpenter
 ```
 
-To check running pods run the command below. There should be at least two pods, each having two containers `controller` and `webhook`
+To check running pods run the command below. There should be at least two pods.
 ```bash
 kubectl get pods --namespace karpenter
 ```
-
-To check containers `controller` and `webhook`, describe pod using following command
-```bash
-kubectl get pod -n karpenter --no-headers | awk '{print $1}' | head -n 1 | xargs kubectl describe pod -n karpenter
-```
-
 
 {{% notice note %}}
 You can increase the number of Karpenter replicas in the deployment for resilience. Karpenter will elect a leader controller that is in charge of running operations.
