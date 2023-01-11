@@ -9,7 +9,7 @@ draft: false
 
 ConstraintTemplate describes the [Rego](https://www.openpolicyagent.org/docs/latest/#rego) that enforces the constraint and the schema of the constraint. The schema constraint allows the author of the constraint (cluster admin) to define the contraint behavior.
 
-In this example, the cluster admin will force the use of unprivileged containers in the cluseter. The OPA Gatekeeper will look for the securitycontext field and check if `privileged=true`. If it's the case, then, the request will fail.
+In this example, the cluster admin will force the use of unprivileged containers in the cluster. The OPA Gatekeeper will look for the securitycontext field and check if `privileged=true`. If it's the case, then, the request will fail.
 
 ```bash
 cat > /tmp/constrainttemplate.yaml <<EOF
