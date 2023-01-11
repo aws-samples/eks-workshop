@@ -148,12 +148,12 @@ kubectl -n kube-system \
     cluster-autoscaler.kubernetes.io/safe-to-evict="false"
 ```
 
-Finally let's update the autoscaler image
+Finally let's update the autoscaler image to matching kubernetes version
 
 ```bash
 # we need to retrieve the latest docker image available for our EKS version
 export K8S_VERSION=$(kubectl version --short | grep 'Server Version:' | sed 's/[^0-9.]*\([0-9.]*\).*/\1/' | cut -d. -f1,2)
-export AUTOSCALER_VERSION=$(curl -s "https://api.github.com/repos/kubernetes/autoscaler/releases?q=${K8S_VERSION}" | grep '"tag_name":' | sed -s 's/.*-\([0-9][0-9\.]*\).*/\1/' | grep -m1 ${K8S_VERSION})
+export AUTOSCALER_VERSION="1.21.2"
 
 kubectl -n kube-system \
     set image deployment.apps/cluster-autoscaler \
