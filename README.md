@@ -1,5 +1,8 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/aws-samples/eks-workshop) 
 
+> **Warning**
+> This repository is in maintenance mode and currently only accepting bug-fixes. PRs for new content should be adapted for the new EKS Workshop, which will be published early 2023.
+
 # eksworkshop
 
 ### Setup:
