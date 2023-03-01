@@ -69,7 +69,7 @@ spec:
             - another-node-label-value
   containers:
   - name: with-node-affinity
-    image: us.gcr.io/k8s-artifacts-prod/pause:2.0
+    image: registry.k8s.io/pause:2.0
 EoF
 ```
 
@@ -121,7 +121,6 @@ NAME                 READY   STATUS    RESTARTS   AGE     IP                NODE
 nginx                1/1     Running   0          2m14s   192.168.155.38    ip-192-168-155-36.us-east-2.compute.internal    <none>           <none>
 with-node-affinity   1/1     Running   0          11s     192.168.166.141   ip-192-168-168-110.us-east-2.compute.internal   <none>           <none>
 {{< /output >}}
-
 
 You can see the operator `In` being used in the example.
 

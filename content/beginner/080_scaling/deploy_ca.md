@@ -27,6 +27,7 @@ aws autoscaling \
 
 {{< output >}}
 -------------------------------------------------------------
+
 |                 DescribeAutoScalingGroups                 |
 +-------------------------------------------+----+----+-----+
 |  eks-1eb9b447-f3c1-0456-af77-af0bbd65bc9f |  2 |  4 |  3  |
@@ -157,7 +158,7 @@ export AUTOSCALER_VERSION="1.21.2"
 
 kubectl -n kube-system \
     set image deployment.apps/cluster-autoscaler \
-    cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v${AUTOSCALER_VERSION}
+    cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v${AUTOSCALER_VERSION}
 ```
 
 Watch the logs
