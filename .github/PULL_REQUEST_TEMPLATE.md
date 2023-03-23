@@ -1,4 +1,4 @@
-This repository is deprecated mode (Support stopped at EKS 1.21) and currently only accepting bug-fixes. PRs for new content should be adapted for the new EKS Workshop: https://github.com/aws-samples/eks-workshop-v2
+This repository is deprecated (Support stopped at EKS 1.21) and currently only accepting bug-fixes. PRs for new content should be adapted for the new EKS Workshop: https://github.com/aws-samples/eks-workshop-v2
 
 *Issue #, if available:*
 
