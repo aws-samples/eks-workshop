@@ -1,7 +1,7 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/aws-samples/eks-workshop) 
 
 > **Warning**
-> This repository is in maintenance mode and currently only accepting bug-fixes. PRs for new content should be adapted for the new EKS Workshop: https://github.com/aws-samples/eks-workshop-v2
+> This repository is deprecated (Support stopped at EKS 1.21) and currently only accepting critical bug-fixes. PRs for new content should be adapted for the new EKS Workshop: https://github.com/aws-samples/eks-workshop-v2
 
 # eksworkshop
 
